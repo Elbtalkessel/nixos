@@ -16,6 +16,17 @@
       interactiveShellInit = ''
         set fish_greeting # Disable greeting
       '';
+      plugins = [
+        {
+          name = "tide";
+          src = pkgs.fetchFromGitHub {
+            owner = "IlanCosman";
+            repo = "tide";
+            rev = "v6.1.1";
+            hash = "sha256-ZyEk/WoxdX5Fr2kXRERQS1U1QHH3oVSyBQvlwYnEYyc=";
+          };
+        }
+      ];
     };
 
     home.stateVersion = "23.11";
