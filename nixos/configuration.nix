@@ -12,6 +12,7 @@
       ./packages.nix
       ./home.nix
       ./hyprland.nix
+      ./waybar.nix
     ];
 
   programs.fish.enable = true;

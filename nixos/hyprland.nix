@@ -9,10 +9,6 @@
     };
   };
 
-  programs.waybar = {
-    enable = true;
-  };
-
   services.gnome.gnome-keyring.enable = true;
 
   home-manager.users.risus.wayland.windowManager.hyprland.enable = true;
