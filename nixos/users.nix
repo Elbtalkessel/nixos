@@ -10,6 +10,12 @@
     shell = pkgs.fish;
     packages = with pkgs; [
       brave
+      grim
+      slurp
+      wl-clipboard
+      mako
+      tofi
+      alacritty
     ];
   };
 

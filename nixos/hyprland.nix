@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 {
   imports = [ <home-manager/nixos> ];
 
@@ -12,15 +12,6 @@
   programs.waybar = {
     enable = true;
   };
-
-  users.users.risus.packages = with pkgs; [
-    grim
-    slurp
-    wl-clipboard
-    mako
-    tofi
-    alacritty
-  ];
 
   services.gnome.gnome-keyring.enable = true;
 
