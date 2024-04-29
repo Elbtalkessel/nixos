@@ -9,7 +9,7 @@
       userName = "Elbtalkessel";
       userEmail = "rtfsc@pm.me";
       aliases = {
-        gitm = "git merge --no-ff";
+        m = "merge --no-ff";
       };
     };
     
@@ -46,6 +46,20 @@
 
     programs.bat = {
       enable = true;
+    };
+
+    home.shellAliases = {
+      cat = "bat";
+      cp = "cp -iv";
+      dc = "docker compose";
+      ln = "ln -v";
+      ls = "exa";
+      mv = "mv -iv";
+      n = "lvim .";
+      rm = "rm -v";
+      S = "sudo systemctl";
+      s = "sudo";
+      Ss = "sudo systemctl status";
     };
 
     home.sessionVariables = {
