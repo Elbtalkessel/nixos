@@ -2,6 +2,8 @@
   imports = [ <home-manager/nixos> ];
   
   home-manager.users.risus = { pkgs, ... }: { 
+    # https://mynixos.com/home-manager/options/programs
+
     programs.git = {
       enable = true;
       userName = "Elbtalkessel";
@@ -27,6 +29,23 @@
           };
         }
       ];
+    };
+
+    programs.zoxide = {
+      enable = true;
+      options = [ "--cmd cd" ];
+    };
+
+    programs.fzf = {
+      enable = true;
+    };
+
+    programs.eza = {
+      enable = true;
+    };
+
+    programs.bat = {
+      enable = true;
     };
 
     home.sessionVariables = {
@@ -90,6 +109,7 @@
       # I didn't install xdg-desktop-portal-kde (it's for kde, to much to only make kde dialogs look ok)
       GTK_USE_PORTAL = "1";
     };
+
     home.stateVersion = "23.11";
   };
   
