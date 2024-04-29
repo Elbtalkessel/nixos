@@ -8,6 +8,8 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINC/PJ5Ll6Z8N0UM+nkMMBCrpf23J963UdeIWZrZjZBg me@0x00.life"
     ];
     shell = pkgs.fish;
+    packages = with pkgs; [
+    ];
   };
 
   # Change runtime directory size
