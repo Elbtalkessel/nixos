@@ -11,6 +11,7 @@
       ./users.nix
       ./packages.nix
       ./home.nix
+      ./hyprland.nix
     ];
 
   programs.fish.enable = true;

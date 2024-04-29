@@ -122,6 +122,10 @@
       QT_QPA_PLATFORMTHEME = "gtk2";
       # I didn't install xdg-desktop-portal-kde (it's for kde, to much to only make kde dialogs look ok)
       GTK_USE_PORTAL = "1";
+
+      # TEMPORARY FOR RUNNING IN WITHOUT HW RENDERING
+      WLR_RENDERER_ALLOW_SOFTWARE = "1";
+      HYPRLAND_LOG_WLR = "1";
     };
 
     home.stateVersion = "23.11";
