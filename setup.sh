@@ -15,8 +15,7 @@ ask() {
     if [ "$ANSWER" = "y" ]; then
       echo "y"
       break
-    fi
-    if [ "$ANSWER" = "n" ]; then
+    elif [ "$ANSWER" = "n" ]; then
       echo "n"
       break
     fi
@@ -38,7 +37,8 @@ prompt() {
     if [ "$ANSWER" != "" ]; then
       echo >&2 ""
       echo "$ANSWER"
-      break fi
+      break
+    fi
   done
 }
 
