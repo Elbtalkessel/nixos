@@ -2,6 +2,12 @@
 
 set -e
 
+if [[ $(/usr/bin/id -u) -ne 0 ]]; then
+  echo "Not running as root"
+  exit
+fi
+
+
 # Initial NixOS setup.
 # Inspired by:
 # https://blog.kolaente.de/2021/11/installing-nixos-with-encrypted-btrfs-root-device-and-home-manager-from-start-to-finish/
@@ -46,100 +52,98 @@ prompt() {
 
 # Install home manager.
 # See https://nix-community.github.io/home-manager/index.xhtml#sec-install-nixos-module
-# sudo nix-channel --add https://github.com/nix-community/home-manager/archive/release-23.11.tar.gz home-manager
-# sudo nix-channel --update
+# nix-channel --add https://github.com/nix-community/home-manager/archive/release-23.11.tar.gz home-manager
+# nix-channel --update
 
 echo "PARTITIONING"
 DISK=$(prompt "Root drive? (lsblk):")
 [ $(ask "Erase disk ${DISK}?") != "y" ] && exit 1
 echo "Erasing $DISK"
-sudo sgdisk -og $DISK
+sgdisk -og $DISK
 
 echo "Creating boot partition"
-sudo sgdisk -n 1::+1G -c 1:boot -t 1:ef00 $DISK
+sgdisk -n 1::+1G -c 1:boot -t 1:ef00 $DISK
 
 echo "Creating root partition"
-sudo sgdisk -n 2::0 -c 2:root -t 2:8309 $DISK
+sgdisk -n 2::0 -c 2:root -t 2:8309 $DISK
 
 
 echo "ENCRYPTING"
 PASSWD=$(prompt "Password?")
 echo "Encrypting ${DISK}2"
-echo -n $PASSWD | sudo cryptsetup --batch-mode luksFormat --label root "${DISK}2" -
+echo -n $PASSWD | cryptsetup --batch-mode luksFormat --label root "${DISK}2" -
 sleep 5
 echo "Open encrypted volumne to /dev/mapper/root"
-echo -n $PASSWD | sudo cryptsetup open "${DISK}2" root -
+echo -n $PASSWD | cryptsetup open "${DISK}2" root -
 sleep 5
 
 
 echo "CREATING LVM GROUPS"
 echo "Creating physical volume"
-sudo pvcreate /dev/mapper/root
+pvcreate /dev/mapper/root
 pvdisplay
 
 echo "Create virtual volume"
-sudo vgcreate vg /dev/mapper/root
-sudo vgdisplay
+vgcreate vg /dev/mapper/root
+vgdisplay
 
 SWAP_SIZE=$(prompt "Swap size?" "8G")
 echo "Creating ${SWAP_SIZE} swap logical volume"
-sudo lvcreate -n swap -L $SWAP_SIZE vg
+lvcreate -n swap -L $SWAP_SIZE vg
 
 echo "Creating root logical volume"
-sudo lvcreate -n root -l +100%FREE vg
+lvcreate -n root -l +100%FREE vg
 
 
 echo "CREATING FILESYSTEM"
 echo "Formatting boot partition"
-sudo mkfs.vfat -n boot "${DISK}1"
+mkfs.vfat -n boot "${DISK}1"
 
 echo "Formatting and enabling swap partition"
-sudo mkswap /dev/vg/swap
+mkswap /dev/vg/swap
 swapon /dev/vg/swap
 
 echo "Formatting root partition"
-sudo mkfs.btrfs -L root /dev/vg/root
+mkfs.btrfs -L root /dev/vg/root
 
 
 echo "CREATING ROOT BTRFS LAYOUT"
 echo "Creating subvolumes"
-sudo mount -t btrfs /dev/vg/root /mnt
-sudo btrfs su cr /mnt/@
-sudo btrfs su cr /mnt/@nix
-sudo btrfs su cr /mnt/@root
-sudo btrfs su cr /mnt/@srv
-sudo btrfs su cr /mnt/@cache
-sudo btrfs su cr /mnt/@tmp
-sudo btrfs su cr /mnt/@log
-sudo btrfs su cr /mnt/@docker
-sudo btrfs su cr /mnt/@libvirt
-sudo btrfs su cr /mnt/@home
+mount -t btrfs /dev/vg/root /mnt
+btrfs su cr /mnt/@
+btrfs su cr /mnt/@nix
+btrfs su cr /mnt/@root
+btrfs su cr /mnt/@srv
+btrfs su cr /mnt/@cache
+btrfs su cr /mnt/@tmp
+btrfs su cr /mnt/@log
+btrfs su cr /mnt/@docker
+btrfs su cr /mnt/@libvirt
+btrfs su cr /mnt/@home
 
 echo "Re-mounting with subvolumes"
-sudo umount /mnt
+umount /mnt
 BTRFS_MOUNT_OPT=defaults,ssd,noatime,compress=zstd
 
 echo "Mounting root"
-sudo mount -t btrfs -o subvol=@,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt
-sudo mkdir -p /mnt/{boot,boot/efi,home,root,srv,var/cache,var/tmp,var/log,var/lib/docker,var/lib/libvirt}
+mount -t btrfs -o subvol=@,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt
+mkdir -p /mnt/{boot,boot/efi,home,root,srv,var/cache,var/tmp,var/log,var/lib/docker,var/lib/libvirt}
 
 echo "Disabling CoW"
-sudo chattr -R +C /var/lib/docker
-sudo chattr -R +C /var/lib/libvirt
+chattr -R +C /var/lib/docker
+chattr -R +C /var/lib/libvirt
 
 echo "Mounting boot"
-sudo mount /dev/disk/by-label/boot /mnt/boot/efi
+mount /dev/disk/by-label/boot /mnt/boot/efi
 
 echo "Mounting subvolumes"
-sudo mount -t btrfs -o subvol=@nix,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt/nix
-sudo mount -t btrfs -o subvol=@root,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt/root
-sudo mount -t btrfs -o subvol=@srv,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt/srv
-sudo mount -t btrfs -o subvol=@cache,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt/var/cache
-sudo mount -t btrfs -o subvol=@tmp,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt/var/tmp
-sudo mount -t btrfs -o subvol=@log,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt/var/log
-sudo mount -t btrfs -o subvol=@docker,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt/var/lib/docker
-sudo mount -t btrfs -o subvol=@libvirt,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt/var/lib/libvirt
-sudo mount -t btrfs -o subvol=@home,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt/home
+mount -t btrfs -o subvol=@nix,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt/nix
+mount -t btrfs -o subvol=@root,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt/root
+mount -t btrfs -o subvol=@srv,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt/srv
+mount -t btrfs -o subvol=@cache,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt/var/cache
+mount -t btrfs -o subvol=@tmp,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt/var/tmp
+mount -t btrfs -o subvol=@log,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt/var/log
+mount -t btrfs -o subvol=@docker,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt/var/lib/docker
+mount -t btrfs -o subvol=@libvirt,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt/var/lib/libvirt
+mount -t btrfs -o subvol=@home,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt/home
 
-echo "Generating config"
-nixos-generate-config --root /mnt
