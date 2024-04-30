@@ -55,9 +55,11 @@ prompt() {
 # nix-channel --add https://github.com/nix-community/home-manager/archive/release-23.11.tar.gz home-manager
 # nix-channel --update
 
+
+[ $(ask "The script is dumb and cannot handle nothing but already blank, non-mounted drive. Please read the script first. THE SCRIPT WILL ERASE SELECTED DISK! Continue?") != "y" ] && exit 1
+
 echo "PARTITIONING"
 DISK=$(prompt "Root drive? (lsblk):")
-[ $(ask "Erase disk ${DISK}?") != "y" ] && exit 1
 echo "Erasing $DISK"
 sgdisk -og $DISK
 
@@ -73,7 +75,7 @@ PASSWD=$(prompt "Password?")
 echo "Encrypting ${DISK}2"
 echo -n $PASSWD | cryptsetup --batch-mode luksFormat --label root "${DISK}2" -
 sleep 5
-echo "Open encrypted volumne to /dev/mapper/root"
+echo "Open encrypted volume to /dev/mapper/root"
 echo -n $PASSWD | cryptsetup open "${DISK}2" root -
 sleep 5
 
@@ -130,8 +132,8 @@ mount -t btrfs -o subvol=@,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt
 mkdir -p /mnt/{boot,boot/efi,home,root,srv,var/cache,var/tmp,var/log,var/lib/docker,var/lib/libvirt}
 
 echo "Disabling CoW"
-chattr -R +C /var/lib/docker
-chattr -R +C /var/lib/libvirt
+chattr -R +C /mnt/var/lib/docker
+chattr -R +C /mnt/var/lib/libvirt
 
 echo "Mounting boot"
 mount /dev/disk/by-label/boot /mnt/boot/efi
