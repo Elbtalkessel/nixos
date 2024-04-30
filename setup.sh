@@ -59,7 +59,7 @@ echo "Creating boot partition"
 sudo sgdisk -n 1::+1G -c 1:boot -t 1:ef00 $DISK
 
 echo "Creating root partition"
-sudo sgisk -n 2::0 -c 2:root -t 2:8309 $DISK
+sudo sgdisk -n 2::0 -c 2:root -t 2:8309 $DISK
 
 
 echo "ENCRYPTING"
