@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+set -e
+
 # Initial NixOS setup.
 # Inspired by:
 # https://blog.kolaente.de/2021/11/installing-nixos-with-encrypted-btrfs-root-device-and-home-manager-from-start-to-finish/
@@ -51,7 +53,7 @@ echo "PARTITIONING"
 DISK=$(prompt "Root drive? (lsblk):")
 [ $(ask "Erase disk ${DISK}?") != "y" ] && exit 1
 echo "Erasing $DISK"
-sudo sgdis -og $DISK
+sudo sgdisk -og $DISK
 
 echo "Creating boot partition"
 sudo sgdisk -n 1::+1G -c 1:boot -t 1:ef00 $DISK
