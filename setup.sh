@@ -129,7 +129,7 @@ BTRFS_MOUNT_OPT=defaults,ssd,noatime,compress=zstd
 
 echo "Mounting root"
 mount -t btrfs -o subvol=@,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt
-mkdir -p /mnt/{boot,boot/efi,home,root,srv,var/cache,var/tmp,var/log,var/lib/docker,var/lib/libvirt}
+mkdir -p /mnt/{boot,boot/efi,home,root,srv,nix,var/cache,var/tmp,var/log,var/lib/docker,var/lib/libvirt}
 
 echo "Disabling CoW"
 chattr -R +C /mnt/var/lib/docker
