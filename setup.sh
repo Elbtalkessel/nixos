@@ -50,12 +50,6 @@ prompt() {
   done
 }
 
-# Install home manager.
-# See https://nix-community.github.io/home-manager/index.xhtml#sec-install-nixos-module
-# nix-channel --add https://github.com/nix-community/home-manager/archive/release-23.11.tar.gz home-manager
-# nix-channel --update
-
-
 [ $(ask "The script is dumb and cannot handle nothing but already blank, non-mounted drive. Please read the script first. THE SCRIPT WILL ERASE SELECTED DISK! Continue?") != "y" ] && exit 1
 
 echo "PARTITIONING"
@@ -148,4 +142,25 @@ mount -t btrfs -o subvol=@log,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt/var/log
 mount -t btrfs -o subvol=@docker,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt/var/lib/docker
 mount -t btrfs -o subvol=@libvirt,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt/var/lib/libvirt
 mount -t btrfs -o subvol=@home,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt/home
+
+echo "Install home manager"
+# See https://nix-community.github.io/home-manager/index.xhtml#sec-install-nixos-module
+nix-channel --add https://github.com/nix-community/home-manager/archive/release-23.11.tar.gz home-manager
+nix-channel --update
+
+echo "Generate config"
+nixos-generate-config --root /mnt
+echo "Copy hardware configuration"
+cp /mnt/etc/nixos/hardware-confiugration.nix nixos/
+echo "Please setup your root partition UUID in ./nixos/hardware-configuration.nix."
+ROOT_UUID=$(blkid "${DISK}2" | awk '{print $2}' | egrep '[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}' -o)
+cat <<EOF
+  boot.initrd.luks.devices = {
+    root = {
+      device = "/dev/disk/by-uuid/${ROOT_UUD}";
+      preLVM = true;
+      allowDiscards = true;
+    };
+  };
+EOF
 
