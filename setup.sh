@@ -151,7 +151,7 @@ nix-channel --update
 echo "Generate config"
 nixos-generate-config --root /mnt
 echo "Copy hardware configuration"
-cp /mnt/etc/nixos/hardware-confiugration.nix nixos/
+cp /mnt/etc/nixos/hardware-configuration.nix nixos/
 echo "Please setup your root partition UUID in ./nixos/hardware-configuration.nix."
 ROOT_UUID=$(blkid "${DISK}2" | awk '{print $2}' | egrep '[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}' -o)
 cat <<EOF
