@@ -125,11 +125,6 @@ echo "Disabling CoW"
 chattr -R +C /mnt/var/lib/docker
 chattr -R +C /mnt/var/lib/libvirt
 
-echo "Install home manager"
-# See https://nix-community.github.io/home-manager/index.xhtml#sec-install-nixos-module
-nix-channel --add https://github.com/nix-community/home-manager/archive/release-23.11.tar.gz home-manager
-nix-channel --update
-
 echo "Generate config"
 nixos-generate-config --root /mnt
 echo "Copy hardware configuration"
@@ -146,3 +141,4 @@ cat <<EOF
   };
 EOF
 
+source ./install.sh
