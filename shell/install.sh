@@ -1,9 +1,8 @@
 #!/usr/bin/env sh
 
-if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
-  echo "Install NixOS. Note you need run setup script first or mount script to re-mount already setting up partitions."
-  exit 0
-fi
+source ./shell/common.sh
+justHelp $1 "Install NixOS. Note you need run setup script first or mount script to re-mount already setting up partitions."
+asRoot
 
 echo "Install home manager"
 # See https://nix-community.github.io/home-manager/index.xhtml#sec-install-nixos-module

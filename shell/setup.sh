@@ -1,53 +1,13 @@
 #!/usr/bin/env sh
 
-
-if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
-  echo "Deploys luks on lvm NixOS on a blank drive."
-  exit 0
-fi
-
+source ./shell/common.sh
+justHelp $1 "Deploys luks on lvm NixOS on a blank drive."
+asRoot
 
 # Initial NixOS setup.
 # Inspired by:
 # https://blog.kolaente.de/2021/11/installing-nixos-with-encrypted-btrfs-root-device-and-home-manager-from-start-to-finish/
 # https://discourse.nixos.org/t/newbie-needs-help-systemd-boot-luks-lvm-btrfs-howto/28294/5
-
-# Utility functions
-# EXAMPLE:
-#   [ "$(ask "Close?" = "y" ] && exit 0
-ask() {
-  printf >&2 "%s (y/n): " "$1"
-  while true; do
-    read -r ANSWER
-    if [ "$ANSWER" = "y" ]; then
-      echo "y"
-      break
-    elif [ "$ANSWER" = "n" ]; then
-      echo "n"
-      break
-    fi
-  done
-}
-
-# EXAMPLE:
-#   Compulsory prompt
-#     COOKIES=$(prompt "Cookies?")
-#   Optional prompt, second argument is default value
-#     COOKIES=$(prompt "Cookies?" "YES")
-prompt() {
-  QUESTION=$1
-  DEFAULT_VALUE=$2
-  while true; do
-    printf >&2 "%s (%s) " "$QUESTION" "${DEFAULT_VALUE:-required}"
-    read -r ANSWER
-    ANSWER=${ANSWER:-$DEFAULT_VALUE}
-    if [ "$ANSWER" != "" ]; then
-      echo >&2 ""
-      echo "$ANSWER"
-      break
-    fi
-  done
-}
 
 [ $(ask "The script is dumb and cannot handle nothing but already blank, non-mounted drive. Please read the script first. THE SCRIPT WILL ERASE SELECTED DISK! Continue?") != "y" ] && exit 1
 

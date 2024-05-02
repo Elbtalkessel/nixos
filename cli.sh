@@ -2,12 +2,6 @@
 
 set -e
 
-if [[ $(id -u) -ne 0 ]]; then
-  echo "Not running as root"
-  exit
-fi
-
-
 while [[ $# -gt 0 ]]; do
   case $1 in
     -i|--install)

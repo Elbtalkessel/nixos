@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -e
-
 TARGET="/etc/nixos"
 
 while [[ $# -gt 0 ]]; do

@@ -1,9 +1,8 @@
 #!/usr/bin/env sh
 
-if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
-  echo "Unmounts all mounts in /mnt and deactivates and encrypts volume group vg."
-  exit 0
-fi
+source ./shell/common.sh
+justHelp $1 "Unmounts all mounts in /mnt and deactivates and encrypts volume group vg."
+asRoot
 
 # Recursively unmount all mounts in /mnt
 umount -R /mnt
