@@ -93,11 +93,11 @@ ROOT_UUID=$(blkid "${DISK}2" | awk '{print $2}' | egrep '[0-9a-f]{8}-([0-9a-f]{4
 cat <<EOF
   boot.initrd.luks.devices = {
     root = {
-      device = "/dev/disk/by-uuid/${ROOT_UUD}";
+      device = "/dev/disk/by-uuid/${ROOT_UUID}";
       preLVM = true;
       allowDiscards = true;
     };
   };
 EOF
 
-source ./install.sh
+source ./shell/install.sh
