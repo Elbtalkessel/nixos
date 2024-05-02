@@ -39,5 +39,5 @@ elif [ ! -z "$CLONE" ]; then
     exit 1
   fi
   echo "Cloning system configuration"
-  rsync -Parvz --exclude=hardware-configuration.nix --exclude=.git --exclude=.gitignore ../ $TARGET
+  rsync -Parvz --exclude=hardware-configuration.nix --exclude=.git --exclude=.gitignore . $TARGET
 fi

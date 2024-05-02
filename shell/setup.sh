@@ -78,7 +78,7 @@ btrfs su cr /mnt/@home
 
 echo "Re-mounting with subvolumes"
 umount /mnt
-source ./mount.sh
+source ./shell/mount.sh
 
 echo "Disabling CoW"
 chattr -R +C /mnt/var/lib/docker
