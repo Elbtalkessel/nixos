@@ -24,9 +24,9 @@ while [[ $# -gt 0 ]]; do
       source ./shell/sync.sh $@
       exit 0
       ;;
-    -test)
+    -u|--umount)
       shift
-      source ./shell/test.sh $@ 
+      source ./shell/umount.sh $@
       exit 0
       ;;
     *)

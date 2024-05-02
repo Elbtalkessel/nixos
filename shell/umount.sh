@@ -7,6 +7,9 @@ asRoot
 # Recursively unmount all mounts in /mnt
 umount -R /mnt
 
+# Deactivate swap
+swapoff /dev/dm-1
+
 # Deactivate volume group vg
 vgchange -a n vg
 

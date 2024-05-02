@@ -10,7 +10,7 @@ Note: decrypted partion has to be mapped to /dev/mapper/root.
 EOF
 )
 justHelp "$1" "$helpText"
-asroot
+asRoot
 
 BTRFS_MOUNT_OPT=defaults,ssd,noatime,compress=zstd
 
