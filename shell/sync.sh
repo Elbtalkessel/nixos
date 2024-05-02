@@ -27,17 +27,23 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-if [ -z "$TARGET" ]; then
-  echo "Syncing system configuration"
-  sudo rsync -Parvz ./nixos/ /etc/nixos/ --delete
-  if [ ! -z "$REBUILD" ]; then
-    sudo nixos-rebuild switch
-  fi
-elif [ ! -z "$CLONE" ]; then
-  if [ ! -d "$TARGET" ] || [ "$TARGET" == "/etc/nixos" ]; then
-    echo "Target directory does not exist or invalid target directory."
+
+if [ ! -d "$TARGET" ]; then
+  echo "Target directory does not exist".
+  exit 1
+fi
+
+if [ ! -z "$CLONE" ]; then
+  if [ "$TARGET" == "/etc/nixos" ]; then
+    echo "Target directory is invalid or not set."
     exit 1
   fi
   echo "Cloning system configuration"
   rsync -Parvz --exclude=hardware-configuration.nix --exclude=.git --exclude=.gitignore . $TARGET
+elif [ "$TARGET" ]; then
+  echo "Syncing system configuration"
+  sudo rsync -Parvz ./nixos/ "$TARGET" --delete
+  if [ ! -z "$REBUILD" ]; then
+    sudo nixos-rebuild switch
+  fi
 fi

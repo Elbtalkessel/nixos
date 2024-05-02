@@ -99,5 +99,5 @@ cat <<EOF
     };
   };
 EOF
-
-source ./shell/install.sh
+echo "After you finish, run sudo ./cli.sh -sy -t /mnt/etc/nixos/ and run sudo ./cli.sh -i."
+echo "Don't forget edit configuration.nix as well, choice bootloader and host name."
