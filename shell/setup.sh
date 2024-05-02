@@ -1,10 +1,9 @@
 #!/usr/bin/env sh
 
-set -e
 
-if [[ $(id -u) -ne 0 ]]; then
-  echo "Not running as root"
-  exit
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+  echo "Deploys luks on lvm NixOS on a blank drive."
+  exit 0
 fi
 
 

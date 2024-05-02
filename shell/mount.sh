@@ -1,5 +1,13 @@
 #!/usr/bin/env sh
 
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+  echo "Mounts a partition with label 'boot' to /mnt/boot/efi and /dev/vg/root parition with subvolumes to /mnt"
+  echo "Note: before mounting you need to setup partitions with setup script."
+  echo "Note: partition has to be decrypted - use 'cryptsetup open /dev/sdX root' to do so."
+  echo "Note: decrypted partion has to be mapped to /dev/mapper/root."
+  exit 0
+fi
+
 BTRFS_MOUNT_OPT=defaults,ssd,noatime,compress=zstd
 
 echo "Mounting root"
