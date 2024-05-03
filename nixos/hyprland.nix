@@ -141,7 +141,7 @@ in
       drop_shadow = true;
       shadow_range = 4;
       shadow_render_power = 3;
-      #col.shadow = "rgba(1a1a1aee)";
+      "col.shadow" = "rgba(1a1a1aee)";
     };
 
     animations = {
@@ -169,8 +169,8 @@ in
       no_border_on_floating = false;
       gaps_in = 3;
       gaps_out = 3;
-      #col.active_border = "rgba(33ccffee) rgba(00ff99ee) 45deg";
-      #col.inactive_border = "rgba(595959aa)";
+      "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
+      "col.inactive_border" = "rgba(595959aa)";
       layout = "dwindle";
       extend_border_grab_area = true;
       hover_icon_on_border = true;
