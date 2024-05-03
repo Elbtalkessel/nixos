@@ -40,6 +40,12 @@ in
 
     # See https://wiki.hyprland.org/Configuring/Keywords/ for more
     "$M" = "SUPER";
+    "$BROWSER" = "brave";
+    "$TERMINAL" = "alacritty";
+
+    "exec-once" = [
+      "waybar"
+    ];
 
     # KEY BINDINGS, see https://wiki.hyprland.org/Configuring/Binds/ for more
     # Special
@@ -142,12 +148,14 @@ in
       enabled = true;
       # Some default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
       bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
-      animation = "windows, 1, 2, myBezier";
-      #animation = "windowsOut, 1, 2, default, popin 80%";
-      #animation = "border, 1, 3, default";
-      #animation = "borderangle, 1, 4, default";
-      #animation = "fade, 1, 2, default";
-      #animation = "workspaces, 1, 2, default";
+      animation = [
+        "windows, 1, 2, myBezier"
+        "windowsOut, 1, 2, default, popin 80%"
+        "border, 1, 3, default"
+        "borderangle, 1, 4, default"
+        "fade, 1, 2, default"
+        "workspaces, 1, 2, default"
+      ];
     };
 
     gestures = {

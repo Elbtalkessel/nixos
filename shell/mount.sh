@@ -1,15 +1,26 @@
 #!/usr/bin/env sh
 
 source ./shell/common.sh
-helpText=$(cat <<EOF
-Mounts a partition with label 'boot' to /mnt/boot/efi and /dev/vg/root parition with subvolumes to /mnt
-Mounts a partition with label 'boot' to /mnt/boot/efi and /dev/vg/root parition with subvolumes to /mnt
-Note: before mounting you need to setup partitions with setup script.
-Note: partition has to be decrypted - use 'cryptsetup open /dev/sdX root' to do so.
-Note: decrypted partion has to be mapped to /dev/mapper/root.
-EOF
-)
-justHelp "$1" "$helpText"
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    -b|--boot)
+      BOOT_PART=$2;
+      shift
+      shift
+      ;;
+    *)
+      echo "Mounts a partition with label 'boot' to /mnt/boot/efi and /dev/vg/root parition with subvolumes to /mnt"
+      echo "Note: before mounting you need to setup partitions with setup script."
+      echo "Note: partition has to be decrypted - use 'cryptsetup open /dev/sdX root' to do so."
+      echo "Note: decrypted partion has to be mapped to /dev/mapper/root."
+
+      echo "  -b /dev/sdXX, --boot /dev/sdXX     if set, specified partition will be mounted at /mnt/boot"
+      exit 0
+      ;;
+  esac
+done
+
 asRoot
 
 BTRFS_MOUNT_OPT=defaults,ssd,noatime,compress=zstd
@@ -18,10 +29,13 @@ echo "Mounting root"
 mount -t btrfs -o subvol=@,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt
 
 echo "Creating mount points"
-mkdir -p /mnt/{boot,boot/efi,home,root,srv,nix,var/cache,var/tmp,var/log,var/lib/docker,var/lib/libvirt}
+mkdir -p /mnt/{home,root,srv,nix,var/cache,var/tmp,var/log,var/lib/docker,var/lib/libvirt}
 
-echo "Mounting boot"
-mount /dev/disk/by-label/boot /mnt/boot/efi
+if [ ${BOOT_PART} ]; then
+  echo "Mounting boot"
+  mkdir -p /mnt/boot/efi
+  mount /dev/disk/by-label/boot /mnt/boot/efi
+fi
 
 echo "Mounting subvolumes"
 mount -t btrfs -o subvol=@nix,${BTRFS_MOUNT_OPT} /dev/vg/root /mnt/nix
