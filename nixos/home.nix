@@ -97,6 +97,8 @@
       };
     };
 
+    xdg.configFile."tofi/config".source = ./config/tofi/config;
+
     home.shellAliases = {
       cat = "bat";
       cp = "cp -iv";
