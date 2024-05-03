@@ -40,6 +40,12 @@ in
 
     # See https://wiki.hyprland.org/Configuring/Keywords/ for more
     "$M" = "SUPER";
+    "$BROWSER" = "brave";
+    "$TERMINAL" = "alacritty";
+
+    "exec-once" = [
+      "waybar"
+    ];
 
     # KEY BINDINGS, see https://wiki.hyprland.org/Configuring/Binds/ for more
     # Special
@@ -135,19 +141,21 @@ in
       drop_shadow = true;
       shadow_range = 4;
       shadow_render_power = 3;
-      #col.shadow = "rgba(1a1a1aee)";
+      "col.shadow" = "rgba(1a1a1aee)";
     };
 
     animations = {
       enabled = true;
       # Some default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
       bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
-      animation = "windows, 1, 2, myBezier";
-      #animation = "windowsOut, 1, 2, default, popin 80%";
-      #animation = "border, 1, 3, default";
-      #animation = "borderangle, 1, 4, default";
-      #animation = "fade, 1, 2, default";
-      #animation = "workspaces, 1, 2, default";
+      animation = [
+        "windows, 1, 2, myBezier"
+        "windowsOut, 1, 2, default, popin 80%"
+        "border, 1, 3, default"
+        "borderangle, 1, 4, default"
+        "fade, 1, 2, default"
+        "workspaces, 1, 2, default"
+      ];
     };
 
     gestures = {
@@ -161,8 +169,8 @@ in
       no_border_on_floating = false;
       gaps_in = 3;
       gaps_out = 3;
-      #col.active_border = "rgba(33ccffee) rgba(00ff99ee) 45deg";
-      #col.inactive_border = "rgba(595959aa)";
+      "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
+      "col.inactive_border" = "rgba(595959aa)";
       layout = "dwindle";
       extend_border_grab_area = true;
       hover_icon_on_border = true;
