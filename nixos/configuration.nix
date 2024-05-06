@@ -14,6 +14,7 @@
       ./home.nix
       ./hyprland.nix
       ./waybar.nix
+      ./virtualisation.nix
     ];
   
   programs.fish.enable = true;

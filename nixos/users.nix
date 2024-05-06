@@ -28,7 +28,7 @@
       # Console and text-based UI apps
       lf
       lazygit
-      lazydocker
+      podman-tui
       btop
 
       # Tools
