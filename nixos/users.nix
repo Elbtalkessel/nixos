@@ -8,14 +8,36 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINC/PJ5Ll6Z8N0UM+nkMMBCrpf23J963UdeIWZrZjZBg me@0x00.life"
     ];
     shell = pkgs.fish;
+    # Note: system-wide packages are in packages.nix
+    # Some packages are installed through home-manager in home.nix
     packages = with pkgs; [
+      # Web access
       brave
+      wget
+      curl
+
+      # Capture
       grim
       slurp
       wl-clipboard
-      mako
+
+      # Desktop environment
       tofi
-      alacritty
+      zathura
+
+      # Console and text-based UI apps
+      lf
+      lazygit
+      lazydocker
+      btop
+
+      # Tools
+      arp-scan
+      httpie
+      ripgrep
+
+      # Editors and IDEs
+      lunarvim
     ];
   };
 
