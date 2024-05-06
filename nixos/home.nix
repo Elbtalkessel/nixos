@@ -111,6 +111,7 @@
       S = "sudo systemctl";
       s = "sudo";
       Ss = "sudo systemctl status";
+      g = "lazygit";
     };
 
     home.sessionVariables = {

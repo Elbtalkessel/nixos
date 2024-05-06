@@ -28,7 +28,6 @@
       # Console and text-based UI apps
       lf
       lazygit
-      podman-tui
       btop
 
       # Tools
