@@ -98,6 +98,7 @@
     };
 
     xdg.configFile."tofi/config".source = ./config/tofi/config;
+    xdg.configFile."lvim/config.lua".source = ./config/lvim/config.lua;
 
     home.shellAliases = {
       cat = "bat";
@@ -112,6 +113,14 @@
       s = "sudo";
       Ss = "sudo systemctl status";
       g = "lazygit";
+    };
+    
+    # https://discourse.nixos.org/t/virt-manager-cannot-create-vm/38894/2
+    # virt-manager doesn't work without it
+    home.pointerCursor = {
+      gtk.enable = true;
+      package = pkgs.vanilla-dmz;
+      name = "Vanilla-DMZ";
     };
 
     home.sessionVariables = {
