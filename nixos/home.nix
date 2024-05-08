@@ -16,7 +16,8 @@
     programs.fish = {
       enable = true;
       interactiveShellInit = ''
-        set fish_greeting # Disable greeting
+        set fish_greeting     # Disable greeting
+        fish_vi_key_bindings  # Enable vi mode
       '';
       plugins = [
         {
@@ -64,6 +65,9 @@
             style = {
               shape = "Beam";
               blinking = "always";
+            };
+            vi_mode_style = {
+              shape = "Beam";
             };
           };
           keyboard = {
