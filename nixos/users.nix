@@ -24,6 +24,7 @@
       # Desktop environment
       tofi
       zathura
+      libnotify
 
       # Console and text-based UI apps
       lf
