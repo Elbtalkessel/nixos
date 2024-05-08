@@ -6,7 +6,10 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # The closest one to my laptop,
+      # amp cpu + amd cpu pstate + amd gpu + nvidia + ssd
+      <nixos-hardware/omen/15-en0010ca>
       ./hardware-configuration.nix
       ./machine.nix
       ./users.nix
