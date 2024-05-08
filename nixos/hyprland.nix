@@ -231,6 +231,8 @@ in
       focus_on_activate = false;
       hide_cursor_on_touch = true;
       mouse_move_focuses_monitor = true;
+      enable_swallow = true;
+      swallow_regex = "^(Alacritty)$";
     };
   };
 }
