@@ -57,6 +57,7 @@
             family = "JetBrainsMono NF";
             style = "Regular";
           };
+          size = 15;
           offset = {
             x = 0;
             y = 10;

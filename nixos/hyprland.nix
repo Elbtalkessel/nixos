@@ -76,7 +76,7 @@ in
       "$M, D, exec, tofi-drun | xargs hyprctl dispatch exec --"
       "$M, Return, exec, $TERMINAL"
       "$M CONTROL, W, exec, killall waybar && waybar"
-      "$M SHIFT, L, exec, hyprctl dispatch exit"
+      "$M SHIFT, Q, exec, hyprctl dispatch exit"
 
       # Window management
       "$M, F, fullscreen,"
