@@ -1,4 +1,4 @@
-{ ... }: {
+{ lib, ... }: {
   imports = [ <home-manager/nixos> ];
   
   home-manager.users.risus = { pkgs, ... }: { 
@@ -126,6 +126,14 @@ default-timeout=0
 ";
     };
 
+    gtk = {
+      enable = true;
+      theme = {
+        name = "Materia-dark";
+        package = pkgs.materia-theme;
+      };
+    };
+
     home.shellAliases = {
       cat = "bat";
       cp = "cp -iv";
@@ -148,8 +156,14 @@ default-timeout=0
       package = pkgs.vanilla-dmz;
       name = "Vanilla-DMZ";
     };
-
-    home.sessionVariables = {
+    
+    # Use mkForce to override defaults(?).
+    # fixes:
+    #   error: The option `home-manager.users.risus.home.sessionVariables.GTK2_RC_FILES' has conflicting definition values:
+    #     - In `/nix/store/*-home-manager-23.11.tar.gz/home-manager/modules/misc/gtk.nix': "/home/risus/.gtkrc-2.0"
+    #     - In `/etc/nixos/home.nix': "/home/risus/.config/gtk-2.0/gtkrc-2.0"
+    #     Use `lib.mkForce value` or `lib.mkDefault value` to change the priority on any of these definitions.
+    home.sessionVariables = lib.mkForce {
       XDG_DATA_HOME = "/home/risus/.local/share";
       XDG_CONFIG_HOME = "/home/risus/.config";
       XDG_CACHE_HOME = "/home/risus/.cache";
