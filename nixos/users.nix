@@ -39,6 +39,10 @@
       # Editors and IDEs
       lunarvim
       jetbrains.pycharm-professional
+
+      # Dev
+      pre-commit
+      python311Packages.invoke
     ];
   };
 

@@ -12,7 +12,8 @@
   };
 
   users.users.risus.packages = with pkgs; [
-    lazydocker 
+    lazydocker
+    podman-compose
   ];
 
   home-manager.users.risus.home.shellAliases = {
