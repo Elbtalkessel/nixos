@@ -38,6 +38,7 @@
 
       # Editors and IDEs
       lunarvim
+      jetbrains.pycharm-professional
     ];
   };
 
