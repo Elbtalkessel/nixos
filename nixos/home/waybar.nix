@@ -75,6 +75,9 @@
   }];
 
   home-manager.users.risus.programs.waybar.style = ''
+    * {
+      font-size: 16px;
+    }
     window#waybar {
       background: rgba(21, 18, 27, 0);
       color: #a89984;
