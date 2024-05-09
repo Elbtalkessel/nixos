@@ -8,20 +8,20 @@ vim.opt.statusline = "%F"
 
 lvim.termguicolors = true
 
-local lspconfig = require("lspconfig")
+-- local lspconfig = require("lspconfig")
 -- MasonInstall htmx-lsp
-lspconfig.htmx.setup {
-  filetypes = { "html", "templ" },
-}
-lspconfig.tailwindcss.setup {
-  filetypes = { "html", "templ", "vue" }
-}
-lspconfig.jsonls.setup {
-  filetypes = { "json", "jsonc" }
-}
-lspconfig.eslint.setup {
-  filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" }
-}
+-- lspconfig.htmx.setup {
+--   filetypes = { "html", "templ" },
+-- }
+-- lspconfig.tailwindcss.setup {
+--   filetypes = { "html", "templ", "vue" }
+-- }
+-- lspconfig.jsonls.setup {
+--   filetypes = { "json", "jsonc" }
+-- }
+-- lspconfig.eslint.setup {
+--   filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" }
+-- }
 
 lvim.plugins = {
   { "joerdav/templ.vim" },
