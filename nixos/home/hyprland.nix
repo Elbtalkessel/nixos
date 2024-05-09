@@ -45,6 +45,7 @@ in
 
     "exec-once" = [
       "waybar"
+      "hyprpaper"
     ];
 
     # KEY BINDINGS, see https://wiki.hyprland.org/Configuring/Binds/ for more
@@ -74,6 +75,7 @@ in
       "$M, C, exec, $BROWSER"
       "$M SHIFT, P, exec, $BROWSER"
       "$M, D, exec, tofi-drun | xargs hyprctl dispatch exec --"
+      "$M, R, exec, tofi-run | xargs hyprctl dispatch exec --"
       "$M, Return, exec, $TERMINAL"
       "$M CONTROL, W, exec, killall waybar && waybar"
       "$M SHIFT, Q, exec, hyprctl dispatch exit"

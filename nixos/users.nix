@@ -25,6 +25,8 @@
       tofi
       zathura
       libnotify
+      hyprpaper
+      imv
 
       # Console and text-based UI apps
       lf
