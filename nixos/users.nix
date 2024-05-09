@@ -49,8 +49,6 @@
       github-copilot-intellij-agent
 
       # Dev
-      pre-commit
-      python311Packages.invoke
       slack
     ];
   };
