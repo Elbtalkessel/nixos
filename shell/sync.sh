@@ -44,6 +44,6 @@ elif [ "$TARGET" ]; then
   echo "Syncing system configuration"
   sudo rsync -Parvz ./nixos/ "$TARGET" --delete
   if [ ! -z "$REBUILD" ]; then
-    sudo nixos-rebuild switch
+    sudo nixos-rebuild switch --show-trace
   fi
 fi

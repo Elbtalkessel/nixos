@@ -14,11 +14,18 @@
       ./machine.nix
       ./users.nix
       ./packages.nix
-      ./home.nix
-      ./hyprland.nix
-      ./waybar.nix
-      ./virtualisation.nix
-      ./sound.nix
+      ./home/home.nix
+      ./home/hyprland.nix
+      ./home/waybar.nix
+      ./home/virtualisation.nix
+      ./home/sound.nix
+      ./home/alacritty.nix
+      ./home/aliases.nix
+      ./home/environment.nix
+      ./home/fish.nix
+      ./home/git.nix
+      ./home/mako.nix
+      ./home/sound.nix
     ];
   
   programs.fish.enable = true;
