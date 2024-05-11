@@ -49,7 +49,7 @@ elif [ "$TARGET" ]; then
   echo "Syncing system configuration"
   sudo rsync -Parvz ./nixos/ "$TARGET" --delete
   if [ ! -z "$REBUILD" ]; then
-    sudo nixos-rebuild rebuild --show-trace
+    sudo nixos-rebuild build --show-trace
   fi
   if [ ! -z "$TEST" ]; then
     sudo nixos-rebuild test --show-trace
