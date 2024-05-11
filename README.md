@@ -1,21 +1,20 @@
 NixOS system and home configuration files
 ----
 
-
 # Requirements
 
 - NixOS (with flakes feature enabled).
 - Optionally devenv (https://devenv.sh/getting-started/) for git hooks.
 
-
 # Structure
 
+```plain
 flake.nix
 |- system/configuration.nix
 |- home/home.nix
+```
 
 It is possible to use it without flake, to do so copy `system/*` to `/etc/nixos/` and/or `home/*` to `~/.config/home-manager/`.
-
 
 # Modus operandi
 ```
