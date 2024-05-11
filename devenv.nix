@@ -43,6 +43,7 @@
       types = ["nix"];
       files = "^home/";
       pass_filenames = false;
+      fail_fast = true;
     };
     switchSystem = {
       enable = true;
@@ -52,6 +53,7 @@
       types = ["nix"];
       files = "^system/";
       pass_filenames = false;
+      fail_fast = true;
     };
   };
 }
