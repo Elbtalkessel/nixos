@@ -124,7 +124,7 @@
     arp-scan
     httpie
     ripgrep
-    pre-commit
+    (python3.withPackages (_: [ pre-commit ]))
 
     # Editors and IDEs
     lunarvim
