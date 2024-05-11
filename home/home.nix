@@ -135,9 +135,6 @@
     # ln -fs /run/current-system/sw/bin/copilot-agent ~/.local/share/JetBrains/IntelliJIdea2022.2/github-copilot-intellij/copilot-agent/bin/copilot-agent-linux
     # ln -fs /nix/store/1sl4g8xbcpn8whmihy4ns60kgdc5hhha-github-copilot-intellij-agent-1.2.18.2908/bin/copilot-agent ~/.local/share/JetBrains/PyCharm2023.2/github-copilot-intellij/copilot-agent/bin/copilot-agent-linux
     #github-copilot-intellij-agent
-
-    # Dev
-    #slack
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

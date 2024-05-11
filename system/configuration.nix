@@ -153,13 +153,13 @@ in
   };
   services.gnome.gnome-keyring.enable = true;
 
-
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     lm_sensors
     home-manager
+    # I have no idea how to allow non-free packages in home manager
+    slack
   ];
 
 
