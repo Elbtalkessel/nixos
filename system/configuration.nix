@@ -9,15 +9,6 @@ let
   username = "risus";
 in
 {
-  imports =
-    [
-      # The closest one to my laptop,
-      # amp cpu + amd cpu pstate + amd gpu + nvidia + ssd
-      <nixos-hardware/omen/15-en0010ca>
-      ./hardware-configuration.nix
-    ];
-
-
   boot.initrd.luks.devices = {
     root = {
       device = "/dev/disk/by-uuid/6eb60a50-cb6b-48c3-82da-a3ef3aee9a02";
@@ -33,10 +24,9 @@ in
     "net.ipv4.ip_unprivileged_port_start" = 80;
   };
 
-
-  nix.extraOptions = "
-    experimental-features = flakes nix-command
-  ";
+  nix.settings.experimental-features = "nix-command flakes";
+  # devenv requirement, allows devenv to manager caches.
+  nix.settings.trusted-users = [ "root" "risus" ];
 
 
   # Enable networking
