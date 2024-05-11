@@ -40,7 +40,8 @@
       description = "Apply home configuration";
       entry = "bash ./switch.sh";
       stages = ["commit"];
-      always_run = true;
+      types = ["nix"];
+      files = "^home/";
     };
   };
 }
