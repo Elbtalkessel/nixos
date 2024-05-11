@@ -33,7 +33,6 @@
     enable = true;
     options = [ "--cmd cd" ];
   };
-
   programs.fzf = {
     enable = true;
   };
@@ -137,6 +136,7 @@
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
+    ".local/share/python_history".text = '''';
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
