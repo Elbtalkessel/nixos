@@ -4,9 +4,13 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    home-manager = {
+      url = "github:nix-community/home-manager/release-23.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, nixos-hardware, ... }:
+  outputs = { self, nixpkgs, nixos-hardware, home-manager, ... }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -22,8 +26,13 @@
         # The closest one to my laptop,
         # amp cpu + amd cpu pstate + amd gpu + nvidia + ssd
         nixos-hardware.nixosModules.omen-15-en0010ca
-        ./hardware-configuration.nix
-        ./configuration.nix
+        ./system/configuration.nix
+      ];
+    };
+    homeConfigurations.risus = home-manager.lib.homeManagerConfiguration {
+      pkgs = nixpkgs.legacyPackages.${system};
+      modules = [
+        ./home/home.nix
       ];
     };
   };

@@ -9,6 +9,10 @@ let
   username = "risus";
 in
 {
+  imports = [
+    ./hardware-configuration.nix
+  ];
+
   boot.initrd.luks.devices = {
     root = {
       device = "/dev/disk/by-uuid/6eb60a50-cb6b-48c3-82da-a3ef3aee9a02";
