@@ -124,6 +124,7 @@
     arp-scan
     httpie
     ripgrep
+    pre-commit
 
     # Editors and IDEs
     lunarvim

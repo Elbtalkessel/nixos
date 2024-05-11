@@ -2,24 +2,20 @@
 
 {
   # https://devenv.sh/basics/
-  env.GREET = "devenv";
+  #env.GREET = "devenv";
 
   # https://devenv.sh/packages/
   packages = [ pkgs.git ];
 
   # https://devenv.sh/scripts/
-  scripts.hello.exec = "echo hello from $GREET";
+  #scripts.hello.exec = "echo hello from $GREET";
 
-  enterShell = ''
-    hello
-    git --version
-  '';
+  #enterShell = ''
+  #'';
 
   # https://devenv.sh/tests/
-  enterTest = ''
-    echo "Running tests"
-    git --version | grep "2.42.0"
-  '';
+  #enterTest = ''
+  #'';
 
   # https://devenv.sh/services/
   # services.postgres.enable = true;
@@ -37,17 +33,27 @@
   pre-commit.hooks = {
     switchHome = {
       enable = true;
-      description = "Apply home configuration";
+      name = "Apply home configuration";
       entry = "bash ./switch.sh --home";
-      stages = ["pre-push"];
+      stages = ["commit"];
       types = ["nix"];
       files = "^home/";
       pass_filenames = false;
       fail_fast = true;
     };
+    testSystem = {
+      enable = true;
+      name = "Test system configuration";
+      entry = "bash ./switch.sh --system --test";
+      stages = ["commit"];
+      types = ["nix"];
+      files = "^system/";
+      pass_filenames = false;
+      fail_fast = true;
+    };
     switchSystem = {
       enable = true;
-      description = "Apply system configuration";
+      name = "Apply system configuration";
       entry = "bash ./switch.sh --system";
       stages = ["pre-push"];
       types = ["nix"];

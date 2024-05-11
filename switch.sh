@@ -12,10 +12,15 @@ while [[ $# -gt 0 ]]; do
       shift
       SWITCH_SYSTEM=true
       ;;
+    -t|--test)
+      shift
+      TEST_SYSTEM=true
+      ;;
     *)
       echo "CLI for system setup. Passes arguments to other scripts. Each script supports -h, --help for more information, for example ./cli.sh -i -h to see install script help."
       echo "  -h, --home       Apply home configuration"
       echo "  -s, --system     Apply system configuration"
+      echo "  -t, --test       Test system configuration. Only works with -s, --system"
       shift
       ;;
   esac
@@ -31,5 +36,9 @@ if [ ${SWITCH_HOME} ]; then
 fi
 
 if [ ${SWITCH_SYSTEM} ]; then
-  sudo nixos-rebuild switch --flake ./
+  if [ ${TEST_SYSTEM} ]; then
+    sudo nixos-rebuild test --flake ./
+  else
+    sudo nixos-rebuild switch --flake ./
+  fi
 fi
