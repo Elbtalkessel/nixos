@@ -42,6 +42,7 @@
       stages = ["pre-push"];
       types = ["nix"];
       files = "^home/";
+      pass_filenames = false;
     };
     switchSystem = {
       enable = true;
@@ -50,6 +51,7 @@
       stages = ["pre-push"];
       types = ["nix"];
       files = "^system/";
+      pass_filenames = false;
     };
   };
 }
