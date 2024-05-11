@@ -1,3 +1,4 @@
 nixos/hardware-configuration.nix
 nixos/bootloader.nix
 nixos/machine.nix
+result

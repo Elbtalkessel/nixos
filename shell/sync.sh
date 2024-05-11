@@ -17,11 +17,16 @@ while [[ $# -gt 0 ]]; do
       CLONE=true
       shift
       ;;
+    -t|--test)
+      TEST=true
+      shift
+      ;;
     *)
       echo "Sync configuration files and rebuild"
       echo "  -t, --target    Define target directory, /etc/nixos/ by default"
       echo "  -r, --rebuild   Rebuild system configuration, false by default"
       echo "  -c, --clone     Sends whole parent directory to the target(-t) directory. --target(-t) is required. Omits hardware-configuration.nix if present and coping .git. Useful for sending to an external drive and then to another machine."
+      echo "  -t, --test      Test system configuration after sync"
       shift
       ;;
   esac
@@ -44,6 +49,9 @@ elif [ "$TARGET" ]; then
   echo "Syncing system configuration"
   sudo rsync -Parvz ./nixos/ "$TARGET" --delete
   if [ ! -z "$REBUILD" ]; then
-    sudo nixos-rebuild switch --show-trace
+    sudo nixos-rebuild rebuild --show-trace
+  fi
+  if [ ! -z "$TEST" ]; then
+    sudo nixos-rebuild test --show-trace
   fi
 fi
