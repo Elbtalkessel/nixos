@@ -161,13 +161,13 @@ in
     # I have no idea how to allow non-free packages in home manager
     slack
     (pkgs.jetbrains.plugins.addPlugins pkgs.jetbrains.pycharm-professional ["github-copilot" "ideavim"])
+    neofetch
   ];
 
 
   fonts.packages = with pkgs; [
     (nerdfonts.override{ fonts = ["JetBrainsMono"]; })
   ];
-
 
 
   # This value determines the NixOS release from which the default
