@@ -1,12 +1,12 @@
 NixOS system and home configuration files
 ----
 
-# Requirements
+## Requirements
 
 - NixOS (with flakes feature enabled).
 - Optionally devenv (https://devenv.sh/getting-started/) for git hooks.
 
-# Structure
+## Structure
 
 ```plain
 flake.nix
@@ -16,7 +16,7 @@ flake.nix
 
 It is possible to use it without flake, to do so copy `system/*` to `/etc/nixos/` and/or `home/*` to `~/.config/home-manager/`.
 
-# Modus operandi
+## Modus operandi
 ```
 # Activate dev shell, will install git hooks.
 devenv shell
