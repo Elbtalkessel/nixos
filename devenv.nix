@@ -35,13 +35,21 @@
 
   # See full reference at https://devenv.sh/reference/options/
   pre-commit.hooks = {
-    switch = {
+    switchHome = {
       enable = true;
       description = "Apply home configuration";
-      entry = "bash ./switch.sh";
-      stages = ["commit"];
+      entry = "bash ./switch.sh --home";
+      stages = ["pre-push"];
       types = ["nix"];
       files = "^home/";
+    };
+    switchSystem = {
+      enable = true;
+      description = "Apply system configuration";
+      entry = "bash ./switch.sh --system";
+      stages = ["pre-push"];
+      types = ["nix"];
+      files = "^system/";
     };
   };
 }
