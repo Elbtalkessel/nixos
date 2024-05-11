@@ -1,4 +1,17 @@
 { lib, ... }: {
+
+    # Home Manager can also manage your environment variables through
+    # 'home.sessionVariables'. If you don't want to manage your shell through Home
+    # Manager then you have to manually source 'hm-session-vars.sh' located at
+    # either
+    #
+    #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+    #
+    # or
+    #
+    #  /etc/profiles/per-user/risus/etc/profile.d/hm-session-vars.sh
+    #
+
     # Use mkForce to override defaults(?).
     # fixes:
     #   error: The option `home-manager.users.risus.home.sessionVariables.GTK2_RC_FILES' has conflicting definition values:

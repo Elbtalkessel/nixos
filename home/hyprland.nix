@@ -4,7 +4,7 @@
   wayland.windowManager.hyprland.package = pkgs.hyprland;
   wayland.windowManager.hyprland.xwayland.enable = true;
   wayland.windowManager.hyprland.settings = {
-    monitor = ",highres,auto,1";
+    monitor = ",highres,auto,1.25";
     xwayland = {
       force_zero_scaling = true;
     };
