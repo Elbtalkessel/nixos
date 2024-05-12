@@ -123,6 +123,7 @@
     arp-scan
     httpie
     ripgrep
+    gparted
 
     # Editors and IDEs
     lunarvim
