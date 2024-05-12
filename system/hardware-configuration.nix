@@ -68,9 +68,9 @@
     };
 
   fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/250192ad-0988-4002-8092-96a424823d9f";
+    { device = "/dev/vg/home";
       fsType = "btrfs";
-      options = [ "noatime,space_cache=v2,compress=lzo,discard=async,subvol=@home" ];
+      options = [ "noatime,space_cache=v2,compress=lzo,discard=async" ];
     };
 
   fileSystems."/media" =
