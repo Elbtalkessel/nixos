@@ -90,10 +90,18 @@ in
   # VIRTUALISATION
   # DOCKER / PODMAN
   virtualisation.podman = {
-    enable = true;
+    enable = false;
     dockerCompat = true;
     dockerSocket = {
       enable = true;
+    };
+  };
+  virtualisation.docker = {
+    enable = true;
+    storageDriver = "btrfs";
+    rootless = {
+      enable = true;
+      setSocketVariable = true;
     };
   };
   # QEMU
