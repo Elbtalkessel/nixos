@@ -63,7 +63,7 @@
       "tooltip" = "{muted}";
     };
     "clock" = {
-      "format" = " {:%a %d %b, %H:%M}";
+      "format" = "  {:%a %d %b, %H:%M}";
     };
     "custom/ipaddr" = {
       "format" = "󰩟 {}";
@@ -74,7 +74,7 @@
       "format" = "  {}%";
     };
     "backlight" = {
-      "format" = " {}%";
+      "format" = "󱩎  {}%";
     };
   }];
 
