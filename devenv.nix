@@ -36,7 +36,7 @@
       name = "Apply home configuration";
       entry = "bash ./switch.sh --home";
       stages = ["commit"];
-      types = ["nix" "shell"];
+      types = ["nix"];
       files = "^home/";
       pass_filenames = false;
       fail_fast = true;
