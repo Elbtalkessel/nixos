@@ -15,12 +15,19 @@
     "modules-center" = ["hyprland/window"];
     "modules-right" = [
       "tray"
+      "custom/sep"
       "network"
+      "custom/sep"
       "custom/ipaddr"
+      "custom/sep"
       "bluetooth"
+      "custom/sep"
       "pulseaudio"
+      "custom/sep"
       "battery"
+      "custom/sep"
       "backlight"
+      "custom/sep"
       "clock"
     ];
     "hyprland/window" = {
@@ -71,10 +78,13 @@
       "signal" = 8;
     };
     "battery" = {
-      "format" = "  {}%";
+      "format" = "   {}%";
     };
     "backlight" = {
       "format" = "󱩎  {}%";
+    };
+    "custom/sep" = {
+      "format" = "|";
     };
   }];
 
