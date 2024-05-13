@@ -46,6 +46,18 @@
     "tray" = {
       "spacing" = 5;
     };
+    "network" = {
+      "interface" = "wlo1";
+      "format" = "  {ifname}";
+      "format-wifi" = "  {ipaddr} ({signalStrength}%)";
+      "format-ethernet" = "{ipaddr}/{cidr}";
+      "format-disconnected" = ""; # An empty format will hide the module.
+      "tooltip-format" = "{ifname} via {gwaddr}";
+      "tooltip-format-wifi" = "\uf1eb {essid} ({signalStrength}%)";
+      "tooltip-format-ethernet" = "{ifname}";
+      "tooltip-format-disconnected" = "Disconnected";
+      "max-length" = 50;
+    };
     "pulseaudio" = {
       "format" = "  {volume}%";
       "tooltip" = "{muted}";

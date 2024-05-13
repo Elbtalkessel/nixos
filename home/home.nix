@@ -126,6 +126,7 @@
     arp-scan
     httpie
     ripgrep
+    killall  # Needed for hyprland to kill and restart other services such as waybar
 
     # Editors and IDEs
     lunarvim
