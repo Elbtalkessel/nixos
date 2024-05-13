@@ -113,6 +113,7 @@
     libnotify
     hyprpaper
     imv
+    xdg-user-dirs
 
     # Console and text-based UI apps
     lf
