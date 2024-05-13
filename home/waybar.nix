@@ -47,9 +47,9 @@
       "spacing" = 5;
     };
     "network" = {
-      "interface" = "wlan0";
+      "interface" = "wlo1";
       "format" = "\uf1eb {ifname}";
-      "format-wifi" = " {ipaddr} ({signalStrength}%)";
+      "format-wifi" = "   {ipaddr} ({signalStrength}%)";
       "format-ethernet" = "{ipaddr}/{cidr}";
       "format-disconnected" = ""; # An empty format will hide the module.
       "tooltip-format" = "{ifname} via {gwaddr}";
@@ -59,7 +59,7 @@
       "max-length" = 50;
     };
     "pulseaudio" = {
-      "format" = " {volume}%";
+      "format" = "  {volume}%";
       "tooltip" = "{muted}";
     };
     "clock" = {
