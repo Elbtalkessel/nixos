@@ -130,6 +130,7 @@
     # When I get used to devenv, I will remove this
     pre-commit
     python311Packages.invoke
+    nodejs
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
