@@ -139,7 +139,8 @@
     #tray,
     #pulseaudio,
     #custom-ipaddr,
-    #network {
+    #network,
+    #backlight {
       margin: 0 5px;
     }
 
@@ -165,6 +166,10 @@
 
     #clock {
       color: #ebdbb2;
+    }
+
+    #custom-sep {
+      color: #443c30;
     }
   '';
 }
