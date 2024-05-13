@@ -29,15 +29,13 @@
     # Special
     binde = [
       ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"
+      ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
       ", XF86MonBrightnessUp, exec, brightnessctl -d amdgpu_bl0 s +10"
+      ", XF86MonBrightnessDown, exec, brightnessctl -d amdgpu_bl0 s 10-"
       "$M CONTROL, H, resizeactive, -25 0"
       "$M CONTROL, L, resizeactive, 25 0"
       "$M CONTROL, K, resizeactive, 0 -25"
       "$M CONTROL, J, resizeactive, 0 25"
-    ];
-    bindl = [
-      ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-      ", XF86MonBrightnessDown, exec, brightnessctl -d amdgpu_bl0 s 10-"
     ];
     # MOVE/RESIZE WINDOWS with M + LMB/RMB and dragging
     bindm = [
