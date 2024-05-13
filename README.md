@@ -30,3 +30,4 @@ git push  # calls home or nixos switch command if home or system configuration h
 - greetd is broken, it doesn't start Hyprland after logout.
 - apply git hook when content of `home/bin` or `flex.nix` changes.
 - apply float rule to solaar window.
+- add nix-collect-garbade task (something similar for home-manager too?)
