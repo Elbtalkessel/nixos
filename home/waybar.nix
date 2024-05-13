@@ -63,12 +63,18 @@
       "tooltip" = "{muted}";
     };
     "clock" = {
-      "format" = "{:%a %d %b, %H:%M}";
+      "format" = " {:%a %d %b, %H:%M}";
     };
     "custom/ipaddr" = {
-      "format" = "{}";
+      "format" = "󰩟 {}";
       "exec" = "curl ipinfo.io/ip";
       "signal" = 8;
+    };
+    "battery" = {
+      "format" = "  {}%";
+    };
+    "backlight" = {
+      "format" = " {}%";
     };
   }];
 
