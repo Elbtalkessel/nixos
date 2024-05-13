@@ -147,7 +147,7 @@
     #custom-ipaddr,
     #network,
     #backlight,
-    #hyprland-window {
+    #window {
       margin: 0 5px;
     }
 
