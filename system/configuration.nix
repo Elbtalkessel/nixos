@@ -118,6 +118,7 @@ in
   # doesn't work
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
+  hardware.logitech.wireless.enable = true;
 
 
   # SECURITY

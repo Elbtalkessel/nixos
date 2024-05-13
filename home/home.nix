@@ -135,6 +135,11 @@
     python311Packages.invoke
     nodejs
 
+    # Hardware specific
+    # https://mynixos.com/nixpkgs/package/solaar
+    # Requires hardware.logitech.wireless enabled (see configuration.nix)
+    solaar
+
     # Shell scripts
     (writeShellScriptBin "mkscrn" (builtins.readFile ./bin/screenshot.sh))
   ];
