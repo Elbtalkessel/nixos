@@ -9,13 +9,16 @@
       force_zero_scaling = true;
     };
 
-    windowrule = "float, ^(org.gnome.Calculator)$";
-    windowrulev2 = "float,size 20%,class:^(brave-hkhckfoofhljcngmlnlojcbplgkcpcab-Default)$";
+    #windowrule = "float, ^(org.gnome.Calculator)$";
+    #windowrulev2 = "float,size 20%,class:^(brave-hkhckfoofhljcngmlnlojcbplgkcpcab-Default)$";
 
     # See https://wiki.hyprland.org/Configuring/Keywords/ for more
     "$M" = "SUPER";
     "$BROWSER" = "brave";
     "$TERMINAL" = "alacritty";
+    "$MAIL" = "brave https://mail.proton.me/u/0/inbox"
+    "$CALENDAR" = "brave https://calendar.proton.me/u/0/r/month"
+    "$PASSMAN" = "brave https://pass.proton.me/u/0/"
 
     "exec-once" = [
       "waybar"
@@ -45,9 +48,9 @@
       ", XF86Calculator, exec, gnome-calculator"
       # Launcher
       "$M, W, exec, $BROWSER"
-      "$M, E, exec, $BROWSER"
-      "$M, C, exec, $BROWSER"
-      "$M SHIFT, P, exec, $BROWSER"
+      "$M, E, exec, $MAIL"
+      "$M, C, exec, $CALENDAR"
+      "$M SHIFT, P, exec, $PASSMAN"
       "$M, D, exec, tofi-drun | xargs hyprctl dispatch exec --"
       "$M, R, exec, tofi-run | xargs hyprctl dispatch exec --"
       "$M, Return, exec, $TERMINAL"
