@@ -48,8 +48,8 @@
     };
     "network" = {
       "interface" = "wlo1";
-      "format" = "\uf1eb {ifname}";
-      "format-wifi" = "   {ipaddr} ({signalStrength}%)";
+      "format" = "  {ifname}";
+      "format-wifi" = "  {ipaddr} ({signalStrength}%)";
       "format-ethernet" = "{ipaddr}/{cidr}";
       "format-disconnected" = ""; # An empty format will hide the module.
       "tooltip-format" = "{ifname} via {gwaddr}";
