@@ -146,7 +146,8 @@
     #pulseaudio,
     #custom-ipaddr,
     #network,
-    #backlight {
+    #backlight,
+    #hyprland-window {
       margin: 0 5px;
     }
 
