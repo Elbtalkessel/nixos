@@ -11,7 +11,8 @@
       S = "sudo systemctl";
       s = "sudo";
       Ss = "sudo systemctl status";
+      Su = "systemctl --user";
       g = "lazygit";
-      d = "DOCKER_HOST=unix:///run/user/1000/podman/podman.sock lazydocker";
+      d = "lazydocker";
     };
 }
