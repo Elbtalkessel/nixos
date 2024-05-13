@@ -16,29 +16,39 @@ while [[ $# -gt 0 ]]; do
       shift
       TEST_SYSTEM=true
       ;;
+    -d|--dry-run)
+      shift
+      DRY_RUN=true
+      ;;
     *)
       echo "CLI for system setup. Passes arguments to other scripts. Each script supports -h, --help for more information, for example ./cli.sh -i -h to see install script help."
-      echo "  -h, --home       Apply home configuration"
-      echo "  -s, --system     Apply system configuration"
-      echo "  -t, --test       Test system configuration. Only works with -s, --system"
+      echo "  -h, --home       Apply home configuration."
+      echo "  -s, --system     Apply system configuration."
+      echo "  -t, --test       Test system configuration. Only works with -s, --system."
+      echo "  -d, --dry-run    Dry run, just print commands to be executed."
       shift
       ;;
   esac
 done
 
-
+# Note: only for simple commands, it won't work for redirections.
+# https://stackoverflow.com/a/19120081
+e=
+if [ ${DRY_RUN} ]; then
+  e=echo
+fi
 
 if [ ${SWITCH_HOME} ]; then
   # Calls `home-manager switch` and `hyprctl reload`.
   # For some reason Hyprland doesn't autoreload on configuration change.
-  home-manager switch --flake ./
-  hyprctl reload
+  $e home-manager switch --flake ./
+  $e hyprctl reload
 fi
 
 if [ ${SWITCH_SYSTEM} ]; then
   if [ ${TEST_SYSTEM} ]; then
-    sudo nixos-rebuild test --flake ./
+    $e sudo nixos-rebuild test --flake ./
   else
-    sudo nixos-rebuild switch --flake ./
+    $e sudo nixos-rebuild switch --flake ./
   fi
 fi

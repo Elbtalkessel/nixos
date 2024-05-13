@@ -36,7 +36,7 @@
       name = "Apply home configuration";
       entry = "bash ./switch.sh --home";
       stages = ["commit"];
-      types = ["nix"];
+      types = ["nix" "shell"];
       files = "^home/";
       pass_filenames = false;
       fail_fast = true;
@@ -47,7 +47,7 @@
       entry = "bash ./switch.sh --system --test";
       stages = ["commit"];
       types = ["nix"];
-      files = "^system/";
+      files = "^(system/|flake\.nix)";
       pass_filenames = false;
       fail_fast = true;
     };
