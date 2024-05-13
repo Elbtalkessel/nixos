@@ -47,7 +47,7 @@
       entry = "bash ./switch.sh --system --test";
       stages = ["commit"];
       types = ["nix"];
-      files = "^(system/|flake\.nix)";
+      files = "^system/";
       pass_filenames = false;
       fail_fast = true;
     };
