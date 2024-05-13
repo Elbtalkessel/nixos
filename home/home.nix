@@ -114,6 +114,8 @@
     hyprpaper
     imv
     xdg-user-dirs
+    brightnessctl
+    gnome.gnome-calculator
 
     # Console and text-based UI apps
     lf
