@@ -141,6 +141,7 @@
     # # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
     ".local/share/python_history".text = '''';
+    ".local/bin/screenshot.sh".source = ./bin/screenshot.sh;
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
