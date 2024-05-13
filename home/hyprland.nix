@@ -16,9 +16,9 @@
     "$M" = "SUPER";
     "$BROWSER" = "brave";
     "$TERMINAL" = "alacritty";
-    "$MAIL" = "brave https://mail.proton.me/u/0/inbox"
-    "$CALENDAR" = "brave https://calendar.proton.me/u/0/r/month"
-    "$PASSMAN" = "brave https://pass.proton.me/u/0/"
+    "$MAIL" = "brave https://mail.proton.me/u/0/inbox";
+    "$CALENDAR" = "brave https://calendar.proton.me/u/0/r/month";
+    "$PASSMAN" = "brave https://pass.proton.me/u/0/";
 
     "exec-once" = [
       "waybar"
