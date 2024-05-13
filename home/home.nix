@@ -126,6 +126,7 @@
     arp-scan
     httpie
     ripgrep
+    ncdu
 
     # Editors and IDEs
     lunarvim

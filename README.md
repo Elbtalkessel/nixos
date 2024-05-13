@@ -23,3 +23,10 @@ devenv shell
 # ... edit home or system configuration and commit changes ...
 git push  # calls home or nixos switch command if home or system configuration has changed
 ```
+
+## To do
+- `mkscrn` doesn't work when called as `hyprctl dispatch exec mkscrn`.
+- learn how to rebind keys using `solaar` or remove the dependency and integrate [logiops](https://github.com/PixlOne/logiops) from old config files.
+- greetd is broken, it doesn't start Hyprland after logout.
+- apply git hook when content of `home/bin` or `flex.nix` changes.
+- apply float rule to solaar window.
