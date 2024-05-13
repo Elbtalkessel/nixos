@@ -8,6 +8,7 @@
       url = "github:nix-community/home-manager/release-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hyprland.url = "github:hyprwm/Hyprland";
   };
 
   outputs = { self, nixpkgs, nixos-hardware, home-manager, ... }:
@@ -23,6 +24,7 @@
     nixosConfigurations.omen = nixpkgs.lib.nixosSystem {
       inherit system;
       modules = [
+        hyprland.nixosModules.default
         # The closest one to my laptop,
         # amp cpu + amd cpu pstate + amd gpu + nvidia + ssd
         nixos-hardware.nixosModules.omen-15-en0010ca
