@@ -11,8 +11,8 @@
     "passthrough" = false;
     "gtk-layer-shell" = true;
     "height" = 0;
-    "modules-left" = ["hyprland/workspaces" "hyprland/language"];
-    "modules-center" = ["hyprland/window"];
+    "modules-left" = ["hyprland/workspaces" "hyprland/language" "hyprland/window"];
+    "modules-center" = [];
     "modules-right" = [
       "tray"
       "custom/sep"
