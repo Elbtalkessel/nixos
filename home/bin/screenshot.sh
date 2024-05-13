@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/env/bin bash
 
 FILEPATH=$(xdg-user-dir PICTURES)/Screenshots/$(date +'%s').png
 if [ ! -z $(pgrep slurp) ]; then
@@ -23,7 +23,7 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-if [ $1 == "only-copy" ]; then
+if [ "$1" = "only-copy" ]; then
   rm $FILEPATH
   notify-send "Screenshot" "Copied to clipboard."
   exit 0
