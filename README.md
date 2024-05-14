@@ -39,3 +39,4 @@ git push  # calls home or nixos switch command if home or system configuration h
 - add nix-collect-garbade task (something similar for home-manager too?).
 - replace `nix profile install apple-fonts.nix#sf-pro-nerd` with declarative approach.
 - global font definition (stylix?)
+- home/bin/screenshot.sh: read session variables instead of hardcoded values.

@@ -117,7 +117,7 @@
     xdg-user-dirs
     brightnessctl
     gnome.gnome-calculator
-    peek
+    wl-screenrec
 
     # Console and text-based UI apps
     lf

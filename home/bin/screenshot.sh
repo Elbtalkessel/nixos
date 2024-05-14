@@ -1,18 +1,20 @@
 #!/usr/env/bin bash
 
-FILEPATH=$(xdg-user-dir PICTURES)/Screenshots/$(date +'%s').png
+# hyprland doesn't have access to sessionVariables.
+FILEPATH=/media/pictures/screenshots/$(date +'%s').png
 if [ ! -z $(pgrep slurp) ]; then
   pkill slurp
   sleep 1
   grim $FILEPATH
+  ERROR=$(grim $FILEPATH 2>&1 >/dev/null)
   if [ $? -ne 0 ]; then
-    notify-send "Screenshot" "Cancelled."
+    notify-send "Screenshot" "$ERROR"
     exit 1
   fi
 else
-  grim -g "$(slurp)" $FILEPATH
+  ERROR=$(grim -g "$(slurp)" $FILEPATH 2>&1 >/dev/null)
   if [ $? -ne 0 ]; then
-    notify-send "Screenshot" "Cancelled."
+    notify-send "Screenshot" "$ERROR"
     exit 1
   fi
 fi
