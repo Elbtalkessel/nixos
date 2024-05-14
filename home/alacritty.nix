@@ -4,7 +4,7 @@
       settings = {
         font = {
           normal = {
-            family = "JetBrainsMono NF";
+            family = "Iosevka NF";
             style = "Regular";
           };
           size = 15;
