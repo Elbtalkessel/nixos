@@ -1,10 +1,9 @@
 { pkgs, ... }:
 {
   wayland.windowManager.hyprland.enable = true;
-  wayland.windowManager.hyprland.package = pkgs.hyprland;
   wayland.windowManager.hyprland.xwayland.enable = true;
   wayland.windowManager.hyprland.settings = {
-    monitor = ",highres,auto,1.1";
+    monitor = ",highres,auto,1.066667";
     xwayland = {
       force_zero_scaling = true;
     };
@@ -22,7 +21,6 @@
 
     "exec-once" = [
       "waybar"
-      "hyprpaper"
     ];
 
     # KEY BINDINGS, see https://wiki.hyprland.org/Configuring/Binds/ for more
@@ -151,7 +149,6 @@
       layout = "dwindle";
       extend_border_grab_area = true;
       hover_icon_on_border = true;
-      cursor_inactive_timeout = 1;
     };
 
     # DWINDLE LAYOUT 
@@ -199,17 +196,22 @@
 
     # MISC SETTINGS
     misc = {
-      disable_hyprland_logo = true;
+      #disable_hyprland_logo = true;
       disable_splash_rendering = true;
       vrr = 0;
       mouse_move_enables_dpms = false;
       key_press_enables_dpms = false;
       layers_hog_keyboard_focus = true;
       focus_on_activate = false;
-      hide_cursor_on_touch = true;
       mouse_move_focuses_monitor = true;
       enable_swallow = true;
       swallow_regex = "^(Alacritty)$";
     };
+
+    cursor = {
+      hide_on_key_press = true;
+      hide_on_touch = true;
+      inactive_timeout = 3;
+   };
   };
 }

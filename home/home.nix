@@ -47,7 +47,6 @@
 
   xdg.configFile."tofi/config".source = ./config/tofi/config;
   xdg.configFile."lvim/config.lua".source = ./config/lvim/config.lua;
-  xdg.configFile."hypr/hyprpaper.conf".source = ./config/hypr/hyprpaper.conf;
 
   gtk = {
     enable = true;
@@ -111,7 +110,6 @@
     tofi
     zathura
     libnotify
-    hyprpaper
     imv
     xdg-user-dirs
     brightnessctl

@@ -6,6 +6,12 @@ NixOS system and home configuration files
 - NixOS (with flakes feature enabled).
 - Optionally devenv (https://devenv.sh/getting-started/) for git hooks.
 
+## Channel list
+home-manager https://github.com/nix-community/home-manager/archive/release-23.11.tar.gz
+nixos https://nixos.org/channels/nixos-23.11
+nixos-hardware https://github.com/NixOS/nixos-hardware/archive/master.tar.gz
+nixos-unstable https://nixos.org/channels/nixos-unstable
+
 ## Structure
 
 ```plain
