@@ -117,6 +117,7 @@
     xdg-user-dirs
     brightnessctl
     gnome.gnome-calculator
+    peek
 
     # Console and text-based UI apps
     lf
