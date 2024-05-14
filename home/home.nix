@@ -60,8 +60,11 @@
   # virt-manager doesn't work without it
   home.pointerCursor = {
     gtk.enable = true;
+    x11.enable = true;
     package = pkgs.vanilla-dmz;
     name = "Vanilla-DMZ";
+    # same size on wayland and xwayland
+    size = 24;
   };
 
   dconf = {
