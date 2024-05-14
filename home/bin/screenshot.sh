@@ -53,11 +53,7 @@ if [ $SCREENRECORD ]; then
   fi
   FILEPATH=/media/video/capture/$(date +'%s').mp4
   notify-send "Screenrecord" "Recording to $FILEPATH."
-  ERROR=$(wl-screenrec -g "$(slurp)" -f $FILEPATH 2>&1 >/dev/null)
-  if [ $ERROR ]; then
-    notify-send "Screenrecord" "$ERROR"
-    exit 1
-  fi
+  wl-screenrec -g "$(slurp)" -f $FILEPATH
   notify-send "Screenrecord" "Saved to $FILEPATH."
   wl-copy $FILEPATH
 fi
