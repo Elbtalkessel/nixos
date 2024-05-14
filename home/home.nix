@@ -114,6 +114,7 @@
     zathura
     libnotify
     imv
+    mpv
     xdg-user-dirs
     brightnessctl
     gnome.gnome-calculator
@@ -144,7 +145,7 @@
     solaar
 
     # Shell scripts
-    (writeShellScriptBin "mkscrn" (builtins.readFile ./bin/screenshot.sh))
+    (writeShellScriptBin "screen" (builtins.readFile ./bin/screenshot.sh))
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

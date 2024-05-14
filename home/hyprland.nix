@@ -96,7 +96,8 @@
       "$M SHIFT, 9, movetoworkspace, 9"
       "$M SHIFT, 0, movetoworkspace, 10"
       "$M, TAB, workspace, previous"
-      ",Print, exec, mkscrn only-copy"
+      ",Print, exec, screen shot"
+      "SHIFT, Print, exec, screen record"
     ];
 
     binds = {
