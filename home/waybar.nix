@@ -59,22 +59,22 @@
     };
     "network" = {
       "interface" = "wlo1";
-      "format" = "  {ifname}";
-      "format-wifi" = "  {ipaddr} ({signalStrength}%)";
+      "format" = " {ifname}";
+      "format-wifi" = " {ipaddr} ({signalStrength}%)";
       "format-ethernet" = "{ipaddr}/{cidr}";
       "format-disconnected" = ""; # An empty format will hide the module.
       "tooltip-format" = "{ifname} via {gwaddr}";
-      "tooltip-format-wifi" = "\uf1eb {essid} ({signalStrength}%)";
+      "tooltip-format-wifi" = "{essid} ({signalStrength}%)";
       "tooltip-format-ethernet" = "{ifname}";
       "tooltip-format-disconnected" = "Disconnected";
       "max-length" = 50;
     };
     "pulseaudio" = {
-      "format" = "  {volume}%";
+      "format" = " {volume}%";
       "tooltip" = "{muted}";
     };
     "clock" = {
-      "format" = "  {:%a %d %b, %H:%M}";
+      "format" = " {:%a %d %b, %H:%M}";
     };
     "custom/ipaddr" = {
       "format" = "󰩟 {}";
@@ -82,10 +82,10 @@
       "signal" = 8;
     };
     "battery" = {
-      "format" = "   {}%";
+      "format" = " {}%";
     };
     "backlight" = {
-      "format" = "󱩎  {}%";
+      "format" = "󱩎 {}%";
     };
     "custom/sep" = {
       "format" = "|";
@@ -94,6 +94,7 @@
 
   programs.waybar.style = ''
     * {
+      font-family: "OverpassM Nerd Font Propo";
       font-size: 16px;
     }
     window#waybar {

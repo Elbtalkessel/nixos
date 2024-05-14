@@ -9,6 +9,7 @@
       borderRadius = 10;
       defaultTimeout = 5000;
       padding = "10";
+      font = "OverpassM Nerd Font Propo 14";
       extraConfig = "
 text-alignment=center
 [urgency=low]

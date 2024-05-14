@@ -1,0 +1,3 @@
+[submodule "apple-fonts.nix"]
+	path = apple-fonts.nix
+	url = https://github.com/Lyndeno/apple-fonts.nix

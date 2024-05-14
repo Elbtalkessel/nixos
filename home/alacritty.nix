@@ -4,7 +4,7 @@
       settings = {
         font = {
           normal = {
-            family = "Iosevka NF";
+            family = "OverpassM Nerd Font Mono";
             style = "Regular";
           };
           size = 15;

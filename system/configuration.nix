@@ -190,7 +190,7 @@ in
 
 
   fonts.packages = with pkgs; [
-    (nerdfonts.override{ fonts = ["Iosevka"]; })
+    (nerdfonts.override{ fonts = ["Overpass"]; })
   ];
 
 
