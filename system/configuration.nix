@@ -192,6 +192,14 @@ in
   fonts.packages = with pkgs; [
     (nerdfonts.override{ fonts = ["Overpass"]; })
   ];
+  fonts.fontconfig = {
+    enable = true;
+    defaultFonts = {
+      monospace = [ "Overpass Nerd Font Mono" ];
+      sansSerif = [ "Overpass Nerd Font" ];
+      serif = [ "Overpass Nerd Font" ];
+    };
+  };
 
 
   # This value determines the NixOS release from which the default
