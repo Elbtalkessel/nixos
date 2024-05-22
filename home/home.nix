@@ -135,10 +135,11 @@
 
     # Editors and IDEs
     lunarvim
-    (pkgs.jetbrains.plugins.addPlugins pkgs.jetbrains.pycharm-professional [
+    (jetbrains.plugins.addPlugins jetbrains.pycharm-professional [
       "github-copilot"
       "ideavim"
     ])
+    jetbrains-toolbox
 
     # When I get used to devenv, I will remove this
     pre-commit
