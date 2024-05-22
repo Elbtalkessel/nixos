@@ -103,6 +103,7 @@
     brave
     wget
     curl
+    slack
 
     # Capture
     grim
@@ -134,6 +135,10 @@
 
     # Editors and IDEs
     lunarvim
+    (pkgs.jetbrains.plugins.addPlugins pkgs.jetbrains.pycharm-professional [
+      "github-copilot"
+      "ideavim"
+    ])
 
     # When I get used to devenv, I will remove this
     pre-commit

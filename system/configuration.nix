@@ -183,14 +183,6 @@ in
   environment.systemPackages = with pkgs; [
     lm_sensors
     home-manager
-    # I have no idea how to allow non-free packages in home manager
-    slack
-    (pkgs.jetbrains.plugins.addPlugins pkgs.jetbrains.pycharm-professional [
-      "github-copilot"
-      "ideavim"
-      "19193-relative-line-numbers"
-      "gitlink"
-    ])
   ];
 
 
