@@ -130,6 +130,7 @@
     httpie
     ripgrep
     ncdu
+    python311Packages.ipython
 
     # Editors and IDEs
     lunarvim
