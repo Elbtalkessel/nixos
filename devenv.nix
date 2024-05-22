@@ -35,19 +35,9 @@
       enable = true;
       name = "Apply home configuration";
       entry = "bash ./switch.sh --home";
-      stages = ["commit"];
+      stages = ["pre-push"];
       types = ["nix"];
       files = "^home/";
-      pass_filenames = false;
-      fail_fast = true;
-    };
-    testSystem = {
-      enable = true;
-      name = "Test system configuration";
-      entry = "bash ./switch.sh --system --test";
-      stages = ["commit"];
-      types = ["nix"];
-      files = "^system/";
       pass_filenames = false;
       fail_fast = true;
     };
