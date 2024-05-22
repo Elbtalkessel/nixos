@@ -5,7 +5,7 @@
 { pkgs, ... }:
 let
   tuigreet = "${pkgs.greetd.tuigreet}/bin/tuigreet";
-  session = "${pkgs.hyprland}/bin/Hyprland";
+  session = "Hyprland";
   username = "risus";
 in
 {
