@@ -8,8 +8,10 @@
       force_zero_scaling = true;
     };
 
-    windowrule = "float, ^(org.gnome.Calculator)$";
-    #windowrulev2 = "float,size 20%,class:^(brave-hkhckfoofhljcngmlnlojcbplgkcpcab-Default)$";
+    windowrulev2 = [
+      "float,center,class:^(org.gnome.Calculator)$"
+      "float,center,initialClass:^(jetbrains-toolbox)$"
+    ];
 
     # See https://wiki.hyprland.org/Configuring/Keywords/ for more
     "$M" = "SUPER";
