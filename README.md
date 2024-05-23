@@ -43,3 +43,4 @@ git push  # calls home or nixos switch command if home or system configuration h
 - call switch hooks only on `git push`
 - setup system auto upgrade
 - setup home manager auto upgrade
+- fix tofi app launcher broken desktop entries
