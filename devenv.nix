@@ -35,7 +35,7 @@
       enable = true;
       name = "Apply home configuration";
       entry = "bash ./switch.sh --home";
-      stages = ["pre-push"];
+      stages = ["pre-commit"];
       types = ["nix"];
       files = "^home/";
       pass_filenames = false;
@@ -45,7 +45,7 @@
       enable = true;
       name = "Apply system configuration";
       entry = "bash ./switch.sh --system";
-      stages = ["pre-push"];
+      stages = ["pre-commit"];
       types = ["nix"];
       files = "^system/";
       pass_filenames = false;

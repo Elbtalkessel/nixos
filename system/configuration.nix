@@ -11,6 +11,7 @@ in
 {
   imports = [
     ./hardware-configuration.nix
+    ./modules/logiops.nix
   ];
 
   boot.initrd.luks.devices = {
