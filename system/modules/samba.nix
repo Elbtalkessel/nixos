@@ -11,7 +11,7 @@ in
   #   password=<PASSWORD>
   environment.systemPackages = [ pkgs.cifs-utils ];
 
-  fileSystems."/mnt/share" = {
+  fileSystems."/mnt/share/Backup" = {
     device = "//${HOST}/share/Backup";
     fsType = "cifs";
     options = [ "${MOUNT_OPTS}" ];
