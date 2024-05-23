@@ -12,7 +12,7 @@ in
   environment.systemPackages = [ pkgs.cifs-utils ];
 
   fileSystems."/mnt/share/Backup" = {
-    device = "//${HOST}/share/Backup";
+    device = "//${HOST}/Backup";
     fsType = "cifs";
     options = [ "${MOUNT_OPTS}" ];
   };
