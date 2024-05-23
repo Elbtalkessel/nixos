@@ -8,9 +8,16 @@
       force_zero_scaling = true;
     };
 
+    # While v2 rules allow multiple rules to be applied, the `center` rule
+    # or `move` rule is not available.
+    # https://wiki.hyprland.org/Configuring/Window-Rules/
     windowrule = [
-      #"float center focus,^(org.gnome.Calculator)$"
-      #"float center focus,^(jetbrains-toolbox)$"
+      "float,^(org.gnome.Calculator)$"
+      "center,^(org.gnome.Calculator)$"
+
+      "float,^(jetbrains-toolbox)$"
+      "center,^(jetbrains-toolbox)$"
+
       "float,^(udiskie)$"
       "center,^(udiskie)$"
     ];
