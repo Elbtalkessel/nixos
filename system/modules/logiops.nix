@@ -12,5 +12,8 @@
   };
   
   # service
-  systemd.services.logid.wantedBy = [ "multi-user.target" ];
+  systemd.services.logid = {
+    enable = true;
+    wantedBy = [ "multi-user.target" ];
+  };
 }
