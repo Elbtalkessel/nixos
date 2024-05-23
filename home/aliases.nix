@@ -12,7 +12,12 @@
       s = "sudo";
       Ss = "sudo systemctl status";
       Su = "systemctl --user";
+      Sr = "sudo systemctl restart";
       g = "lazygit";
       d = "lazydocker";
+      mo = "udisksctl mount -b";
+      um = "udisksctl unmount -b";
+      en = "sudo cryptsetup open";
+      de = "sudo cryptsetup close";
     };
 }
