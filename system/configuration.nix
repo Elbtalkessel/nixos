@@ -186,7 +186,7 @@ in
   ];
   environment.etc = {
     "logid.cfg".source = ./etc/logid.cfg;
-  }
+  };
 
 
   fonts.packages = with pkgs; [
