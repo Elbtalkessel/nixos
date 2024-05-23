@@ -12,6 +12,7 @@ in
   imports = [
     ./hardware-configuration.nix
     ./modules/logiops.nix
+    ./modules/samba.nix
   ];
 
   boot.initrd.luks.devices = {
@@ -37,6 +38,9 @@ in
   # Enable networking
   networking.networkmanager.enable = true;
   networking.hostName = "omen";
+  networking.extraHosts = ''
+    192.168.1.90 moon
+  '';
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
