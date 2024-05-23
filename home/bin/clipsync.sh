@@ -12,17 +12,24 @@
 # https://github.com/hyprwm/Hyprland/issues/6132
 
 # Updates clipboard content of both Wayland and X11 if current clipboard content differs.
+# Usage: echo -e "1\n2" | clipsync insert
 insert() {
-  read value;
-  if [ -z "$value" ]; then
-    return
-  fi
-  if [ "$value" != "$(wl-paste)" ]; then
-    notify-send -u low -c clipboard -t 500 "$value"
+  # Read all the piped input into variable.
+  value=$(cat)
+  wValue="$(wl-paste)"
+  xValue="$(xclip -o -selection clipboard)"
+
+  notify() {
+    notify-send -u low -c clipboard "$1" "$value"
+  }
+  
+  if [ "$value" != "$wValue" ]; then
+    notify "Wayland"
     echo -n "$value" | wl-copy
   fi
-  if [ "$value" != "$(xclip -o -selection clipboard)" ]; then
-    notify-send -u low -c clipboard -t 500 "$value"
+
+  if [ "$value" != "$xValue" ]; then
+    notify "X11"
     echo -n "$value" | xclip -selection clipboard
   fi
 }
