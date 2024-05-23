@@ -2,7 +2,7 @@
 let
   HOST = "moon";
   MOUNT_OPTS = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s,user,users,credentials=/root/secrets/samba,uid=1000,gid=1000";
-  SHARES = [ "Download" "Video" "Music" "Backup" ];
+  SHARES = [ "Download" "Video" "Music" "Backup" "Public" ];
 
   # Function to generate mount points
   generateMounts = share: {
