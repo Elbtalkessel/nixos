@@ -9,9 +9,11 @@
     };
 
     windowrule = [
-      "float center focus,^(org.gnome.Calculator)$"
-      "float center focus,^(jetbrains-toolbox)$"
-      "float center focus,^(udiskie)$"
+      #"float center focus,^(org.gnome.Calculator)$"
+      #"float center focus,^(jetbrains-toolbox)$"
+      "float,^(udiskie)$"
+      "center,^(udiskie)$"
+      "focus,^(udiskie)$"
     ];
 
     # See https://wiki.hyprland.org/Configuring/Keywords/ for more
