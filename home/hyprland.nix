@@ -11,6 +11,7 @@
     windowrulev2 = [
       "float,center,class:^(org.gnome.Calculator)$"
       "float,center,initialClass:^(jetbrains-toolbox)$"
+      "float,center,class:^(udiskie)$"
     ];
 
     # See https://wiki.hyprland.org/Configuring/Keywords/ for more
