@@ -20,6 +20,9 @@
 
       "float,^(udiskie)$"
       "center,^(udiskie)$"
+
+      "float,^(polkit-gnome-authentication-agent-1)$"
+      "center,^(polkit-gnome-authentication-agent-1)$"
     ];
 
     # See https://wiki.hyprland.org/Configuring/Keywords/ for more
