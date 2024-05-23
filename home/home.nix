@@ -48,10 +48,6 @@
   xdg.configFile."tofi/config".source = ./config/tofi/config;
   xdg.configFile."lvim/config.lua".source = ./config/lvim/config.lua;
 
-  services = {
-    cliphist.enable = true;
-  };
-
   gtk = {
     enable = true;
     theme = {
@@ -113,6 +109,11 @@
     grim
     slurp
     wl-clipboard
+    # xclip + clipnotify + cliphist service is workaround for issue:
+    # "Clipboard synchronization between wayland and xwayland clients broken"
+    # https://github.com/hyprwm/Hyprland/issues/6132
+    xclip
+    clipnotify
 
     # Desktop environment
     tofi
@@ -152,6 +153,8 @@
 
     # Shell scripts
     (writeShellScriptBin "screen" (builtins.readFile ./bin/screenshot.sh))
+    # Requires xclip and clipnotify, workaround, see above in packages.
+    (writeShellScriptBin "clipsync" (builtins.readFile ./bin/clipsync.sh))
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
