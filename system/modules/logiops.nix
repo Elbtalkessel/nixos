@@ -12,6 +12,7 @@
   };
   
   # service
+  systemd.packages = [ pkgs.logiops ];
   systemd.services.logid = {
     enable = true;
     wantedBy = [ "multi-user.target" ];
