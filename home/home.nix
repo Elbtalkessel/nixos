@@ -45,6 +45,14 @@
     enable = true;
   };
 
+  services = {
+    udiskie = {
+      enable = true;
+      notify = true;
+      automount = true;
+    };
+  };
+
   xdg.configFile."tofi/config".source = ./config/tofi/config;
   xdg.configFile."lvim/config.lua".source = ./config/lvim/config.lua;
 
