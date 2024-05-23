@@ -126,7 +126,6 @@ in
   # doesn't work
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
-  hardware.logitech.wireless.enable = true;
 
 
   # SECURITY
@@ -183,7 +182,11 @@ in
   environment.systemPackages = with pkgs; [
     lm_sensors
     home-manager
+    logiops
   ];
+  environment.etc = {
+    "logid.cfg".source = ./etc/logid.cfg;
+  }
 
 
   fonts.packages = with pkgs; [
