@@ -11,7 +11,7 @@
     windowrulev2 = [
       "float,center,focus,class:^(org.gnome.Calculator)$"
       "float,center,focus,initialClass:^(jetbrains-toolbox)$"
-      "float,move 100%-20,focus,class:^(udiskie)$"
+      "float,move 50% 50%,focus,class:^(udiskie)$"
     ];
 
     # See https://wiki.hyprland.org/Configuring/Keywords/ for more
