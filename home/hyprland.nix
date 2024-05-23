@@ -13,7 +13,6 @@
       #"float center focus,^(jetbrains-toolbox)$"
       "float,^(udiskie)$"
       "center,^(udiskie)$"
-      "focus,^(udiskie)$"
     ];
 
     # See https://wiki.hyprland.org/Configuring/Keywords/ for more
