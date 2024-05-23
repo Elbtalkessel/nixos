@@ -23,7 +23,7 @@
 
     "exec-once" = [
       "waybar"
-      "clipsync"
+      "clipsync watch"
     ];
 
     # KEY BINDINGS, see https://wiki.hyprland.org/Configuring/Binds/ for more
