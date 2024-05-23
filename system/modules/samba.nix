@@ -2,6 +2,19 @@
 let
   HOST = "moon";
   MOUNT_OPTS = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s,user,users,credentials=/root/secrets/samba,uid=1000,gid=1000";
+  SHARES = [ "Download" "Video" "Music" "Backup" ];
+
+  # Function to generate mount points
+  generateMounts = share: {
+    "/mnt/share/${share}" = {
+      device = "//${HOST}/${share}";
+      fsType = "cifs";
+      options = [ MOUNT_OPTS ];
+    };
+  };
+
+  # Generate all mount configurations
+  mounts = builtins.foldl' (acc: share: acc // generateMounts share) { } SHARES;
 in
 {
   # https://nixos.wiki/wiki/Samba
@@ -11,9 +24,5 @@ in
   #   password=<PASSWORD>
   environment.systemPackages = [ pkgs.cifs-utils ];
 
-  fileSystems."/mnt/share/Backup" = {
-    device = "//${HOST}/Backup";
-    fsType = "cifs";
-    options = [ "${MOUNT_OPTS}" ];
-  };
+  fileSystems = mounts;
 }
