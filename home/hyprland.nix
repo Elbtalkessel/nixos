@@ -8,10 +8,10 @@
       force_zero_scaling = true;
     };
 
-    windowrulev2 = [
-      "float,center,focus,class:^(org.gnome.Calculator)$"
-      "float,center,focus,initialClass:^(jetbrains-toolbox)$"
-      "float,move 50% 50%,focus,class:^(udiskie)$"
+    windowrule = [
+      "float center focus,^(org.gnome.Calculator)$"
+      "float center focus,^(jetbrains-toolbox)$"
+      "float center focus,^(udiskie)$"
     ];
 
     # See https://wiki.hyprland.org/Configuring/Keywords/ for more
