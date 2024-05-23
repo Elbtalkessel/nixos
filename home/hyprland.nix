@@ -191,7 +191,6 @@
       follow_mouse = 1;
       mouse_refocus = true;
       float_switch_override_focus = 1;
-      scroll_points = "1 2";
       touchpad = {
         disable_while_typing = true;
         scroll_factor = 1.0;
