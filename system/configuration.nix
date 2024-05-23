@@ -42,10 +42,12 @@ in
     192.168.1.90 moon
   '';
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  # Allow HTTP and HTTPS traffic, required for guest vm to access host,
+  # ideally to narrow down to specific IP.
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.enable = true;
 
 
   # Set your time zone.
@@ -119,9 +121,6 @@ in
     isNormalUser = true;
     description = "${username}";
     extraGroups = [ "networkmanager" "input" "wheel" "video" "audio" "tss" "libvirtd" ];
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINC/PJ5Ll6Z8N0UM+nkMMBCrpf23J963UdeIWZrZjZBg me@0x00.life"
-    ];
     shell = pkgs.fish;
   };
 
