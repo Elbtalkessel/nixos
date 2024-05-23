@@ -48,6 +48,10 @@
   xdg.configFile."tofi/config".source = ./config/tofi/config;
   xdg.configFile."lvim/config.lua".source = ./config/lvim/config.lua;
 
+  services = {
+    cliphist.enable = true;
+  };
+
   gtk = {
     enable = true;
     theme = {
@@ -145,11 +149,6 @@
     pre-commit
     python311Packages.invoke
     nodejs
-
-    # Hardware specific
-    # https://mynixos.com/nixpkgs/package/solaar
-    # Requires hardware.logitech.wireless enabled (see configuration.nix)
-    solaar
 
     # Shell scripts
     (writeShellScriptBin "screen" (builtins.readFile ./bin/screenshot.sh))

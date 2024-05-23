@@ -183,11 +183,7 @@ in
   environment.systemPackages = with pkgs; [
     lm_sensors
     home-manager
-    logiops
   ];
-  environment.etc = {
-    "logid.cfg".source = ./etc/logid.cfg;
-  };
 
 
   fonts.packages = with pkgs; [
