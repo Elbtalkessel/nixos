@@ -41,3 +41,5 @@ git push  # calls home or nixos switch command if home or system configuration h
 - add https://usbguard.github.io/
 - setup wireguard
 - call switch hooks only on `git push`
+- setup system auto upgrade
+- setup home manager auto upgrade
