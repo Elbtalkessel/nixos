@@ -64,7 +64,7 @@
       "$M SHIFT, P, exec, $PASSMAN"
       "$M, D, exec, tofi-drun | xargs hyprctl dispatch exec --"
       "$M, R, exec, tofi-run | xargs hyprctl dispatch exec --"
-      "$M, Return, exec, $TERMINAL"
+      "$M, T, exec, $TERMINAL"
       "$M CONTROL, W, exec, pkill waybar && waybar"
       "$M SHIFT, Q, exec, hyprctl dispatch exit"
 
