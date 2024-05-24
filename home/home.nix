@@ -152,6 +152,7 @@
 
     # When I get used to devenv, I will remove this
     pre-commit
+    ruff
     python311Packages.invoke
     nodejs
 
