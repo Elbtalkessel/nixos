@@ -148,10 +148,6 @@
 
     # Editors and IDEs
     lunarvim
-    (jetbrains.plugins.addPlugins jetbrains.pycharm-professional [
-      "github-copilot"
-      "ideavim"
-    ])
     jetbrains-toolbox
 
     # When I get used to devenv, I will remove this
