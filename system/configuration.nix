@@ -194,6 +194,14 @@ in
   ];
   fonts.fontconfig = {
     enable = true;
+    subpixel.rgba = "rgb";
+    # https://mynixos.com/nixpkgs/option/fonts.fontconfig.hinting.style
+    hinting = {
+      enable = true;
+      style = "slight";
+    };
+    # https://mynixos.com/nixpkgs/option/fonts.fontconfig.antialias
+    antialias = true;
     defaultFonts = {
       monospace = [ "Overpass Nerd Font Mono" ];
       sansSerif = [ "Overpass Nerd Font" ];
