@@ -24,12 +24,11 @@
       "float,^(polkit-gnome-authentication-agent-1)$"
       "center,^(polkit-gnome-authentication-agent-1)$"
 
-      "float,tile:^(Open File)$"
-      "center,tile:^(Open File)$"
-      "stayfocused,tile:^(Open File)$"
-      "forceinput,tile:^(Open File)$"
-      "windowdance,tile:^(Open File)$"
-      "fakefullscreen,tile:^(Open File)$"
+      "float,title:^(Open File)$"
+      "center,title:^(Open File)$"
+      "stayfocused,title:^(Open File)$"
+      "forceinput,title:^(Open File)$"
+      "windowdance,title:^(Open File)$"
     ];
 
     # See https://wiki.hyprland.org/Configuring/Keywords/ for more
@@ -177,7 +176,7 @@
 
     # DWINDLE LAYOUT 
     dwindle = {
-      pseudotile = false;
+      pseudotite = false;
       force_split = 0;
       preserve_split = true;
       smart_split = false;
