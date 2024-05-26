@@ -23,6 +23,9 @@
 
       "float,^(polkit-gnome-authentication-agent-1)$"
       "center,^(polkit-gnome-authentication-agent-1)$"
+
+      "float,tile:^(Open File)$"
+      "center,tile:^(Open File)$"
     ];
 
     # See https://wiki.hyprland.org/Configuring/Keywords/ for more
