@@ -24,6 +24,7 @@
       "float,^(polkit-gnome-authentication-agent-1)$"
       "center,^(polkit-gnome-authentication-agent-1)$"
 
+      # Force focus on browser file pick dialog
       "float,title:^(Open File)$"
       "center,title:^(Open File)$"
       "stayfocused,title:^(Open File)$"
