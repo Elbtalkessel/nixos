@@ -13,6 +13,7 @@ in
     ./hardware-configuration.nix
     ./modules/logiops.nix
     ./modules/samba.nix
+    ./modules/virtualisation.nix
   ];
 
   boot.initrd.luks.devices = {
@@ -84,7 +85,7 @@ in
   # };
   # virt-manager requires dconf to remember settings
   programs.dconf.enable = true;
-  programs.virt-manager.enable = true;
+
   programs.hyprland = {
     enable = true;
     xwayland = {
@@ -94,33 +95,12 @@ in
   programs.fish.enable = true;
 
 
-  # VIRTUALISATION
-  # DOCKER / PODMAN
-  virtualisation.podman = {
-    enable = false;
-    dockerCompat = true;
-    dockerSocket = {
-      enable = true;
-    };
-  };
-  virtualisation.docker = {
-    enable = true;
-    storageDriver = "btrfs";
-    rootless = {
-      enable = true;
-      setSocketVariable = true;
-    };
-  };
-  # QEMU
-  virtualisation.libvirtd.enable = true;
-
-
   # USERS
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${username} = {
     isNormalUser = true;
     description = "${username}";
-    extraGroups = [ "networkmanager" "input" "wheel" "video" "audio" "tss" "libvirtd" ];
+    extraGroups = [ "networkmanager" "input" "wheel" "video" "audio" "tss" ];
     shell = pkgs.fish;
   };
 
