@@ -175,7 +175,7 @@
 
     # DWINDLE LAYOUT 
     dwindle = {
-      pseudotite = false;
+      pseudotile = false;
       force_split = 0;
       preserve_split = true;
       smart_split = false;
