@@ -28,6 +28,7 @@
       "center,tile:^(Open File)$"
       "stayfocused,tile:^(Open File)$"
       "forceinput,tile:^(Open File)$"
+      "windowdance,tile:^(Open File)$"
     ];
 
     # See https://wiki.hyprland.org/Configuring/Keywords/ for more
