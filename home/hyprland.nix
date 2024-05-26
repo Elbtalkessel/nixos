@@ -26,7 +26,7 @@
 
       "float,tile:^(Open File)$"
       "center,tile:^(Open File)$"
-      "focus,tile:^(Open File)$"
+      "stayfocused,tile:^(Open File)$"
     ];
 
     # See https://wiki.hyprland.org/Configuring/Keywords/ for more
