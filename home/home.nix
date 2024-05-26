@@ -108,7 +108,6 @@
     pavucontrol
 
     # Web access
-    brave
     wget
     curl
     slack
