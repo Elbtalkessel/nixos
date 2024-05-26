@@ -155,6 +155,7 @@
     ruff
     python311Packages.invoke
     nodejs
+    go
 
     # Shell scripts
     (writeShellScriptBin "screen" (builtins.readFile ./bin/screenshot.sh))
