@@ -44,3 +44,5 @@ git push  # calls home or nixos switch command if home or system configuration h
 - setup system auto upgrade
 - setup home manager auto upgrade
 - fix tofi app launcher broken desktop entries
+- flatpak declarative app install and app permissions
+- qemu declarative machine definition
