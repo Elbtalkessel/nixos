@@ -33,7 +33,7 @@
 
     # See https://wiki.hyprland.org/Configuring/Keywords/ for more
     "$M" = "SUPER";
-    "$BROWSER" = "flatpak run --filesystem=/home/risus/Download com.brave.Browser";
+    "$BROWSER" = "flatpak run com.brave.Browser";
     "$TERMINAL" = "alacritty";
     "$MAIL" = "$BROWSER https://mail.proton.me/u/0/inbox";
     "$CALENDAR" = "$BROWSER https://calendar.proton.me/u/0/r/month";
