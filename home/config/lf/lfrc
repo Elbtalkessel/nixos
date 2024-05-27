@@ -1,0 +1,53 @@
+set ratios 1:2:3
+
+# Basic vars
+set shell bash
+set previewer ~/.config/lf/preview
+set shellopts '-eu'
+set ifs "\n"
+set scrolloff 10
+
+# cmds/functions
+cmd open ${{
+    case $(file --mime-type $f -b) in
+      text/*) $EDITOR $fx;;
+    esac
+}}
+
+cmd rename %[ -e $1 ] && printf "file exists" || mv $f $1
+
+cmd delete ${{
+  set -f
+  printf "%s\n\t" "$fx"
+  printf "delete?[y/N] "
+  read ans
+  [ $ans = "y" ] && echo $fx | xargs -I'{}' rm -r '{}'
+}}
+
+cmd moveto ${{
+  set -f
+  clear; echo "Move to where?"
+  dest="$(find ~ -type d -print 2>/dev/null | fzf)" &&
+  eval mv -iv $fx $dest &&
+  notify-send "File(s) moved." "File(s) moved to $dest."
+}}
+
+cmd copyto ${{
+  set -f
+  clear; echo "Copy to where?"
+  dest="$(find ~ -type d -print 2>/dev/null | fzf)" &&
+  eval cp -ivr $fx $dest &&
+  notify-send "File(s) copied." "File(s) copies to $dest."
+}}
+
+# Bindings
+map J $lf -remote "send $id cd $(find ~ -type d -print 2>/dev/null | fzf)"
+map g top
+map D delete
+map C copyto
+map M moveto
+map a push %mkdir<space>
+map r push :rename<space>
+map R $lf -remote "send $id push :rename<space>$f"
+map <enter> shell
+map X !$f

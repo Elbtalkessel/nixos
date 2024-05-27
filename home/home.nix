@@ -2,14 +2,15 @@
 {
 
   imports = [
-    ./alacritty.nix
     ./aliases.nix
     ./environment.nix
-    ./fish.nix
-    ./git.nix
-    ./hyprland.nix
-    ./mako.nix
-    ./waybar.nix
+    ./modules/alacritty.nix
+    ./modules/fish.nix
+    ./modules/git.nix
+    ./modules/hyprland.nix
+    ./modules/mako.nix
+    ./modules/waybar.nix
+    ./modules/lf.nix
   ]; 
   
   # Home Manager needs a bit of information about you and the paths it should
@@ -134,7 +135,6 @@
     wl-screenrec
 
     # Console and text-based UI apps
-    lf
     lazygit
     btop
 

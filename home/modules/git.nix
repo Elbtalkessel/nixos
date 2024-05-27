@@ -9,7 +9,7 @@
         p = "pull";
         c = "commit";
         s = "status";
-        a = "add";
+        a = "add .";
         r = "reset --soft HEAD~1";
         cdate = "!git add -A && git commit -m \"$(date)\"";
       };

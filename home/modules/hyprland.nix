@@ -117,9 +117,8 @@
       "$M SHIFT, 9, movetoworkspace, 9"
       "$M SHIFT, 0, movetoworkspace, 10"
       "$M, TAB, workspace, previous"
-      ",Print, exec, screen shot"
-      # screen record only works if called from console :(
-      # "SHIFT, Print, exec, screen record"
+      ",Print, exec, screen shot -s"
+      "SHIFT, Print, exec, screen record"
     ];
 
     binds = {

@@ -1,0 +1,28 @@
+#!/bin/sh
+
+batorcat() {
+  file="$1"
+  shift
+  if command -v bat > /dev/null 2>&1
+  then
+    bat --color=always --style=plain --pager=never "$file" "$@"
+  else
+    cat "$file"
+  fi
+}
+
+case "$(printf "%s\n" "$1" | awk '{print tolower($0)}')" in
+  *.tgz|*.tar.gz) tar tzf "$1" ;;
+  *.tar.bz2|*.tbz2) tar tjf "$1" ;;
+  *.tar.txz|*.txz) xz --list "$1" ;;
+  *.tar) tar tf "$1" ;;
+  *.[1-8]) man "$1" | col -b ;;
+  *.o) nm "$1";;
+  *.ino)
+    batorcat --language=cpp "$1"
+    ;;
+  *)
+    batorcat "$1"
+    ;;
+esac
+exit 0
