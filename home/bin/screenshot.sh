@@ -40,6 +40,7 @@ if [ $SCREENSHOT ]; then
     notify-send "Screenshot" "Saved to $FILEPATH."
   else
     wl-copy -t image/png < $TEMPFILE
+    xclip -t image/png < $TEMPFILE
     notify-send "Screenshot" "Copied to clipboard."
     rm $TEMPFILE
   fi
