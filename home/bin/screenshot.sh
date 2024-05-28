@@ -37,10 +37,12 @@ if [ $SCREENSHOT ]; then
   fi
   if [ $SAVE_OUTPUT ]; then
     mv $TEMPFILE $FILEPATH
-    notify-send "Screenshot" "Saved to $FILEPATH."
+    wl-copy $FILEPATH
   else
     wl-copy -t image/png < $TEMPFILE
-    xclip -t image/png < $TEMPFILE
+    # Tempoarary (?) clipboard is not syncronized between wayland and x11 on hyprland,
+    # the clipsync script only works for text.
+    cat $TEMPFILE | xclip -selection clipboard -target image/png -i
     notify-send "Screenshot" "Copied to clipboard."
     rm $TEMPFILE
   fi
