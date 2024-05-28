@@ -14,6 +14,7 @@ in
     ./modules/logiops.nix
     ./modules/samba.nix
     ./modules/virtualisation.nix
+    ./modules/wireguard.nix
   ];
 
   boot.initrd.luks.devices = {
