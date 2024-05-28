@@ -1,8 +1,8 @@
 { config, pkgs, ... }:
 {
   # Protonvpn doesn't support v6
-  # TODO: Add dns
-  networking.enableIPv6 = false;
+  # networking.enableIPv6 = false; doesn't work.
+  boot.kernelParams = ["ipv6.disable=1"];
   networking.wg-quick.interfaces = {
     wg0 = {
       address = [
