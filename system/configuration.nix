@@ -86,13 +86,6 @@ in
   # };
   # virt-manager requires dconf to remember settings
   programs.dconf.enable = true;
-
-  programs.hyprland = {
-    enable = true;
-    xwayland = {
-      enable = true;
-    };
-  };
   programs.fish.enable = true;
 
 
@@ -162,6 +155,9 @@ in
   };
   services.gnome.gnome-keyring.enable = true;
   services.flatpak.enable = true;
+  xdg = {
+    portal.enable = true;
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
