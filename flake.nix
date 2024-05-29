@@ -8,17 +8,16 @@
       url = "github:nix-community/home-manager/release-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixvim.url = "git+file:///home/risus/nix/nixvim";
   };
 
-  outputs = { ... } @ inputs:
-    let
-      system = "x86_64-linux";
-      pkgs = import inputs.nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-      };
-    in
-  {
+  outputs = {...} @ inputs: let
+    system = "x86_64-linux";
+    pkgs = import inputs.nixpkgs {
+      inherit system;
+      config.allowUnfree = true;
+    };
+  in {
     # NixOS configuration per host
     nixosConfigurations.omen = inputs.nixpkgs.lib.nixosSystem {
       inherit system;
@@ -37,8 +36,9 @@
         };
       };
       modules = [
+        {home.packages = [inputs.nixvim.packages.${system}.default];}
         ./home/home.nix
-     ];
+      ];
     };
   };
 }
