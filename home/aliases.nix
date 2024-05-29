@@ -6,7 +6,7 @@
       ln = "ln -v";
       ls = "exa";
       mv = "mv -iv";
-      n = "lvim .";
+      n = "$EDITOR .";
       rm = "rm -v";
       S = "sudo systemctl";
       s = "sudo";

@@ -34,6 +34,7 @@
     enable = true;
     options = [ "--cmd cd" ];
   };
+
   programs.fzf = {
     enable = true;
   };
@@ -44,6 +45,45 @@
 
   programs.bat = {
     enable = true;
+  };
+
+  programs.nixvim = {
+    enable = true;
+    defaultEditor = true;
+    clipboard.register = "unnamedplus";
+    colorschemes.gruvbox.enable = true;
+    globals.mapleader = " ";
+    opts = {
+      tabstop = 4;
+      shiftwidth = 4;
+      expandtab = true;
+    };
+    keymaps = [
+      {
+        key = "<leader>w";
+	action = ":write<CR>";
+      }
+      {
+        key = "<leader>e";
+	action = "<cmd>CHADopen<CR>";
+      }
+    ];
+
+    plugins.airline = {
+      enable = true;
+    };
+
+    plugins.nvim-autopairs = {
+      enable = true;
+    };
+
+    plugins.chadtree = {
+      enable = true;
+    };
+
+    plugins.which-key = {
+      enable = true;
+    };
   };
 
   services = {
@@ -146,7 +186,6 @@
     python311Packages.ipython
 
     # Editors and IDEs
-    lunarvim
     jetbrains-toolbox
 
     # When I get used to devenv, I will remove this

@@ -32,7 +32,7 @@
       XDG_TEMPLATES_DIR = "/media/templates";
       XDG_VIDEOS_DIR = "/media/videos";
       # Default apps
-      EDITOR = "lvim";
+      EDITOR = "nvim";
       TERMINAL = "alacritty";
       BROWSER = "brave";
       # ~/ Clean-up:
