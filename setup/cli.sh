@@ -19,11 +19,6 @@ while [[ $# -gt 0 ]]; do
       source ./shell/setup.sh $@
       exit 0
       ;;
-    -sy|--sync)
-      shift
-      source ./shell/sync.sh $@
-      exit 0
-      ;;
     -u|--umount)
       shift
       source ./shell/umount.sh $@
@@ -34,7 +29,6 @@ while [[ $# -gt 0 ]]; do
       echo "  -i, --install    Install packages"
       echo "  -m, --mount      Mount partitions"
       echo "  -s, --setup      Setup system"
-      echo "  -sy, --sync      Sync configuration files"
       shift
       ;;
   esac
