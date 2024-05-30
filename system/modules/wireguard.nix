@@ -1,4 +1,5 @@
 {...}: {
+  # Use systemd to manage interfaces: systemctl stop wg-quick-wg0
   # Protonvpn doesn't support v6
   # networking.enableIPv6 = false; doesn't work.
   boot.kernelParams = ["ipv6.disable=1"];
