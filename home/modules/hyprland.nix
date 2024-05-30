@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   wayland.windowManager.hyprland.enable = true;
   wayland.windowManager.hyprland.xwayland.enable = true;
   wayland.windowManager.hyprland.settings = {
@@ -77,8 +76,8 @@
       "$M, F, fullscreen,"
       "$M, Q, killactive,"
       "$M, G, togglefloating,"
-      "$M SHIFT, Grave, movetoworkspace, special"  # move to the special workspace
-      "$M, Grave, togglespecialworkspace"          # show/hide special workspace
+      "$M SHIFT, Grave, movetoworkspace, special" # move to the special workspace
+      "$M, Grave, togglespecialworkspace" # show/hide special workspace
 
       # MOVE FOCUS with M + arrow keys
       "$M, H, movefocus, l"
@@ -172,7 +171,7 @@
       hover_icon_on_border = true;
     };
 
-    # DWINDLE LAYOUT 
+    # DWINDLE LAYOUT
     dwindle = {
       pseudotile = false;
       force_split = 0;
@@ -186,7 +185,7 @@
       default_split_ratio = 1.0;
     };
 
-    # MASTER LAYOUT 
+    # MASTER LAYOUT
     master = {
       allow_small_split = false;
       special_scale_factor = 0.8;
@@ -204,7 +203,7 @@
       kb_layout = "us,ru";
       kb_options = "grp:win_space_toggle";
       repeat_rate = 75;
-      repeat_delay = 150;
+      repeat_delay = 250;
       follow_mouse = 1;
       mouse_refocus = true;
       float_switch_override_focus = 1;
@@ -233,6 +232,6 @@
       hide_on_key_press = true;
       hide_on_touch = true;
       inactive_timeout = 3;
-   };
+    };
   };
 }
