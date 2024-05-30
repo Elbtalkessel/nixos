@@ -55,7 +55,6 @@
   };
 
   xdg.configFile."tofi/config".source = ./config/tofi/config;
-  xdg.configFile."lvim/config.lua".source = ./config/lvim/config.lua;
 
   gtk = {
     enable = true;
