@@ -1,16 +1,25 @@
-{ pkgs, lib, config, inputs, ... }:
-
 {
+  pkgs,
+  lib,
+  config,
+  inputs,
+  ...
+}: {
   # https://devenv.sh/basics/
   #env.GREET = "devenv";
 
   # https://devenv.sh/packages/
-  packages = [ pkgs.git ];
+  packages = [pkgs.git];
 
   # https://devenv.sh/scripts/
   scripts.collect-garbadge.exec = ''
     sudo nix-collect-garbage -d
     sudo nixos-rebuild switch --flake ./
+  '';
+
+  scripts.build-home.exec = ''
+    nix flake lock --update-input nixvim
+    home-manager switch --flake ./
   '';
 
   #enterShell = ''
