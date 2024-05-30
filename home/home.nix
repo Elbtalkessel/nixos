@@ -1,6 +1,4 @@
-{ config, pkgs, system, inputs, ... }:
-{
-
+{pkgs, ...}: {
   imports = [
     ./aliases.nix
     ./environment.nix
@@ -11,8 +9,9 @@
     ./modules/mako.nix
     ./modules/waybar.nix
     ./modules/lf.nix
-  ]; 
-  
+    ./modules/clipboard.nix
+  ];
+
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "risus";
@@ -32,7 +31,7 @@
 
   programs.zoxide = {
     enable = true;
-    options = [ "--cmd cd" ];
+    options = ["--cmd cd"];
   };
 
   programs.fzf = {
@@ -65,7 +64,7 @@
       package = pkgs.materia-theme;
     };
   };
-    
+
   # https://discourse.nixos.org/t/virt-manager-cannot-create-vm/38894/2
   # virt-manager doesn't work without it
   home.pointerCursor = {
@@ -117,12 +116,6 @@
     # Capture
     grim
     slurp
-    wl-clipboard
-    # xclip + clipnotify + cliphist service is workaround for issue:
-    # "Clipboard synchronization between wayland and xwayland clients broken"
-    # https://github.com/hyprwm/Hyprland/issues/6132
-    xclip
-    clipnotify
 
     # Desktop environment
     tofi
@@ -158,8 +151,6 @@
 
     # Shell scripts
     (writeShellScriptBin "screen" (builtins.readFile ./bin/screenshot.sh))
-    # Requires xclip and clipnotify, workaround, see above in packages.
-    (writeShellScriptBin "clipsync" (builtins.readFile ./bin/clipsync.sh))
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
