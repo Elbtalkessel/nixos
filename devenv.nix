@@ -1,10 +1,4 @@
-{
-  pkgs,
-  lib,
-  config,
-  inputs,
-  ...
-}: {
+{pkgs, ...}: {
   # https://devenv.sh/basics/
   #env.GREET = "devenv";
 
@@ -42,26 +36,4 @@
   # processes.ping.exec = "ping example.com";
 
   # See full reference at https://devenv.sh/reference/options/
-  pre-commit.hooks = {
-    switchHome = {
-      enable = true;
-      name = "Apply home configuration";
-      entry = "bash ./switch.sh --home";
-      stages = ["pre-commit"];
-      types = ["nix"];
-      files = "^home/";
-      pass_filenames = false;
-      fail_fast = true;
-    };
-    switchSystem = {
-      enable = true;
-      name = "Apply system configuration";
-      entry = "bash ./switch.sh --system";
-      stages = ["pre-commit"];
-      types = ["nix"];
-      files = "^system/";
-      pass_filenames = false;
-      fail_fast = true;
-    };
-  };
 }
