@@ -4,5 +4,6 @@
     home = "/media/ollama";
     acceleration = "cuda";
     writablePaths = ["/media/ollama"];
+    models = "/media/ollama/models";
   };
 }
