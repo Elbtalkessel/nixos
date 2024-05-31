@@ -12,6 +12,7 @@ in {
     ./modules/samba.nix
     ./modules/virtualisation.nix
     ./modules/wireguard.nix
+    ./modules/flatpak.nix
   ];
 
   boot.initrd.luks.devices = {
@@ -143,7 +144,6 @@ in {
     };
   };
   services.gnome.gnome-keyring.enable = true;
-  services.flatpak.enable = true;
   xdg = {
     portal.enable = true;
   };
