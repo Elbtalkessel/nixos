@@ -67,8 +67,11 @@ in {
   };
 
   # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.allowUnfreePredicate = _: true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    allowUnfreePredicate = _: true;
+    cudaSupport = true;
+  };
 
   # PROGRAMS
   # Some programs need SUID wrappers, can be configured further or are
