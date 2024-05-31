@@ -13,6 +13,7 @@ in {
     ./modules/virtualisation.nix
     ./modules/wireguard.nix
     ./modules/flatpak.nix
+    ./modules/ollama.nix
   ];
 
   boot.initrd.luks.devices = {

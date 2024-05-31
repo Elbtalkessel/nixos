@@ -46,3 +46,4 @@ home-manager switch --flake ./
 - fix tofi app launcher broken desktop entries
 - flatpak declarative app install and app permissions
 - qemu declarative machine definition (ubuntu 20.04, windows)
+- resolve xdg portal warning on build
