@@ -4,19 +4,12 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    home-manager = {
-      url = "github:nix-community/home-manager/release-23.11";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    home-manager.url = "github:nix-community/home-manager/master";
     nixvim.url = "git+file:///home/risus/nix/nixvim";
   };
 
-  outputs = {...} @ inputs: let
+  outputs = inputs: let
     system = "x86_64-linux";
-    pkgs = import inputs.nixpkgs {
-      inherit system;
-      config.allowUnfree = true;
-    };
   in {
     # NixOS configuration per host
     nixosConfigurations.omen = inputs.nixpkgs.lib.nixosSystem {
@@ -31,9 +24,7 @@
     homeConfigurations.risus = inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = import inputs.nixpkgs {
         inherit system;
-        config = {
-          allowUnfree = true;
-        };
+        config.allowUnfree = true;
       };
       modules = [
         {home.packages = [inputs.nixvim.packages.${system}.default];}
