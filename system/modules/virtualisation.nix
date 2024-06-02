@@ -1,34 +1,30 @@
-{ pkgs, config, ... }: {
-
+{
+  pkgs,
+  config,
+  ...
+}: {
   # VIRTUALISATION
   # DOCKER / PODMAN
-  virtualisation.podman = {
-    enable = false;
-    dockerCompat = true;
-    dockerSocket = {
+  virtualisation = {
+    docker = {
       enable = true;
+      storageDriver = "btrfs";
+      rootless = {
+        enable = true;
+        setSocketVariable = true;
+      };
     };
-  };
-  virtualisation.docker = {
-    enable = true;
-    storageDriver = "btrfs";
-    rootless = {
+    # QEMU
+    libvirtd = {
       enable = true;
-      setSocketVariable = true;
-    };
-  };
-
-
-  # QEMU
-  virtualisation.libvirtd = {
-    enable = true;
-    onShutdown = "suspend";
-    onBoot = "ignore";
-    qemu = {
-      ovmf.enable = true;
-      ovmf.packages = [ pkgs.OVMFFull.fd ];
-      swtpm.enable = true;
-      runAsRoot = false;
+      onShutdown = "suspend";
+      onBoot = "ignore";
+      qemu = {
+        ovmf.enable = true;
+        ovmf.packages = [pkgs.OVMFFull.fd];
+        swtpm.enable = true;
+        runAsRoot = false;
+      };
     };
   };
 
@@ -43,8 +39,8 @@
   };
 
   programs.virt-manager.enable = true;
+
   # USERS
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.risus.extraGroups = [ "libvirtd" ];
-
+  users.users.risus.extraGroups = ["libvirtd"];
 }
