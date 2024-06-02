@@ -95,13 +95,6 @@
       # Editors and IDEs
       jetbrains-toolbox
 
-      # When I get used to devenv, I will remove this
-      pre-commit
-      ruff
-      python311Packages.invoke
-      nodejs
-      go
-
       # Shell scripts
       (writeShellScriptBin "screen" (builtins.readFile ./bin/screenshot.sh))
     ];

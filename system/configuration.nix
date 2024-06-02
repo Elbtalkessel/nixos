@@ -82,10 +82,15 @@ in {
   #   enableSSHSupport = true;
   # };
   # virt-manager requires dconf to remember settings
-  programs.dconf.enable = true;
-  programs.fish.enable = true;
-  programs.wshowkeys.enable = true;
-
+  programs = {
+    dconf.enable = true;
+    fish.enable = true;
+    nix-ld.enable = true;
+    nix-ld.libraries = [
+      # Add any missing dynamic libraries for unpackaged programs
+      # here, NOT in environment.systemPackages
+    ];
+  };
   # USERS
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${username} = {
