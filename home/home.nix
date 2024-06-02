@@ -143,6 +143,10 @@
     bat = {
       enable = true;
     };
+
+    direnv = {
+      enable = true;
+    };
   };
 
   services = {
