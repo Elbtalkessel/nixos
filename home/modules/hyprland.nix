@@ -1,4 +1,4 @@
-{...}: {
+_: {
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
@@ -71,11 +71,11 @@
         "$M, R, exec, tofi-run | xargs hyprctl dispatch exec --"
         "$M, T, exec, $TERMINAL"
         "$M CONTROL, W, exec, pkill waybar && waybar"
-        "$M SHIFT, Q, exec, hyprctl dispatch exit"
+        "$M CONTROL SHIFT, Q, exec, hyprctl dispatch exit"
 
         # Window management
         "$M, F, fullscreen,"
-        "$M, Q, killactive,"
+        "$M CONTROL, Q, killactive,"
         "$M, G, togglefloating,"
         "$M SHIFT, Grave, movetoworkspace, special" # move to the special workspace
         "$M, Grave, togglespecialworkspace" # show/hide special workspace
