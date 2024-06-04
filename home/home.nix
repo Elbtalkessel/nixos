@@ -97,6 +97,8 @@
 
       # Shell scripts
       (writeShellScriptBin "screen" (builtins.readFile ./bin/screenshot.sh))
+      (writeShellScriptBin "browser" (builtins.readFile ./bin/browser.sh))
+      (writeShellScriptBin "tell" (builtins.readFile ./bin/tell.sh))
     ];
 
     # Home Manager is pretty good at managing dotfiles. The primary way to manage
