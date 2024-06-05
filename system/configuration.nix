@@ -14,40 +14,53 @@ in {
     ./modules/wireguard.nix
     ./modules/flatpak.nix
     ./modules/ollama.nix
+    ./modules/bluetooth.nix
   ];
 
-  boot.initrd.luks.devices = {
-    root = {
-      device = "/dev/disk/by-uuid/6eb60a50-cb6b-48c3-82da-a3ef3aee9a02";
-      preLVM = true;
-      allowDiscards = true;
+  boot = {
+    initrd.luks.devices = {
+      root = {
+        device = "/dev/disk/by-uuid/6eb60a50-cb6b-48c3-82da-a3ef3aee9a02";
+        preLVM = true;
+        allowDiscards = true;
+      };
+    };
+
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+      efi.efiSysMountPoint = "/boot/efi";
+    };
+
+    kernel.sysctl = {
+      # Allow starting server @ :80
+      "net.ipv4.ip_unprivileged_port_start" = 80;
     };
   };
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.efi.efiSysMountPoint = "/boot/efi";
-  boot.kernel.sysctl = {
-    # Allow starting server @ :80
-    "net.ipv4.ip_unprivileged_port_start" = 80;
+
+  nix.settings = {
+    experimental-features = "nix-command flakes";
+    # devenv requirement, allows devenv to manager caches.
+    trusted-users = ["root" "risus"];
   };
 
-  nix.settings.experimental-features = "nix-command flakes";
-  # devenv requirement, allows devenv to manager caches.
-  nix.settings.trusted-users = ["root" "risus"];
-
   # Enable networking
-  networking.networkmanager.enable = true;
-  networking.hostName = "omen";
-  networking.extraHosts = ''
-    192.168.1.90 moon
-  '';
-  # Open ports in the firewall.
-  # Allow HTTP and HTTPS traffic, required for guest vm to access host,
-  # ideally to narrow down to specific IP.
-  networking.firewall.allowedTCPPorts = [80 443];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  networking.firewall.enable = true;
+  networking = {
+    networkmanager.enable = true;
+    hostName = "omen";
+    extraHosts = ''
+      192.168.1.90 moon
+    '';
+
+    # networking.firewall.allowedUDPPorts = [ ... ];
+    # Or disable the firewall altogether.
+    firewall.enable = true;
+
+    # Open ports in the firewall.
+    # Allow HTTP and HTTPS traffic, required for guest vm to access host,
+    # ideally to narrow down to specific IP.
+    firewall.allowedTCPPorts = [80 443];
+  };
 
   # Set your time zone.
   time.timeZone = "Europe/Warsaw";
@@ -91,6 +104,7 @@ in {
       # here, NOT in environment.systemPackages
     ];
   };
+
   # USERS
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${username} = {
@@ -99,12 +113,6 @@ in {
     extraGroups = ["networkmanager" "input" "wheel" "video" "audio" "tss"];
     shell = pkgs.fish;
   };
-
-  # HARDWARE
-  # Bluetooth
-  # doesn't work
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = true;
 
   # SECURITY
   security.rtkit.enable = true;
@@ -126,33 +134,33 @@ in {
   };
 
   # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-  services.udisks2.enable = true;
-  # Change runtime directory size
-  services.logind.extraConfig = "RuntimeDirectorySize=8G";
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-  # Gretter with autologin
-  services.greetd = {
-    enable = true;
-    settings = {
-      initial_session = {
-        command = "${session}";
-        user = "${username}";
-      };
-      default_session = {
-        command = "${tuigreet} --greeting 'Welcome to NixOS!' --asterisks --remember --remember-user-session --time --cmd ${session}";
-        user = "greeter";
+  services = {
+    udisks2.enable = true;
+    # Change runtime directory size
+    logind.extraConfig = "RuntimeDirectorySize=8G";
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+    };
+    # Gretter with autologin
+    greetd = {
+      enable = true;
+      settings = {
+        initial_session = {
+          command = "${session}";
+          user = "${username}";
+        };
+        default_session = {
+          command = "${tuigreet} --greeting 'Welcome to NixOS!' --asterisks --remember --remember-user-session --time --cmd ${session}";
+          user = "greeter";
+        };
       };
     };
+    gnome.gnome-keyring.enable = true;
   };
-  services.gnome.gnome-keyring.enable = true;
+
   xdg = {
     portal.enable = true;
   };
@@ -164,23 +172,25 @@ in {
     home-manager
   ];
 
-  fonts.packages = with pkgs; [
-    (nerdfonts.override {fonts = ["Overpass"];})
-  ];
-  fonts.fontconfig = {
-    enable = true;
-    subpixel.rgba = "rgb";
-    # https://mynixos.com/nixpkgs/option/fonts.fontconfig.hinting.style
-    hinting = {
+  fonts = {
+    packages = with pkgs; [
+      (nerdfonts.override {fonts = ["Overpass"];})
+    ];
+    fontconfig = {
       enable = true;
-      style = "slight";
-    };
-    # https://mynixos.com/nixpkgs/option/fonts.fontconfig.antialias
-    antialias = true;
-    defaultFonts = {
-      monospace = ["Overpass Nerd Font Mono"];
-      sansSerif = ["Overpass Nerd Font"];
-      serif = ["Overpass Nerd Font"];
+      subpixel.rgba = "rgb";
+      # https://mynixos.com/nixpkgs/option/fonts.fontconfig.hinting.style
+      hinting = {
+        enable = true;
+        style = "slight";
+      };
+      # https://mynixos.com/nixpkgs/option/fonts.fontconfig.antialias
+      antialias = true;
+      defaultFonts = {
+        monospace = ["Overpass Nerd Font Mono"];
+        sansSerif = ["Overpass Nerd Font"];
+        serif = ["Overpass Nerd Font"];
+      };
     };
   };
 
