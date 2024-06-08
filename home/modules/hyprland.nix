@@ -239,11 +239,11 @@ _: {
         swallow_regex = "^(Alacritty)$";
       };
 
-      cursor = {
-        hide_on_key_press = true;
-        hide_on_touch = true;
-        inactive_timeout = 3;
-      };
+      # cursor = {
+      #   hide_on_key_press = true;
+      #   hide_on_touch = true;
+      #   inactive_timeout = 3;
+      # };
     };
   };
 }
