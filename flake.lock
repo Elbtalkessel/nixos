@@ -368,11 +368,11 @@
         "pre-commit-hooks": "pre-commit-hooks_2"
       },
       "locked": {
-        "lastModified": 1717877144,
-        "narHash": "sha256-aCj8FZxMvM1PN5sDk6w5bQCpDeF+wc+bZY51mpD2fg0=",
+        "lastModified": 1717928139,
+        "narHash": "sha256-8vN+f1qPpdfD3EkwL0fPac+utfNOSHjclnUSDiWAO8I=",
         "ref": "refs/heads/custom",
-        "rev": "6a3f5d182827afb3d1cc1e17abd48a3efac12945",
-        "revCount": 172,
+        "rev": "daef9b14f3eef10dab43f8247868cf6a06636ad9",
+        "revCount": 173,
         "type": "git",
         "url": "file:///home/risus/nix/nixvim"
       },
