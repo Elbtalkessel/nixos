@@ -3,7 +3,7 @@ _: {
     enable = true;
     xwayland.enable = true;
     settings = {
-      monitor = ",highres,auto,1.066667";
+      monitor = ",highres,auto,1";
       xwayland = {
         force_zero_scaling = true;
       };
