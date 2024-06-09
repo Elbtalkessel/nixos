@@ -10,6 +10,7 @@
     ./modules/waybar.nix
     ./modules/lf.nix
     ./modules/clipboard.nix
+    ./modules/qutebrowser.nix
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
