@@ -299,13 +299,10 @@ in {
       normal = {
         ",p" = "spawn --userscript qute-pass --dmenu-invocation dmenu";
         ",P" = "spawn --userscript qute-pass --dmenu-invocation dmenu --password-only";
+        "D" = "tab-close";
+        "r" = "nop";
+        "d" = "nop";
       };
-    };
-
-    keyMappings = {
-      "D" = "tab-close";
-      "r" = "noop";
-      "d" = "noop";
     };
   };
 }
