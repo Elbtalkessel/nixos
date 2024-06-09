@@ -8,9 +8,7 @@ _: let
   RED_100 = "#be5046";
   YELLOW = "#e5c07b";
   TEAL = "#56b6c2";
-  PURPLE = "#c678dd";
   PURPLE_100 = "#b6bdca";
-  ORANGE = "#d19a66";
 
   bg_default = BLUE;
   bg_lighter = GRAY_100;
@@ -33,10 +31,8 @@ in {
           # Text color of the completion widget. May be a single color to use for
           # all columns or a list of three  one for each column.
           fg = fg_default;
-
           # Background color of the completion widget for odd rows.
           odd.bg = bg_lighter;
-
           # Background color of the completion widget for even rows.
           even.bg = bg_default;
 
@@ -66,10 +62,8 @@ in {
 
           # Foreground color of the matched text in the
           match.fg = fg_matched_text;
-
           # Color of the scrollbar handle in the completion view.
           scrollbar.fg = fg_default;
-
           # Color of the scrollbar in the completion view.
           scrollbar.bg = bg_default;
         };
@@ -132,6 +126,7 @@ in {
             # Border color of an error message.
             border = fg_error;
           };
+
           warning = {
             # Foreground color of a warning message.
             fg = bg_default;
@@ -140,6 +135,7 @@ in {
             # Border color of a warning message.
             border = bg_warning;
           };
+
           info = {
             # Foreground color of an info message.
             fg = fg_default;
@@ -180,6 +176,7 @@ in {
           private.fg = bg_default;
           # Background color of the statusbar in private browsing mode.
           private.bg = bg_lighter;
+
           command = {
             # Foreground color of the statusbar in command mode.
             fg = fg_default;
@@ -190,6 +187,7 @@ in {
             # Background color of the statusbar in private browsing + command mode.
             private.bg = bg_default;
           };
+
           caret = {
             # Foreground color of the statusbar in caret mode.
             fg = bg_default;
@@ -200,8 +198,10 @@ in {
             # Background color of the statusbar in caret mode with a selection.
             selection.bg = bg_insert_mode;
           };
+
           # Background color of the progress bar.
           progress.bg = bg_insert_mode;
+
           url = {
             # Default foreground color of the URL in the statusbar.
             fg = fg_default;
@@ -223,6 +223,7 @@ in {
         tabs = {
           # Background color of the tab bar.
           bar.bg = bg_default;
+
           indicator = {
             # Color gradient start for the tab indicator.
             start = bg_insert_mode;
@@ -231,6 +232,7 @@ in {
             # Color for the tab indicator on errors.
             error = fg_error;
           };
+
           # Foreground color of unselected odd tabs.
           odd.fg = fg_default;
           # Background color of unselected odd tabs.
@@ -239,6 +241,7 @@ in {
           even.fg = fg_default;
           # Background color of unselected even tabs.
           even.bg = bg_default;
+
           pinned = {
             # Background color of pinned unselected even tabs.
             even.bg = bg_passthrough_mode;
@@ -248,6 +251,7 @@ in {
             odd.bg = fg_matched_text;
             # Foreground color of pinned unselected odd tabs.
             odd.fg = bg_lightest;
+
             # Background color of pinned selected even tabs.
             selected = {
               even.bg = bg_selection;
@@ -259,6 +263,7 @@ in {
               odd.fg = fg_default;
             };
           };
+
           selected = {
             # Foreground color of selected odd tabs.
             odd.fg = fg_default;
@@ -272,21 +277,20 @@ in {
         };
       };
 
-      # Background color for webpages if unset (or empty to use the theme's
-      # color).
-      # webpage.bg = bg_default
-
       zoom.mouse_divider = 100000000;
       scrolling.smooth = false;
-      content.geolocation = false;
-      content.mouse_lock = false;
-      content.notifications.enabled = false;
-      content.register_protocol_handler = false;
+
+      content = {
+        geolocation = false;
+        mouse_lock = false;
+        notifications.enabled = false;
+        register_protocol_handler = false;
+      };
 
       downloads.position = "bottom";
       downloads.remove_finished = 10000;
-      tabs.position = "top";
 
+      tabs.position = "top";
       editor.command = ["nvim" "-f" "{file}" "-c" "normal {line}G{column0}l"];
       spellcheck.languages = ["en-US" "ru-RU"];
     };
