@@ -294,12 +294,14 @@ in {
       editor.command = ["nvim" "-f" "{file}" "-c" "normal {line}G{column0}l"];
       spellcheck.languages = ["en-US" "ru-RU"];
     };
+
     keyBindings = {
       normal = {
         ",p" = "spawn --userscript qute-pass --dmenu-invocation dmenu";
         ",P" = "spawn --userscript qute-pass --dmenu-invocation dmenu --password-only";
       };
     };
+
     keyMappings = {
       "D" = "tab-close";
       "r" = "noop";
