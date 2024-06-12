@@ -170,6 +170,7 @@ in {
   environment.systemPackages = with pkgs; [
     lm_sensors
     home-manager
+    tomb
   ];
 
   fonts = {
