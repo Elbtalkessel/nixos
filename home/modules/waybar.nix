@@ -10,6 +10,9 @@ _: {
         "passthrough" = false;
         "gtk-layer-shell" = true;
         "height" = 0;
+        "margin-top" = 4;
+        "margin-left" = 4;
+        "margin-right" = 4;
         "modules-left" = [
           "hyprland/workspaces"
           "custom/sep"
@@ -40,7 +43,7 @@ _: {
           "disable-scroll" = true;
           "all-outputs" = true;
           "on-click" = "activate";
-          "persistent_workspaces" = {
+          "persistent-workspaces" = {
             "1" = [];
             "2" = [];
             "3" = [];
@@ -105,10 +108,11 @@ _: {
         font-family: "OverpassM Nerd Font Propo";
         font-size: 16px;
       }
+
       window#waybar {
-        background: rgba(21, 18, 27, 0);
+        background: rgba(21, 18, 27, 0.7);
         color: #a89984;
-        margin: 10px 0;
+        border-radius: 6px;
       }
 
       /* for occupied, because .empty is specified */

@@ -1,4 +1,6 @@
-_: {
+_: let
+  WALLPAPER = "/media/pictures/wallpaperflare.com_wallpaper (2).jpg";
+in {
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
@@ -41,6 +43,7 @@ _: {
 
       "exec-once" = [
         "waybar"
+        "hyprpaper"
       ];
 
       # KEY BINDINGS, see https://wiki.hyprland.org/Configuring/Binds/ for more
@@ -244,6 +247,22 @@ _: {
       #   hide_on_touch = true;
       #   inactive_timeout = 3;
       # };
+    };
+  };
+  services.hyprpaper = {
+    enable = true;
+    settings = {
+      ipc = "off";
+      splash = false;
+      splash_offset = 2.0;
+
+      preload = [
+        "${WALLPAPER}"
+      ];
+
+      wallpaper = [
+        ",${WALLPAPER}"
+      ];
     };
   };
 }
