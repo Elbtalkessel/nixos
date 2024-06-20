@@ -110,7 +110,7 @@ _: {
       }
 
       window#waybar {
-        background: rgba(21, 18, 27, 0.7);
+        background: rgba(21, 18, 27, 0.6);
         color: #a89984;
         border-radius: 6px;
       }
@@ -187,7 +187,7 @@ _: {
       }
 
       #custom-sep {
-        color: #443c30;
+        color: #979aaa;
       }
     '';
   };
