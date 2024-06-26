@@ -163,6 +163,7 @@ in {
 
   xdg = {
     portal.enable = true;
+    portal.config.common.default = "*";
   };
 
   # List packages installed in system profile. To search, run:
@@ -172,6 +173,7 @@ in {
     home-manager
     # there is also home-manager service for hyprpaper, but it does not install hyprpaper package :(
     hyprpaper
+    zed-editor
   ];
 
   fonts = {
