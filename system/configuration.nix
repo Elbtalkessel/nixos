@@ -83,7 +83,6 @@ in {
   nixpkgs.config = {
     allowUnfree = true;
     allowUnfreePredicate = _: true;
-    cudaSupport = true;
   };
 
   # PROGRAMS
@@ -173,7 +172,6 @@ in {
     home-manager
     # there is also home-manager service for hyprpaper, but it does not install hyprpaper package :(
     hyprpaper
-    zed-editor
   ];
 
   fonts = {
