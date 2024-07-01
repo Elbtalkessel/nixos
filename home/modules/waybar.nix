@@ -98,7 +98,7 @@ _: {
           "format" = "󱩎 {}%";
         };
         "custom/sep" = {
-          "format" = "|";
+          "format" = "";
         };
       }
     ];
