@@ -5,7 +5,7 @@ _: {
       {
         "layer" = "top";
         "position" = "top";
-        "mod" = "dock";
+        "mode" = "dock";
         "exclusive" = true;
         "passthrough" = false;
         "gtk-layer-shell" = true;
