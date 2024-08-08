@@ -80,8 +80,8 @@
     };
 
     "/media" = {
-      device = "/dev/disk/by-uuid/81b021ae-7599-4132-af20-47707df7187f";
-      fsType = "xfs";
+      device = "/dev/disk/by-uuid/71ef4372-97eb-4e7e-b85e-110213358745";
+      fsType = "ext4";
     };
 
     "/boot/efi" = {
