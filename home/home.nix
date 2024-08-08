@@ -79,7 +79,7 @@
       mpv
       xdg-user-dirs
       brightnessctl
-      gnome.gnome-calculator
+      gnome-calculator
       wl-screenrec
 
       # Console and text-based UI apps
