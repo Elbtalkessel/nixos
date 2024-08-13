@@ -66,6 +66,7 @@
       wget
       curl
       slack
+      mattermost-desktop
 
       # Capture
       grim
