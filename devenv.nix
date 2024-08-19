@@ -6,18 +6,24 @@
   packages = [pkgs.git];
 
   # https://devenv.sh/scripts/
-  scripts.collect-garbadge.exec = ''
-    sudo nix-collect-garbage -d
-    sudo nixos-rebuild switch --flake ./
-  '';
+  scripts = {
+    gc.exec = ''
+      sudo nix-collect-garbage -d
+    '';
+    update-input.exec = ''
+      nix flake lock --update-input nixvim
+    '';
+    build.exec = ''
+      home-manager switch --flake ./config/
+      sudo nixos-rebuild switch --flake ./config/
+    '';
+  };
 
-  scripts.build-home.exec = ''
-    nix flake lock --update-input nixvim
-    home-manager switch --flake ./
+  enterShell = ''
+    echo "gc - Collect garbage"
+    echo "build - Build home and system"
+    echo "update-input - ..."
   '';
-
-  #enterShell = ''
-  #'';
 
   # https://devenv.sh/tests/
   #enterTest = ''
