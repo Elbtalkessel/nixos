@@ -1,3 +1,0 @@
-[submodule "nixvim"]
-	path = nixvim
-	url = git@github.com:Elbtalkessel/nixvim.git
