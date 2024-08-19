@@ -1,48 +1,49 @@
-NixOS system and home configuration files
-----
+## NixOS system and home configuration files
 
-## Requirements
+## Deploy
 
-- NixOS (with flakes feature enabled).
-- Optionally devenv (https://devenv.sh/getting-started/) for git hooks.
+The `setup` folder contains some scripts for deploying nixos on a blank drive, LUKS on LLM and systemd boot (optionally grub for old machines).
 
-## Channel list
-home-manager https://github.com/nix-community/home-manager/archive/release-23.11.tar.gz
-nixos https://nixos.org/channels/nixos-23.11
-nixos-hardware https://github.com/NixOS/nixos-hardware/archive/master.tar.gz
-nixos-unstable https://nixos.org/channels/nixos-unstable
+## Install
 
-## Structure
+1. Enable flake support in your current nixos configuration:
 
-```plain
-flake.nix
-|- system/configuration.nix
-|- home/home.nix
+```nix
+nix = {
+  package = pkgs.nixFlakes;
+  extraOptions = ''
+    experimental-features = nix-command flakes
+  '';
+};
 ```
 
-It is possible to use it without flake, to do so copy `system/*` to `/etc/nixos/` and/or `home/*` to `~/.config/home-manager/`.
+2. Enable standalone home-manager: [Standalone installation](https://nix-community.github.io/home-manager/index.xhtml#sec-install-standalone)
 
-## Modus operandi
+3. Apply configurations:
+
+```sh
+sudo nixos-rebuild switch --flake ./
+home-manager switch --flake ./
 ```
-# Activate dev shell, will install git hooks.
-devenv shell
-# ... edit home or system configuration and commit changes ...
-git push  # calls home or nixos switch command if home or system configuration has changed
+
+## Dev
+
+Nixvim submodule update:
+
+```
+nix flake lock --update-input nixvim
+home-manager switch --flake ./
 ```
 
 ## To do
-- learn how to rebind keys using `solaar` or remove the dependency and integrate [logiops](https://github.com/PixlOne/logiops) from old config files.
-- apply float rule to solaar window.
-- add nix-collect-garbade task (something similar for home-manager too?).
-- remove apple fonts submodule.
+
+- add nix-collect-garbade task.
 - home/bin/screenshot.sh: read session variables instead of hardcoded values.
-- setup ubuntu 20.04 virtual machine
-- prompt for a key if inserted an encrypted pendrive
 - add https://usbguard.github.io/
-- setup wireguard
-- call switch hooks only on `git push`
+- setup wireguard and escape route to down wireguard connection (just wg-quick?)
 - setup system auto upgrade
 - setup home manager auto upgrade
 - fix tofi app launcher broken desktop entries
 - flatpak declarative app install and app permissions
-- qemu declarative machine definition
+- qemu declarative machine definition (ubuntu 20.04, windows)
+- resolve xdg portal warning on build

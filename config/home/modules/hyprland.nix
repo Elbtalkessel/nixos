@@ -1,0 +1,267 @@
+_: let
+  WALLPAPER = "/media/pictures/wallpaperflare.com_wallpaper (2).jpg";
+in {
+  wayland.windowManager.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+    settings = {
+      monitor = ",highres,auto,1";
+      xwayland = {
+        force_zero_scaling = true;
+      };
+
+      # While v2 rules allow multiple rules to be applied, the `center` rule
+      # or `move` rule is not available.
+      # https://wiki.hyprland.org/Configuring/Window-Rules/
+      windowrule = [
+        "float,^(org.gnome.Calculator)$"
+        "center,^(org.gnome.Calculator)$"
+
+        "float,^(jetbrains-toolbox)$"
+        "center,^(jetbrains-toolbox)$"
+
+        "float,^(udiskie)$"
+        "center,^(udiskie)$"
+
+        "float,^(polkit-gnome-authentication-agent-1)$"
+        "center,^(polkit-gnome-authentication-agent-1)$"
+
+        # Force focus on browser file pick dialog
+        "center,title:^(Open File)$"
+        "float,title:^(Open File)$"
+        "stayfocused,title:^(Open File)$"
+        "forceinput,title:^(Open File)$"
+      ];
+
+      # See https://wiki.hyprland.org/Configuring/Keywords/ for more
+      "$M" = "SUPER";
+      "$BROWSER" = "flatpak run com.brave.Browser";
+      "$TERMINAL" = "alacritty";
+      "$MAIL" = "$BROWSER https://mail.proton.me/u/0/inbox";
+      "$CALENDAR" = "$BROWSER https://calendar.proton.me/u/0/r/month";
+      "$PASSMAN" = "$BROWSER https://pass.proton.me/u/0/";
+
+      "exec-once" = [
+        "waybar"
+        "hyprpaper"
+      ];
+
+      # KEY BINDINGS, see https://wiki.hyprland.org/Configuring/Binds/ for more
+      # Two hand layout, left is holding modifier, right is presssing a key# Two hand layout, left is holding modifier, right is presssing a key
+
+      # Special
+      binde = [
+        ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"
+        ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+        ", XF86MonBrightnessUp, exec, brightnessctl -c backlight s +20"
+        ", XF86MonBrightnessDown, exec, brightnessctl -c backlight s 20-"
+        "$M CONTROL, H, resizeactive, -25 0"
+        "$M CONTROL, L, resizeactive, 25 0"
+        "$M CONTROL, K, resizeactive, 0 -25"
+        "$M CONTROL, J, resizeactive, 0 25"
+      ];
+      # MOVE/RESIZE WINDOWS with M + LMB/RMB and dragging
+      bindm = [
+        "$M, mouse:272, movewindow"
+        "$M, mouse:273, resizewindow"
+      ];
+      bind = [
+        ", XF86Calculator, exec, gnome-calculator"
+        # Launcher
+        "$M ALT, y, exec, $BROWSER"
+        # [
+        "$M ALT, u, exec, $MAIL"
+        # ]
+        "$M ALT, i, exec, $CALENDAR"
+        # )
+        "$M ALT, o, exec, $PASSMAN"
+        # ,
+        "$M, code:59, exec, tofi-drun | xargs hyprctl dispatch exec --"
+        "$M, m, exec, tofi-run | xargs hyprctl dispatch exec --"
+        "$M, n, exec, $TERMINAL"
+        "$M CONTROL, W, exec, pkill waybar && waybar"
+        "$M CONTROL SHIFT, Q, exec, hyprctl dispatch exit"
+
+        # Window management
+        # '
+        "$M, code:48, fullscreen,"
+        # -
+        "$M, code:20, killactive,"
+        # \
+        "$M, code:51, togglefloating,"
+        # /
+        "$M SHIFT, code:61, movetoworkspace, special" # move to the special workspace
+        "$M, code:61, togglespecialworkspace" # show/hide special workspace
+
+        # MOVE FOCUS with M + arrow keys
+        "$M, H, movefocus, l"
+        "$M, L, movefocus, r"
+        "$M, K, movefocus, u"
+        "$M, J, movefocus, d"
+
+        # MOVE WINDOW with M SHIFT + arrow keys
+        "$M SHIFT, H, movewindow, l"
+        "$M SHIFT, L, movewindow, r"
+        "$M SHIFT, K, movewindow, u"
+        "$M SHIFT, J, movewindow, d"
+
+        # SWITCH WORKSPACES with M + [0-9]
+        "$M, 6, workspace, 1"
+        "$M, 7, workspace, 2"
+        "$M, 8, workspace, 3"
+        "$M, 9, workspace, 4"
+        "$M, 0, workspace, 5"
+        "$M, y, workspace, 6"
+        "$M, u, workspace, 7"
+        "$M, i, workspace, 8"
+        "$M, o, workspace, 9"
+        "$M, p, workspace, 10"
+
+        # MOVE ACTIVE WINDOW TO A WORKSPACE with M + SHIFT + [0-9]
+        "$M SHIFT, 6, movetoworkspace, 1"
+        "$M SHIFT, 7, movetoworkspace, 2"
+        "$M SHIFT, 8, movetoworkspace, 3"
+        "$M SHIFT, 9, movetoworkspace, 4"
+        "$M SHIFT, 0, movetoworkspace, 5"
+        "$M SHIFT, y, movetoworkspace, 6"
+        "$M SHIFT, u, movetoworkspace, 7"
+        "$M SHIFT, i, movetoworkspace, 8"
+        "$M SHIFT, o, movetoworkspace, 9"
+        "$M SHIFT, p, movetoworkspace, 10"
+        "$M, TAB, workspace, previous"
+        ",Print, exec, screen shot"
+        "SHIFT, Print, exec, screen record"
+      ];
+
+      binds = {
+        allow_workspace_cycles = true;
+      };
+
+      decoration = {
+        # See https://wiki.hyprland.org/Configuring/Variables/ for more
+        rounding = 5;
+        blur = {
+          enabled = true;
+          size = 3;
+          passes = 1;
+          new_optimizations = true;
+        };
+
+        drop_shadow = true;
+        shadow_range = 4;
+        shadow_render_power = 3;
+        "col.shadow" = "rgba(1a1a1aee)";
+      };
+
+      animations = {
+        enabled = true;
+        # Some default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
+        bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
+        animation = [
+          "windows, 1, 2, myBezier"
+          "windowsOut, 1, 2, default, popin 80%"
+          "border, 1, 3, default"
+          "borderangle, 1, 4, default"
+          "fade, 1, 2, default"
+          "workspaces, 1, 2, default"
+        ];
+      };
+
+      gestures = {
+        # See https://wiki.hyprland.org/Configuring/Variables/ for more
+        workspace_swipe = false;
+      };
+
+      # GENERAL SETTINGS
+      general = {
+        border_size = 1;
+        no_border_on_floating = false;
+        gaps_in = 3;
+        gaps_out = 3;
+        "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
+        "col.inactive_border" = "rgba(595959aa)";
+        layout = "dwindle";
+        extend_border_grab_area = true;
+        hover_icon_on_border = true;
+      };
+
+      # DWINDLE LAYOUT
+      dwindle = {
+        pseudotile = false;
+        force_split = 0;
+        preserve_split = true;
+        smart_split = false;
+        smart_resizing = true;
+        special_scale_factor = 0.8;
+        split_width_multiplier = 1.0;
+        no_gaps_when_only = false;
+        use_active_for_splits = true;
+        default_split_ratio = 1.0;
+      };
+
+      # MASTER LAYOUT
+      master = {
+        allow_small_split = false;
+        special_scale_factor = 0.8;
+        mfact = 0.55;
+        new_on_top = false;
+        no_gaps_when_only = false;
+        orientation = "left";
+        inherit_fullscreen = true;
+        always_center_master = false;
+      };
+
+      # INPUT DEVICES
+      input = {
+        kb_layout = "us,ru";
+        kb_options = "grp:win_space_toggle";
+        repeat_rate = 75;
+        repeat_delay = 250;
+        follow_mouse = 1;
+        mouse_refocus = true;
+        float_switch_override_focus = 1;
+        touchpad = {
+          disable_while_typing = true;
+          scroll_factor = 1.0;
+          tap-to-click = true;
+        };
+      };
+
+      # MISC SETTINGS
+      misc = {
+        #disable_hyprland_logo = true;
+        disable_splash_rendering = true;
+        vrr = 0;
+        mouse_move_enables_dpms = false;
+        key_press_enables_dpms = false;
+        layers_hog_keyboard_focus = true;
+        focus_on_activate = false;
+        mouse_move_focuses_monitor = true;
+        enable_swallow = true;
+        swallow_regex = "^(Alacritty)$";
+      };
+
+      # cursor = {
+      #   hide_on_key_press = true;
+      #   hide_on_touch = true;
+      #   inactive_timeout = 3;
+      # };
+    };
+  };
+  services.hyprpaper = {
+    enable = true;
+    settings = {
+      ipc = "off";
+      splash = false;
+      splash_offset = 2.0;
+
+      preload = [
+        "${WALLPAPER}"
+      ];
+
+      wallpaper = [
+        ",${WALLPAPER}"
+      ];
+    };
+  };
+}

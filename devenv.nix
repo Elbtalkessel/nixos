@@ -1,20 +1,29 @@
-{ pkgs, lib, config, inputs, ... }:
-
-{
+{pkgs, ...}: {
   # https://devenv.sh/basics/
   #env.GREET = "devenv";
 
   # https://devenv.sh/packages/
-  packages = [ pkgs.git ];
+  packages = [pkgs.git];
 
   # https://devenv.sh/scripts/
-  scripts.collect-garbadge.exec = ''
-    sudo nix-collect-garbage -d
-    sudo nixos-rebuild switch --flake ./
-  '';
+  scripts = {
+    gc.exec = ''
+      sudo nix-collect-garbage -d
+    '';
+    update-input.exec = ''
+      nix flake lock --update-input nixvim
+    '';
+    build.exec = ''
+      home-manager switch --flake ./config/
+      sudo nixos-rebuild switch --flake ./config/
+    '';
+  };
 
-  #enterShell = ''
-  #'';
+  enterShell = ''
+    echo "gc - Collect garbage"
+    echo "build - Build home and system"
+    echo "update-input - ..."
+  '';
 
   # https://devenv.sh/tests/
   #enterTest = ''
@@ -33,26 +42,4 @@
   # processes.ping.exec = "ping example.com";
 
   # See full reference at https://devenv.sh/reference/options/
-  pre-commit.hooks = {
-    switchHome = {
-      enable = true;
-      name = "Apply home configuration";
-      entry = "bash ./switch.sh --home";
-      stages = ["pre-commit"];
-      types = ["nix"];
-      files = "^home/";
-      pass_filenames = false;
-      fail_fast = true;
-    };
-    switchSystem = {
-      enable = true;
-      name = "Apply system configuration";
-      entry = "bash ./switch.sh --system";
-      stages = ["pre-commit"];
-      types = ["nix"];
-      files = "^system/";
-      pass_filenames = false;
-      fail_fast = true;
-    };
-  };
 }
