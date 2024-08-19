@@ -5,7 +5,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager.url = "github:nix-community/home-manager/master";
-    nixvim.url = "git+file:///home/risus/nix/nixvim";
+    nixvim.url = "github:Elbtalkessel/nixvim/custom";
   };
 
   outputs = {
@@ -19,7 +19,7 @@
     pkgs = import nixpkgs {system = "x86_64-linux";};
   in {
     packages = {
-      usbdrivetools = import ./pkgs/usbdrivetools/default.nix {inherit pkgs;};
+      usbdrivetools = import ./packages/usbdrivetools/default.nix {inherit pkgs;};
     };
 
     # System configuration

@@ -370,15 +370,16 @@
       "locked": {
         "lastModified": 1719849165,
         "narHash": "sha256-0pDkos2A1S5AeQF0oyZzXNc23BKGNYVgIp4KmMhEQDI=",
-        "ref": "refs/heads/custom",
+        "owner": "Elbtalkessel",
+        "repo": "nixvim",
         "rev": "add36b021e85139af709d8aa335311493e0d1622",
-        "revCount": 178,
-        "type": "git",
-        "url": "file:///home/risus/nix/nixvim"
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "file:///home/risus/nix/nixvim"
+        "owner": "Elbtalkessel",
+        "ref": "custom",
+        "repo": "nixvim",
+        "type": "github"
       }
     },
     "nixvim_2": {
