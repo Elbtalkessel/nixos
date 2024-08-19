@@ -156,6 +156,7 @@
   };
 
   xdg.configFile."tofi/config".source = ./config/tofi/config;
+  xdg.configFile."wget/wgetrc".source = ./config/wget/wgetrc;
 
   gtk = {
     enable = true;
