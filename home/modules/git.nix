@@ -19,6 +19,7 @@ _: {
       a = "add .";
       r = "reset --soft HEAD~1";
       ccdate = "!git add -A && git commit -m \"$(date)\"";
+      graph = "log --decorate --graph --parents";
     };
   };
 }
