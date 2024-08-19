@@ -8,28 +8,50 @@
     nixvim.url = "git+file:///home/risus/nix/nixvim";
   };
 
-  outputs = inputs: let
+  outputs = {
+    self,
+    nixpkgs,
+    nixos-hardware,
+    home-manager,
+    nixvim,
+  }: let
     system = "x86_64-linux";
+    pkgs = import nixpkgs {system = "x86_64-linux";};
   in {
+    packages = {
+      usbdrivetools = import ./pkgs/usbdrivetools/default.nix {inherit pkgs;};
+    };
+
+    # System configuration
     # NixOS configuration per host
-    nixosConfigurations.omen = inputs.nixpkgs.lib.nixosSystem {
+    nixosConfigurations.omen = nixpkgs.lib.nixosSystem {
       inherit system;
       modules = [
         # The closest one to my laptop,
         # amp cpu + amd cpu pstate + amd gpu + nvidia + ssd
-        inputs.nixos-hardware.nixosModules.omen-15-en0010ca
+        nixos-hardware.nixosModules.omen-15-en0010ca
         ./system/configuration.nix
       ];
     };
-    homeConfigurations.risus = inputs.home-manager.lib.homeManagerConfiguration {
-      pkgs = import inputs.nixpkgs {
+    # -- System
+
+    # Home configuration
+    homeConfigurations.risus = home-manager.lib.homeManagerConfiguration {
+      pkgs = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
       };
       modules = [
-        {home.packages = [inputs.nixvim.packages.${system}.default];}
+        {
+          home.packages = [
+            nixvim.packages.${system}.default
+            self.packages.usbdrivetools
+          ];
+        }
+
         ./home/home.nix
       ];
     };
+    # -- Home
   };
 }
