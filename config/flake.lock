@@ -368,11 +368,11 @@
         "pre-commit-hooks": "pre-commit-hooks_2"
       },
       "locked": {
-        "lastModified": 1719849165,
-        "narHash": "sha256-0pDkos2A1S5AeQF0oyZzXNc23BKGNYVgIp4KmMhEQDI=",
+        "lastModified": 1724318734,
+        "narHash": "sha256-fJcMYojA0TBWC+jZB+fRN6/zlMmqC1cSQXToVaIjpmQ=",
         "owner": "Elbtalkessel",
         "repo": "nixvim",
-        "rev": "add36b021e85139af709d8aa335311493e0d1622",
+        "rev": "842876c4298688066ee3611fb3d28c61e9d36bbf",
         "type": "github"
       },
       "original": {

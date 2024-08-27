@@ -66,32 +66,22 @@ in {
         "$M, mouse:273, resizewindow"
       ];
       bind = [
+        ", F1, exec, notify-send 'nope' 'F1 disabled'"
         ", XF86Calculator, exec, gnome-calculator"
+        "$M, left, exec, hyprctl switchxkblayout moergo-glove80-left-keyboard next"
+
         # Launcher
-        "$M ALT, y, exec, $BROWSER"
-        # [
-        "$M ALT, u, exec, $MAIL"
-        # ]
-        "$M ALT, i, exec, $CALENDAR"
-        # )
-        "$M ALT, o, exec, $PASSMAN"
-        # ,
-        "$M, code:59, exec, tofi-drun | xargs hyprctl dispatch exec --"
-        "$M, m, exec, tofi-run | xargs hyprctl dispatch exec --"
-        "$M, n, exec, $TERMINAL"
-        "$M CONTROL, W, exec, pkill waybar && waybar"
-        "$M CONTROL SHIFT, Q, exec, hyprctl dispatch exit"
+        "$M ALT, b, exec, $BROWSER"
+        "$M, right, exec, tofi-drun | xargs hyprctl dispatch exec --"
+        "$M, Space, exec, tofi-run | xargs hyprctl dispatch exec --"
+        "$M, Return, exec, $TERMINAL"
 
         # Window management
-        # '
-        "$M, code:48, fullscreen,"
-        # -
-        "$M, code:20, killactive,"
-        # \
-        "$M, code:51, togglefloating,"
-        # /
-        "$M SHIFT, code:61, movetoworkspace, special" # move to the special workspace
-        "$M, code:61, togglespecialworkspace" # show/hide special workspace
+        "$M, f, fullscreen,"
+        "$M, delete, killactive,"
+        "$M, backspace, togglefloating,"
+        "$M SHIFT, escape, movetoworkspace, special" # move to the special workspace
+        "$M, escape, togglespecialworkspace" # show/hide special workspace
 
         # MOVE FOCUS with M + arrow keys
         "$M, H, movefocus, l"
@@ -106,31 +96,31 @@ in {
         "$M SHIFT, J, movewindow, d"
 
         # SWITCH WORKSPACES with M + [0-9]
-        "$M, 6, workspace, 1"
-        "$M, 7, workspace, 2"
-        "$M, 8, workspace, 3"
-        "$M, 9, workspace, 4"
-        "$M, 0, workspace, 5"
-        "$M, y, workspace, 6"
-        "$M, u, workspace, 7"
-        "$M, i, workspace, 8"
-        "$M, o, workspace, 9"
-        "$M, p, workspace, 10"
+        "$M, 1, workspace, 1"
+        "$M, 2, workspace, 2"
+        "$M, 3, workspace, 3"
+        "$M, 4, workspace, 4"
+        "$M, 5, workspace, 5"
+        "$M, 6, workspace, 6"
+        "$M, 7, workspace, 7"
+        "$M, 8, workspace, 8"
+        "$M, 9, workspace, 9"
+        "$M, 0, workspace, 10"
 
         # MOVE ACTIVE WINDOW TO A WORKSPACE with M + SHIFT + [0-9]
-        "$M SHIFT, 6, movetoworkspace, 1"
-        "$M SHIFT, 7, movetoworkspace, 2"
-        "$M SHIFT, 8, movetoworkspace, 3"
-        "$M SHIFT, 9, movetoworkspace, 4"
-        "$M SHIFT, 0, movetoworkspace, 5"
-        "$M SHIFT, y, movetoworkspace, 6"
-        "$M SHIFT, u, movetoworkspace, 7"
-        "$M SHIFT, i, movetoworkspace, 8"
-        "$M SHIFT, o, movetoworkspace, 9"
-        "$M SHIFT, p, movetoworkspace, 10"
+        "$M SHIFT, 1, movetoworkspace, 1"
+        "$M SHIFT, 2, movetoworkspace, 2"
+        "$M SHIFT, 3, movetoworkspace, 3"
+        "$M SHIFT, 4, movetoworkspace, 4"
+        "$M SHIFT, 5, movetoworkspace, 5"
+        "$M SHIFT, 6, movetoworkspace, 6"
+        "$M SHIFT, 7, movetoworkspace, 7"
+        "$M SHIFT, 8, movetoworkspace, 8"
+        "$M SHIFT, 9, movetoworkspace, 9"
+        "$M SHIFT, 0, movetoworkspace, 10"
         "$M, TAB, workspace, previous"
-        ",Print, exec, screen shot"
-        "SHIFT, Print, exec, screen record"
+        "$M, F6, exec, screen shot"
+        "$M, F7, exec, screen record"
       ];
 
       binds = {
@@ -214,7 +204,7 @@ in {
       # INPUT DEVICES
       input = {
         kb_layout = "us,ru";
-        kb_options = "grp:win_space_toggle";
+        kb_options = "grp:alt_shift_toggle";
         repeat_rate = 75;
         repeat_delay = 250;
         follow_mouse = 1;
