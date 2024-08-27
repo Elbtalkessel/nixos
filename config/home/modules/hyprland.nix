@@ -72,8 +72,9 @@ in {
 
         # Launcher
         "$M ALT, b, exec, $BROWSER"
-        "$M, right, exec, tofi-drun | xargs hyprctl dispatch exec --"
-        "$M, Space, exec, tofi-run | xargs hyprctl dispatch exec --"
+        "$M, Space, exec, tofi-drun | xargs hyprctl dispatch exec --"
+        "$M, right, exec, tofi-run | xargs hyprctl dispatch exec --"
+        "$M, p, exec, gopass ls --flat | tofi | xargs --no-run-if-empty gopass show -c"
         "$M, Return, exec, $TERMINAL"
 
         # Window management

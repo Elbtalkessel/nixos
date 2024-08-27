@@ -57,7 +57,8 @@
     PYTHONSTARTUP = "/home/risus/.local/share/python_history";
     AWS_CONFIG_FILE = "/home/risus/.config/aws/credentials";
     ANDROID_SDK_HOME = "/home/risus/.config/android";
-    GNUPGHOME = "/home/risus/.local/share/gnupg";
+    # do not set!
+    # GNUPGHOME = "/home/risus/.local/share/gnupg";
     POETRY_HOME = "/home/risus/.local/share/poetry";
     VAGRANT_HOME = "/home/risus/.local/share/vagrant";
     VAGRANT_ALIAS_FILE = "/home/risus/.local/share/vagrant/aliases";

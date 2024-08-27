@@ -10,5 +10,5 @@
   services.gpg-agent = {
     enable = true;
   };
-  home.packages = [pkgs.seahorse];
+  home.packages = with pkgs; [seahorse gpg-tui];
 }
