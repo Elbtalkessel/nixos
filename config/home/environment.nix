@@ -33,7 +33,7 @@
     # Default apps
     EDITOR = "nvim";
     TERMINAL = "alacritty";
-    BROWSER = "flatpak run com.brave.Browser";
+    BROWSER = "brave";
     # ~/ Clean-up:
     GTK2_RC_FILES = "/home/risus/.config/gtk-2.0/gtkrc-2.0";
     LESSHISTFILE = "-";

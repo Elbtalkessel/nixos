@@ -1,4 +1,4 @@
-{ lib, ... }: {
+_: {
   programs.alacritty = {
     enable = true;
 
@@ -33,7 +33,6 @@
           y = 0;
         };
       };
-
     };
   };
 }

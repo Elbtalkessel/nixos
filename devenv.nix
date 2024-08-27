@@ -17,11 +17,15 @@
       home-manager switch --flake ./config/
       sudo nixos-rebuild switch --flake ./config/
     '';
+    home.exec = ''
+      home-manager switch --flake ./config/
+    '';
   };
 
   enterShell = ''
     echo "gc - Collect garbage"
     echo "build - Build home and system"
+    echo "home - Build home"
     echo "update-input - ..."
   '';
 
