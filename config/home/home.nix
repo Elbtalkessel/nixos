@@ -154,6 +154,10 @@
       notify = true;
       automount = true;
     };
+    blanket = {
+      # Listen to different sounds
+      enable = true;
+    };
   };
 
   xdg.configFile."tofi/config".source = ./config/tofi/config;
