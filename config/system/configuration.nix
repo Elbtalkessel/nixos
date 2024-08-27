@@ -172,6 +172,8 @@ in {
     home-manager
     # there is also home-manager service for hyprpaper, but it does not install hyprpaper package :(
     hyprpaper
+    # only available as system package.
+    gopass
   ];
 
   fonts = {
