@@ -14,11 +14,13 @@
       nix flake lock --update-input nixvim
     '';
     build.exec = ''
-      home-manager switch --flake ./config/
-      sudo nixos-rebuild switch --flake ./config/
+      system && home
     '';
     home.exec = ''
       home-manager switch --flake ./config/
+    '';
+    system.exec = ''
+      sudo nixos-rebuild switch --flake ./config/
     '';
   };
 
