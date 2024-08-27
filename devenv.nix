@@ -10,9 +10,6 @@
     gc.exec = ''
       sudo nix-collect-garbage -d
     '';
-    update-input.exec = ''
-      nix flake lock --update-input nixvim
-    '';
     build.exec = ''
       system && home
     '';
@@ -28,7 +25,7 @@
     echo "gc - Collect garbage"
     echo "build - Build home and system"
     echo "home - Build home"
-    echo "update-input - ..."
+    echo "system - Build system"
   '';
 
   # https://devenv.sh/tests/
