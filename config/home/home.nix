@@ -13,6 +13,7 @@
     ./modules/qutebrowser.nix
     ./modules/browser.nix
     ./modules/gpg.nix
+    ./modules/passman.nix
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
