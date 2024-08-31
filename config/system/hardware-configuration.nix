@@ -18,6 +18,10 @@
     extraModulePackages = [];
   };
 
+  hardware = {
+    nvidia.open = false;
+  };
+
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-uuid/250192ad-0988-4002-8092-96a424823d9f";

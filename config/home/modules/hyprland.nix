@@ -30,7 +30,6 @@ in {
         "center,title:^(Open File)$"
         "float,title:^(Open File)$"
         "stayfocused,title:^(Open File)$"
-        "forceinput,title:^(Open File)$"
       ];
 
       # See https://wiki.hyprland.org/Configuring/Keywords/ for more
