@@ -1,4 +1,5 @@
-_: let
+_:
+let
   BLUE = "#282c34";
   GRAY = "#7a8395";
   GRAY_100 = "#353b45";
@@ -22,11 +23,13 @@ _: let
   bg_passthrough_mode = TEAL;
   bg_insert_mode = RED_100;
   bg_warning = PURPLE_100;
-in {
+in
+{
   programs.qutebrowser = {
     enable = true;
     settings = {
       colors = {
+        webpage.darkmode.enabled = true;
         completion = {
           # Text color of the completion widget. May be a single color to use for
           # all columns or a list of three  one for each column.
@@ -278,7 +281,10 @@ in {
       };
 
       zoom.mouse_divider = 100000000;
+      zoom.default = 125;
       scrolling.smooth = false;
+
+      qt.highdpi = true;
 
       content = {
         geolocation = false;
@@ -291,8 +297,8 @@ in {
       downloads.remove_finished = 10000;
 
       tabs.position = "top";
-      editor.command = ["nvim" "-f" "{file}" "-c" "normal {line}G{column0}l"];
-      spellcheck.languages = ["en-US" "ru-RU"];
+      editor.command = [ "nvim" "-f" "{file}" "-c" "normal {line}G{column0}l" ];
+      spellcheck.languages = [ "en-US" "ru-RU" ];
     };
 
     keyBindings = {
