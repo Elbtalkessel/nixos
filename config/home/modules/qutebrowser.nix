@@ -29,7 +29,6 @@ in
     enable = true;
     settings = {
       colors = {
-        webpage.darkmode.enabled = true;
         completion = {
           # Text color of the completion widget. May be a single color to use for
           # all columns or a list of three  one for each column.
