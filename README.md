@@ -37,13 +37,10 @@ home-manager switch --flake ./
 
 ## To do
 
-- add nix-collect-garbade task.
-- home/bin/screenshot.sh: read session variables instead of hardcoded values.
-- add https://usbguard.github.io/
-- setup wireguard and escape route to down wireguard connection (just wg-quick?)
+- add nix-collect-garbage task.
+- home/bin/screenshot.sh: read session variables instead of hard-coded values.
+- add [USB Guard](https://usbguard.github.io/)
 - setup system auto upgrade
 - setup home manager auto upgrade
-- fix tofi app launcher broken desktop entries
 - flatpak declarative app install and app permissions
 - qemu declarative machine definition (ubuntu 20.04, windows)
-- resolve xdg portal warning on build
