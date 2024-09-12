@@ -150,6 +150,13 @@
 
     direnv = {
       enable = true;
+      # Does not work:
+      # error: The option `programs.direnv.enableFishIntegration' is read-only, but it's set multiple times. Definition values:
+      # - In `/nix/store/...-source/modules/programs/direnv.nix': true
+      # - In `/nix/store/...-source/config/home/home.nix': true
+      # Manually integrated in fish.nix
+      #enableFishIntegration = true;
+      nix-direnv.enable = true;
     };
   };
 
@@ -165,8 +172,12 @@
     };
   };
 
-  xdg.configFile."tofi/config".source = ./config/tofi/config;
-  xdg.configFile."wget/wgetrc".source = ./config/wget/wgetrc;
+  xdg.configFile = {
+    "tofi/config".source = ./config/tofi/config;
+    "wget/wgetrc".source = ./config/wget/wgetrc;
+    # TMPFS caching, https://github.com/direnv/direnv/wiki/Customizing-cache-location#direnv-cache-on-tmpfs
+    "direnv/direnvrc".source = ./config/direnv/direnvrc;
+  };
 
   gtk = {
     enable = true;
