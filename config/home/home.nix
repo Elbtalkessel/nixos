@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{ pkgs, ... }: {
   imports = [
     ./aliases.nix
     ./environment.nix
@@ -61,9 +61,6 @@
       # (pkgs.writeShellScriptBin "my-hello" ''
       #   echo "Hello, ${config.home.username}!"
       # '')
-      lazydocker
-      podman-compose
-      pavucontrol
 
       # Web access
       wget
@@ -85,6 +82,7 @@
       brightnessctl
       gnome-calculator
       wl-screenrec
+      pavucontrol
 
       # Console and text-based UI apps
       lazygit
@@ -99,6 +97,11 @@
 
       # Editors and IDEs
       jetbrains-toolbox
+
+      # Dev Tools
+      lazydocker
+      podman-compose
+      devenv
 
       # Shell scripts
       (writeShellScriptBin "screen" (builtins.readFile ./bin/screenshot.sh))
@@ -130,7 +133,7 @@
 
     zoxide = {
       enable = true;
-      options = ["--cmd cd"];
+      options = [ "--cmd cd" ];
     };
 
     fzf = {
@@ -176,8 +179,8 @@
   dconf = {
     settings = {
       "org/virt-manager/virt-manager/connections" = {
-        autoconnect = ["qemu:///system"];
-        uris = ["qemu:///system"];
+        autoconnect = [ "qemu:///system" ];
+        uris = [ "qemu:///system" ];
       };
     };
   };

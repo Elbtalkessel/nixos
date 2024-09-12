@@ -1,11 +1,13 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{pkgs, ...}: let
+{ pkgs, ... }:
+let
   tuigreet = "${pkgs.greetd.tuigreet}/bin/tuigreet";
   session = "Hyprland";
   username = "risus";
-in {
+in
+{
   imports = [
     ./hardware-configuration.nix
     ./modules/logiops.nix
@@ -41,7 +43,7 @@ in {
   nix.settings = {
     experimental-features = "nix-command flakes";
     # devenv requirement, allows devenv to manager caches.
-    trusted-users = ["root" "risus"];
+    trusted-users = [ "root" "risus" ];
   };
 
   # Enable networking
@@ -59,7 +61,7 @@ in {
     # Open ports in the firewall.
     # Allow HTTP and HTTPS traffic, required for guest vm to access host,
     # ideally to narrow down to specific IP.
-    firewall.allowedTCPPorts = [80 443];
+    firewall.allowedTCPPorts = [ 80 443 8000 ];
   };
 
   # Set your time zone.
@@ -109,7 +111,7 @@ in {
   users.users.${username} = {
     isNormalUser = true;
     description = "${username}";
-    extraGroups = ["networkmanager" "input" "wheel" "video" "audio" "tss"];
+    extraGroups = [ "networkmanager" "input" "wheel" "video" "audio" "tss" ];
     shell = pkgs.fish;
   };
 
@@ -119,9 +121,9 @@ in {
   systemd = {
     user.services.polkit-gnome-authentication-agent-1 = {
       description = "polkit-gnome-authentication-agent-1";
-      wantedBy = ["graphical-session.target"];
-      wants = ["graphical-session.target"];
-      after = ["graphical-session.target"];
+      wantedBy = [ "graphical-session.target" ];
+      wants = [ "graphical-session.target" ];
+      after = [ "graphical-session.target" ];
       serviceConfig = {
         Type = "simple";
         ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
@@ -176,7 +178,7 @@ in {
 
   fonts = {
     packages = with pkgs; [
-      (nerdfonts.override {fonts = ["Overpass"];})
+      (nerdfonts.override { fonts = [ "Overpass" ]; })
     ];
     fontconfig = {
       enable = true;
@@ -189,9 +191,9 @@ in {
       # https://mynixos.com/nixpkgs/option/fonts.fontconfig.antialias
       antialias = true;
       defaultFonts = {
-        monospace = ["Overpass Nerd Font Mono"];
-        sansSerif = ["Overpass Nerd Font"];
-        serif = ["Overpass Nerd Font"];
+        monospace = [ "Overpass Nerd Font Mono" ];
+        sansSerif = [ "Overpass Nerd Font" ];
+        serif = [ "Overpass Nerd Font" ];
       };
     };
   };
