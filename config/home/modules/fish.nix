@@ -32,7 +32,7 @@
          end
       
          if test $CMD_DURATION -gt 5000
-             notify-send "Took $CMD_DURATION" "$argv"
+             notify-send "Took $(math -s 0 $CMD_DURATION / 1000)s" "$argv"
          end
       end
     '';
