@@ -3,8 +3,6 @@
 
   home.packages = with pkgs; [
     wl-clipboard
-    xclip
-    clipnotify
     (writeShellScriptBin "clipsync" (builtins.readFile ../bin/clipsync.sh))
   ];
 
