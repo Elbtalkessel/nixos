@@ -46,6 +46,12 @@ in
     trusted-users = [ "root" "risus" ];
   };
 
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 7d";
+  };
+
   # Enable networking
   networking = {
     networkmanager.enable = true;

@@ -26,21 +26,12 @@ sudo nixos-rebuild switch --flake ./
 home-manager switch --flake ./
 ```
 
-## Dev
-
-Nixvim submodule update:
-
-```
-nix flake lock --update-input nixvim
-home-manager switch --flake ./
-```
-
 ## To do
 
-- add nix-collect-garbage task.
 - home/bin/screenshot.sh: read session variables instead of hard-coded values.
 - add [USB Guard](https://usbguard.github.io/)
 - setup system auto upgrade
 - setup home manager auto upgrade
 - flatpak declarative app install and app permissions
 - qemu declarative machine definition (ubuntu 20.04, windows)
+- cleanup setup scripts, use [disko](https://github.com/nix-community/disko)
