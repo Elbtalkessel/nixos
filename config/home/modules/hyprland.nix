@@ -1,6 +1,8 @@
-_: let
+_:
+let
   WALLPAPER = "/media/pictures/wallpaperflare.com_wallpaper (2).jpg";
-in {
+in
+{
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
@@ -142,6 +144,13 @@ in {
         shadow_render_power = 3;
         "col.shadow" = "rgba(1a1a1aee)";
       };
+
+      layerrule = [
+        # apply blur on notification layer such as mako or dunst
+        "blur,notifications"
+        # skip the blur on completely transparent parts (such as mako's margin)
+        "ignorezero,notifications"
+      ];
 
       animations = {
         enabled = true;
