@@ -1,5 +1,7 @@
 ## NixOS system and home configuration files
 
+![Dekstop](./preview.png?raw=true)
+
 ## Deploy
 
 The `setup` folder contains some scripts for deploying nixos on a blank drive, LUKS on LLM and systemd boot (optionally grub for old machines).
