@@ -1,4 +1,4 @@
-{lib, ...}: {
+{ lib, ... }: {
   home.shellAliases = {
     cat = "bat";
     cp = "cp -iv";

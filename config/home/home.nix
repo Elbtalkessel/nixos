@@ -83,6 +83,7 @@
       gnome-calculator
       wl-screenrec
       pavucontrol
+      nix-search-cli
 
       # Console and text-based UI apps
       lazygit
@@ -105,8 +106,7 @@
 
       # Shell scripts
       (writeShellScriptBin "screen" (builtins.readFile ./bin/screenshot.sh))
-      (writeShellScriptBin "browser" (builtins.readFile ./bin/browser.sh))
-      (writeShellScriptBin "tell" (builtins.readFile ./bin/tell.sh))
+      (writeShellScriptBin "yay" (builtins.readFile ./bin/yay.sh))
     ];
 
     # Home Manager is pretty good at managing dotfiles. The primary way to manage
