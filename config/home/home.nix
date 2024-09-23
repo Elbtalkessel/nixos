@@ -118,6 +118,7 @@
       # ".screenrc".source = dotfiles/screenrc;
       ".local/share/python_history".text = '''';
       ".cache/pg/psql_history".text = '''';
+      ".ideavimrc".source = ./config/.ideavimrc;
 
       # # You can also set the file content immediately.
       # ".gradle/gradle.properties".text = ''
