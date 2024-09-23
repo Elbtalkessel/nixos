@@ -1,0 +1,35 @@
+shortcuts:
+  shortcuts:
+    shortcut: X
+  log_follow: # action name - don't edit
+    toggle_description: # optional description for toggle buttons. Will use default if not defined
+      false: Follow Off
+      true: Follow On
+    shortcut: F # shortcut to be used
+  log_screen:
+    toggle_description:
+      false: Half Screen
+      true: Full Screen
+    shortcut: H
+  log_wrap:
+    toggle_description:
+      false: Wrap Off
+      true: Wrap On
+    shortcut: W
+  process_restart:
+    description: Restart # optional description for a button. Will use default if not defined
+    shortcut: R
+  process_screen:
+    toggle_description:
+      false: Half Screen
+      true: Full Screen
+    shortcut: H
+  process_start:
+    description: Start
+    shortcut: S
+  process_stop:
+    description: Stop
+    shortcut: P
+  quit:
+    description: Quit
+    shortcut: Q
