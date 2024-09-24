@@ -40,16 +40,20 @@ in
     };
   };
 
-  nix.settings = {
-    experimental-features = "nix-command flakes";
-    # devenv requirement, allows devenv to manager caches.
-    trusted-users = [ "root" "risus" ];
-  };
-
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 7d";
+  nix = {
+    settings = {
+      experimental-features = "nix-command flakes";
+      # devenv requirement, allows devenv to manager caches.
+      trusted-users = [ "root" "risus" ];
+    };
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+    };
+    optimise = {
+      automatic = true;
+    };
   };
 
   # Enable networking
