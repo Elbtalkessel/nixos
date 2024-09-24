@@ -36,11 +36,7 @@ in
 
       # See https://wiki.hyprland.org/Configuring/Keywords/ for more
       "$M" = "SUPER";
-      "$BROWSER" = "flatpak run com.brave.Browser";
       "$TERMINAL" = "alacritty";
-      "$MAIL" = "$BROWSER https://mail.proton.me/u/0/inbox";
-      "$CALENDAR" = "$BROWSER https://calendar.proton.me/u/0/r/month";
-      "$PASSMAN" = "$BROWSER https://pass.proton.me/u/0/";
 
       "exec-once" = [
         "waybar"
@@ -72,7 +68,6 @@ in
         "$M, left, exec, hyprctl switchxkblayout moergo-glove80-left-keyboard next"
 
         # Launcher
-        "$M ALT, b, exec, $BROWSER"
         "$M, Space, exec, tofi-drun | xargs hyprctl dispatch exec --"
         "$M, right, exec, tofi-run | xargs hyprctl dispatch exec --"
         "$M, p, exec, gopass ls --flat | tofi | xargs --no-run-if-empty gopass show -c"
@@ -228,7 +223,7 @@ in
 
       # MISC SETTINGS
       misc = {
-        #disable_hyprland_logo = true;
+        disable_hyprland_logo = true;
         disable_splash_rendering = true;
         vrr = 0;
         mouse_move_enables_dpms = false;
@@ -240,11 +235,11 @@ in
         swallow_regex = "^(Alacritty)$";
       };
 
-      # cursor = {
-      #   hide_on_key_press = true;
-      #   hide_on_touch = true;
-      #   inactive_timeout = 3;
-      # };
+      cursor = {
+        hide_on_key_press = true;
+        hide_on_touch = true;
+        inactive_timeout = 3;
+      };
     };
   };
   services.hyprpaper = {
