@@ -107,6 +107,8 @@
       # Shell scripts
       (writeShellScriptBin "screen" (builtins.readFile ./bin/screenshot.sh))
       (writeShellScriptBin "yay" (builtins.readFile ./bin/yay.sh))
+      # Reqired from imv.nix for applying a wallpaper
+      (writeShellScriptBin "wallpaper" (builtins.readFile ./bin/wallpapper.sh))
     ];
 
     # Home Manager is pretty good at managing dotfiles. The primary way to manage
