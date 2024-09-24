@@ -1,0 +1,14 @@
+width = 100%
+height = 100%
+border-width = 0
+outline-width = 0
+padding-left = 35%
+padding-top = 10%
+result-spacing = 25
+num-results = 15
+background-color = #000B
+text-color = #6c6c6c
+prompt-color = #ececec
+placeholder-color = #FFFFFFA8
+selection-color = #fbf1c7
+prompt-text = "Can I have a "
