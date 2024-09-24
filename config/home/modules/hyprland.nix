@@ -70,6 +70,7 @@ in
         # Launcher
         "$M, Space, exec, tofi-drun | xargs hyprctl dispatch exec --"
         "$M, right, exec, tofi-run | xargs hyprctl dispatch exec --"
+        "$M Shift, Space, exec, repl $TERMINAL"
         "$M, p, exec, gopass ls --flat | tofi | xargs --no-run-if-empty gopass show -c"
         "$M, Return, exec, $TERMINAL"
 

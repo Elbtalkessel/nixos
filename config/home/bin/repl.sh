@@ -1,12 +1,28 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
+# Shows tofi menu and runs selected cli app, usually a repl.
+# Using default terminal emulator:
+#   repl
+# With custom emulator:
+#   repl alacritty
 
-OPTIONS=$(cat <<-EOF
-python312Packages.ipython
-nodejs
-EOF)
-runner() {
-  cmd="nix run nixpkgs#$1"
-  exec="$TERM -e sh -c $nix"
-  hyprctl dispatch exec $exec
+declare -A map
+mKeys() {
+  local out=""
+  for i in "${!map[@]}"
+  do
+    out+="$i\n"
+  done
+  echo $out
 }
-echo $OPTIONS | tofi | xargs --no-run-if-empty runner
+
+# Note: key must not have spaces.
+map['IPython']='nix run nixpkgs#python312Packages.ipython'
+map['NodeJS']='nix run nixpkgs#nodejs'
+map['LLama3']='ollama run llama3'
+map['Nix']='nix repl'
+
+key=$(printf $(mKeys) | tofi)
+if [ "$key" != "" ]
+then
+  hyprctl dispatch exec "${1:-$TERM} -e sh -c '${map[$key]}'"
+fi
