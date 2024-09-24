@@ -1,6 +1,6 @@
 _:
 let
-  WALLPAPER = "/media/pictures/wallpaperflare.com_wallpaper (2).jpg";
+  WALLPAPER = "/media/pictures/krjef9fchcx61.jpg";
 in
 {
   wayland.windowManager.hyprland = {
@@ -143,6 +143,7 @@ in
       layerrule = [
         # apply blur on notification layer such as mako or dunst
         "blur,notifications"
+        "blur,waybar"
         # skip the blur on completely transparent parts (such as mako's margin)
         "ignorezero,notifications"
       ];
