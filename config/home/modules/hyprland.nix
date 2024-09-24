@@ -245,7 +245,7 @@ in
   services.hyprpaper = {
     enable = true;
     settings = {
-      ipc = "off";
+      ipc = "on";
       splash = false;
       splash_offset = 2.0;
 

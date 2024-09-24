@@ -178,8 +178,6 @@ in
   environment.systemPackages = with pkgs; [
     lm_sensors
     home-manager
-    # there is also home-manager service for hyprpaper, but it does not install hyprpaper package :(
-    hyprpaper
   ];
 
   fonts = {
