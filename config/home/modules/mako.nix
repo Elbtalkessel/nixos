@@ -1,4 +1,4 @@
-{ lib, ... }: {
+_: {
   # Requires libnotify
   services.mako = {
     enable = true;

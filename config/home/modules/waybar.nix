@@ -20,7 +20,7 @@ _: {
           "custom/sep"
           "hyprland/window"
         ];
-        "modules-center" = [];
+        "modules-center" = [ ];
         "modules-right" = [
           "tray"
           "custom/sep"
@@ -44,16 +44,16 @@ _: {
           "all-outputs" = true;
           "on-click" = "activate";
           "persistent-workspaces" = {
-            "1" = [];
-            "2" = [];
-            "3" = [];
-            "4" = [];
-            "5" = [];
-            "6" = [];
-            "7" = [];
-            "8" = [];
-            "9" = [];
-            "10" = [];
+            "1" = [ ];
+            "2" = [ ];
+            "3" = [ ];
+            "4" = [ ];
+            "5" = [ ];
+            "6" = [ ];
+            "7" = [ ];
+            "8" = [ ];
+            "9" = [ ];
+            "10" = [ ];
           };
           "format" = "{icon}";
           "format-icons" = {
