@@ -23,6 +23,7 @@
     {
       packages = {
         usbdrivetools = import ./packages/usbdrivetools/default.nix { inherit pkgs; };
+        bootdev = import ./packages/bootdev/default.nix { inherit pkgs; };
       };
 
       # System configuration
@@ -49,6 +50,7 @@
             home.packages = [
               nixvim.packages.${system}.default
               self.packages.usbdrivetools
+              self.packages.bootdev
             ];
           }
 
