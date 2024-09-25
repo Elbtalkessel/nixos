@@ -63,7 +63,6 @@ in
         "$M, mouse:273, resizewindow"
       ];
       bind = [
-        ", F1, exec, notify-send 'nope' 'F1 disabled'"
         ", XF86Calculator, exec, gnome-calculator"
         "$M, left, exec, hyprctl switchxkblayout moergo-glove80-left-keyboard next"
 

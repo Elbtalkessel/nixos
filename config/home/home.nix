@@ -182,7 +182,6 @@
     # TMPFS caching, https://github.com/direnv/direnv/wiki/Customizing-cache-location#direnv-cache-on-tmpfs
     "direnv/direnvrc".source = ./config/direnv/direnvrc;
     "process-compose/settings.yaml".source = ./config/process-compose/settings.yaml;
-    "process-compose/shortcuts.yaml".source = ./config/process-compose/shortcuts.yaml;
   };
 
   gtk = {
