@@ -44,7 +44,7 @@ in
     settings = {
       experimental-features = "nix-command flakes";
       # devenv requirement, allows devenv to manager caches.
-      trusted-users = [ "root" "risus" ];
+      trusted-users = [ "risus" ];
     };
     gc = {
       automatic = true;
