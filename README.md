@@ -37,3 +37,8 @@ home-manager switch --flake ./
 - flatpak declarative app install and app permissions
 - qemu declarative machine definition (ubuntu 20.04, windows)
 - cleanup setup scripts, use [disko](https://github.com/nix-community/disko)
+- integrate [sops-nix](https://github.com/Mic92/sops-nix?tab=readme-ov-file#Flakes)
+  - add github access token to it, https://github.com/NixOS/nix/issues/6536#issuecomment-1254858889 and https://nix.dev/manual/nix/2.18/command-ref/conf-file#file-format
+  - add samba creds, /root/secrets/samba
+  - add wg creds, /root/secrets/wg/wg0.conf
+  - add optimizer license key
