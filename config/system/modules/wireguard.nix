@@ -12,9 +12,9 @@ _: {
       privateKeyFile = "/root/secrets/wg/wg0.key";
       peers = [
         {
-          publicKey = "BTwnvm0OR6IzwefZlzTgJMn8NhISk8DtczUk7P74NH8=";
+          publicKey = "DXYDBKLGzh+HGEjwdo+hXLWiRFMk4IWrrVuXyRlMSlY=";
           allowedIPs = [ "0.0.0.0/0" ];
-          endpoint = "149.88.110.33:51820";
+          endpoint = "130.195.241.2:51820";
           persistentKeepalive = 25;
         }
       ];
