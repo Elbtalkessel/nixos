@@ -68,8 +68,8 @@ let g:WhichKey_ShowTypedSequence = "false"
 "" Key Mappings
 "" ========================================================
 " Tab navigation
-nmap <C-p> <Action>(PreviousTab)
-nmap <C-n> <Action>(NextTab)
+nmap <S-l> <Action>(PreviousTab)
+nmap <S-h> <Action>(NextTab)
 
 " Pane navigation
 nnoremap <C-h> <C-w>h
@@ -143,37 +143,37 @@ let g:WhichKeyDesc_window_split_back = "<leader>wb Back split"
 let g:WhichKeyDesc_window_split_forward = "<leader>wf Forward split"
 
 
-" Tab Navigation and Management
-nmap <leader>tP <Action>(PinActiveEditorTab)
-nmap <leader>tg1 <Action>(GoToTab1)
-nmap <leader>tg2 <Action>(GoToTab2)
-nmap <leader>tg3 <Action>(GoToTab3)
-nmap <leader>tg4 <Action>(GoToTab4)
-nmap <leader>tg5 <Action>(GoToTab5)
-nmap <leader>tg6 <Action>(GoToTab6)
-nmap <leader>tg7 <Action>(GoToTab7)
-nmap <leader>tg8 <Action>(GoToTab8)
-nmap <leader>tg9 <Action>(GoToTab9)
-nmap <leader>tx <Action>(CloseContent)
-nmap <leader>tX <Action>(CloseAllEditors)
-nmap <leader>to <Action>(CloseAllEditorsButActive)
-nmap <leader>ta <Action>(CloseAllUnpinnedEditors)
-let g:WhichKeyDesc_tabs = "<leader>t Tabs"
-let g:WhichKeyDesc_tabs_pin = "<leader>tP Pin Active Tab"
-let g:WhichKeyDesc_tabs_go_to = "<leader>tg Go to Tab"
-let g:WhichKeyDesc_tabs_go_to_1 = "<leader>tg1 Go to Tab 1"
-let g:WhichKeyDesc_tabs_go_to_2 = "<leader>tg2 Go to Tab 2"
-let g:WhichKeyDesc_tabs_go_to_3 = "<leader>tg3 Go to Tab 3"
-let g:WhichKeyDesc_tabs_go_to_4 = "<leader>tg4 Go to Tab 4"
-let g:WhichKeyDesc_tabs_go_to_5 = "<leader>tg5 Go to Tab 5"
-let g:WhichKeyDesc_tabs_go_to_6 = "<leader>tg6 Go to Tab 6"
-let g:WhichKeyDesc_tabs_go_to_7 = "<leader>tg7 Go to Tab 7"
-let g:WhichKeyDesc_tabs_go_to_8 = "<leader>tg8 Go to Tab 8"
-let g:WhichKeyDesc_tabs_go_to_9 = "<leader>tg9 Go to Tab 9"
-let g:WhichKeyDesc_tabs_close = "<leader>tx Close Current Tab"
-let g:WhichKeyDesc_tabs_close_all = "<leader>tX Close All Tabs"
-let g:WhichKeyDesc_tabs_close_all_but_active = "<leader>to Close All Tabs But Active"
-let g:WhichKeyDesc_tabs_close_all_unpinned = "<leader>ta Close All Unpinned Tabs"
+" Tab (Buffer) + Grapple-like Navigation and Management
+nmap <leader>bp <Action>(PinActiveEditorTab)
+nmap <leader>1 <Action>(GoToTab1)
+nmap <leader>2 <Action>(GoToTab2)
+nmap <leader>3 <Action>(GoToTab3)
+nmap <leader>4 <Action>(GoToTab4)
+nmap <leader>5 <Action>(GoToTab5)
+nmap <leader>6 <Action>(GoToTab6)
+nmap <leader>7 <Action>(GoToTab7)
+nmap <leader>8 <Action>(GoToTab8)
+nmap <leader>9 <Action>(GoToTab9)
+nmap <leader>bd <Action>(CloseContent)
+nmap <leader>bD <Action>(CloseAllEditors)
+nmap <leader>bo <Action>(CloseAllEditorsButActive)
+nmap <leader>bP <Action>(CloseAllUnpinnedEditors)
+let g:WhichKeyDesc_tabs = "<leader>b buffer"
+let g:WhichKeyDesc_tabs_pin = "<leader>bp Toggle pin"
+let g:WhichKeyDesc_tabs_go_to = "<leader>b Grapple Select"
+let g:WhichKeyDesc_tabs_go_to_1 = "<leader>1 Grapple Select 1"
+let g:WhichKeyDesc_tabs_go_to_2 = "<leader>2 Grapple Select 2"
+let g:WhichKeyDesc_tabs_go_to_3 = "<leader>3 Grapple Select 3"
+let g:WhichKeyDesc_tabs_go_to_4 = "<leader>4 Grapple Select 4"
+let g:WhichKeyDesc_tabs_go_to_5 = "<leader>5 Grapple Select 5"
+let g:WhichKeyDesc_tabs_go_to_6 = "<leader>6 Grapple Select 6"
+let g:WhichKeyDesc_tabs_go_to_7 = "<leader>7 Grapple Select 7"
+let g:WhichKeyDesc_tabs_go_to_8 = "<leader>8 Grapple Select 8"
+let g:WhichKeyDesc_tabs_go_to_9 = "<leader>9 Grapple Select 9"
+let g:WhichKeyDesc_tabs_close = "<leader>bd Delete buffer"
+let g:WhichKeyDesc_tabs_close_all = "<leader>bD Delete all buffers"
+let g:WhichKeyDesc_tabs_close_all_but_active = "<leader>bo Delete other buffers"
+let g:WhichKeyDesc_tabs_close_all_unpinned = "<leader>bP Delete non-pinned buffers"
 
 
 
@@ -188,9 +188,9 @@ let g:WhichKeyDesc_fullscreen = "<leader>Df Toggle full screen"
 
 
 " File navigation
-nmap <leader>fg <Action>(GotoFile)
-nmap <leader>fr <Action>(RecentFiles)
-nmap <leader>fc <Action>(FindInPath)
+nmap <leader><space> <Action>(GotoFile)
+nmap <leader>fg <Action>(RecentFiles)
+nmap <leader>/ <Action>(FindInPath)
 nmap <leader>fl <Action>(RecentLocations)
 nmap <leader>fs <Action>(NewScratchFile)
 nmap <leader>fe :NERDTreeToggle<CR>
@@ -201,10 +201,10 @@ nmap <leader>fh <Action>(LocalHistory.ShowHistory)
 nmap <leader>ff <Action>(ShowFilePath)
 nmap <leader>fi <Action>(SelectIn)
 nmap <leader>fp <Action>(ReplaceInPath)
-let g:WhichKeyDesc_file_opt = "<leader>f File navigation"
-let g:WhichKeyDesc_file_opt_goto_file = "<leader>fg Go To File"
-let g:WhichKeyDesc_file_opt_goto_content = "<leader>fc Find In Files"
-let g:WhichKeyDesc_file_opt_show_recent_files = "<leader>fr Recent Files"
+let g:WhichKeyDesc_file_opt = "<leader> File navigation"
+let g:WhichKeyDesc_file_opt_goto_file = "<leader><space> Go To File"
+let g:WhichKeyDesc_file_opt_goto_content = "<leader>/ Find In Files"
+let g:WhichKeyDesc_file_opt_show_recent_files = "<leader>fg Recent Files"
 let g:WhichKeyDesc_file_opt_show_recent_locations = "<leader>fl Recent Locations"
 let g:WhichKeyDesc_file_opt_new_scratch_file = "<leader>fs New Scratch File"
 let g:WhichKeyDesc_file_opt_toggle_nerdtree = "<leader>fe Toggle NERDTree"
@@ -299,21 +299,21 @@ let g:WhichKeyDesc_language_generate = "<leader>lG Generate"
 
 
 """ Bookmarks
-nmap <leader>bm <Action>(Bookmarks)
-nmap <leader>bs <Action>(ShowBookmarks)
-nmap <leader>bt <Action>(ActivateBookmarksToolWindow)
-nmap <leader>bb <Action>(ToggleBookmark)
-nmap <leader>be <Action>(EditBookmark)
-nmap <leader>bp <Action>(GotoPreviousBookmark)
-nmap <leader>bn <Action>(GotoNextBookmark)
-let g:WhichKeyDesc_bookmarks = "<leader>b Bookmarks"
-let g:WhichKeyDesc_bookmarks_menu = "<leader>bm Bookmark Menu"
-let g:WhichKeyDesc_bookmarks_show = "<leader>bs Show Bookmarks"
-let g:WhichKeyDesc_bookmarks_tool = "<leader>bt Bookmark Tool"
-let g:WhichKeyDesc_bookmarks_toggle_bookmark = "<leader>bb Toggle Bookmark"
-let g:WhichKeyDesc_bookmarks_edit = "<leader>be Edit Bookmark"
-let g:WhichKeyDesc_bookmarks_prev = "<leader>bp Previous Bookmark"
-let g:WhichKeyDesc_bookmarks_next = "<leader>bn Next Bookmark"
+nmap <leader>jb <Action>(Bookmarks)
+nmap <leader>js <Action>(ShowBookmarks)
+nmap <leader>jw <Action>(ActivateBookmarksToolWindow)
+nmap <leader>jt <Action>(ToggleBookmark)
+nmap <leader>je <Action>(EditBookmark)
+nmap <leader>jh <Action>(GotoPreviousBookmark)
+nmap <leader>jl <Action>(GotoNextBookmark)
+let g:WhichKeyDesc_bookmarks = "<leader>j Bookmarks"
+let g:WhichKeyDesc_bookmarks_menu = "<leader>jb Bookmark Menu"
+let g:WhichKeyDesc_bookmarks_show = "<leader>js Show Bookmarks"
+let g:WhichKeyDesc_bookmarks_tool = "<leader>jw Bookmark Tool"
+let g:WhichKeyDesc_bookmarks_toggle_bookmark = "<leader>jt Toggle Bookmark"
+let g:WhichKeyDesc_bookmarks_edit = "<leader>je Edit Bookmark"
+let g:WhichKeyDesc_bookmarks_prev = "<leader>jh Previous Bookmark"
+let g:WhichKeyDesc_bookmarks_next = "<leader>jl Next Bookmark"
 
 
 " Go To
@@ -321,13 +321,13 @@ nmap <leader>gd <Action>(GotoDeclaration)
 nmap <leader>go <Action>(GotoSuperMethod)
 nmap <leader>gD <Action>(GotoTypeDeclaration)
 nmap <leader>gi <Action>(GotoImplementation)
-nmap <leader>gT <Action>(GotoTest)
+nmap <leader>gt <Action>(GotoTest)
 let g:WhichKeyDesc_goto = "<leader>g Go To"
 let g:WhichKeyDesc_goto_declaration = "<leader>gd Go To Declaration"
 let g:WhichKeyDesc_goto_super_method = "<leader>go Go To Super Method"
 let g:WhichKeyDesc_goto_type_declaration = "<leader>gD Go To Type Declaration"
 let g:WhichKeyDesc_goto_implementation = "<leader>gi Go To Implementation"
-let g:WhichKeyDesc_goto_test = "<leader>gT Go To Test"
+let g:WhichKeyDesc_goto_test = "<leader>gt Go To Test"
 
 
 " Search
