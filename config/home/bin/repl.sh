@@ -18,7 +18,7 @@ mKeys() {
 # Note: key must not have spaces.
 map['IPython']='nix run nixpkgs#python312Packages.ipython'
 map['NodeJS']='nix run nixpkgs#nodejs'
-map['LLama3']='ollama run llama3'
+map['LLama3']='ollama run llama3.1'
 map['Nix']='nix repl'
 
 key=$(printf $(mKeys) | tofi)

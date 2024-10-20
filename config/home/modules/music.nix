@@ -3,7 +3,10 @@ let
   MUSIC = /mnt/share/Music;
 in
 {
-  home.packages = with pkgs; [ mpc-cli ];
+  home.packages = with pkgs; [
+    mpc-cli
+    (writeShellScriptBin "genplaylists" (builtins.readFile ../bin/genplaylists.sh))
+  ];
 
   services.mpd = {
     enable = true;
