@@ -42,3 +42,4 @@ home-manager switch --flake ./
   - add samba creds, /root/secrets/samba
   - add wg creds, /root/secrets/wg/wg0.conf
   - add optimizer license key
+- replace hardcode paths in environment.nix and ide.nix
