@@ -16,6 +16,7 @@
     ./modules/passman.nix
     ./modules/imv.nix
     ./modules/music.nix
+    ./modules/ide.nix
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
@@ -97,9 +98,6 @@
       ncdu
       python311Packages.ipython
 
-      # Editors and IDEs
-      jetbrains-toolbox
-
       # Dev Tools
       lazydocker
       podman-compose
@@ -122,7 +120,6 @@
       # ".screenrc".source = dotfiles/screenrc;
       ".local/share/python_history".text = '''';
       ".cache/pg/psql_history".text = '''';
-      ".ideavimrc".source = ./config/.ideavimrc;
 
       # # You can also set the file content immediately.
       # ".gradle/gradle.properties".text = ''
