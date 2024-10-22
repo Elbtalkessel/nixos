@@ -5,8 +5,12 @@
       fsnotifier
     ];
 
-    file = {
-      ".ideavimrc".source = ../config/.ideavimrc;
-    };
+    #sessionVariables = {
+    #  PYCHARM_PROPERTIES = "/home/risus/.config/idea/idea.properties";
+    #};
+  };
+
+  xdg.configFile = {
+    "ideavim/ideavimrc".source = ../config/ideavim/ideavimrc;
   };
 }
