@@ -27,7 +27,7 @@ cmd delete ${{
 cmd moveto ${{
   set -f
   clear; echo "Move to where?"
-  dest="$(find ~ -type d -print 2>/dev/null | fzf)" &&
+  dest="$(find $OLDPWD -type d -print 2>/dev/null | fzf)" &&
   eval mv -iv $fx $dest &&
   notify-send "File(s) moved." "File(s) moved to $dest."
 }}
@@ -35,19 +35,34 @@ cmd moveto ${{
 cmd copyto ${{
   set -f
   clear; echo "Copy to where?"
-  dest="$(find ~ -type d -print 2>/dev/null | fzf)" &&
+  dest="$(find $OLDPWD -type d -print 2>/dev/null | fzf)" &&
   eval cp -ivr $fx $dest &&
   notify-send "File(s) copied." "File(s) copies to $dest."
 }}
 
 # Bindings
-map J $lf -remote "send $id cd $(find ~ -type d -print 2>/dev/null | fzf)"
+# Find and open a file or directory
+map f ${{
+  set -f
+  path=$(find $OLDPWD -print 2>/dev/null | fzf)
+  notify-send 'test' "$path"
+  if [ $(file --mime-type "$path" -b) == "inode/directory" ]; then
+    lf -remote "send $id cd $path"
+  else
+    lf -remote "send $id open $path"
+  fi
+}}
+
 map g top
-map D delete
-map C copyto
-map M moveto
-map a push %mkdir<space>
+map d delete
+map c copyto
+map m moveto
+map a ${{
+  set -f
+  clear; read -p "Create a directory or file in $PWD, name? " path
+  mkdir -p $(dirname $path)
+  touch $path
+  lf -remote "send $id select $path"
+}}
 map r push :rename<space>
-map R $lf -remote "send $id push :rename<space>$f"
 map <enter> shell
-map X !$f

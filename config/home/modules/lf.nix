@@ -1,7 +1,12 @@
-_: {
+{ pkgs, ... }: {
   programs.lf = {
     enable = true;
   };
+
+  home.packages = with pkgs; [
+    # Required to extract mime-type to handle a file or directory
+    file
+  ];
 
   # requires fzf
   xdg.configFile = {

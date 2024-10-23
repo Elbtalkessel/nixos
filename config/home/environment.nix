@@ -48,10 +48,7 @@
     JUPYTER_CONFIG_DIR = "/home/risus/.config/jupyter";
     CUDA_CACHE_PATH = "/home/risus/.cache/nv";
     # pg dirs should be created before hand
-    PSQLRC = "/home/risus/.config/pg/psqlrc";
     PSQL_HISTORY = "/home/risus/.cache/pg/psql_history";
-    PGPASSFILE = "/home/risus/.config/pg/pgpass";
-    PGSERVICEFILE = "/home/risus/.config/pg/pg_service.conf";
     MYSQL_HISTFILE = "/home/risus/.local/share/mysql_history";
     # should be created
     PYTHONSTARTUP = "/home/risus/.local/share/python_history";
