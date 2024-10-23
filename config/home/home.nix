@@ -113,43 +113,46 @@
 
     # Home Manager is pretty good at managing dotfiles. The primary way to manage
     # plain files is through 'home.file'.
-    file = {
-      # # Building this configuration will create a copy of 'dotfiles/screenrc' in
-      # # the Nix store. Activating the configuration will then make '~/.screenrc' a
-      # # symlink to the Nix store copy.
-      # ".screenrc".source = dotfiles/screenrc;
-      ".local/share/python_history".text = '''';
-      ".cache/pg/psql_history".text = '''';
+    #file = {
+    # # Building this configuration will create a copy of 'dotfiles/screenrc' in
+    # # the Nix store. Activating the configuration will then make '~/.screenrc' a
+    # # symlink to the Nix store copy.
+    # ".screenrc".source = dotfiles/screenrc;
 
-      # # You can also set the file content immediately.
-      # ".gradle/gradle.properties".text = ''
-      #   org.gradle.console=verbose
-      #   org.gradle.daemon.idletimeout=3600000
-      # '';
-    };
+    # # You can also set the file content immediately.
+    # ".gradle/gradle.properties".text = ''
+    #   org.gradle.console=verbose
+    #   org.gradle.daemon.idletimeout=3600000
+    # '';
+    #};
   };
 
   programs = {
     # Let Home Manager install and manage itself.
     home-manager.enable = true;
 
+    # "Smarter" cd, tracks visited directories and allows to jump back by typing its name without full path
     zoxide = {
       enable = true;
       options = [ "--cmd cd" ];
     };
 
+    # Fuzzy search, likely neovim dependency, I don't remember...
     fzf = {
       enable = true;
     };
 
+    # Better "ls"
     eza = {
       enable = true;
     };
 
+    # Better "cat"
     bat = {
       enable = true;
     };
 
+    # Devenv "soft" dependency, automatically uses devenv on "cd"
     direnv = {
       enable = true;
       # Does not work:
@@ -163,6 +166,7 @@
   };
 
   services = {
+    # USB automount
     udiskie = {
       enable = true;
       notify = true;
@@ -175,6 +179,7 @@
   };
 
   xdg.configFile = {
+    # Tofi laucher theme
     "tofi/config".source = ./config/tofi/fullscreen;
     "wget/wgetrc".source = ./config/wget/wgetrc;
     # TMPFS caching, https://github.com/direnv/direnv/wiki/Customizing-cache-location#direnv-cache-on-tmpfs
