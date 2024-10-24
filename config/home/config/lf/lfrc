@@ -16,41 +16,45 @@ cmd open ${{
 
 cmd rename %[ -e $1 ] && printf "file exists" || mv $f $1
 
-cmd delete ${{
-  set -f
-  printf "%s\n\t" "$fx"
-  printf "delete?[y/N] "
-  read ans
-  [ $ans = "y" ] && echo $fx | xargs -I'{}' rm -r '{}'
-}}
-
-cmd moveto ${{
-  set -f
-  clear; echo "Move to where?"
-  dest="$(find $OLDPWD -type d -print 2>/dev/null | fzf)" &&
-  eval mv -iv $fx $dest &&
-  notify-send "File(s) moved." "File(s) moved to $dest."
-}}
-
-cmd copyto ${{
-  set -f
-  clear; echo "Copy to where?"
-  dest="$(find $OLDPWD -type d -print 2>/dev/null | fzf)" &&
-  eval cp -ivr $fx $dest &&
-  notify-send "File(s) copied." "File(s) copies to $dest."
-}}
-
-# Bindings
-# Find a file
+# Bindings.
+# fuzzy file search
 map f ${{
   set -f
   path=$(fzf --walker-root $OLDPWD --walker-skip=.git,.devenv,.venv)
   lf -remote "send $id select $path"
 }}
+
+# jump to top
 map g top
-map d delete
-map c copyto
-map m moveto
+
+# delete a file or directory
+map d ${{
+  set -f
+  printf "%s\n\t" "$fx"
+  printf "delete?[y/n] "
+  read ans
+  if [ $ans = "y" ]; then
+    while IFS= read -r f; do
+      rm -rv $f
+    done <<< "$fx"
+  fi
+}}
+
+# copy a file or directory
+map c ${{
+  set -f
+  dest="$(find $OLDPWD -type d -print 2>/dev/null | fzf)" &&
+  eval cp -ivr $fx $dest
+}}
+
+# move a file or directory
+map m ${{
+  set -f
+  dest="$(find $OLDPWD -type d -print 2>/dev/null | fzf)" &&
+  eval mv -iv $fx $dest
+}}
+
+# create a file or directory
 map a ${{
   set -f
   echo "Content of directory $PWD"
@@ -64,4 +68,5 @@ map a ${{
   fi
   lf -remote "send $id select $path"
 }}
+
 map r push :rename<space>
