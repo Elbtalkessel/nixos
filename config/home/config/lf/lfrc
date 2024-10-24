@@ -69,4 +69,10 @@ map a ${{
   lf -remote "send $id select $path"
 }}
 
+map <backspace2> ${{
+  set -f
+  lf -remote "send $id cd $(dirname $PWD)"
+}}
+
 map r push :rename<space>
+map <enter> open
