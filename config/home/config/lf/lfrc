@@ -47,7 +47,7 @@ map m ${{
 }}
 
 # a - append, creates a file or a directory if path ends with slash.
-# % - run shell command inside UI
+# % - run shell command inside UI.
 map a %{{
   set -f
   printf " file name or directory path: "
@@ -62,9 +62,9 @@ map a %{{
 }}
 
 # navigate back up to starting directory
-map <backspace2> ${{
+# & - run command asynchronously, or you will get screen flicker.
+map <backspace2> &{{
   # You still can leave starting dir by pressing `h`.
-  # FIXME: probably because of -remote lf redraws on backspace2 press.
   if [[ "$PWD" != "$OLDPWD" ]]; then
     lf -remote "send $id updir"
   fi
