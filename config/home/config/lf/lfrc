@@ -7,6 +7,7 @@ set previewer ~/.config/lf/preview
 set shellopts '-eu'
 set ifs "\n"
 set scrolloff 10
+set icons true
 
 # cmds/functions
 cmd open ${{
@@ -46,11 +47,11 @@ map m ${{
 }}
 
 # a - append, creates a file or a directory if path ends with slash.
-map a ${{
+# % - run shell command inside UI
+map a %{{
   set -f
-  echo "Content of directory $PWD"
-  exa -a -s type
-  read -p "New file or directory name? " path
+  printf " file name or directory path: "
+  read path
   if [[ $path == */ ]]; then
     mkdir -p $path
   else
