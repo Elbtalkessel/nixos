@@ -17,6 +17,7 @@ cmd open ${{
 cmd rename %[ -e $1 ] && printf "file exists" || mv $f $1
 
 # Bindings.
+# Search and naviagtion is done recursively from a directory where LF has been started (OLDPWD).
 # fuzzy file search
 map f ${{
   set -f
@@ -24,7 +25,7 @@ map f ${{
   lf -remote "send $id select $path"
 }}
 
-# jump to top
+# jump to top (shift + g jumps down)
 map g top
 
 # delete a file or directory
@@ -42,14 +43,12 @@ map d ${{
 
 # copy a file or directory
 map c ${{
-  set -f
   dest="$(find $OLDPWD -type d -print 2>/dev/null | fzf)" &&
   eval cp -ivr $fx $dest
 }}
 
 # move a file or directory
 map m ${{
-  set -f
   dest="$(find $OLDPWD -type d -print 2>/dev/null | fzf)" &&
   eval mv -iv $fx $dest
 }}
@@ -70,8 +69,12 @@ map a ${{
 }}
 
 map <backspace2> ${{
-  set -f
-  lf -remote "send $id cd $(dirname $PWD)"
+  # Disallow leaving OLDPWD
+  # You still can leave it pressing `h`.
+  # FIXME: probably because of -remote lf redraws on backspace2 press.
+  if [[ "$PWD" != "$OLDPWD" ]]; then
+    lf -remote "send $id cd $(dirname $PWD)"
+  fi
 }}
 
 map r push :rename<space>
