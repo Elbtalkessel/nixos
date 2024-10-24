@@ -1,3 +1,4 @@
+# Bigger third pane to give file preview more space.
 set ratios 1:2:3
 
 # Basic vars
@@ -14,46 +15,37 @@ cmd open ${{
     esac
 }}
 
+# Enhances the builtin rename command checking if specified node exists before renaming.
 cmd rename %[ -e $1 ] && printf "file exists" || mv $f $1
 
 # Bindings.
 # Search and naviagtion is done recursively from a directory where LF has been started (OLDPWD).
-# fuzzy file search
+# fuzzy file search. Default is builtin find command, but I don't find it useful :)
 map f ${{
   set -f
   path=$(fzf --walker-root $OLDPWD --walker-skip=.git,.devenv,.venv)
   lf -remote "send $id select $path"
 }}
 
-# jump to top (shift + g jumps down)
-map g top
+# remaps cut from `d` to `x`, easier to remember.
+map d delete
+map x cut
 
-# delete a file or directory
-map d ${{
-  set -f
-  printf "%s\n\t" "$fx"
-  printf "delete?[y/n] "
-  read ans
-  if [ $ans = "y" ]; then
-    while IFS= read -r f; do
-      rm -rv $f
-    done <<< "$fx"
-  fi
-}}
-
-# copy a file or directory
+# remaps `c` - clear to fuzzy copy, and sets clear on `e` (bc empty).
 map c ${{
   dest="$(find $OLDPWD -type d -print 2>/dev/null | fzf)" &&
-  eval cp -ivr $fx $dest
+  eval cp -ir $fx $dest
 }}
+# clears y (yank) or cut (x) selection.
+map e clear
 
-# move a file or directory
+# m - move a file / directory or a selection to a directory
 map m ${{
   dest="$(find $OLDPWD -type d -print 2>/dev/null | fzf)" &&
-  eval mv -iv $fx $dest
+  eval mv -i $fx $dest
 }}
 
-# create a file or directory
+# a - append, creates a file or a directory if path ends with slash.
 map a ${{
   set -f
   echo "Content of directory $PWD"
@@ -68,12 +60,12 @@ map a ${{
   lf -remote "send $id select $path"
 }}
 
+# navigate back up to starting directory
 map <backspace2> ${{
-  # Disallow leaving OLDPWD
-  # You still can leave it pressing `h`.
+  # You still can leave starting dir by pressing `h`.
   # FIXME: probably because of -remote lf redraws on backspace2 press.
   if [[ "$PWD" != "$OLDPWD" ]]; then
-    lf -remote "send $id cd $(dirname $PWD)"
+    lf -remote "send $id updir"
   fi
 }}
 
