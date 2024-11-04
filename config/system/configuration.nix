@@ -20,14 +20,6 @@ in
   ];
 
   boot = {
-    initrd.luks.devices = {
-      root = {
-        device = "/dev/disk/by-uuid/6eb60a50-cb6b-48c3-82da-a3ef3aee9a02";
-        preLVM = true;
-        allowDiscards = true;
-      };
-    };
-
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
@@ -78,7 +70,11 @@ in
     # Open ports in the firewall.
     # Allow HTTP and HTTPS traffic, required for guest vm to access host,
     # ideally to narrow down to specific IP.
-    firewall.allowedTCPPorts = [ 80 443 8000 ];
+    firewall.allowedTCPPorts = [
+      80
+      443
+      8000
+    ];
   };
 
   # Set your time zone.
@@ -128,7 +124,14 @@ in
   users.users.${username} = {
     isNormalUser = true;
     description = "${username}";
-    extraGroups = [ "networkmanager" "input" "wheel" "video" "audio" "tss" ];
+    extraGroups = [
+      "networkmanager"
+      "input"
+      "wheel"
+      "video"
+      "audio"
+      "tss"
+    ];
     shell = pkgs.fish;
   };
 
