@@ -23,11 +23,16 @@ echo -n "password" | sudo tee /tmp/secret.key
 sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko virt-disko.nix
 
 # Installation
+# Note: nix caches flakes, if you change it, use commit hash to re-download latest changes:
+# `git log --oneline | head -1 | awk '{print $1}' | xargs git rev-parse` instead of `deploy`.
 sudo nixos-install -v --root /mnt --flake github:Elbtalkessel/nixos/deploy#virt --impure --no-write-lock-file
 
-# Reboot
-
-home-manager switch --flake github:Elbtalkessel/nixos/deploy#omen
+# Reboot, it will briefly complain about hyprland and kick to greeter, change tty, login as root,
+# set user password, logout and login as a regular user
+# FIXME: workaround:
+rm -r .config/fish
+# install...
+home-manager switch --flake github:Elbtalkessel/nixos/deploy#risus
 ```
 
 ## To do
