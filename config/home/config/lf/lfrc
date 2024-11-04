@@ -8,12 +8,14 @@ set shellopts '-eu'
 set ifs "\n"
 set scrolloff 10
 set icons true
+set hidden true
 
 # cmds/functions
 cmd open ${{
-    case $(file --mime-type $f -b) in
-      text/*|application/json) $EDITOR $fx;;
-    esac
+  # inode/x-empty a file without an extension and with no content
+  case $(file --mime-type $f -b) in
+    text/*|application/json|inode/x-empty) $EDITOR $fx;;
+  esac
 }}
 
 # Enhances the builtin rename command checking if specified node exists before renaming.
@@ -30,6 +32,7 @@ map f ${{
 
 # remaps cut from `d` to `x`, easier to remember.
 map d delete
+map <delete> delete
 map x cut
 
 # remaps `c` - clear to fuzzy copy, and sets clear on `e` (bc empty).

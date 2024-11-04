@@ -1,6 +1,6 @@
 _: {
   services.ollama = {
-    enable = true;
+    enable = false;
     home = "/media/ollama";
     models = "/media/ollama/models";
   };

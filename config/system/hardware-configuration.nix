@@ -18,7 +18,7 @@
   };
 
   hardware = {
-    nvidia.open = false;
+    nvidia.open = true;
   };
 
   fileSystems = {

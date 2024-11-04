@@ -83,7 +83,7 @@
       xdg-user-dirs
       brightnessctl
       gnome-calculator
-      wl-screenrec
+      #wl-screenrec
       pavucontrol
       nix-search-cli
 

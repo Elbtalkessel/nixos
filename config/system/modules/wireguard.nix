@@ -3,6 +3,7 @@ _: {
   # Protonvpn doesn't support v6
   # networking.enableIPv6 = false; doesn't work.
   boot.kernelParams = [ "ipv6.disable=1" ];
+  networking.wireguard.enable = false;
   networking.wg-quick.interfaces = {
     wg0 = {
       address = [
