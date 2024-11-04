@@ -1,34 +1,22 @@
 ## NixOS system and home configuration files
 
-![Desktop](./preview.png?raw=true)
+### Deployment
 
-- Add nixvim to registry: `nix registry add flake:nixvim git+file:///home/risus/nix/nixvim`
-- `sudo nix run 'github:nix-community/disko/latest#disko-install' -- --flake 'nix/config#omen' --disk main /dev/<override>`
-
-## Deploy
-
-The `setup` folder contains some scripts for deploying nixos on a blank drive, LUKS on LLM and systemd boot (optionally grub for old machines).
-
-## Install
-
-1. Enable flake support in your current nixos configuration:
-
-```nix
-nix = {
-  package = pkgs.nixFlakes;
-  extraOptions = ''
-    experimental-features = nix-command flakes
-  '';
-};
-```
-
-2. Enable standalone home-manager: [Standalone installation](https://nix-community.github.io/home-manager/index.xhtml#sec-install-standalone)
-
-3. Apply configurations:
+Two-steps process, first download and adjust disko.nix configuration,
+then use nixos-install to install onto newly created partition.
+The disko-install utility tries to download everything at once and hits disk space limit
+when you install from a live usb.
 
 ```sh
-sudo nixos-rebuild switch --flake ./
-home-manager switch --flake ./
+curl https://raw.githubusercontent.com/Elbtalkessel/nixos/deploy/config/disko.nix -o disko.nix
+# Adjust value of disk.main.device
+vim disko.nix
+# Set encryption password
+echo -n "password" | sudo tee /tmp/secret.key
+# Partition the selected device
+sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko disko.nix
+# Install
+sudo nixos-install -v --root /mnt --flake github:Elbtalkessel/nixos/deploy/config#omen --impure
 ```
 
 ## To do

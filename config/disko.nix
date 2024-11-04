@@ -31,7 +31,7 @@
                   format = "ext4";
                   mountpoint = "/";
                   mountOptions = [
-                    "default"
+                    "defaults"
                     "noatime"
                   ];
                 };
