@@ -1,14 +1,15 @@
 {
   disko.devices = {
     disk = {
-      main = {
+      vda = {
         type = "disk";
         device = "/dev/vda";
         content = {
           type = "gpt";
           partitions = {
-
             ESP = {
+              label = "EFI";
+              name = "ESP";
               size = "512M";
               type = "EF00";
               content = {
@@ -19,13 +20,13 @@
               };
             };
 
-            root = {
+            main = {
               end = "-16G";
               content = {
                 type = "luks";
-                name = "crypted";
-                settings.allowDiscards = true;
+                name = "main";
                 passwordFile = "/tmp/secret.key";
+                settings.allowDiscards = true;
                 content = {
                   type = "filesystem";
                   format = "ext4";

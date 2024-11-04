@@ -8,9 +8,7 @@ The `disko-install` utility tries to download everything at once and hits disk s
 when you install from a live USB.
 
 ```sh
-curl https://raw.githubusercontent.com/Elbtalkessel/nixos/deploy/disko.nix -o disko.nix
-# Adjust value of disk.main.device
-vim disko.nix
+curl https://raw.githubusercontent.com/Elbtalkessel/nixos/refs/heads/deploy/hw/virt-disco.nix -o disko.nix
 # Set encryption password
 echo -n "password" | sudo tee /tmp/secret.key
 # Partition the selected device
