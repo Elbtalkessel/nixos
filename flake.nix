@@ -37,8 +37,7 @@
           inherit system;
           modules = [
             disko.nixosModules.disko
-            ./hw/virt-disko.nix
-            ./hw/virt-configuration.nix
+            ./hosts/virt.nix
             ./system/configuration.nix
           ];
         };
@@ -51,8 +50,7 @@
             # amp cpu + amd cpu pstate + amd gpu + nvidia + ssd
             nixos-hardware.nixosModules.omen-15-en0010ca
             disko.nixosModules.disko
-            ./hw/disko.nix
-            ./hw/configuration.nix
+            ./hosts/omen.nix
             ./system/configuration.nix
           ];
         };

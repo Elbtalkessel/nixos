@@ -1,5 +1,13 @@
 ## `NixOS` system and home configuration files
 
+### Layout
+
+- flake.nix:
+  - ./home: home-manager modules
+  - ./hosts: machine specific configuration
+  - ./system: shared machine configuration
+  - ./packages: some 3rd party binaries packaged for nix
+
 ### Deployment
 
 > `disko-install` does not work for me when installing from a live USB

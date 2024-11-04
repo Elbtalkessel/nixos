@@ -2,25 +2,23 @@
 # and may be overwritten by future invocations.  Please make changes
 # to /etc/nixos/configuration.nix instead.
 {
-  config,
   lib,
   modulesPath,
   ...
 }:
 {
   imports = [
-    (modulesPath + "/installer/scan/not-detected.nix")
+    (modulesPath + "/profiles/qemu-guest.nix")
+    ./virt-disko.nix
   ];
 
   boot = {
     initrd.availableKernelModules = [
-      "nvme"
+      "ahci"
       "xhci_pci"
-      "uas"
-      "usbhid"
-      "usb_storage"
-      "sd_mod"
-      "sdhci_pci"
+      "virtio_pci"
+      "sr_mod"
+      "virtio_blk"
     ];
     initrd.kernelModules = [ ];
     kernelModules = [ "kvm-amd" ];
@@ -36,5 +34,4 @@
   # networking.interfaces.wlo1.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
