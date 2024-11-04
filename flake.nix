@@ -31,21 +31,32 @@
         bootdev = import ./packages/bootdev/default.nix { inherit pkgs; };
       };
 
-      # System configuration
-      # NixOS configuration per host
-      nixosConfigurations.omen = nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = [
-          # The closest one to my laptop,
-          # amp cpu + amd cpu pstate + amd gpu + nvidia + ssd
-          nixos-hardware.nixosModules.omen-15-en0010ca
-          disko.nixosModules.disko
-          ./disko.nix
-          ./hardware-configuration.nix
-          ./system/configuration.nix
-        ];
+      nixosConfigurations = {
+        # Virtual machine, for testing, closely follows the main machine.
+        virt = nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            disko.nixosModules.disko
+            ./hw/virt-disko.nix
+            ./hw/configuration.nix
+            ./system/configuration.nix
+          ];
+        };
+
+        # Main machine configuration
+        omen = nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            # The closest one to my laptop,
+            # amp cpu + amd cpu pstate + amd gpu + nvidia + ssd
+            nixos-hardware.nixosModules.omen-15-en0010ca
+            disko.nixosModules.disko
+            ./hw/disko.nix
+            ./hw/configuration.nix
+            ./system/configuration.nix
+          ];
+        };
       };
-      # -- System
 
       # Home configuration
       homeConfigurations.risus = home-manager.lib.homeManagerConfiguration {
@@ -65,6 +76,5 @@
           ./home/home.nix
         ];
       };
-      # -- Home
     };
 }
