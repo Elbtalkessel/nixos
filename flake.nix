@@ -38,7 +38,7 @@
           modules = [
             disko.nixosModules.disko
             ./hw/virt-disko.nix
-            ./hw/configuration.nix
+            ./hw/virt-configuration.nix
             ./system/configuration.nix
           ];
         };

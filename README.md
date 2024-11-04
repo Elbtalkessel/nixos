@@ -2,20 +2,28 @@
 
 ### Deployment
 
-Two-steps process, first download and adjust the `disko.nix` configuration,
-then use `nixos-install` to install onto newly created partition.
-The `disko-install` utility tries to download everything at once and hits disk space limit
-when you install from a live USB.
+> `disko-install` does not work for me when installing from a live USB
+
+Instruction is for a virtual machine and for booting from a live USB.
 
 ```sh
-curl https://raw.githubusercontent.com/Elbtalkessel/nixos/refs/heads/deploy/hw/virt-disco.nix -o disko.nix
+# If you're using minimal installation, it will be easier to connection via ssh,
+# grab machine's IP address:
+virsh net-dhcp-leases
+# set any password while you're inside virtual machine:
+passwd
+# open a terminal session, run
+ssh nixos@192.168.122.121
+
+# Partitioning
+curl https://raw.githubusercontent.com/Elbtalkessel/nixos/refs/heads/deploy/hw/virt-disko.nix -o virt-disko.nix
 # Set encryption password
 echo -n "password" | sudo tee /tmp/secret.key
-# Partition the selected device
-sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko disko.nix
+# Partition the selected device. It will wipe /dev/vda (or any other device in the virt-disko.nix)
+sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko virt-disko.nix
 
-# Install
-sudo nixos-install -v --root /mnt --flake github:Elbtalkessel/nixos/deploy#omen --impure --no-write-lock-file
+# Installation
+sudo nixos-install -v --root /mnt --flake github:Elbtalkessel/nixos/deploy#virt --impure --no-write-lock-file
 
 # Reboot
 
