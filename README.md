@@ -1,6 +1,9 @@
 ## NixOS system and home configuration files
 
-![Dekstop](./preview.png?raw=true)
+![Desktop](./preview.png?raw=true)
+
+- Add nixvim to registry: `nix registry add flake:nixvim git+file:///home/risus/nix/nixvim`
+- `sudo nix run 'github:nix-community/disko/latest#disko-install' -- --flake 'nix/config#omen' --disk main /dev/<override>`
 
 ## Deploy
 

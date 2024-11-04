@@ -9,7 +9,6 @@ let
 in
 {
   imports = [
-    ./hardware-configuration.nix
     ./modules/logiops.nix
     ./modules/samba.nix
     ./modules/virtualisation.nix

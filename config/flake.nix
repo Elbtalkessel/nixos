@@ -9,15 +9,20 @@
     # `nix registry add <local or remote>`
     # git+file:///.../nixvim is current value
     nixvim.url = "flake:nixvim";
+    disko = {
+      url = "github:nix-community/disko/latest";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
-    { self
-    , nixpkgs
-    , nixos-hardware
-    , home-manager
-    , nixvim
-    ,
+    {
+      self,
+      nixpkgs,
+      nixos-hardware,
+      home-manager,
+      nixvim,
+      disko,
     }:
     let
       system = "x86_64-linux";
@@ -37,6 +42,9 @@
           # The closest one to my laptop,
           # amp cpu + amd cpu pstate + amd gpu + nvidia + ssd
           nixos-hardware.nixosModules.omen-15-en0010ca
+          disko.nixosModules.disko
+          ./disko.nix
+          ./hardware-configuration.nix
           ./system/configuration.nix
         ];
       };
