@@ -62,6 +62,9 @@ in
       };
       "wireless.env" = { };
       "moon/risus" = { };
+      "optimizer/license" = {
+        owner = config.users.users.risus.name;
+      };
     };
   };
 
