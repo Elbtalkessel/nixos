@@ -1,7 +1,12 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ pkgs, ... }:
+{
+  pkgs,
+  inputs,
+  config,
+  ...
+}:
 let
   tuigreet = "${pkgs.greetd.tuigreet}/bin/tuigreet";
   session = "Hyprland";
@@ -9,11 +14,12 @@ let
 in
 {
   imports = [
-    ./hardware-configuration.nix
+    inputs.disko.nixosModules.disko
+    inputs.sops-nix.nixosModules.sops
     ./modules/logiops.nix
     ./modules/samba.nix
     ./modules/virtualisation.nix
-    ./modules/wireguard.nix
+    #./modules/wireguard.nix
     ./modules/flatpak.nix
     ./modules/ollama.nix
     ./modules/bluetooth.nix
@@ -21,9 +27,13 @@ in
 
   boot = {
     loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-      efi.efiSysMountPoint = "/boot/efi";
+      systemd-boot = {
+        enable = true;
+      };
+      efi = {
+        canTouchEfiVariables = true;
+        efiSysMountPoint = "/boot";
+      };
     };
 
     kernel.sysctl = {
@@ -36,6 +46,25 @@ in
       "fs.inotify.max_user_watches" = "1048576";
       # I have on average 400 processes running, double it and add a bit more just in case.
       "fs.inotify.max_user_instances" = "1024";
+    };
+  };
+
+  sops = {
+    defaultSopsFile = ./secrets/secrets.yaml;
+    defaultSopsFormat = "yaml";
+    age = {
+      keyFile = "/home/${username}/.config/sops/age/keys.txt";
+    };
+    secrets = {
+      "users/risus/password" = {
+        # https://github.com/Mic92/sops-nix?tab=readme-ov-file#setting-a-users-password
+        neededForUsers = true;
+      };
+      "wireless.env" = { };
+      "moon/risus" = { };
+      "optimizer/license" = {
+        owner = config.users.users.risus.name;
+      };
     };
   };
 
@@ -57,7 +86,28 @@ in
 
   # Enable networking
   networking = {
-    networkmanager.enable = true;
+    networkmanager = {
+      enable = true;
+      ensureProfiles = {
+        environmentFiles = [ config.sops.secrets."wireless.env".path ];
+
+        profiles = {
+          # --- HOME WIFI ---
+          home-wifi = {
+            connection.id = "home-wifi";
+            connection.type = "wifi";
+            wifi.ssid = "$HOME_WIFI_SSID";
+            wifi-security = {
+              auth-alg = "open";
+              key-mgmt = "wpa-psk";
+              psk = "$HOME_WIFI_PASSWORD";
+            };
+          };
+          # ---
+        };
+      };
+    };
+
     hostName = "omen";
     extraHosts = ''
       192.168.1.90 moon
@@ -104,25 +154,26 @@ in
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = false;
-  };
-  # virt-manager requires dconf to remember settings
   programs = {
+    # virt-manager requires dconf to remember settings
     dconf.enable = true;
-    fish.enable = true;
     nix-ld.enable = true;
     nix-ld.libraries = [
       # Add any missing dynamic libraries for unpackaged programs
       # here, NOT in environment.systemPackages
     ];
+    gnupg.agent = {
+      enable = true;
+      enableSSHSupport = false;
+    };
+    zsh.enable = true;
   };
 
   # USERS
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${username} = {
     isNormalUser = true;
+    hashedPasswordFile = config.sops.secrets."users/risus/password".path;
     description = "${username}";
     extraGroups = [
       "networkmanager"
@@ -132,7 +183,7 @@ in
       "audio"
       "tss"
     ];
-    shell = pkgs.fish;
+    shell = pkgs.zsh;
   };
 
   # SECURITY
@@ -180,6 +231,9 @@ in
       };
     };
     gnome.gnome-keyring.enable = true;
+    # Daemon for updating some devices' firmware
+    # https://github.com/fwupd/fwupd
+    fwupd.enable = true;
   };
 
   xdg = {
@@ -192,6 +246,9 @@ in
   environment.systemPackages = with pkgs; [
     lm_sensors
     home-manager
+    git
+    neovim
+    curl
   ];
 
   fonts = {

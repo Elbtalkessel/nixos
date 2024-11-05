@@ -3,12 +3,13 @@
     disk = {
       main = {
         type = "disk";
-        device = "/dev/vdb";
+        device = "/dev/nvme0n1";
         content = {
           type = "gpt";
           partitions = {
+
             ESP = {
-              size = "500M";
+              size = "512M";
               type = "EF00";
               content = {
                 type = "filesystem";
@@ -17,8 +18,9 @@
                 mountOptions = [ "umask=0077" ];
               };
             };
-            luks = {
-              size = "100%";
+
+            root = {
+              end = "-32G";
               content = {
                 type = "luks";
                 name = "crypted";
@@ -28,7 +30,20 @@
                   type = "filesystem";
                   format = "ext4";
                   mountpoint = "/";
+                  mountOptions = [
+                    "defaults"
+                    "noatime"
+                  ];
                 };
+              };
+            };
+
+            swap = {
+              size = "100%";
+              content = {
+                type = "swap";
+                randomEncryption = true;
+                resumeDevice = true;
               };
             };
           };

@@ -1,0 +1,11 @@
+# To update secrets, run:
+#   nix-shell -p sops --run "sops secrets/secrets.yaml"
+# from this folder
+keys:
+  # nix shell "nixpkgs#age" -c age-keygen -y ~/.config/sops/age/keys.txt
+  - &primary age153gu22gclpxv504jahq5gjc0cgmt7lw5wafcgjtqplycxjz66gysqtjl6j
+creation_rules:
+  - path_regex: secrets/secrets.yaml$
+    key_groups:
+      - age:
+          - *primary

@@ -5,20 +5,22 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager.url = "github:nix-community/home-manager/master";
-    # Add a correct URL to the nix registry,
-    # `nix registry add <local or remote>`
-    # git+file:///.../nixvim is current value
-    nixvim.url = "flake:nixvim";
+    nixvim.url = "github:Elbtalkessel/nixvim/custom";
+    disko = {
+      url = "github:nix-community/disko/latest";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    sops-nix.url = "github:Mic92/sops-nix";
   };
 
   outputs =
-    { self
-    , nixpkgs
-    , nixos-hardware
-    , home-manager
-    , nixvim
-    ,
-    }:
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      nixvim,
+      ...
+    }@inputs:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { system = "x86_64-linux"; };
@@ -29,18 +31,31 @@
         bootdev = import ./packages/bootdev/default.nix { inherit pkgs; };
       };
 
-      # System configuration
-      # NixOS configuration per host
-      nixosConfigurations.omen = nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = [
-          # The closest one to my laptop,
-          # amp cpu + amd cpu pstate + amd gpu + nvidia + ssd
-          nixos-hardware.nixosModules.omen-15-en0010ca
-          ./system/configuration.nix
-        ];
+      nixosConfigurations = {
+        # Virtual machine, for testing, closely follows the main machine.
+        virt = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = {
+            inherit inputs;
+          };
+          modules = [
+            ./hosts/virt.nix
+            ./system/configuration.nix
+          ];
+        };
+
+        # Main machine configuration
+        omen = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = {
+            inherit inputs;
+          };
+          modules = [
+            ./hosts/omen.nix
+            ./system/configuration.nix
+          ];
+        };
       };
-      # -- System
 
       # Home configuration
       homeConfigurations.risus = home-manager.lib.homeManagerConfiguration {
@@ -60,6 +75,5 @@
           ./home/home.nix
         ];
       };
-      # -- Home
     };
 }

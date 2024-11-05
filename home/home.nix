@@ -1,9 +1,10 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   imports = [
     ./aliases.nix
     ./environment.nix
     ./modules/alacritty.nix
-    ./modules/fish.nix
+    ./modules/shell.nix
     ./modules/git.nix
     ./modules/hyprland.nix
     ./modules/mako.nix
@@ -100,7 +101,6 @@
 
       # Dev Tools
       lazydocker
-      podman-compose
       devenv
 
       # Shell scripts
