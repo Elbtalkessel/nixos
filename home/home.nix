@@ -83,7 +83,7 @@
       mpv
       xdg-user-dirs
       brightnessctl
-      gnome-calculator
+      #gnome-calculator
       #wl-screenrec
       pavucontrol
       nix-search-cli
