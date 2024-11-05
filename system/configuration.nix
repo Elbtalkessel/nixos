@@ -12,7 +12,7 @@ in
     ./modules/logiops.nix
     ./modules/samba.nix
     ./modules/virtualisation.nix
-    ./modules/wireguard.nix
+    #./modules/wireguard.nix
     ./modules/flatpak.nix
     ./modules/ollama.nix
     ./modules/bluetooth.nix
@@ -20,9 +20,13 @@ in
 
   boot = {
     loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-      efi.efiSysMountPoint = "/boot";
+      systemd-boot = {
+        enable = true;
+      };
+      efi = {
+        canTouchEfiVariables = true;
+        efiSysMountPoint = "/boot";
+      };
     };
 
     kernel.sysctl = {
@@ -179,6 +183,9 @@ in
       };
     };
     gnome.gnome-keyring.enable = true;
+    # Daemon for updating some devices' firmware
+    # https://github.com/fwupd/fwupd
+    fwupd.enable = true;
   };
 
   xdg = {
