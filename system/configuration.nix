@@ -61,6 +61,7 @@ in
         neededForUsers = true;
       };
       "wireless.env" = { };
+      "moon/risus" = { };
     };
   };
 
