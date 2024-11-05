@@ -17,12 +17,10 @@
     {
       self,
       nixpkgs,
-      nixos-hardware,
       home-manager,
       nixvim,
-      disko,
-      sops-nix,
-    }:
+      ...
+    }@inputs:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { system = "x86_64-linux"; };
@@ -37,8 +35,10 @@
         # Virtual machine, for testing, closely follows the main machine.
         virt = nixpkgs.lib.nixosSystem {
           inherit system;
+          specialArgs = {
+            inherit inputs;
+          };
           modules = [
-            disko.nixosModules.disko
             ./hosts/virt.nix
             ./system/configuration.nix
           ];
@@ -47,16 +47,10 @@
         # Main machine configuration
         omen = nixpkgs.lib.nixosSystem {
           inherit system;
+          specialArgs = {
+            inherit inputs;
+          };
           modules = [
-            # Mostly from https://github.com/NixOS/nixos-hardware/blob/master/omen/16-n0280nd/default.nix
-            # The rest (kernel modules and prime config is in the omen.nix)
-            nixos-hardware.nixosModules.common-cpu-amd
-            nixos-hardware.nixosModules.common-cpu-amd-pstate
-            nixos-hardware.nixosModules.common-gpu-nvidia
-            nixos-hardware.nixosModules.common-pc-laptop
-            nixos-hardware.nixosModules.common-pc-laptop-ssd
-            disko.nixosModules.disko
-            sops-nix.nixosModules.sops
             ./hosts/omen.nix
             ./system/configuration.nix
           ];

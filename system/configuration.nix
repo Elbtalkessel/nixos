@@ -1,7 +1,7 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 let
   tuigreet = "${pkgs.greetd.tuigreet}/bin/tuigreet";
   session = "Hyprland";
@@ -9,6 +9,8 @@ let
 in
 {
   imports = [
+    inputs.disko.nixosModules.disko
+    inputs.sops-nix.nixosModules.sops
     ./modules/logiops.nix
     ./modules/samba.nix
     ./modules/virtualisation.nix
@@ -40,6 +42,16 @@ in
       # I have on average 400 processes running, double it and add a bit more just in case.
       "fs.inotify.max_user_instances" = "1024";
     };
+  };
+
+  sops = {
+    defaultSopsFile = ./secrets/secrets.yaml;
+    defaultSopsFormat = "yaml";
+    age = {
+      keyFile = "/home/${username}/.config/sops/age/keys.txt";
+    };
+    secrets."users/risus/password" = { };
+    secrets."wireless.env" = { };
   };
 
   nix = {
