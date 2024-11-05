@@ -1,7 +1,12 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ pkgs, inputs, ... }:
+{
+  pkgs,
+  inputs,
+  config,
+  ...
+}:
 let
   tuigreet = "${pkgs.greetd.tuigreet}/bin/tuigreet";
   session = "Hyprland";
@@ -50,8 +55,13 @@ in
     age = {
       keyFile = "/home/${username}/.config/sops/age/keys.txt";
     };
-    secrets."users/risus/password" = { };
-    secrets."wireless.env" = { };
+    secrets = {
+      "users/risus/password" = {
+        # https://github.com/Mic92/sops-nix?tab=readme-ov-file#setting-a-users-password
+        neededForUsers = true;
+      };
+      "wireless.env" = { };
+    };
   };
 
   nix = {
@@ -138,6 +148,7 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${username} = {
     isNormalUser = true;
+    hashedPasswordFile = config.sops.secrets."users/risus/password".path;
     description = "${username}";
     extraGroups = [
       "networkmanager"
