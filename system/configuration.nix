@@ -103,19 +103,19 @@ in
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = false;
-  };
-  # virt-manager requires dconf to remember settings
   programs = {
+    # virt-manager requires dconf to remember settings
     dconf.enable = true;
-    fish.enable = true;
     nix-ld.enable = true;
     nix-ld.libraries = [
       # Add any missing dynamic libraries for unpackaged programs
       # here, NOT in environment.systemPackages
     ];
+    gnupg.agent = {
+      enable = true;
+      enableSSHSupport = false;
+    };
+    zsh.enable = true;
   };
 
   # USERS
@@ -131,7 +131,7 @@ in
       "audio"
       "tss"
     ];
-    shell = pkgs.fish;
+    shell = pkgs.zsh;
   };
 
   # SECURITY

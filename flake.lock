@@ -22,6 +22,27 @@
         "type": "github"
       }
     },
+    "disko": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1730135292,
+        "narHash": "sha256-CI27qHAbc3/tIe8sb37kiHNaeCqGxNimckCMj0lW5kg=",
+        "owner": "nix-community",
+        "repo": "disko",
+        "rev": "ab58501b2341bc5e0fc88f2f5983a679b075ddf5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "ref": "latest",
+        "repo": "disko",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "locked": {
         "lastModified": 1696426674,
@@ -381,17 +402,18 @@
         "pre-commit-hooks": "pre-commit-hooks"
       },
       "locked": {
-        "lastModified": 1730728630,
-        "narHash": "sha256-OmBgSvJQtDxnxB6Wsh8W9P4lH0H4yvYv+ZpaaY/07TY=",
-        "ref": "refs/heads/custom",
-        "rev": "ad3da2ad698b8ca61a0ff66f79f5e31b57c24f57",
-        "revCount": 386,
-        "type": "git",
-        "url": "file:///home/risus/nix/nixvim"
+        "lastModified": 1730737806,
+        "narHash": "sha256-6QefkKjlqtJnfoCPcAfnDymfIrCLZxAUepgDUxye/CQ=",
+        "owner": "Elbtalkessel",
+        "repo": "nixvim",
+        "rev": "2d8cd7ec640bc19ea08fe62ca3ae9c6dd1066a1b",
+        "type": "github"
       },
       "original": {
-        "id": "nixvim",
-        "type": "indirect"
+        "owner": "Elbtalkessel",
+        "ref": "custom",
+        "repo": "nixvim",
+        "type": "github"
       }
     },
     "nixvim_2": {
@@ -473,6 +495,7 @@
     },
     "root": {
       "inputs": {
+        "disko": "disko",
         "home-manager": "home-manager",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
