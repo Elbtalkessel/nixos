@@ -24,7 +24,10 @@
       "sdhci_pci"
     ];
     initrd.kernelModules = [ ];
-    kernelModules = [ "kvm-amd" ];
+    kernelModules = [
+      "kvm-amd"
+      "hp-wmi"
+    ];
     extraModulePackages = [ ];
   };
 
@@ -37,5 +40,14 @@
   # networking.interfaces.wlo1.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware = {
+    cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+    nvidia = {
+      open = true;
+      prime = {
+        amdgpuBusId = "PCI:7:0:0";
+        nvidiaBusId = "PCI:1:0:0";
+      };
+    };
+  };
 }

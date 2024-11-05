@@ -48,9 +48,13 @@
         omen = nixpkgs.lib.nixosSystem {
           inherit system;
           modules = [
-            # The closest one to my laptop,
-            # amp cpu + amd cpu pstate + amd gpu + nvidia + ssd
-            nixos-hardware.nixosModules.omen-15-en0010ca
+            # Mostly from https://github.com/NixOS/nixos-hardware/blob/master/omen/16-n0280nd/default.nix
+            # The rest (kernel modules and prime config is in the omen.nix)
+            nixos-hardware.nixosModules.common-cpu-amd
+            nixos-hardware.nixosModules.common-cpu-amd-pstate
+            nixos-hardware.nixosModules.common-gpu-nvidia
+            nixos-hardware.nixosModules.common-pc-laptop
+            nixos-hardware.nixosModules.common-pc-laptop-ssd
             disko.nixosModules.disko
             sops-nix.nixosModules.sops
             ./hosts/omen.nix
