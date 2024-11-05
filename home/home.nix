@@ -101,7 +101,6 @@
 
       # Dev Tools
       lazydocker
-      podman-compose
       devenv
 
       # Shell scripts

@@ -2,13 +2,13 @@
   pkgs,
   config,
   ...
-}: {
+}:
+{
   # VIRTUALISATION
   # DOCKER / PODMAN
   virtualisation = {
     docker = {
       enable = true;
-      storageDriver = "btrfs";
       rootless = {
         enable = true;
         setSocketVariable = true;
@@ -21,7 +21,7 @@
       onBoot = "ignore";
       qemu = {
         ovmf.enable = true;
-        ovmf.packages = [pkgs.OVMFFull.fd];
+        ovmf.packages = [ pkgs.OVMFFull.fd ];
         swtpm.enable = true;
         runAsRoot = false;
       };
@@ -42,5 +42,5 @@
 
   # USERS
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.risus.extraGroups = ["libvirtd"];
+  users.users.risus.extraGroups = [ "libvirtd" ];
 }
