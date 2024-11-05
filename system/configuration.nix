@@ -82,7 +82,28 @@ in
 
   # Enable networking
   networking = {
-    networkmanager.enable = true;
+    networkmanager = {
+      enable = true;
+      ensureProfiles = {
+        environmentFiles = [ config.sops.secrets."wireless.env".path ];
+
+        profiles = {
+          # --- HOME WIFI ---
+          home-wifi = {
+            connection.id = "home-wifi";
+            connection.type = "wifi";
+            wifi.ssid = "$HOME_WIFI_SSID";
+            wifi-security = {
+              auth-alg = "open";
+              key-mgmt = "wpa-psk";
+              psk = "$HOME_WIFI_PASSWORD";
+            };
+          };
+          # ---
+        };
+      };
+    };
+
     hostName = "omen";
     extraHosts = ''
       192.168.1.90 moon
