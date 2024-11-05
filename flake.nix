@@ -10,6 +10,7 @@
       url = "github:nix-community/disko/latest";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sops-nix.url = "github:Mic92/sops-nix";
   };
 
   outputs =
@@ -20,6 +21,7 @@
       home-manager,
       nixvim,
       disko,
+      sops-nix,
     }:
     let
       system = "x86_64-linux";
@@ -50,6 +52,7 @@
             # amp cpu + amd cpu pstate + amd gpu + nvidia + ssd
             nixos-hardware.nixosModules.omen-15-en0010ca
             disko.nixosModules.disko
+            sops-nix.nixosModules.sops
             ./hosts/omen.nix
             ./system/configuration.nix
           ];

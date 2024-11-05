@@ -40,7 +40,16 @@ sudo nixos-install -v --root /mnt --flake github:Elbtalkessel/nixos/deploy#virt 
 # FIXME: workaround:
 rm -r .config/fish
 # install...
-home-manager switch --flake github:Elbtalkessel/nixos/deploy#risus
+home-manager switch --flake github:Elbtalkessel/nixos/deploy#risus --no-write-lock-file
+```
+
+### Setup secrets
+
+```sh
+mkdir -p sops/age
+nix shell "nixpkgs#age" -c age-keygen -o ~/.config/sops/age/keys.txt
+nix run "nixpkgs#ssh-to-age" -- -private-key -i ~/.ssh/id_ed25519 >! ~/.config/sops/age/keys.txt
+nix shell "nixpkgs#age" -c age-keygen -y ~/.config/sops/age/keys.txt
 ```
 
 ## To do
