@@ -131,37 +131,9 @@
     # Let Home Manager install and manage itself.
     home-manager.enable = true;
 
-    # "Smarter" cd, tracks visited directories and allows to jump back by typing its name without full path
-    zoxide = {
-      enable = true;
-      options = [ "--cmd cd" ];
-    };
-
     # Fuzzy search, likely neovim dependency, I don't remember...
     fzf = {
       enable = true;
-    };
-
-    # Better "ls"
-    eza = {
-      enable = true;
-    };
-
-    # Better "cat"
-    bat = {
-      enable = true;
-    };
-
-    # Devenv "soft" dependency, automatically uses devenv on "cd"
-    direnv = {
-      enable = true;
-      # Does not work:
-      # error: The option `programs.direnv.enableFishIntegration' is read-only, but it's set multiple times. Definition values:
-      # - In `/nix/store/...-source/modules/programs/direnv.nix': true
-      # - In `/nix/store/...-source/config/home/home.nix': true
-      # Manually integrated in fish.nix
-      #enableFishIntegration = true;
-      nix-direnv.enable = true;
     };
   };
 

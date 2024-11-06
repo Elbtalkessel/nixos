@@ -1,6 +1,8 @@
-{lib, ...}:
+{ lib, ... }:
 
 {
+  # Everything related to the shell
+
   programs = {
     zsh = {
       enable = true;
@@ -15,58 +17,85 @@
         };
       };
     };
+
+    # "Smarter" cd, tracks visited directories and allows to jump back by typing its name without full path
+    zoxide = {
+      enable = true;
+      options = [ "--cmd cd" ];
+      enableZshIntegration = true;
+    };
+
+    # Better "ls"
+    eza = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+
+    # Better "cat"
+    bat = {
+      enable = true;
+    };
+
+    # Devenv "soft" dependency, automatically uses devenv on "cd"
+    direnv = {
+      enable = true;
+      enableZshIntegration = true;
+      nix-direnv.enable = true;
+    };
+
     starship = {
       enable = true;
       enableZshIntegration = true;
+      # output of `starship preset pure-preset` converted to nix
       settings = {
-      	add_newline = false;
+        add_newline = false;
         format = lib.concatStrings [
           "$username"
-	  "$hostname"
-	  "$directory"
-	  "$git_branch"
-	  "$git_state"
-	  "$git_status"
-	  "$cmd_duration"
-	  "$line_break"
-	  "$python"
-	  "$character"
+          "$hostname"
+          "$directory"
+          "$git_branch"
+          "$git_state"
+          "$git_status"
+          "$cmd_duration"
+          "$line_break"
+          "$python"
+          "$character"
         ];
-	directory = {
+        directory = {
           style = "blue";
-	};
-	character = {
-		success_symbol = "[λ](purple)";
-		error_symbol = "[λ](red)";
-		vimcmd_symbol = "[❮](green)";
-	};
-	git_branch = {
-		format = "[$branch]($style)";
-		style = "bright-black";
-	};
-	git_status = {
-		format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed)]($style)";
-		style = "cyan";
-		conflicted = "​";
-		untracked = "​";
-		modified = "​";
-		staged = "​";
-		renamed = "​";
-		deleted = "​";
-		stashed = "≡";
-	};
-	git_state = {
-		format = ''\([$state( $progress_current/$progress_total)]($style)\) '';
-		style = "bright-black";
-	};
-	cmd_duration = {
-		format = "[$duration]($style) ";
-		style = "yellow";
-	};
-	python = {
-		format = "[$virtualenv]($style) ";
-		style = "bright-black";
-	};
+        };
+        character = {
+          success_symbol = "[λ](purple)";
+          error_symbol = "[λ](red)";
+          vimcmd_symbol = "[❮](green)";
+        };
+        git_branch = {
+          format = "[$branch]($style)";
+          style = "bright-black";
+        };
+        git_status = {
+          format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed)]($style)";
+          style = "cyan";
+          conflicted = "​";
+          untracked = "​";
+          modified = "​";
+          staged = "​";
+          renamed = "​";
+          deleted = "​";
+          stashed = "≡";
+        };
+        git_state = {
+          format = ''\([$state( $progress_current/$progress_total)]($style)\) '';
+          style = "bright-black";
+        };
+        cmd_duration = {
+          format = "[$duration]($style) ";
+          style = "yellow";
+        };
+        python = {
+          format = "[$virtualenv]($style) ";
+          style = "bright-black";
+        };
       };
     };
   };
