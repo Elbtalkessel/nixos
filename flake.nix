@@ -8,7 +8,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixvim.url = "github:Elbtalkessel/nixvim/custom";
+    nixvim = {
+      # Remove the branch name to switch to unstable
+      url = "github:Elbtalkessel/nixvim/custom";
+    };
     disko = {
       url = "github:nix-community/disko/latest";
       inputs.nixpkgs.follows = "nixpkgs";
