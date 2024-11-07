@@ -14,6 +14,7 @@
         setSocketVariable = true;
       };
     };
+
     # QEMU
     libvirtd = {
       enable = true;
@@ -27,6 +28,12 @@
       };
     };
   };
+
+  environment.systemPackages = with pkgs; [
+    # Quickly create and run virtual machines
+    # https://github.com/quickemu-project/quickemu
+    quickemu
+  ];
 
   environment.etc = {
     "ovmf/edk2-x86_64-secure-code.fd" = {
