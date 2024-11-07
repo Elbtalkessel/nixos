@@ -95,7 +95,6 @@
       # Tools
       arp-scan
       httpie
-      ripgrep
       ncdu
       python311Packages.ipython
 
@@ -130,11 +129,6 @@
   programs = {
     # Let Home Manager install and manage itself.
     home-manager.enable = true;
-
-    # Fuzzy search, likely neovim dependency, I don't remember...
-    fzf = {
-      enable = true;
-    };
   };
 
   services = {

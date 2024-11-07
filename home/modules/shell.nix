@@ -43,6 +43,29 @@
       nix-direnv.enable = true;
     };
 
+    # fd is a simple, fast and user-friendly alternative to find
+    fd = {
+      enable = true;
+      hidden = true;
+      ignores = [
+        ".git/"
+        ".devenv/"
+        ".venv/"
+        "node_modules/"
+      ];
+    };
+
+    # fuzzy finder, able to walk directories or read from stdin
+    fzf = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+
+    # a fast, modern replacement for grep
+    ripgrep = {
+      enable = true;
+    };
+
     starship = {
       enable = true;
       enableZshIntegration = true;

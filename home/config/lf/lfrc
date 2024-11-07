@@ -1,3 +1,5 @@
+# Requires nvim, fd
+#
 # Bigger third pane to give file preview more space.
 set ratios 1:2:3
 
@@ -38,7 +40,7 @@ map x cut
 
 # remaps `c` - clear to fuzzy copy, and sets clear on `e` (bc empty).
 map c ${{
-  dest="$(find $OLDPWD -type d -print 2>/dev/null | fzf --walker-skip=.git,.devenv,.venv)" &&
+  dest="$(fd -t d -c never . $OLDPWD | fzf)" &&
   eval cp -ir $fx $dest
 }}
 # clears y (yank) or cut (x) selection.
@@ -46,7 +48,7 @@ map e clear
 
 # m - move a file / directory or a selection to a directory
 map m ${{
-  dest="$(find $OLDPWD -type d -print 2>/dev/null | fzf --walker-skip=.git,.devenv,.venv)" &&
+  dest="$(fd -t d -c never . $OLDPWD | fzf)" &&
   eval mv -i $fx $dest
 }}
 
