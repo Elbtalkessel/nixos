@@ -306,11 +306,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1730886862,
-        "narHash": "sha256-wCZtRGM1NGxq6VG4+TMzfsa4cuG2VJVtowtYuWW5W3g=",
+        "lastModified": 1730919458,
+        "narHash": "sha256-yMO0T0QJlmT/x4HEyvrCyigGrdYfIXX3e5gWqB64wLg=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "90642a0deae927fa911d49d4f7c5616257105141",
+        "rev": "e1cc1f6483393634aee94514186d21a4871e78d7",
         "type": "github"
       },
       "original": {
@@ -420,11 +420,11 @@
         "pre-commit-hooks": "pre-commit-hooks"
       },
       "locked": {
-        "lastModified": 1730913726,
-        "narHash": "sha256-esvcCoD+x6wXOj68TNx9FTa4fVj+Ss6qNPw/38JeXa0=",
+        "lastModified": 1730969714,
+        "narHash": "sha256-154KrGSxeu32RUcHLy1EK7z6ghgQHN4RwY2YQXJWLdU=",
         "owner": "Elbtalkessel",
         "repo": "nixvim",
-        "rev": "c1e23a099b822b1c9efc1bf7c30f3ea854531e16",
+        "rev": "d50ce62cf646c11f02861670c1e7a9df2df2b933",
         "type": "github"
       },
       "original": {
