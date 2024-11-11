@@ -126,15 +126,15 @@ in
 
       decoration = {
         # See https://wiki.hyprland.org/Configuring/Variables/ for more
-        rounding = 5;
+        rounding = 0;
         blur = {
-          enabled = true;
+          enabled = false;
           size = 3;
           passes = 1;
           new_optimizations = true;
         };
 
-        drop_shadow = true;
+        drop_shadow = false;
         shadow_range = 4;
         shadow_render_power = 3;
         "col.shadow" = "rgba(1a1a1aee)";

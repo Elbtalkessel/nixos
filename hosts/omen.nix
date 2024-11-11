@@ -2,6 +2,7 @@
   lib,
   modulesPath,
   inputs,
+  pkgs,
   ...
 }:
 {
@@ -27,7 +28,7 @@
       "sd_mod"
       "sdhci_pci"
     ];
-    initrd.kernelModules = [ ];
+    initrd.kernelModules = [ "amdgpu" ];
     kernelModules = [
       "kvm-amd"
       "hp-wmi"
@@ -46,6 +47,8 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware = {
     cpu.amd.updateMicrocode = true;
+    opengl.extraPackages = with pkgs; [ amdvlk ];
+    graphics.enable = true;
     nvidia = {
       open = true;
       prime = {
