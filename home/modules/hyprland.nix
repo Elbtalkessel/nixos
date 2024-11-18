@@ -133,11 +133,6 @@ in
           passes = 1;
           new_optimizations = true;
         };
-
-        drop_shadow = false;
-        shadow_range = 4;
-        shadow_render_power = 3;
-        "col.shadow" = "rgba(1a1a1aee)";
       };
 
       layerrule = [
@@ -189,7 +184,6 @@ in
         smart_resizing = true;
         special_scale_factor = 0.8;
         split_width_multiplier = 1.0;
-        no_gaps_when_only = false;
         use_active_for_splits = true;
         default_split_ratio = 1.0;
       };
@@ -200,7 +194,6 @@ in
         special_scale_factor = 0.8;
         mfact = 0.55;
         new_on_top = false;
-        no_gaps_when_only = false;
         orientation = "left";
         inherit_fullscreen = true;
         always_center_master = false;
