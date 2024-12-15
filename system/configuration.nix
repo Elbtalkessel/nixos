@@ -261,7 +261,7 @@ in
 
   fonts = {
     packages = with pkgs; [
-      (nerdfonts.override { fonts = [ "Overpass" ]; })
+      nerd-fonts.overpass
     ];
     fontconfig = {
       enable = true;

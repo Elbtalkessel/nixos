@@ -12,7 +12,10 @@
     # The rest (kernel modules and prime config is in the omen.nix)
     inputs.nixos-hardware.nixosModules.common-cpu-amd
     inputs.nixos-hardware.nixosModules.common-cpu-amd-pstate
-    inputs.nixos-hardware.nixosModules.common-gpu-nvidia
+    # Disable nvidia drivers:
+    #   error: Package ‘nvidia-x11-560.35.03-6.12.1’ in /nix/store/*-source/pkgs/os-specific/linux/nvidia-x11/generic.nix:278 is marked as broken, refusing to evaluate.
+    # I don't use descreet graphics anyway.'
+    #inputs.nixos-hardware.nixosModules.common-gpu-nvidia
     inputs.nixos-hardware.nixosModules.common-pc-laptop
     inputs.nixos-hardware.nixosModules.common-pc-laptop-ssd
     ./omen-disko.nix
@@ -49,12 +52,13 @@
     cpu.amd.updateMicrocode = true;
     opengl.extraPackages = with pkgs; [ amdvlk ];
     graphics.enable = true;
-    nvidia = {
-      open = true;
-      prime = {
-        amdgpuBusId = "PCI:7:0:0";
-        nvidiaBusId = "PCI:1:0:0";
-      };
-    };
+    # Disable nvidia drivers, see above.
+    #nvidia = {
+    #  open = true;
+    #  prime = {
+    #    amdgpuBusId = "PCI:7:0:0";
+    #    nvidiaBusId = "PCI:1:0:0";
+    #  };
+    #};
   };
 }
