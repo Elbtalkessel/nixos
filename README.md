@@ -62,7 +62,4 @@ nix run "nixpkgs#ssh-to-age" -- -private-key -i ~/.ssh/id_ed25519 >! ~/.config/s
 - Qemu declarative machine definition (ubuntu 20.04, windows)
 - integrate [sops-nix](https://github.com/Mic92/sops-nix?tab=readme-ov-file#Flakes)
   - add GitHub access token to it, https://github.com/NixOS/nix/issues/6536#issuecomment-1254858889 and https://nix.dev/manual/nix/2.18/command-ref/conf-file#file-format
-  - add samba creds, /root/secrets/samba
-  - add wg creds, /root/secrets/wg/wg0.conf
-  - add optimizer license key
 - replace hardcode paths in environment.nix and ide.nix
