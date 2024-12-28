@@ -50,8 +50,10 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware = {
     cpu.amd.updateMicrocode = true;
-    opengl.extraPackages = with pkgs; [ amdvlk ];
-    graphics.enable = true;
+    graphics = {
+      enable = true;
+      extraPackages = with pkgs; [ amdvlk ];
+    };
     # Disable nvidia drivers, see above.
     #nvidia = {
     #  open = true;
