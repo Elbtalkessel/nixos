@@ -1,4 +1,6 @@
-{ pkgs ? import <nixpkgs> { } }:
+{
+  pkgs ? import <nixpkgs> { },
+}:
 pkgs.stdenv.mkDerivation rec {
   pname = "usbdrivetools";
   version = "1.0.0";
@@ -7,10 +9,13 @@ pkgs.stdenv.mkDerivation rec {
     owner = "satk0";
     repo = "usbdrivetools";
     rev = "main";
-    sha256 = "sha256-iE906TwtQXTSWLusrbcTHzZFjuHHx9b6YNnsOCTaM6Y=";
+    sha256 = "sha256-0YSXL+ziwbe1pueMZ6Y7NS1ml+IKivb8ryRTFyPyxak=";
   };
 
-  buildInputs = [ pkgs.bash pkgs.rsync ];
+  buildInputs = [
+    pkgs.bash
+    pkgs.rsync
+  ];
 
   installPhase = ''
     mkdir -p $out/bin

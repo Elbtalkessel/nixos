@@ -29,12 +29,6 @@
     };
   };
 
-  environment.systemPackages = with pkgs; [
-    # Quickly create and run virtual machines
-    # https://github.com/quickemu-project/quickemu
-    quickemu
-  ];
-
   environment.etc = {
     "ovmf/edk2-x86_64-secure-code.fd" = {
       source = config.virtualisation.libvirtd.qemu.package + "/share/qemu/edk2-x86_64-secure-code.fd";
