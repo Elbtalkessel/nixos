@@ -37,6 +37,15 @@
       "hp-wmi"
     ];
     extraModulePackages = [ ];
+    kernelParams = [
+      # Two settings for AMD gpu I enabled after experienced lagging destop.
+      # Probaby won't help, DC should be enabled automatically and PP isn't all that useful
+      # on its own, imo.
+      # Display Core: a new display engine providing modern features.
+      "amdgpu.dc=1"
+      # PowerPlay feature mask, all bit are set to 1 meaning overclocking, fan speed control and "Advanced power management features."
+      "amdgpu.ppfeaturemask=0xffffffff"
+    ];
   };
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking

@@ -220,6 +220,7 @@ in
         disable_hyprland_logo = true;
         disable_splash_rendering = true;
         vrr = 0;
+        vfr = false;
         mouse_move_enables_dpms = false;
         key_press_enables_dpms = false;
         layers_hog_keyboard_focus = true;
