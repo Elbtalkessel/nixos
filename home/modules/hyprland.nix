@@ -76,7 +76,7 @@ in
         # Window management
         "$M, f, fullscreen,"
         "$M, delete, killactive,"
-        "$M, backspace, togglefloating,"
+        "$M, backspace, exec, hyprctl --batch 'dispatch togglefloating active; dispatch pin active'"
         "$M SHIFT, escape, movetoworkspace, special" # move to the special workspace
         "$M, escape, togglespecialworkspace" # show/hide special workspace
 

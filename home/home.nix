@@ -83,14 +83,14 @@
       mpv
       xdg-user-dirs
       brightnessctl
-      #gnome-calculator
-      #wl-screenrec
       pavucontrol
       nix-search-cli
+      calibre
 
       # Console and text-based UI apps
       lazygit
       btop
+      nvtopPackages.full
 
       # Tools
       arp-scan

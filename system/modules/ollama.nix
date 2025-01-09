@@ -1,7 +1,8 @@
 _: {
   services.ollama = {
-    enable = false;
+    enable = true;
     home = "/media/ollama";
     models = "/media/ollama/models";
+    acceleration = "cuda";
   };
 }

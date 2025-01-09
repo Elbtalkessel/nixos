@@ -15,7 +15,7 @@
     # Disable nvidia drivers:
     #   error: Package ‘nvidia-x11-560.35.03-6.12.1’ in /nix/store/*-source/pkgs/os-specific/linux/nvidia-x11/generic.nix:278 is marked as broken, refusing to evaluate.
     # I don't use descreet graphics anyway.'
-    #inputs.nixos-hardware.nixosModules.common-gpu-nvidia
+    inputs.nixos-hardware.nixosModules.common-gpu-nvidia
     inputs.nixos-hardware.nixosModules.common-pc-laptop
     inputs.nixos-hardware.nixosModules.common-pc-laptop-ssd
     ./omen-disko.nix
@@ -64,12 +64,12 @@
       extraPackages = with pkgs; [ amdvlk ];
     };
     # Disable nvidia drivers, see above.
-    #nvidia = {
-    #  open = true;
-    #  prime = {
-    #    amdgpuBusId = "PCI:7:0:0";
-    #    nvidiaBusId = "PCI:1:0:0";
-    #  };
-    #};
+    nvidia = {
+      open = false;
+      prime = {
+        amdgpuBusId = "PCI:7:0:0";
+        nvidiaBusId = "PCI:1:0:0";
+      };
+    };
   };
 }
