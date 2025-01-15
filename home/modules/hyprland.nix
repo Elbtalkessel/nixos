@@ -34,13 +34,6 @@ in
         "stayfocused,title:^(Open File)$"
       ];
 
-      windowrulev2 = [
-        # If an app (like browser) opens a floating window (like SSO login),
-        # initial size of the window will be reduced to the size of the url bar, i.e. very tiny.
-        # This sets min size but prevents you to make window smaller, which is suboptimal too...
-        "minsize 700 600,floating:1"
-      ];
-
       # See https://wiki.hyprland.org/Configuring/Keywords/ for more
       "$M" = "SUPER";
       "$TERMINAL" = "alacritty";
@@ -133,9 +126,9 @@ in
 
       decoration = {
         # See https://wiki.hyprland.org/Configuring/Variables/ for more
-        rounding = 0;
+        rounding = 5;
         blur = {
-          enabled = false;
+          enabled = true;
           size = 3;
           passes = 1;
           new_optimizations = true;
