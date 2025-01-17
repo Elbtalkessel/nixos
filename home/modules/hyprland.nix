@@ -1,6 +1,6 @@
 _:
 let
-  WALLPAPER = "/media/pictures/krjef9fchcx61.jpg";
+  WALLPAPER = "/media/pictures/wallpaperflare.com_wallpaper (15).jpg";
 in
 {
   wayland.windowManager.hyprland = {

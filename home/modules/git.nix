@@ -7,6 +7,9 @@ _: {
       init = {
         defaultBranch = "master";
       };
+      push = {
+        autoSetupRemote = true;
+      };
     };
     aliases = {
       m = "merge --no-ff";

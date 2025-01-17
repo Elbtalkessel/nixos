@@ -110,7 +110,7 @@ _: {
       }
 
       window#waybar {
-        background: rgba(21, 18, 27, 0.6);
+        background: rgba(21, 18, 27, 0.5);
         color: #a89984;
         border-radius: 6px;
       }
