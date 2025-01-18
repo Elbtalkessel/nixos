@@ -8,7 +8,7 @@ _: {
           family = "OverpassM Nerd Font Mono";
           style = "Regular";
         };
-        size = 15;
+        size = 17;
         offset = {
           x = 0;
           y = 10;
