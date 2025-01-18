@@ -128,7 +128,8 @@ in
         # See https://wiki.hyprland.org/Configuring/Variables/ for more
         rounding = 5;
         blur = {
-          enabled = true;
+          # Buggy, creates blurred ring around popover menus.
+          enabled = false;
           size = 3;
           passes = 1;
           new_optimizations = true;
