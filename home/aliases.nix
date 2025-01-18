@@ -25,5 +25,6 @@ _: {
     #   sync
     #   watch dirty
     dirty = "grep -e Dirty: -e Writeback: /proc/meminfo";
+    lfcd = "cd $(command lf -print-last-dir $argv)";
   };
 }
