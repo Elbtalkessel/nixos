@@ -86,6 +86,7 @@
       pavucontrol
       nix-search-cli
       calibre
+      telegram-desktop
 
       # Console and text-based UI apps
       lazygit
