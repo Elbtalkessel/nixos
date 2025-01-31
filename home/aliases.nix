@@ -26,5 +26,6 @@ _: {
     #   watch dirty
     dirty = "grep -e Dirty: -e Writeback: /proc/meminfo";
     lfcd = "cd $(command lf -print-last-dir $argv)";
+    zeditor = "nix run 'nixpkgs#zed-editor'";
   };
 }
