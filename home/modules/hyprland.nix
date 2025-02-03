@@ -227,8 +227,13 @@ in
         layers_hog_keyboard_focus = true;
         focus_on_activate = false;
         mouse_move_focuses_monitor = true;
-        enable_swallow = true;
+        # Swallow exclusion does not work for some reason
+        # I need to exclude chromium, usually if browser lauched from the terminal
+        # it is for a) debug b) integration testing, both cases need browser to not be swallowed by terminal.
+        # Disabled until not resolved: https://github.com/hyprwm/Hyprland/issues/2203
+        enable_swallow = false;
         swallow_regex = "^(Alacritty)$";
+        swallow_exception_regex = "(?i).*chromium|playwright.*";
       };
 
       cursor = {
