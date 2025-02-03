@@ -12,9 +12,6 @@
     # The rest (kernel modules and prime config is in the omen.nix)
     inputs.nixos-hardware.nixosModules.common-cpu-amd
     inputs.nixos-hardware.nixosModules.common-cpu-amd-pstate
-    # Disable nvidia drivers:
-    #   error: Package ‘nvidia-x11-560.35.03-6.12.1’ in /nix/store/*-source/pkgs/os-specific/linux/nvidia-x11/generic.nix:278 is marked as broken, refusing to evaluate.
-    # I don't use descreet graphics anyway.'
     inputs.nixos-hardware.nixosModules.common-gpu-nvidia
     inputs.nixos-hardware.nixosModules.common-pc-laptop
     inputs.nixos-hardware.nixosModules.common-pc-laptop-ssd
@@ -37,15 +34,7 @@
       "hp-wmi"
     ];
     extraModulePackages = [ ];
-    kernelParams = [
-      # Two settings for AMD gpu I enabled after experienced lagging destop.
-      # Probaby won't help, DC should be enabled automatically and PP isn't all that useful
-      # on its own, imo.
-      # Display Core: a new display engine providing modern features.
-      "amdgpu.dc=1"
-      # PowerPlay feature mask, all bit are set to 1 meaning overclocking, fan speed control and "Advanced power management features."
-      "amdgpu.ppfeaturemask=0xffffffff"
-    ];
+    kernelParams = [ ];
   };
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
@@ -63,7 +52,6 @@
       enable = true;
       extraPackages = with pkgs; [ amdvlk ];
     };
-    # Disable nvidia drivers, see above.
     nvidia = {
       open = false;
       prime = {

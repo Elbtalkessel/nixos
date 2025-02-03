@@ -84,7 +84,6 @@
       xdg-user-dirs
       brightnessctl
       pavucontrol
-      nix-search-cli
       calibre
       telegram-desktop
 
@@ -105,7 +104,6 @@
 
       # Shell scripts
       (writeShellScriptBin "screen" (builtins.readFile ./bin/screenshot.sh))
-      (writeShellScriptBin "yay" (builtins.readFile ./bin/yay.sh))
       # Reqired from imv.nix for applying a wallpaper
       (writeShellScriptBin "wallpaper" (builtins.readFile ./bin/wallpapper.sh))
       (writeShellScriptBin "repl" (builtins.readFile ./bin/repl.sh))

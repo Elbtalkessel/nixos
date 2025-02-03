@@ -197,7 +197,6 @@ in
         new_on_top = false;
         orientation = "left";
         inherit_fullscreen = true;
-        always_center_master = false;
       };
 
       # INPUT DEVICES

@@ -1,9 +1,29 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 
 {
   # Everything related to the shell
 
+  home.packages = with pkgs; [
+    # CLI for searching packages on search.nixos.org
+    nix-search-cli
+  ];
+
   programs = {
+    # file database for nixpkgs
+    # usage example: `nix-locate 'bin/hello'`
+    nix-index = {
+      enable = true;
+      # Provides command-not-found script
+      # Example:
+      #   $ blender
+      #     The program 'blender' is currently not installed. You can install it
+      #     by typing:
+      #       nix-env -iA nixpkgs.blender.out
+      #     Or run it once with:
+      #       nix-shell -p blender.out --run ...
+      enableZshIntegration = true;
+    };
+
     zsh = {
       enable = true;
       enableCompletion = true;
