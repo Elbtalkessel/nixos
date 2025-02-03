@@ -3,6 +3,7 @@ let
   WALLPAPER = "/media/pictures/wallpaperflare.com_wallpaper (15).jpg";
 in
 {
+  # Hypr* (land, paper, etc)
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
@@ -237,6 +238,7 @@ in
       };
     };
   };
+
   services.hyprpaper = {
     enable = true;
     settings = {
@@ -250,6 +252,88 @@ in
 
       wallpaper = [
         ",${WALLPAPER}"
+      ];
+    };
+  };
+
+  programs.hyprlock = {
+    enable = true;
+    settings = {
+      general = {
+        disable_loading_bar = true;
+        grace = 0;
+        hide_cursor = true;
+        no_fade_in = false;
+        ignore_empty_input = true;
+      };
+
+      background = [
+        {
+          path = "screenshot";
+          blur_passes = 3;
+          blur_size = 8;
+        }
+      ];
+
+      input-field = [
+        {
+          size = "200, 50";
+          position = "0, -80";
+          monitor = "";
+          dots_center = true;
+          fade_on_empty = false;
+          font_color = "rgb(202, 211, 245)";
+          inner_color = "rgb(91, 96, 120)";
+          outer_color = "rgb(24, 25, 38)";
+          outline_thickness = 5;
+          placeholder_text = ''<span foreground="##cad3f5">Password...</span>'';
+          shadow_passes = 2;
+        }
+      ];
+    };
+  };
+
+  # https://mynixos.com/home-manager/options/services.hypridle
+  services.hypridle = {
+    enable = true;
+    # https://wiki.hyprland.org/Hypr-Ecosystem/hypridle/
+    settings = {
+      general = {
+        before_sleep_cmd = "loginctl lock-session";
+        after_sleep_cmd = "hyprctl dispatch dpms on";
+        ignore_dbus_inhibit = false;
+        lock_cmd = "pidof hyprlock || hyprlock";
+      };
+
+      listener = [
+        # Lower brightness after 2.5 minutes.
+        {
+          timeout = 150;
+          on-timeout = "brightnessctl -s set 10 ";
+          on-resume = "brightnessctl -r";
+        }
+        # TODO: turn off keyboard backlight, this is host specific
+        #{
+        #  timeout = 150;
+        #  on-timeout = "brightnessctl -s set 10 ";
+        #  on-resume = "brightnessctl -r";
+        #}
+        # Lock session after 5 min.
+        {
+          timeout = 300;
+          on-timeout = "loginctl lock-session";
+        }
+        # Turn off screen after 5.5min
+        {
+          timeout = 330;
+          on-timeout = "hyprctl dispatch dpms off";
+          on-resume = "hyprctl dispatch dpms on";
+        }
+        # Suspend after 30 min.
+        {
+          timeout = 1800;
+          on-timeout = "systemctl suspend";
+        }
       ];
     };
   };

@@ -196,8 +196,14 @@ in
   };
 
   # SECURITY
-  security.rtkit.enable = true;
-  security.polkit.enable = true;
+  security = {
+    rtkit.enable = true;
+    polkit.enable = true;
+    # See:
+    #   home/modules/hyprland.nix (hyprlock)
+    #   https://mynixos.com/home-manager/option/programs.hyprlock.enable
+    pam.services.hyprlock = { };
+  };
   systemd = {
     user.services.polkit-gnome-authentication-agent-1 = {
       description = "polkit-gnome-authentication-agent-1";
