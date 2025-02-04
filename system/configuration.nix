@@ -192,7 +192,7 @@ in
       "audio"
       "tss"
     ];
-    shell = pkgs.zsh;
+    shell = pkgs.nushell;
   };
 
   # SECURITY

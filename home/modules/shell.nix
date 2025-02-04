@@ -1,6 +1,6 @@
 { lib, pkgs, ... }:
 
-{
+rec {
   # Everything related to the shell
 
   home.packages = with pkgs; [
@@ -21,11 +21,11 @@
       #       nix-env -iA nixpkgs.blender.out
       #     Or run it once with:
       #       nix-shell -p blender.out --run ...
-      enableZshIntegration = true;
+      enableZshIntegration = programs.zsh.enable;
     };
 
     zsh = {
-      enable = true;
+      enable = false;
       enableCompletion = true;
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
@@ -38,17 +38,35 @@
       };
     };
 
+    nushell = {
+      enable = true;
+      # for editing directly to config.nu 
+      configFile.source = ../config/nushell/config.nu;
+      plugins = [
+        (pkgs.callPackage (pkgs.fetchFromGitHub {
+          owner = "Elbtalkessel";
+          repo = "nu_plugin_bg";
+          rev = "v0.5.0";
+          hash = "sha256-jtCIcpuTp0SFEr9Jd9mbhUpQaKnEByJ0PSwz2I9g/CI=";
+        }) { })
+      ];
+    };
+    carapace.enable = programs.nushell.enable;
+    carapace.enableNushellIntegration = programs.nushell.enable;
+
     # "Smarter" cd, tracks visited directories and allows to jump back by typing its name without full path
     zoxide = {
       enable = true;
       options = [ "--cmd cd" ];
-      enableZshIntegration = true;
+      enableZshIntegration = programs.zsh.enable;
+      enableNushellIntegration = programs.nushell.enable;
     };
 
     # Better "ls"
     eza = {
       enable = true;
-      enableZshIntegration = true;
+      enableZshIntegration = programs.zsh.enable;
+      enableNushellIntegration = programs.nushell.enable;
     };
 
     # Better "cat"
@@ -59,8 +77,9 @@
     # Devenv "soft" dependency, automatically uses devenv on "cd"
     direnv = {
       enable = true;
-      enableZshIntegration = true;
       nix-direnv.enable = true;
+      enableZshIntegration = programs.zsh.enable;
+      enableNushellIntegration = programs.nushell.enable;
     };
 
     # fd is a simple, fast and user-friendly alternative to find
@@ -78,7 +97,7 @@
     # fuzzy finder, able to walk directories or read from stdin
     fzf = {
       enable = true;
-      enableZshIntegration = true;
+      enableZshIntegration = programs.zsh.enable;
     };
 
     # a fast, modern replacement for grep
@@ -88,10 +107,11 @@
 
     starship = {
       enable = true;
-      enableZshIntegration = true;
+      enableZshIntegration = programs.zsh.enable;
+      enableNushellIntegration = programs.nushell.enable;
       # output of `starship preset pure-preset` converted to nix
       settings = {
-        add_newline = false;
+        add_newline = true;
         format = lib.concatStrings [
           "$username"
           "$hostname"

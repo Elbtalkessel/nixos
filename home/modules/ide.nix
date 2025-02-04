@@ -76,7 +76,7 @@
         option_as_meta = false;
         button = false;
         shell = "system";
-        program = "zsh";
+        program = "nu";
         toolbar = {
           title = true;
         };

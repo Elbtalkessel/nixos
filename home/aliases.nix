@@ -1,11 +1,12 @@
-_: {
-  home.shellAliases = {
+_:
+let
+  shellAliases = {
     cat = "bat";
     cp = "cp -iv";
     dc = "docker compose";
     ln = "ln -v";
     mv = "mv -iv";
-    n = "$EDITOR";
+    # n = "$EDITOR";
     rm = "rm -v";
     S = "sudo systemctl";
     s = "sudo";
@@ -25,7 +26,13 @@ _: {
     #   sync
     #   watch dirty
     dirty = "grep -e Dirty: -e Writeback: /proc/meminfo";
-    lfcd = "cd $(command lf -print-last-dir $argv)";
     zeditor = "nix run 'nixpkgs#zed-editor'";
+  };
+in
+{
+  programs.nushell.shellAliases = shellAliases;
+  home.shellAliases = shellAliases // {
+    n = "$EDITOR .";
+    lfcd = "cd ...(command lf -print-last-dir $argv)";
   };
 }
