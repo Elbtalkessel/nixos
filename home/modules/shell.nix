@@ -64,9 +64,8 @@ rec {
 
     # Better "ls"
     eza = {
-      enable = true;
+      enable = programs.zsh.enable;
       enableZshIntegration = programs.zsh.enable;
-      enableNushellIntegration = programs.nushell.enable;
     };
 
     # Better "cat"
