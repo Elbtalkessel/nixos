@@ -18,6 +18,7 @@
     ./modules/imv.nix
     ./modules/music.nix
     ./modules/ide.nix
+    ./modules/theme.nix
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
@@ -34,17 +35,6 @@
     # want to update the value, then make sure to first check the Home Manager
     # release notes.
     stateVersion = "23.11"; # Please read the comment before changing.
-
-    # https://discourse.nixos.org/t/virt-manager-cannot-create-vm/38894/2
-    # virt-manager doesn't work without it
-    pointerCursor = {
-      gtk.enable = true;
-      x11.enable = true;
-      package = pkgs.vanilla-dmz;
-      name = "Vanilla-DMZ";
-      # same size on wayland and xwayland
-      size = 24;
-    };
 
     # The home.packages option allows you to install Nix packages into your
     # environment.
@@ -146,22 +136,5 @@
     # TMPFS caching, https://github.com/direnv/direnv/wiki/Customizing-cache-location#direnv-cache-on-tmpfs
     "direnv/direnvrc".source = ./config/direnv/direnvrc;
     "process-compose/settings.yaml".source = ./config/process-compose/settings.yaml;
-  };
-
-  gtk = {
-    enable = true;
-    theme = {
-      name = "Materia-dark";
-      package = pkgs.materia-theme;
-    };
-  };
-
-  dconf = {
-    settings = {
-      "org/virt-manager/virt-manager/connections" = {
-        autoconnect = [ "qemu:///system" ];
-        uris = [ "qemu:///system" ];
-      };
-    };
   };
 }
