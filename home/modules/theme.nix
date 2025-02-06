@@ -2,11 +2,14 @@
 {
   gtk = {
     enable = true;
-    theme = {
-      name = "Materia-dark";
-      package = pkgs.materia-theme;
-    };
   };
+
+  qt = {
+    enable = true;
+    platformTheme.name = "gtk2";
+    style.package = pkgs.adwaita-qt;
+  };
+
   # https://discourse.nixos.org/t/virt-manager-cannot-create-vm/38894/2
   # virt-manager doesn't work without it
   home.pointerCursor = {

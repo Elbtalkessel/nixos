@@ -44,13 +44,4 @@
   # USERS
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.risus.extraGroups = [ "libvirtd" ];
-
-  dconf = {
-    settings = {
-      "org/virt-manager/virt-manager/connections" = {
-        autoconnect = [ "qemu:///system" ];
-        uris = [ "qemu:///system" ];
-      };
-    };
-  };
 }

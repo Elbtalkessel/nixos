@@ -373,7 +373,7 @@ in
         # Lower brightness after 2.5 minutes.
         {
           timeout = 150;
-          on-timeout = "brightnessctl -s set 10 ";
+          on-timeout = "brightnessctl -s set 10";
           on-resume = "brightnessctl -r";
         }
         # TODO: turn off keyboard backlight, this is host specific

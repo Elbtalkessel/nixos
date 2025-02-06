@@ -137,4 +137,15 @@
     "direnv/direnvrc".source = ./config/direnv/direnvrc;
     "process-compose/settings.yaml".source = ./config/process-compose/settings.yaml;
   };
+
+  # quemu requiers it, but virtualisation settings are part of the
+  # system configuration, not home. So it is here.
+  dconf = {
+    settings = {
+      "org/virt-manager/virt-manager/connections" = {
+        autoconnect = [ "qemu:///system" ];
+        uris = [ "qemu:///system" ];
+      };
+    };
+  };
 }

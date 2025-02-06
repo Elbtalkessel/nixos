@@ -204,6 +204,7 @@ in
     #   https://mynixos.com/home-manager/option/programs.hyprlock.enable
     pam.services.hyprlock = { };
   };
+
   systemd = {
     user.services.polkit-gnome-authentication-agent-1 = {
       description = "polkit-gnome-authentication-agent-1";
@@ -252,8 +253,14 @@ in
   };
 
   xdg = {
-    portal.enable = true;
-    portal.config.common.default = "*";
+    portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal
+        xdg-desktop-portal-gtk
+      ];
+      config.common.default = "*";
+    };
   };
 
   # List packages installed in system profile. To search, run:

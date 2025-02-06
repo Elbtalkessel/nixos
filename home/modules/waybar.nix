@@ -111,41 +111,34 @@ _: {
 
       window#waybar {
         background: rgba(21, 18, 27, 0.5);
-        color: #a89984;
-        border-radius: 6px;
+        color: #d4be98;
+        border-radius: 8px;
       }
 
-      /* for occupied, because .empty is specified */
       #workspaces button {
-        padding: 5px;
-        color: #d5c5a1;
+        padding: 5px 10px;
+        color: #e2cca9;
         margin-right: 5px;
+        border-radius: 0px;
+        border-width: 1px;
       }
 
       #workspaces button.empty {
-        color: #665c54;
-      }
-
-      #workspaces button.active {
-        color: #a6adc8;
-      }
-
-      #workspaces button.focused {
-        color: #fbf1c7;
-        background: #282828;
-        border-radius: 10px;
+        color: #7c6f64;
       }
 
       #workspaces button.urgent {
-        color: #11111b;
-        background: #a6e3a1;
-        border-radius: 10px;
+        background: #a9b665;
+      }
+
+      #workspaces button.active,
+      #workspaces button.focused,
+      #workspaces button:hover {
+        background: #282828;
       }
 
       #workspaces button:hover {
-        background: #11111b;
-        color: #cdd6f4;
-        border-radius: 10px;
+        border-color: #202020;
       }
 
       #bluetooth,
@@ -163,31 +156,31 @@ _: {
       }
 
       #network {
-        color: #fe8019;
+        color: #e78a4e;  /* Warmer orange */
       }
 
       #bluetooth {
-        color: #83a594;
+        color: #89b482;  /* Softer green */
       }
 
       #pulseaudio {
-        color: #d3869d;
+        color: #d3869b;  /* Slightly adjusted pink */
       }
 
       #battery {
-        color: #8ec07c;
+        color: #a9b665;  /* Softer green, matching urgent background */
       }
 
       #brightness {
-        color: #fabd2f;
+        color: #d8a657;  /* Warmer, less saturated yellow */
       }
 
       #clock {
-        color: #ebdbb2;
+        color: #d4be98;  /* Matching main text color from previous theme */
       }
 
       #custom-sep {
-        color: #979aaa;
+        color: #7c6f64;  /* Matching empty workspace color for consistency */
       }
     '';
   };
