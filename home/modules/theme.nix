@@ -1,13 +1,42 @@
-{ pkgs, ... }:
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
+  # Enable GTK theme configuration
   gtk = {
     enable = true;
+    theme = {
+      package = pkgs.flat-remix-gtk;
+      name = "Flat-Remix-GTK-White-Darkest-Solid";
+    };
+    iconTheme = {
+      package = pkgs.adwaita-icon-theme;
+      name = "Adwaita";
+    };
+    font = {
+      name = "OverpassM Nerd Font 14";
+      size = 14;
+    };
   };
 
+  # Enable Qt theme configuration
   qt = {
     enable = true;
-    platformTheme.name = "gtk2";
-    style.package = pkgs.adwaita-qt;
+    platformTheme.name = "gtk";
+    style = {
+      name = "adwaita-dark";
+      package = pkgs.adwaita-qt;
+    };
+  };
+
+  # Configure GNOME settings for dark mode
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
+    };
   };
 
   # https://discourse.nixos.org/t/virt-manager-cannot-create-vm/38894/2

@@ -19,12 +19,6 @@ let
     VAGRANT_DEFAULT_PROVIDER = "kvm";
     VIRSH_DEFAULT_CONNECT_URI = "qemu:///system";
     DOCKER_BUILDKIT = "1";
-    # appearance
-    # https://wiki.archlinux.org/title/Uniform_look_for_Qt_and_GTK_applications
-    # style qt apps as gtk, requires qt5-styleplugins
-    QT_QPA_PLATFORMTHEME = "gtk2";
-    # I didn't install xdg-desktop-portal-kde (it's for kde, to much to only make kde dialogs look ok)
-    GTK_USE_PORTAL = "1";
   };
 in
 {

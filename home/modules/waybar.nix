@@ -25,15 +25,10 @@ _: {
           "tray"
           "custom/sep"
           "network"
-          "custom/sep"
           "bluetooth"
-          "custom/sep"
           "pulseaudio"
-          "custom/sep"
           "battery"
-          "custom/sep"
           "backlight"
-          "custom/sep"
           "clock"
         ];
         "hyprland/window" = {
@@ -112,16 +107,15 @@ _: {
       window#waybar,
       #workspaces button {
         border-radius: 0px;
+        color: #999999;
       }
 
       window#waybar {
         background: rgba(21, 18, 27, 0.5);
-        color: #d4be98;
       }
 
       #workspaces button {
         padding: 5px 10px;
-        color: #e2cca9;
       }
 
       #workspaces button.empty {
@@ -154,35 +148,7 @@ _: {
       #network,
       #backlight,
       #window {
-        margin: 0 5px;
-      }
-
-      #network {
-        border-bottom: 1px solid #e78a4e;
-      }
-
-      #bluetooth {
-        border-bottom: 1px solid #89b482;
-      }
-
-      #pulseaudio {
-        border-bottom: 1px solid #d3869b;
-      }
-
-      #battery {
-        border-bottom: 1px solid #a9b665;
-      }
-
-      #backlight {
-        border-bottom: 1px solid #d8a657;
-      }
-
-      #clock {
-        border-bottom: 1px solid #d4be98;
-      }
-
-      #custom-sep {
-        border-bottom: 1px solid #7c6f64;
+        padding: 0 15px;
       }
     '';
   };

@@ -33,6 +33,12 @@ _: {
           y = 0;
         };
       };
+
+      colors = {
+        primary = {
+          background = "#0D0D0D";
+        };
+      };
     };
   };
 }
