@@ -27,7 +27,7 @@ _: {
 
       window = {
         decorations = "full";
-        opacity = 0.96;
+        opacity = 1;
         padding = {
           x = 0;
           y = 0;

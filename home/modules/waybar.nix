@@ -106,12 +106,12 @@ _: {
 
       window#waybar,
       #workspaces button {
-        border-radius: 0px;
         color: #999999;
       }
 
       window#waybar {
-        background: rgba(21, 18, 27, 0.5);
+        background: rgba(13, 13, 13, 0.5);
+        border-radius: 5px;
       }
 
       #workspaces button {
