@@ -109,18 +109,19 @@ _: {
         font-size: 16px;
       }
 
+      window#waybar,
+      #workspaces button {
+        border-radius: 0px;
+      }
+
       window#waybar {
         background: rgba(21, 18, 27, 0.5);
         color: #d4be98;
-        border-radius: 8px;
       }
 
       #workspaces button {
         padding: 5px 10px;
         color: #e2cca9;
-        margin-right: 5px;
-        border-radius: 0px;
-        border-width: 1px;
       }
 
       #workspaces button.empty {
@@ -128,13 +129,14 @@ _: {
       }
 
       #workspaces button.urgent {
-        background: #a9b665;
+        background: #89a382;
       }
 
       #workspaces button.active,
       #workspaces button.focused,
       #workspaces button:hover {
         background: #282828;
+        border-bottom: 1px solid #d4be98;
       }
 
       #workspaces button:hover {
@@ -156,31 +158,31 @@ _: {
       }
 
       #network {
-        color: #e78a4e;  /* Warmer orange */
+        border-bottom: 1px solid #e78a4e;
       }
 
       #bluetooth {
-        color: #89b482;  /* Softer green */
+        border-bottom: 1px solid #89b482;
       }
 
       #pulseaudio {
-        color: #d3869b;  /* Slightly adjusted pink */
+        border-bottom: 1px solid #d3869b;
       }
 
       #battery {
-        color: #a9b665;  /* Softer green, matching urgent background */
+        border-bottom: 1px solid #a9b665;
       }
 
-      #brightness {
-        color: #d8a657;  /* Warmer, less saturated yellow */
+      #backlight {
+        border-bottom: 1px solid #d8a657;
       }
 
       #clock {
-        color: #d4be98;  /* Matching main text color from previous theme */
+        border-bottom: 1px solid #d4be98;
       }
 
       #custom-sep {
-        color: #7c6f64;  /* Matching empty workspace color for consistency */
+        border-bottom: 1px solid #7c6f64;
       }
     '';
   };
