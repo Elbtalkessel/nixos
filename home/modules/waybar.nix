@@ -1,4 +1,8 @@
 { pkgs, lib, ... }:
+let
+  sep = "  ";
+  lpad = v: if lib.stringLength v > 0 then sep + v else v;
+in
 {
   programs.waybar = {
     enable = true;
@@ -16,18 +20,26 @@
         "margin-right" = 0;
         "modules-left" = [
           "hyprland/workspaces"
+          "custom/sep"
           "tray"
+        ];
+        "modules-center" = [
           "hyprland/window"
         ];
-        "modules-center" = [ ];
         "modules-right" = [
+          "custom/sep"
           "pulseaudio"
           "mpd"
+          "custom/sep"
           "network"
+          # these may or may not be visible, separator is inside these.
           "bluetooth"
           "battery"
           "backlight"
+          # ---
+          "custom/sep"
           "clock"
+          "custom/sep"
           "hyprland/language"
         ];
         "hyprland/window" = {
@@ -64,21 +76,20 @@
           };
         };
         "hyprland/language" = {
-          # TODO: replace with emoji flags (install the font)
-          "format" = "{}";
+          "format" = "{} ";
           "format-en" = "🇺🇸";
           "format-ru" = "🏳️‍🌈";
         };
         "tray" = {
-          "spacing" = 5;
+          "spacing" = 10;
         };
         bluetooth = {
           format = "{icon}";
           format-disabled = "";
-          format-off = "󰂲";
-          format-on = "󰂯";
-          format-connected = "󰂴";
-          format-icons = [
+          format-off = lpad "󰂲";
+          format-on = "";
+          format-connected = lpad "󰂴";
+          format-icons = lib.map lpad [
             "󰤾"
             "󰤿"
             "󰥀"
@@ -108,28 +119,28 @@
           "max-length" = 50;
         };
         "pulseaudio" = {
-          "format" = "{icon}";
+          "format" = "{icon} ";
           "tooltip-format" = "{volume}%";
           "format-muted" = "󰝟";
           "format-icons" = lib.imap0 (
             i: _:
             lib.concatStrings [
-              (lib.concatStrings (lib.replicate (10 - i) " "))
-              (lib.concatStrings (lib.replicate i "─"))
-              " "
+              " "
+              (lib.concatStrings (lib.replicate i "•"))
+              (lib.concatStrings (lib.replicate (10 - i) "·"))
             ]
           ) (lib.lists.range 0 10);
           "scroll-step" = 5;
           "on-click" = "pavucontrol";
         };
         "clock" = {
-          "format" = "{:%a %d %b %H:%M}";
-          "tooltip-format" = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
+          "format" = "{:%H:%M}";
+          "tooltip-format" = "{:%a %d %b %H:%M}";
         };
         "battery" = {
           "format" = "{icon}";
           "tooltip-format" = "{capacity}%";
-          "format-icons" = [
+          "format-icons" = lib.map lpad [
             "󰁺"
             "󰁻"
             "󰁼"
@@ -139,13 +150,13 @@
             "󰂀"
             "󰂁"
             "󰂂"
-            "󰁹"
+            ""
           ];
         };
         "backlight" = {
           "format" = "{icon}";
           "tooltip-format" = "{percent}%";
-          "format-icons" = [
+          "format-icons" = lib.map lpad [
             "󱩎"
             "󱩏"
             "󱩐"
@@ -155,14 +166,14 @@
             "󱩔"
             "󱩕"
             "󱩖"
-            "󰛨"
+            ""
           ];
         };
         "custom/sep" = {
-          "format" = "";
+          "format" = sep;
         };
         mpd = {
-          "format" = "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {title}";
+          "format" = "{stateIcon}{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}";
           "format-disconnected" = "";
           "format-stopped" = "";
           "interval" = 2;
@@ -171,17 +182,16 @@
           "on-scroll-up" = "mpc next";
           "on-scroll-down" = "mpc prev";
           "consume-icons" = {
-            # Icon shows only when "consume" is on
-            "on" = " ";
+            "on" = " ";
           };
           "random-icons" = {
-            "on" = " ";
+            "on" = " ";
           };
           "repeat-icons" = {
-            "on" = " ";
+            "on" = " ";
           };
           "single-icons" = {
-            "on" = "1 ";
+            "on" = " 1";
           };
           "state-icons" = {
             "paused" = "";
@@ -228,34 +238,27 @@
         border-color: #202020;
       }
 
-      #bluetooth,
-      #battery,
-      #clock,
-      #language,
-      #workspaces,
-      #tray,
-      #pulseaudio,
-      #custom-ipaddr,
-      #network,
-      #backlight,
       #mpd,
-      #window {
-        padding: 0 10px;
-      }
-
-      #window,
-      #clock {
-        color: #f0f0f0;
-      }
-
-
-      #bluetooth,
-      #battery,
       #pulseaudio,
-      #custom-ipaddr,
       #network,
-      #backlight {
-        color: #c0c0c0;
+      #battery,
+      #bluetooth,
+      #backlight,
+      #clock,
+      #language
+      {
+        opacity: 0.5;
+      }
+      #mpd:hover,
+      #pulseaudio:hover,
+      #network:hover,
+      #battery:hover,
+      #bluetooth:hover,
+      #backlight:hover,
+      #clock:hover,
+      #language:hover
+      {
+        opacity: 1;
       }
     '';
   };
