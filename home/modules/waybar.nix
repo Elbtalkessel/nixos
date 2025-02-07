@@ -181,13 +181,13 @@ _: {
       }
 
       #workspaces button.urgent {
-        background: #9bab94;
+        border-bottom: 2px solid #D84040;
       }
 
       #workspaces button.active,
       #workspaces button.focused,
       #workspaces button:hover {
-        background: #282828;
+        background: rgba(40, 40, 40, 0.2);
         border-bottom: 1px solid #d3d3d3;
         color: #d3d3d3;
       }
@@ -207,7 +207,7 @@ _: {
       #network,
       #backlight,
       #window {
-        padding: 0 15px;
+        padding: 0 10px;
       }
 
       #window,

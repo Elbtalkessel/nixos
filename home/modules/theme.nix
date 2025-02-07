@@ -10,7 +10,7 @@
     enable = true;
     theme = {
       package = pkgs.flat-remix-gtk;
-      name = "Flat-Remix-GTK-White-Darkest-Solid";
+      name = "Flat-Remix-GTK-Gray-Darkest-Solid";
     };
     iconTheme = {
       package = pkgs.adwaita-icon-theme;

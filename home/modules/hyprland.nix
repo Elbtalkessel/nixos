@@ -1,6 +1,6 @@
 _:
 let
-  WALLPAPER = "/media/pictures/wallpaperflare.com_wallpaper (15).jpg";
+  WALLPAPER = "/media/pictures/wallpaperflare.com_wallpaper (2).jpg";
   AVATAR = "/media/pictures/D63NJrbO_2x.jpg";
 in
 {
