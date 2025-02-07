@@ -1,4 +1,5 @@
-_: {
+{ pkgs, lib, ... }:
+{
   programs.waybar = {
     enable = true;
     settings = [
@@ -15,16 +16,15 @@ _: {
         "margin-right" = 0;
         "modules-left" = [
           "hyprland/workspaces"
-        ];
-        "modules-center" = [
+          "tray"
           "hyprland/window"
         ];
+        "modules-center" = [ ];
         "modules-right" = [
-          "tray"
-          "custom/sep"
+          "pulseaudio"
+          "mpd"
           "network"
           "bluetooth"
-          "pulseaudio"
           "battery"
           "backlight"
           "clock"
@@ -111,11 +111,14 @@ _: {
           "format" = "{icon}";
           "tooltip-format" = "{volume}%";
           "format-muted" = "󰝟";
-          "format-icons" = [
-            ""
-            ""
-            ""
-          ];
+          "format-icons" = lib.imap0 (
+            i: _:
+            lib.concatStrings [
+              (lib.concatStrings (lib.replicate (10 - i) " "))
+              (lib.concatStrings (lib.replicate i "─"))
+              " "
+            ]
+          ) (lib.lists.range 0 10);
           "scroll-step" = 5;
           "on-click" = "pavucontrol";
         };
@@ -157,6 +160,35 @@ _: {
         };
         "custom/sep" = {
           "format" = "";
+        };
+        mpd = {
+          "format" = "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {title}";
+          "format-disconnected" = "";
+          "format-stopped" = "";
+          "interval" = 2;
+          "on-click" = "mpc toggle";
+          "on-click-right" = "mpc stop";
+          "on-scroll-up" = "mpc next";
+          "on-scroll-down" = "mpc prev";
+          "consume-icons" = {
+            # Icon shows only when "consume" is on
+            "on" = " ";
+          };
+          "random-icons" = {
+            "on" = " ";
+          };
+          "repeat-icons" = {
+            "on" = " ";
+          };
+          "single-icons" = {
+            "on" = "1 ";
+          };
+          "state-icons" = {
+            "paused" = "";
+            "playing" = "";
+          };
+          "tooltip-format" = "{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S})";
+          "tooltip-format-disconnected" = "MPD Disconnected";
         };
       }
     ];
@@ -206,13 +238,14 @@ _: {
       #custom-ipaddr,
       #network,
       #backlight,
+      #mpd,
       #window {
         padding: 0 10px;
       }
 
       #window,
       #clock {
-        color: #b3b3b3;
+        color: #f0f0f0;
       }
 
 
