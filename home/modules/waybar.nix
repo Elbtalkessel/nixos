@@ -104,10 +104,6 @@ _: {
         font-size: 16px;
       }
 
-      #workspaces button {
-        color: #999999;
-      }
-
       window#waybar {
         background: rgba(13, 13, 13, 0.5);
         border-radius: 5px;
@@ -116,6 +112,8 @@ _: {
 
       #workspaces button {
         padding: 5px 10px;
+        color: #999999;
+        border-radius: 0px;
       }
 
       #workspaces button.empty {
