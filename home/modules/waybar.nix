@@ -67,30 +67,87 @@ _: {
         "tray" = {
           "spacing" = 5;
         };
+        bluetooth = {
+          format = "{icon}";
+          format-disabled = "";
+          format-off = "󰂲";
+          format-on = "󰂯";
+          format-connected = "󰂴";
+          format-icons = [
+            "󰤾"
+            "󰤿"
+            "󰥀"
+            "󰥁"
+            "󰥂"
+            "󰥃"
+            "󰥄"
+            "󰥅"
+            "󰥆"
+            "󰥈"
+          ];
+          tooltip-format = "{controller_alias}\t{controller_address}";
+          tooltip-format-connected = "{controller_alias}\t{controller_address}\n\n{device_enumerate}";
+          tooltip-format-enumerate-connected = "{device_alias}\t{device_address}";
+          on-click = "blueman-manager";
+        };
         "network" = {
           "interface" = "wlo1";
-          "format" = " {ifname}";
-          "format-wifi" = " {ipaddr} ({signalStrength}%)";
-          "format-ethernet" = "{ipaddr}/{cidr}";
-          "format-disconnected" = ""; # An empty format will hide the module.
+          "format" = "";
+          "format-wifi" = "";
+          "format-ethernet" = "󰈀";
+          "format-disconnected" = "";
           "tooltip-format" = "{ifname} via {gwaddr}";
-          "tooltip-format-wifi" = "{essid} ({signalStrength}%)";
-          "tooltip-format-ethernet" = "{ifname}";
+          "tooltip-format-wifi" = "{ipaddr} @ {essid} ({signalStrength}%)";
+          "tooltip-format-ethernet" = "{ipaddr}/{cidr}";
           "tooltip-format-disconnected" = "Disconnected";
           "max-length" = 50;
         };
         "pulseaudio" = {
-          "format" = " {volume}%";
-          "tooltip" = "{muted}";
+          "format" = "{icon}";
+          "tooltip-format" = "{volume}%";
+          "format-muted" = "󰝟";
+          "format-icons" = [
+            ""
+            ""
+            ""
+          ];
+          "scroll-step" = 5;
+          "on-click" = "pavucontrol";
         };
         "clock" = {
           "format" = " {:%a %d %b, %H:%M}";
         };
         "battery" = {
-          "format" = " {}%";
+          "format" = "{icon}";
+          "tooltip-format" = "{capacity}%";
+          "format-icons" = [
+            "󰁺"
+            "󰁻"
+            "󰁼"
+            "󰁽"
+            "󰁾"
+            "󰁿"
+            "󰂀"
+            "󰂁"
+            "󰂂"
+            "󰁹"
+          ];
         };
         "backlight" = {
-          "format" = "󱩎 {}%";
+          "format" = "{icon}";
+          "tooltip-format" = "{percent}%";
+          "format-icons" = [
+            "󱩎"
+            "󱩏"
+            "󱩐"
+            "󱩑"
+            "󱩒"
+            "󱩓"
+            "󱩔"
+            "󱩕"
+            "󱩖"
+            "󰛨"
+          ];
         };
         "custom/sep" = {
           "format" = "";
