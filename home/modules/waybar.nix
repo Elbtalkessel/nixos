@@ -15,8 +15,6 @@ _: {
         "margin-right" = 0;
         "modules-left" = [
           "hyprland/workspaces"
-          "custom/sep"
-          "hyprland/language"
         ];
         "modules-center" = [
           "hyprland/window"
@@ -30,6 +28,7 @@ _: {
           "battery"
           "backlight"
           "clock"
+          "hyprland/language"
         ];
         "hyprland/window" = {
           "format" = "{}";
@@ -67,8 +66,8 @@ _: {
         "hyprland/language" = {
           # TODO: replace with emoji flags (install the font)
           "format" = "{}";
-          "format-en" = "en";
-          "format-ru" = "ru";
+          "format-en" = "🇺🇸";
+          "format-ru" = "🏳️‍🌈";
         };
         "tray" = {
           "spacing" = 5;

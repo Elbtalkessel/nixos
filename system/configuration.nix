@@ -276,6 +276,7 @@ in
   fonts = {
     packages = with pkgs; [
       nerd-fonts.overpass
+      noto-fonts-emoji
     ];
     fontconfig = {
       enable = true;
@@ -291,6 +292,7 @@ in
         monospace = [ "Overpass Nerd Font Mono" ];
         sansSerif = [ "Overpass Nerd Font" ];
         serif = [ "Overpass Nerd Font" ];
+        emoji = [ "Noto Color Emoji" ];
       };
     };
   };
