@@ -64,6 +64,12 @@ _: {
             "10" = "0";
           };
         };
+        "hyprland/language" = {
+          # TODO: replace with emoji flags (install the font)
+          "format" = "{}";
+          "format-en" = "en";
+          "format-ru" = "ru";
+        };
         "tray" = {
           "spacing" = 5;
         };
@@ -115,7 +121,8 @@ _: {
           "on-click" = "pavucontrol";
         };
         "clock" = {
-          "format" = " {:%a %d %b, %H:%M}";
+          "format" = "{:%a %d %b %H:%M}";
+          "tooltip-format" = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
         };
         "battery" = {
           "format" = "{icon}";
@@ -204,19 +211,17 @@ _: {
       #network,
       #backlight,
       #window {
-        padding: 0 10px;
+        padding: 0 15px;
       }
 
-      #bluetooth { color: rgba(79, 195, 247, 0.7); }
-      #battery { color: rgba(129, 212, 250, 0.7); }
-      #network { color: rgba(41, 182, 246, 0.7); }
-      #clock { color: rgba(255, 183, 77, 0.7); }
-      #language { color: rgba(204, 136, 68, 0.7); }
-      #workspaces { color: rgba(224, 224, 224, 0.7); }
-      #pulseaudio { color: rgba(179, 157, 219, 0.7); }
-      #backlight { color: rgba(149, 117, 205, 0.7); }
-      #tray { color: rgba(129, 199, 132, 0.7); }
-      #custom-ipaddr { color: rgba(102, 187, 106, 0.7); }
+      #bluetooth,
+      #battery,
+      #pulseaudio,
+      #custom-ipaddr,
+      #network,
+      #backlight {
+        color: #d4be98;
+      }
     '';
   };
 }
