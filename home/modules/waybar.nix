@@ -10,17 +10,17 @@ _: {
         "passthrough" = false;
         "gtk-layer-shell" = true;
         "height" = 0;
-        "margin-top" = 4;
-        "margin-left" = 4;
-        "margin-right" = 4;
+        "margin-top" = 0;
+        "margin-left" = 0;
+        "margin-right" = 0;
         "modules-left" = [
           "hyprland/workspaces"
           "custom/sep"
           "hyprland/language"
-          "custom/sep"
+        ];
+        "modules-center" = [
           "hyprland/window"
         ];
-        "modules-center" = [ ];
         "modules-right" = [
           "tray"
           "custom/sep"
@@ -107,7 +107,7 @@ _: {
       window#waybar {
         background: rgba(13, 13, 13, 0.5);
         border-radius: 5px;
-        color: #d4be98;
+        color: #868686;
       }
 
       #workspaces button {
@@ -147,8 +147,19 @@ _: {
       #network,
       #backlight,
       #window {
-        padding: 0 15px;
+        padding: 0 10px;
       }
+
+      #bluetooth { color: rgba(79, 195, 247, 0.7); }
+      #battery { color: rgba(129, 212, 250, 0.7); }
+      #network { color: rgba(41, 182, 246, 0.7); }
+      #clock { color: rgba(255, 183, 77, 0.7); }
+      #language { color: rgba(204, 136, 68, 0.7); }
+      #workspaces { color: rgba(224, 224, 224, 0.7); }
+      #pulseaudio { color: rgba(179, 157, 219, 0.7); }
+      #backlight { color: rgba(149, 117, 205, 0.7); }
+      #tray { color: rgba(129, 199, 132, 0.7); }
+      #custom-ipaddr { color: rgba(102, 187, 106, 0.7); }
     '';
   };
 }
