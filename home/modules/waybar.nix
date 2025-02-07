@@ -169,30 +169,27 @@ _: {
 
       window#waybar {
         background: rgba(13, 13, 13, 0.5);
-        border-radius: 5px;
-        color: #868686;
       }
 
       #workspaces button {
         padding: 5px 10px;
-        color: #999999;
         border-radius: 0px;
       }
 
       #workspaces button.empty {
-        color: #7c6f64;
+        color: #a1a1a1;
       }
 
       #workspaces button.urgent {
-        background: #89a382;
+        background: #9bab94;
       }
 
       #workspaces button.active,
       #workspaces button.focused,
       #workspaces button:hover {
         background: #282828;
-        border-bottom: 1px solid #d4be98;
-        color: #d4be98;
+        border-bottom: 1px solid #d3d3d3;
+        color: #d3d3d3;
       }
 
       #workspaces button:hover {
@@ -213,13 +210,19 @@ _: {
         padding: 0 15px;
       }
 
+      #window,
+      #clock {
+        color: #b3b3b3;
+      }
+
+
       #bluetooth,
       #battery,
       #pulseaudio,
       #custom-ipaddr,
       #network,
       #backlight {
-        color: #d4be98;
+        color: #c0c0c0;
       }
     '';
   };
