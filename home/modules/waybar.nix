@@ -20,7 +20,6 @@ in
         "margin-right" = 0;
         "modules-left" = [
           "hyprland/workspaces"
-          "custom/sep"
           "tray"
         ];
         "modules-center" = [
@@ -81,7 +80,7 @@ in
           "format-ru" = "🏳️‍🌈";
         };
         "tray" = {
-          "spacing" = 10;
+          "spacing" = 18;
         };
         bluetooth = {
           format = "{icon}";
@@ -171,6 +170,7 @@ in
         };
         "custom/sep" = {
           "format" = sep;
+          "tooltip" = false;
         };
         mpd = {
           "format" = "{stateIcon}{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}";
@@ -213,13 +213,13 @@ in
         background: rgba(13, 13, 13, 0.5);
       }
 
-      #workspaces button {
+      #workspaces button, #tray {
         padding: 5px 10px;
         border-radius: 0px;
       }
 
       #workspaces button.empty {
-        color: #a1a1a1;
+        opacity: 0.4;
       }
 
       #workspaces button.urgent {
