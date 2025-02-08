@@ -6,6 +6,31 @@ rec {
   home.packages = with pkgs; [
     # CLI for searching packages on search.nixos.org
     nix-search-cli
+
+    # Network
+    curl
+    wget
+    arp-scan
+    httpie
+
+    # Development
+    python311Packages.ipython
+    lazydocker
+    lazygit
+    devenv
+
+    # Tools
+    ncdu
+    translate-shell
+    btop
+    nvtopPackages.full
+    brightnessctl
+
+    # Shell scripts
+    (writeShellScriptBin "screen" (builtins.readFile ../bin/screenshot.sh))
+    # Reqired from imv.nix for applying a wallpaper
+    (writeShellScriptBin "wallpaper" (builtins.readFile ../bin/wallpapper.sh))
+    (writeShellScriptBin "repl" (builtins.readFile ../bin/repl.sh))
   ];
 
   programs = {
