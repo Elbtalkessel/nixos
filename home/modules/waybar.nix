@@ -15,9 +15,10 @@ in
         "passthrough" = false;
         "gtk-layer-shell" = true;
         "height" = 0;
-        "margin-top" = 0;
-        "margin-left" = 0;
-        "margin-right" = 0;
+        "margin-top" = 5;
+        "margin-left" = 5;
+        "margin-right" = 5;
+        "margin-bottom" = 3;
         "modules-left" = [
           "hyprland/workspaces"
         ];
@@ -198,15 +199,17 @@ in
     style = ''
       * {
         font-family: "OverpassM Nerd Font Propo";
-        font-size: 16px;
       }
 
       window#waybar {
+        font-size: 16px;
+        border-radius: 5px;
         background: rgba(13, 13, 13, 0.5);
       }
 
       #workspaces button {
-        padding: 5px 10px;
+        font-size: 25px;
+        padding: 0px 5px;
       }
 
       #workspaces button.empty {
