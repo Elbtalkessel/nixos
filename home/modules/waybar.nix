@@ -20,12 +20,12 @@ in
         "margin-right" = 0;
         "modules-left" = [
           "hyprland/workspaces"
-          "tray"
         ];
         "modules-center" = [
           "hyprland/window"
         ];
         "modules-right" = [
+          "tray"
           "custom/sep"
           "pulseaudio"
           "mpd"
@@ -46,32 +46,24 @@ in
         };
         "hyprland/workspaces" = {
           "disable-scroll" = true;
+          "show-special" = true;
           "all-outputs" = true;
           "on-click" = "activate";
-          "persistent-workspaces" = {
-            "1" = [ ];
-            "2" = [ ];
-            "3" = [ ];
-            "4" = [ ];
-            "5" = [ ];
-            "6" = [ ];
-            "7" = [ ];
-            "8" = [ ];
-            "9" = [ ];
-            "10" = [ ];
-          };
           "format" = "{icon}";
           "format-icons" = {
-            "1" = "1";
-            "2" = "2";
-            "3" = "3";
-            "4" = "4";
-            "5" = "5";
-            "6" = "6";
-            "7" = "7";
-            "8" = "8";
-            "9" = "9";
-            "10" = "0";
+            "1" = "󰬺";
+            "2" = "󰬻";
+            "3" = "󰬼";
+            "4" = "󰬽";
+            "5" = "󰬾";
+            "6" = "󰬿";
+            "7" = "󰭀";
+            "8" = "󰭁";
+            "9" = "󰭂";
+            "10" = "󱓇";
+            "active" = "";
+            "special" = "";
+            "empty" = "";
           };
         };
         "hyprland/language" = {
@@ -213,9 +205,8 @@ in
         background: rgba(13, 13, 13, 0.5);
       }
 
-      #workspaces button, #tray {
+      #workspaces button {
         padding: 5px 10px;
-        border-radius: 0px;
       }
 
       #workspaces button.empty {
@@ -223,19 +214,14 @@ in
       }
 
       #workspaces button.urgent {
-        border-bottom: 2px solid #D84040;
+        color: #D84040;
       }
 
       #workspaces button.active,
       #workspaces button.focused,
       #workspaces button:hover {
-        background: rgba(40, 40, 40, 0.2);
-        border-bottom: 1px solid #d3d3d3;
         color: #d3d3d3;
-      }
-
-      #workspaces button:hover {
-        border-color: #202020;
+        opacity: 1;
       }
 
       #mpd,
