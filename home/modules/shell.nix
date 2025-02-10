@@ -30,7 +30,6 @@ rec {
     (writeShellScriptBin "screen" (builtins.readFile ../bin/screenshot.sh))
     # Reqired from imv.nix for applying a wallpaper
     (writeShellScriptBin "wallpaper" (builtins.readFile ../bin/wallpapper.sh))
-    (writeShellScriptBin "repl" (builtins.readFile ../bin/repl.sh))
   ];
 
   # Background tasks
