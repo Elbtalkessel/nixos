@@ -60,13 +60,11 @@ _: {
         "$M, mouse:273, resizewindow"
       ];
       bind = [
-        ", XF86Calculator, exec, gnome-calculator"
         "$M, left, exec, hyprctl switchxkblayout moergo-glove80-left-keyboard next"
 
         # Launcher
         "$M, Space, exec, tofi-drun | xargs hyprctl dispatch exec --"
-        "$M, right, exec, tofi-run | xargs hyprctl dispatch exec --"
-        "$M Shift, Space, exec, repl $TERMINAL"
+        "$M SHIFT, Space, exec, tofi-run | xargs hyprctl dispatch exec --"
         "$M, p, exec, gopass ls --flat | tofi | xargs --no-run-if-empty gopass show -c"
         "$M, Return, exec, $TERMINAL"
 
