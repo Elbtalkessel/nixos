@@ -57,6 +57,7 @@
       pavucontrol
       calibre
       telegram-desktop
+      hyprpicker
     ];
   };
 
