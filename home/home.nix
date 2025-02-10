@@ -8,7 +8,7 @@
     ./modules/git.nix
     ./modules/hyprland.nix
     ./modules/mako.nix
-    ./modules/waybar.nix
+    ./modules/waybar/waybar.nix
     ./modules/lf.nix
     ./modules/clipboard.nix
     ./modules/qutebrowser.nix
