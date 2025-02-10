@@ -1,17 +1,16 @@
 _: ''
   * {
     font-family: "OverpassM Nerd Font Propo";
+    font-size: 16px;
   }
 
   window#waybar {
-    font-size: 16px;
     border-radius: 5px;
     background: rgba(13, 13, 13, 0.5);
   }
 
   #workspaces button {
-    font-size: 25px;
-    padding: 0px 5px;
+    padding: 5px 10px;
   }
 
   #workspaces button.empty {
