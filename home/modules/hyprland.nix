@@ -1,9 +1,4 @@
-_:
-let
-  WALLPAPER = "/media/pictures/wallpaperflare.com_wallpaper (2).jpg";
-  AVATAR = "/media/pictures/D63NJrbO_2x.jpg";
-in
-{
+_: {
   # Hypr* (land, paper, etc)
   wayland.windowManager.hyprland = {
     enable = true;
@@ -253,11 +248,11 @@ in
       splash_offset = 2.0;
 
       preload = [
-        "${WALLPAPER}"
+        "${../../assets/bg.jpg}"
       ];
 
       wallpaper = [
-        ",${WALLPAPER}"
+        ",${../../assets/bg.jpg}"
       ];
     };
   };
@@ -322,7 +317,7 @@ in
 
       # Profie-Photo
       image = {
-        path = "${AVATAR}";
+        path = "${../../assets/profpic.jpg}";
         border_size = 2;
         border_color = "rgba(255, 255, 255, .65)";
         size = 130;
