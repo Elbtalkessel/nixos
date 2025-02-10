@@ -33,6 +33,14 @@ rec {
     (writeShellScriptBin "repl" (builtins.readFile ../bin/repl.sh))
   ];
 
+  # Background tasks
+  # https://github.com/Nukesor/pueue
+  services = {
+    pueue = {
+      enable = true;
+    };
+  };
+
   programs = {
     # file database for nixpkgs
     # usage example: `nix-locate 'bin/hello'`

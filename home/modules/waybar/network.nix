@@ -8,5 +8,4 @@ _: {
   "tooltip-format-wifi" = "{ipaddr} @ {essid} ({signalStrength}%)";
   "tooltip-format-ethernet" = "{ipaddr}/{cidr}";
   "tooltip-format-disconnected" = "Disconnected";
-  "max-length" = 50;
 }
