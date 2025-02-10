@@ -1,7 +1,6 @@
 { pkgs, ... }:
 {
   imports = [
-    ./aliases.nix
     ./environment.nix
     ./modules/alacritty.nix
     ./modules/shell.nix

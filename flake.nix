@@ -3,8 +3,12 @@
 
   inputs = {
     # nixos-24.05 for stable, nixos-unstable for unstable
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixpkgs = {
+      url = "github:nixos/nixpkgs/nixos-unstable";
+    };
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware/master";
+    };
     home-manager = {
       # release-24.05 for stable, master for unstable
       url = "github:nix-community/home-manager/master";
@@ -18,7 +22,9 @@
       url = "github:nix-community/disko/latest";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+    };
   };
 
   outputs =

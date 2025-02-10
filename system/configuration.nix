@@ -16,10 +16,8 @@ in
   imports = [
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
-    ./modules/logiops.nix
     ./modules/samba.nix
     ./modules/virtualisation.nix
-    #./modules/wireguard.nix
     ./modules/flatpak.nix
     ./modules/ollama.nix
     ./modules/bluetooth.nix

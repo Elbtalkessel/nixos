@@ -1,6 +1,5 @@
 { lib, pkgs, ... }:
-
-rec {
+{
   # Everything related to the shell
 
   home.packages = with pkgs; [
@@ -45,72 +44,52 @@ rec {
     # usage example: `nix-locate 'bin/hello'`
     nix-index = {
       enable = true;
-      # Provides command-not-found script
-      # Example:
-      #   $ blender
-      #     The program 'blender' is currently not installed. You can install it
-      #     by typing:
-      #       nix-env -iA nixpkgs.blender.out
-      #     Or run it once with:
-      #       nix-shell -p blender.out --run ...
-      enableZshIntegration = programs.zsh.enable;
-    };
-
-    zsh = {
-      enable = false;
-      enableCompletion = true;
-      autosuggestion.enable = true;
-      syntaxHighlighting.enable = true;
-      prezto = {
-        enable = true;
-        editor = {
-          dotExpansion = true;
-          keymap = "vi";
-        };
-      };
     };
 
     nushell = {
       enable = true;
       # for editing directly to config.nu 
       configFile.source = ../config/nushell/config.nu;
-      plugins = [
-        (pkgs.callPackage (pkgs.fetchFromGitHub {
-          owner = "Elbtalkessel";
-          repo = "nu_plugin_bg";
-          rev = "v0.5.0";
-          hash = "sha256-jtCIcpuTp0SFEr9Jd9mbhUpQaKnEByJ0PSwz2I9g/CI=";
-        }) { })
-      ];
+      shellAliases = {
+        cp = "cp -iv";
+        ln = "ln -v";
+        mv = "mv -iv";
+        rm = "rm -v";
+        S = "sudo systemctl";
+        s = "sudo";
+        Ss = "sudo systemctl status";
+        Su = "systemctl --user";
+        Sr = "sudo systemctl restart";
+        g = "lazygit";
+        d = "lazydocker";
+        # For monitoring cached data to permanent storage syncronization progress.
+        # Example:
+        #   cp a_large_file /run/media/risus/pendrive/
+        #   sync
+        #   watch dirty
+        dirty = "grep -e Dirty: -e Writeback: /proc/meminfo";
+        bg = "pueue";
+      };
     };
-    carapace.enable = programs.nushell.enable;
-    carapace.enableNushellIntegration = programs.nushell.enable;
+
+    # Nushell autocomplete
+    carapace = {
+      enable = true;
+      enableNushellIntegration = true;
+    };
 
     # "Smarter" cd, tracks visited directories and allows to jump back by typing its name without full path
     zoxide = {
       enable = true;
       options = [ "--cmd cd" ];
-      enableZshIntegration = programs.zsh.enable;
-      enableNushellIntegration = programs.nushell.enable;
-    };
-
-    # Better "ls"
-    eza = {
-      enable = programs.zsh.enable;
-      enableZshIntegration = programs.zsh.enable;
-    };
-
-    # Better "cat"
-    bat = {
-      enable = true;
+      enableNushellIntegration = true;
     };
 
     # Devenv "soft" dependency, automatically uses devenv on "cd"
     direnv = {
       enable = true;
       nix-direnv.enable = true;
-      enableZshIntegration = programs.zsh.enable;
-      enableNushellIntegration = programs.nushell.enable;
+      enableNushellIntegration = true;
     };
 
     # fd is a simple, fast and user-friendly alternative to find
@@ -128,7 +107,6 @@ rec {
     # fuzzy finder, able to walk directories or read from stdin
     fzf = {
       enable = true;
-      enableZshIntegration = programs.zsh.enable;
     };
 
     # a fast, modern replacement for grep
@@ -138,8 +116,7 @@ rec {
 
     starship = {
       enable = true;
-      enableZshIntegration = programs.zsh.enable;
-      enableNushellIntegration = programs.nushell.enable;
+      enableNushellIntegration = true;
       # output of `starship preset pure-preset` converted to nix
       settings = {
         add_newline = true;

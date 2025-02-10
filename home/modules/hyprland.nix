@@ -1,4 +1,11 @@
-_: {
+{ pkgs, lib, ... }:
+let
+  center-rule = clss: [
+    "float,^(${builtins.concatStringsSep "|" clss})$"
+    "center,^(${builtins.concatStringsSep "|" clss})$"
+  ];
+in
+{
   # Hypr* (land, paper, etc)
   wayland.windowManager.hyprland = {
     enable = true;
@@ -12,23 +19,12 @@ _: {
       # While v2 rules allow multiple rules to be applied, the `center` rule
       # or `move` rule is not available.
       # https://wiki.hyprland.org/Configuring/Window-Rules/
-      windowrule = [
-        "float,^(org.gnome.Calculator)$"
-        "center,^(org.gnome.Calculator)$"
-
-        "float,^(jetbrains-toolbox)$"
-        "center,^(jetbrains-toolbox)$"
-
-        "float,^(udiskie)$"
-        "center,^(udiskie)$"
-
-        "float,^(polkit-gnome-authentication-agent-1)$"
-        "center,^(polkit-gnome-authentication-agent-1)$"
-
-        # Force focus on browser file pick dialog
-        "center,title:^(Open File)$"
-        "float,title:^(Open File)$"
-        "stayfocused,title:^(Open File)$"
+      windowrule = center-rule [
+        "org.gnome.Calculator"
+        "jetbrains-toolbox"
+        "udiskie"
+        "polkit-gnome-authentication-agent-1"
+        "solaar"
       ];
 
       # See https://wiki.hyprland.org/Configuring/Keywords/ for more
@@ -38,6 +34,7 @@ _: {
       "exec-once" = [
         "waybar"
         "hyprpaper"
+        "${pkgs.solaar}/bin/solaar --window=hide --battery-icons=symbolic"
       ];
 
       # KEY BINDINGS, see https://wiki.hyprland.org/Configuring/Binds/ for more

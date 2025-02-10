@@ -45,6 +45,10 @@
   # networking.interfaces.eno1.useDHCP = lib.mkDefault true;
   # networking.interfaces.wlo1.useDHCP = lib.mkDefault true;
 
+  environment.systemPackages = with pkgs; [
+    solaar
+  ];
+
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware = {
     cpu.amd.updateMicrocode = true;
@@ -59,5 +63,6 @@
         nvidiaBusId = "PCI:1:0:0";
       };
     };
+    logitech.wireless.enable = true;
   };
 }
