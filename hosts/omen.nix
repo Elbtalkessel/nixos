@@ -3,6 +3,7 @@
   modulesPath,
   inputs,
   pkgs,
+  nixos-hardware,
   ...
 }:
 {
@@ -10,11 +11,11 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     # Mostly from https://github.com/NixOS/nixos-hardware/blob/master/omen/16-n0280nd/default.nix
     # The rest (kernel modules and prime config is in the omen.nix)
-    inputs.nixos-hardware.nixosModules.common-cpu-amd
-    inputs.nixos-hardware.nixosModules.common-cpu-amd-pstate
-    inputs.nixos-hardware.nixosModules.common-gpu-nvidia
-    inputs.nixos-hardware.nixosModules.common-pc-laptop
-    inputs.nixos-hardware.nixosModules.common-pc-laptop-ssd
+    nixos-hardware.nixosModules.common-cpu-amd
+    nixos-hardware.nixosModules.common-cpu-amd-pstate
+    nixos-hardware.nixosModules.common-gpu-nvidia
+    nixos-hardware.nixosModules.common-pc-laptop
+    nixos-hardware.nixosModules.common-pc-laptop-ssd
     ./omen-disko.nix
   ];
 
@@ -50,6 +51,16 @@
   ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "cuda_cudart"
+      "libcublas"
+      "cuda_cccl"
+      "cuda_nvcc"
+      "nvidia-x11"
+      "nvidia-settings"
+    ];
   hardware = {
     cpu.amd.updateMicrocode = true;
     graphics = {

@@ -3,7 +3,6 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 {
   pkgs,
-  inputs,
   config,
   ...
 }:
@@ -14,8 +13,6 @@ let
 in
 {
   imports = [
-    inputs.disko.nixosModules.disko
-    inputs.sops-nix.nixosModules.sops
     ./modules/samba.nix
     ./modules/virtualisation.nix
     ./modules/flatpak.nix
@@ -149,12 +146,6 @@ in
     LC_PAPER = "en_IE.UTF-8";
     LC_TELEPHONE = "en_IE.UTF-8";
     LC_TIME = "en_IE.UTF-8";
-  };
-
-  # Allow unfree packages
-  nixpkgs.config = {
-    allowUnfree = true;
-    allowUnfreePredicate = _: true;
   };
 
   # PROGRAMS

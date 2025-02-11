@@ -2,8 +2,8 @@
   description = "System configuration";
 
   inputs = {
-    # nixos-24.05 for stable, nixos-unstable for unstable
     nixpkgs = {
+      # nixos-24.05 for stable, nixos-unstable for unstable
       url = "github:nixos/nixpkgs/nixos-unstable";
     };
     nixos-hardware = {
@@ -37,10 +37,14 @@
       home-manager,
       nixvim,
       nixpkgs-custom,
-      ...
-    }@inputs:
+      nixos-hardware,
+      disko,
+      sops-nix,
+    }:
     let
       system = "x86_64-linux";
+
+      # Overlayed packages for home configuration.
       pkgs = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
@@ -48,35 +52,36 @@
           nixpkgs-custom.overlays.default
         ];
       };
-    in
-    {
-      nixosConfigurations = {
-        # Virtual machine, for testing, closely follows the main machine.
-        virt = nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = {
-            inherit inputs;
-          };
-          modules = [
-            ./hosts/virt.nix
-            ./system/configuration.nix
-          ];
-        };
 
-        # Main machine configuration
-        omen = nixpkgs.lib.nixosSystem {
+      # Builds an attribute set for a `name`,
+      # where name is host-specific configuration inside hosts/ (without .nix).
+      # All machine configurations have `nixos-hardware` module passed as
+      # argument.
+      baseMachine = name: {
+        inherit name;
+        value = nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = {
-            inherit inputs;
+            inherit nixos-hardware;
           };
           modules = [
-            ./hosts/omen.nix
+            disko.nixosModules.disko
+            sops-nix.nixosModules.sops
+            ./hosts/${name}.nix
             ./system/configuration.nix
           ];
         };
       };
+    in
+    {
+      nixosConfigurations = builtins.listToAttrs (
+        map baseMachine [
+          "virt"
+          "omen"
+        ]
+      );
 
-      # Home configuration
+      # Home configuration.
       homeConfigurations.risus = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
@@ -87,7 +92,6 @@
               pkgs.bootdev
             ];
           }
-
           ./home/home.nix
         ];
       };
