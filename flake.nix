@@ -25,6 +25,9 @@
     sops-nix = {
       url = "github:Mic92/sops-nix";
     };
+    nixpkgs-custom = {
+      url = "github:Elbtalkessel/nixpkgs-custom/master";
+    };
   };
 
   outputs =
@@ -33,18 +36,20 @@
       nixpkgs,
       home-manager,
       nixvim,
+      nixpkgs-custom,
       ...
     }@inputs:
     let
       system = "x86_64-linux";
-      pkgs = import nixpkgs { inherit system; };
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+        overlays = [
+          nixpkgs-custom.overlays.default
+        ];
+      };
     in
     {
-      packages = {
-        usbdrivetools = import ./packages/usbdrivetools/default.nix { inherit pkgs; };
-        bootdev = import ./packages/bootdev/default.nix { inherit pkgs; };
-      };
-
       nixosConfigurations = {
         # Virtual machine, for testing, closely follows the main machine.
         virt = nixpkgs.lib.nixosSystem {
@@ -73,16 +78,13 @@
 
       # Home configuration
       homeConfigurations.risus = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-        };
+        inherit pkgs;
         modules = [
           {
             home.packages = [
               nixvim.packages.${system}.default
-              self.packages.usbdrivetools
-              self.packages.bootdev
+              pkgs.usbdrivetools
+              pkgs.bootdev
             ];
           }
 
