@@ -16,7 +16,7 @@
     };
     nixvim = {
       # Remove the branch name to switch to unstable
-      url = "github:Elbtalkessel/nixvim/custom";
+      url = "github:Elbtalkessel/nixvim";
     };
     disko = {
       url = "github:nix-community/disko/latest";
@@ -87,7 +87,7 @@
         modules = [
           {
             home.packages = [
-              nixvim.packages.${system}.default
+              nixvim.packages.${pkgs.system}.default
               pkgs.usbdrivetools
               pkgs.bootdev
             ];
