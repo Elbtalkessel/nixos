@@ -10,7 +10,6 @@
     curl
     wget
     arp-scan
-    httpie
 
     # Development
     python311Packages.ipython
