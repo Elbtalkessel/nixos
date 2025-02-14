@@ -48,3 +48,6 @@ def n [] {
   run-external $env.EDITOR
 }
 
+def nn [] {
+  nix run ~/code/nix/nixvim
+}
