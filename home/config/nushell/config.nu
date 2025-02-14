@@ -45,6 +45,6 @@ def --env lfcd [] {
 }
 
 def n [] {
-  exec $env.EDITOR .
+  run-external $env.EDITOR
 }
 
