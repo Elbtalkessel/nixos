@@ -11,5 +11,8 @@ _: {
         home-manager switch --flake ./
       fi
     '';
+    cleanup.exec = ''
+      nix-collect-garbage -d
+    '';
   };
 }
