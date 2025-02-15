@@ -57,6 +57,7 @@
       calibre
       telegram-desktop
       hyprpicker
+      seahorse
     ];
   };
 
