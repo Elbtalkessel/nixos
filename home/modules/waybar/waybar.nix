@@ -20,6 +20,8 @@ in
         "margin-right" = 5;
         "margin-bottom" = 3;
         "modules-left" = [
+          "custom/powermenu"
+          "custom/sep"
           "hyprland/workspaces"
         ];
         "modules-center" = [
@@ -54,6 +56,7 @@ in
         "backlight" = import ./backlight.nix { inherit lib lpad; };
         "custom/sep" = import ./sep.nix { inherit sep; };
         "mpd" = import ./mpd.nix { };
+        "custom/powermenu" = import ./powermenu.nix { inherit pkgs; };
       }
     ];
 
