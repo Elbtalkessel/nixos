@@ -13,6 +13,7 @@ let
     "Music"
     "Public"
     "Video"
+    "Documents"
   ];
 
   # Function to generate mount points

@@ -58,6 +58,9 @@
       telegram-desktop
       hyprpicker
       seahorse
+      protonvpn-gui
+      protonmail-desktop
+      proton-pass
     ];
   };
 
