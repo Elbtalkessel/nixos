@@ -6,7 +6,7 @@ _: {
     switch.exec = ''
       if [ $(whoami) = "root" ]
       then 
-        nixos-rebuild switch --flake ./
+        nixos-rebuild ''${1:-switch} --flake ./
       else
         home-manager switch --flake ./
       fi

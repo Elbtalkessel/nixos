@@ -15,7 +15,6 @@ in
   imports = [
     ./modules/samba.nix
     ./modules/virtualisation.nix
-    ./modules/flatpak.nix
     ./modules/ollama.nix
     ./modules/bluetooth.nix
   ];
