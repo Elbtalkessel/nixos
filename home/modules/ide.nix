@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 {
   home = {
     packages = with pkgs; [
@@ -23,90 +23,9 @@
     #"idea/pycharm.properties".text = "idea.filewatcher.executable.path = ${pkgs.fsnotifier}/bin/fsnotifier";
   };
 
-  programs.zed-editor = {
-    enable = false;
-
-    extensions = [
-      "nix"
-      "toml"
-      "make"
-    ];
-
-    ## everything inside of these brackets are Zed options.
-    userSettings = {
-      assistant = {
-        enabled = true;
-        version = "2";
-        default_open_ai_model = null;
-        default_model = {
-          provider = "ollama";
-          model = "deepseek-r1:1.5b";
-        };
-      };
-
-      node = {
-        path = lib.getExe pkgs.nodejs;
-        npm_path = lib.getExe' pkgs.nodejs "npm";
-      };
-
-      hour_format = "hour24";
-      auto_update = false;
-      terminal = {
-        alternate_scroll = "off";
-        blinking = "off";
-        copy_on_select = false;
-        dock = "bottom";
-        detect_venv = {
-          on = {
-            directories = [
-              ".env"
-              "env"
-              ".venv"
-              "venv"
-            ];
-            activate_script = "default";
-          };
-        };
-        env = {
-          TERM = "alacritty";
-        };
-        font_features = null;
-        font_size = null;
-        line_height = "comfortable";
-        option_as_meta = false;
-        button = false;
-        shell = "system";
-        program = "nu";
-        toolbar = {
-          title = true;
-        };
-        working_directory = "current_project_directory";
-      };
-
-      lsp = {
-        nix = {
-          binary = {
-            # path = lib.getExe pkgs.<?>;
-            path_lookup = true;
-          };
-        };
-      };
-
-      vim_mode = true;
-      ## tell zed to use direnv and direnv can use a flake.nix enviroment.
-      load_direnv = "shell_hook";
-      theme = {
-        mode = "system";
-        light = "JetBrains New Dark";
-        dark = "One Dark";
-      };
-      show_whitespaces = "all";
-      ui_font_size = 25;
-      buffer_font_size = 22;
-      buffer_line_height = {
-        custom = 2;
-      };
-      show_inline_completions = true;
-    };
+  # alias instead of reproducible configuration, so
+  # settings can be managed from zed.
+  programs.nushell.shellAliases = {
+    zeditor = "nix run nixpkgs#zed-editor";
   };
 }
