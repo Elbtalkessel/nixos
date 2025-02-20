@@ -54,12 +54,8 @@ nix run "nixpkgs#ssh-to-age" -- -private-key -i ~/.ssh/id_ed25519 >! ~/.config/s
 
 ## To do
 
-- home/bin/screenshot.sh: read session variables instead of hard-coded values.
-- add [USB Guard](https://usbguard.github.io/)
-- setup system auto upgrade
-- setup home manager auto upgrade
-- Flatpak declarative app install and app permissions
+- `home/bin/screenshot.sh`: read session variables instead of hard-coded values.
+- Add [USB Guard](https://usbguard.github.io/)
 - Qemu declarative machine definition (ubuntu 20.04, windows)
-- integrate [sops-nix](https://github.com/Mic92/sops-nix?tab=readme-ov-file#Flakes)
-  - add GitHub access token to it, https://github.com/NixOS/nix/issues/6536#issuecomment-1254858889 and https://nix.dev/manual/nix/2.18/command-ref/conf-file#file-format
-- replace hardcode paths in environment.nix and ide.nix
+- Add GitHub access token to secrets, https://github.com/NixOS/nix/issues/6536#issuecomment-1254858889 and https://nix.dev/manual/nix/2.18/command-ref/conf-file#file-format
+- Waybar doesn't start, hyprland `exce-once` doesn't always work, systemd service never works, maybe a slight delay will help?
