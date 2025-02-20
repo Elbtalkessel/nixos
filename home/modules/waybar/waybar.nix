@@ -1,4 +1,9 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 let
   sep = "  ";
   lpad = v: if lib.stringLength v > 0 then sep + v else v;
@@ -6,6 +11,10 @@ in
 {
   programs.waybar = {
     enable = true;
+    systemd = lib.mkIf config.wayland.windowManager.hyprland.systemd.enable {
+      enable = true;
+      target = "hyprland-session.target";
+    };
     settings = [
       {
         "layer" = "top";

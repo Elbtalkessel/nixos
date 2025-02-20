@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 let
   center-rule = clss: [
     "float,^(${builtins.concatStringsSep "|" clss})$"
@@ -10,6 +10,7 @@ in
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
+    systemd.enable = true;
     settings = {
       monitor = ",highres,auto,1";
       xwayland = {
@@ -39,7 +40,6 @@ in
       "$TERMINAL" = "alacritty";
 
       "exec-once" = [
-        "waybar"
         "hyprpaper"
         "${pkgs.solaar}/bin/solaar --window=hide --battery-icons=symbolic"
       ];

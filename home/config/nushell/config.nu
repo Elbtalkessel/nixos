@@ -3,7 +3,21 @@ let carapace_completer = {|spans|
 }
 
 let zoxide_completer = {|spans|
-  $spans | skip 1 | zoxide query -l ...$in | lines | where {|x| $x != $env.PWD}
+  # Spans is command array, likely ["cd", "<arg>"]
+  # Why do we even pipe $spans?
+  $spans 
+    # Skip "cd" part.
+    | skip 1
+    # In current dir, list all nodes, pick only directories.
+    # If second arg is passed, filter dir names by it. Finally list names only.
+    # What about symlinks?
+    | "./" + ($env.PWD | path basename)
+    | ls -a
+    | where type == dir and ($spans.1 == "" or name =~ $spans.1)
+    | get name 
+    # Query zoxide, append result and filter-out non-unique records.
+    | append ( zoxide query -l $spans.1 --exclude $env.PWD | lines ) 
+    | uniq
 }
 
 let completers = {|spans|
@@ -26,7 +40,8 @@ $env.config = {
     partial: true
 
     # prefix or fuzzy
-    algorithm: "fuzzy"
+    # using prefix because fuzzy doesn't work well with "cd <tab>"
+    algorithm: "prefix"
 
     external: {
       # set to false to prevent nushell looking into $env.PATH to find more suggestions
