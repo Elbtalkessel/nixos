@@ -4,20 +4,22 @@ let carapace_completer = {|spans|
 
 let zoxide_completer = {|spans|
   # Spans is command array, likely ["cd", "<arg>"]
-  # Why do we even pipe $spans?
-  $spans 
-    # Skip "cd" part.
-    | skip 1
-    # In current dir, list all nodes, pick only directories.
-    # If second arg is passed, filter dir names by it. Finally list names only.
-    # What about symlinks?
-    | "./" + ($env.PWD | path basename)
-    | ls -a
-    | where type == dir and ($spans.1 == "" or name =~ $spans.1)
-    | get name 
-    # Query zoxide, append result and filter-out non-unique records.
-    | append ( zoxide query -l $spans.1 --exclude $env.PWD | lines ) 
-    | uniq
+  let q = ($spans | last)
+
+  # In current dir, list all nodes, pick only directories.
+  # filter-out by $q (if passed) and list names only.
+  # TODO: exclude symlinks to files.
+  # TODO: would be nicer to output paths relative to current directory.
+  "./" + ($env.PWD | path basename)
+  | ls -a
+  # It seems nushell can't filter if we swap params, ex:
+  # `where name =~ $q` vs. `$q in name` have different meaning.
+  # I prefer using `in` instead of regex `=~`.
+  | where {|x| $q in $x.name and $x.type in [dir, symlink]}
+  | get name 
+  # Query zoxide, append result and filter-out non-unique records.
+  | append ( zoxide query -l $q --exclude $env.PWD | lines ) 
+  | uniq
 }
 
 let completers = {|spans|
