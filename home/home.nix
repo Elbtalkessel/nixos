@@ -19,6 +19,7 @@
     ./modules/ide.nix
     ./modules/theme.nix
     ./modules/redshift.nix
+    ./modules/tofi.nix
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
@@ -48,7 +49,6 @@
       slurp
 
       # Desktop environment
-      tofi
       zathura
       libnotify
       mpv
@@ -79,8 +79,6 @@
   };
 
   xdg.configFile = {
-    # Tofi laucher theme
-    "tofi/config".source = ./config/tofi/fullscreen;
     "wget/wgetrc".source = ./config/wget/wgetrc;
     # TMPFS caching, https://github.com/direnv/direnv/wiki/Customizing-cache-location#direnv-cache-on-tmpfs
     "direnv/direnvrc".source = ./config/direnv/direnvrc;
