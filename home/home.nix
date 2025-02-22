@@ -9,6 +9,7 @@
     ./modules/hypridle.nix
     ./modules/hyprlock.nix
     ./modules/hyprpaper.nix
+    ./modules/hyprsunset.nix
     ./modules/mako.nix
     ./modules/waybar/waybar.nix
     ./modules/lf.nix
@@ -20,7 +21,6 @@
     ./modules/music.nix
     ./modules/ide.nix
     ./modules/theme.nix
-    ./modules/redshift.nix
     ./modules/tofi.nix
   ];
 

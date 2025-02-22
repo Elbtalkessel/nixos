@@ -14,5 +14,8 @@ _: {
     cleanup.exec = ''
       nix-collect-garbage -d
     '';
+    nixos-generations.exec = ''
+      nix profile history --profile /nix/var/nix/profiles/system
+    '';
   };
 }
