@@ -6,6 +6,9 @@
     ./modules/shell.nix
     ./modules/git.nix
     ./modules/hyprland.nix
+    ./modules/hypridle.nix
+    ./modules/hyprlock.nix
+    ./modules/hyprpaper.nix
     ./modules/mako.nix
     ./modules/waybar/waybar.nix
     ./modules/lf.nix

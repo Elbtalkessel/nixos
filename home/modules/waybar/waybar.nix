@@ -1,7 +1,6 @@
 {
   pkgs,
   lib,
-  config,
   ...
 }:
 let
@@ -11,9 +10,9 @@ in
 {
   programs.waybar = {
     enable = true;
-    systemd = lib.mkIf config.wayland.windowManager.hyprland.systemd.enable {
+    systemd = {
       enable = true;
-      target = "hyprland-session.target";
+      target = "graphical-session.target";
     };
     settings = [
       {
