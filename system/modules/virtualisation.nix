@@ -43,5 +43,6 @@
 
   # USERS
   # Define a user account. Don't forget to set a password with ‘passwd’.
+  # TODO(conf): a central point to define default username.
   users.users.risus.extraGroups = [ "libvirtd" ];
 }

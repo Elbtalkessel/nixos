@@ -7,6 +7,7 @@
   ...
 }:
 let
+  # TODO(conf): a central point to define default username.
   username = "risus";
 in
 {

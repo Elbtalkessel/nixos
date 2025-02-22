@@ -12,7 +12,6 @@
     ./modules/mako.nix
     ./modules/waybar/waybar.nix
     ./modules/lf.nix
-    ./modules/clipboard.nix
     ./modules/qutebrowser.nix
     ./modules/browser.nix
     ./modules/gpg.nix

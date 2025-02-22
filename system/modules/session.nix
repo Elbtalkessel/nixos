@@ -1,8 +1,5 @@
-{ pkgs, ... }:
-let
-  user = "risus";
-in
-{
+{ pkgs, lib, ... }:
+rec {
   # Graphical session related, auth, greeter.
   # It is required to enable it to manage system settings, despite it being enabled in the home-manager.
   programs.hyprland = {
@@ -29,30 +26,22 @@ in
   };
 
   services = {
-    displayManager.sddm = {
-      enable = true;
-      wayland.enable = true;
-      autoLogin.relogin = true;
-    };
-    # Gretter with autologin
     greetd = {
-      enable = false;
-      settings = {
-        # Passwordless login after boot.
-        initial_session = {
-          command = "systemctl --user start hyprland";
-          inherit user;
-        };
-        # Regualar login after logout.
-        default_session =
-          let
-            greeter = "${pkgs.greetd.tuigreet}/bin/tuigreet";
-          in
-          {
-            command = "${greeter} --asterisks --remember --remember-user-session --time --cmd 'systemctl --user start hyprland'";
-            inherit user;
+      enable = true;
+      settings =
+        let
+          cmd = if programs.uwsm.enable then "uwsm start -- hyprland-uwsm.desktop" else "Hyprland";
+        in
+        {
+          initial_session = {
+            command = cmd;
+            # TODO(conf): a central point to define default username.
+            user = "risus";
           };
-      };
+          default_session = {
+            command = "${lib.getExe pkgs.greetd.tuigreet} --asterisks --remember --time --cmd '${cmd}'";
+          };
+        };
     };
   };
 
