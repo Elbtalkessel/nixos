@@ -7,8 +7,6 @@
   ...
 }:
 let
-  tuigreet = "${pkgs.greetd.tuigreet}/bin/tuigreet";
-  session = "Hyprland";
   username = "risus";
 in
 {
@@ -17,6 +15,7 @@ in
     ./modules/virtualisation.nix
     ./modules/ollama.nix
     ./modules/bluetooth.nix
+    ./modules/session.nix
   ];
 
   boot = {
@@ -187,26 +186,6 @@ in
   security = {
     rtkit.enable = true;
     polkit.enable = true;
-    # See:
-    #   home/modules/hyprland.nix (hyprlock)
-    #   https://mynixos.com/home-manager/option/programs.hyprlock.enable
-    pam.services.hyprlock = { };
-  };
-
-  systemd = {
-    user.services.polkit-gnome-authentication-agent-1 = {
-      description = "polkit-gnome-authentication-agent-1";
-      wantedBy = [ "graphical-session.target" ];
-      wants = [ "graphical-session.target" ];
-      after = [ "graphical-session.target" ];
-      serviceConfig = {
-        Type = "simple";
-        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-        Restart = "on-failure";
-        RestartSec = 1;
-        TimeoutStopSec = 10;
-      };
-    };
   };
 
   # List services that you want to enable:
@@ -220,35 +199,10 @@ in
       alsa.support32Bit = true;
       pulse.enable = true;
     };
-    # Gretter with autologin
-    greetd = {
-      enable = true;
-      settings = {
-        initial_session = {
-          command = "${session}";
-          user = "${username}";
-        };
-        default_session = {
-          command = "${tuigreet} --greeting 'Welcome to NixOS!' --asterisks --remember --remember-user-session --time --cmd ${session}";
-          user = "greeter";
-        };
-      };
-    };
     gnome.gnome-keyring.enable = true;
     # Daemon for updating some devices' firmware
     # https://github.com/fwupd/fwupd
     fwupd.enable = true;
-  };
-
-  xdg = {
-    portal = {
-      enable = true;
-      extraPortals = with pkgs; [
-        xdg-desktop-portal
-        xdg-desktop-portal-gtk
-      ];
-      config.common.default = "*";
-    };
   };
 
   # List packages installed in system profile. To search, run:
