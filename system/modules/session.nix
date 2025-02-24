@@ -4,7 +4,7 @@ rec {
   # It is required to enable it to manage system settings, despite it being enabled in the home-manager.
   programs.hyprland = {
     enable = true;
-    withUWSM = true;
+    withUWSM = programs.uwsm.enable;
   };
 
   programs.uwsm.enable = true;
@@ -30,7 +30,11 @@ rec {
       enable = true;
       settings =
         let
-          cmd = if programs.uwsm.enable then "uwsm start -- hyprland-uwsm.desktop" else "Hyprland";
+          cmd =
+            if programs.uwsm.enable then
+              "if uwsm check may-start; then exec uwsm start hyprland-uwsm.desktop; fi"
+            else
+              "Hyprland";
         in
         {
           initial_session = {

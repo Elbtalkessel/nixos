@@ -13,7 +13,7 @@
       #!/usr/bin/env nu
       let i = {
         " lock": "loginctl lock-session"
-        "󰗽 logout": "hyprctl dispatch exit"
+        "󰗽 logout": "loginctl terminate-user (whoami)"
         "󰤄 sleep": "systemctl suspend"
         " reboot": "poweroff --reboot"
         " shutdown": "poweroff"
