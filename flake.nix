@@ -81,7 +81,7 @@
         ]
       );
 
-      homeConfigurations.remote = home-manager.lib.homeManager {
+      homeConfigurations.remote = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
           nixvim.packages.${pkgs.system}.default
