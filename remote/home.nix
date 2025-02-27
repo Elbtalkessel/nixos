@@ -14,7 +14,7 @@ _: {
       # '')
     ];
 
-    sessionVeriables = {
+    sessionVariables = {
       EDITOR = "nvim";
     };
 
