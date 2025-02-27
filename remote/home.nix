@@ -1,4 +1,9 @@
 _: {
+  imports = [
+    ../home/modules/lf.nix
+    ../home/modules/git.nix
+  ];
+
   home = {
     stateVersion = "24.11";
 
