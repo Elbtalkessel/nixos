@@ -1,35 +1,5 @@
-{ lib, pkgs, ... }:
+{ lib, ... }:
 {
-  # Everything related to the shell
-
-  home.packages = with pkgs; [
-    # CLI for searching packages on search.nixos.org
-    nix-search-cli
-
-    # Network
-    curl
-    wget
-    arp-scan
-
-    # Development
-    python311Packages.ipython
-    lazydocker
-    lazygit
-    devenv
-
-    # Tools
-    ncdu
-    translate-shell
-    btop
-    nvtopPackages.full
-    brightnessctl
-
-    # Shell scripts
-    (writeShellScriptBin "screen" (builtins.readFile ../bin/screenshot.sh))
-    # Reqired from imv.nix for applying a wallpaper
-    (writeShellScriptBin "wallpaper" (builtins.readFile ../bin/wallpapper.sh))
-  ];
-
   # Background tasks
   # https://github.com/Nukesor/pueue
   services = {
@@ -47,7 +17,7 @@
 
     nushell = {
       enable = true;
-      # for editing directly to config.nu 
+      # for editing directly to config.nu
       configFile.source = ../config/nushell/config.nu;
       shellAliases = {
         cp = "cp -iv";

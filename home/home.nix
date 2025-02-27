@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+_: {
   imports = [
     ./environment.nix
     ./modules/alacritty.nix
@@ -22,6 +21,7 @@
     ./modules/ide.nix
     ./modules/theme.nix
     ./modules/tofi.nix
+    ./modules/packages.nix
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
@@ -38,32 +38,6 @@
     # want to update the value, then make sure to first check the Home Manager
     # release notes.
     stateVersion = "23.11"; # Please read the comment before changing.
-
-    # The home.packages option allows you to install Nix packages into your
-    # environment.
-    packages = with pkgs; [
-      # Web access
-      slack
-      mattermost-desktop
-
-      # Capture
-      grim
-      slurp
-
-      # Desktop environment
-      zathura
-      libnotify
-      mpv
-      xdg-user-dirs
-      pavucontrol
-      calibre
-      telegram-desktop
-      hyprpicker
-      seahorse
-      protonvpn-gui
-      protonmail-desktop
-      proton-pass
-    ];
   };
 
   programs = {

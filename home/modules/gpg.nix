@@ -12,7 +12,7 @@
     enable = true;
   };
   home.packages = with pkgs; [
-    #seahorse
+    seahorse
     gpg-tui
   ];
 }
