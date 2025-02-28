@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ ... }:
 let
   sessionVariables = {
     XDG_DATA_HOME = "/home/risus/.local/share";
