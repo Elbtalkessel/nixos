@@ -32,7 +32,6 @@
 
   outputs =
     {
-      self,
       nixpkgs,
       home-manager,
       nixvim,
@@ -40,6 +39,7 @@
       nixos-hardware,
       disko,
       sops-nix,
+      ...
     }:
     let
       system = "x86_64-linux";

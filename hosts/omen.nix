@@ -1,7 +1,6 @@
 {
   lib,
   modulesPath,
-  inputs,
   pkgs,
   nixos-hardware,
   ...
