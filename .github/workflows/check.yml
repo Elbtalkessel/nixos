@@ -13,6 +13,8 @@ jobs:
   checks:
     name: Check expressions on ${{ matrix.arch }}
     runs-on: ${{ matrix.os }}
+    env:
+      NIXPKGS_ALLOW_UNFREE: 1
     strategy:
       fail-fast: false
       matrix:
