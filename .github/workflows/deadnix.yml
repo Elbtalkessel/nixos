@@ -22,4 +22,3 @@ jobs:
       - uses: astro/deadnix-action@main
         with:
           commit_message: "💚: remove dead code"
-          token: ${{ secrets.GH_TOKEN_FOR_UPDATES }}
