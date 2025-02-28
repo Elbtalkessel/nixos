@@ -52,35 +52,22 @@
           nixpkgs-custom.overlays.default
         ];
       };
-
-      # Builds an attribute set for a `name`,
-      # where name is host-specific configuration inside hosts/ (without .nix).
-      # All machine configurations have `nixos-hardware` module passed as
-      # argument.
-      baseMachine = name: {
-        inherit name;
-        value = nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = {
-            inherit nixos-hardware;
-          };
-          modules = [
-            disko.nixosModules.disko
-            sops-nix.nixosModules.sops
-            ./hosts/${name}.nix
-            ./system/configuration.nix
-          ];
-        };
-      };
     in
     {
-      nixosConfigurations = builtins.listToAttrs (
-        map baseMachine [
-          "virt"
-          "omen"
-        ]
-      );
+      nixosConfigurations.omen = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = {
+          inherit nixos-hardware;
+        };
+        modules = [
+          disko.nixosModules.disko
+          sops-nix.nixosModules.sops
+          ./hosts/omen.nix
+          ./system/configuration.nix
+        ];
+      };
 
+      # Non-NixOS machines with home-manager installed.
       homeConfigurations.remote = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
