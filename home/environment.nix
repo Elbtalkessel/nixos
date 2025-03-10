@@ -1,5 +1,8 @@
 _:
 let
+  # TODO(conf):
+  #   - username is hardcoded.
+  #   - can't be set anywhere else.
   sessionVariables = {
     XDG_DATA_HOME = "/home/risus/.local/share";
     XDG_CONFIG_HOME = "/home/risus/.config";
@@ -19,6 +22,7 @@ let
     VAGRANT_DEFAULT_PROVIDER = "kvm";
     VIRSH_DEFAULT_CONNECT_URI = "qemu:///system";
     DOCKER_BUILDKIT = "1";
+    PASSWORD_STORE_DIR = "/home/risus/.local/share/pwdstr";
   };
 in
 {
