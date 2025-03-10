@@ -21,6 +21,7 @@
     protonvpn-gui
     protonmail-desktop
     proton-pass
+    wl-clipboard-rs
 
     # CLI for searching packages on search.nixos.org
     nix-search-cli
