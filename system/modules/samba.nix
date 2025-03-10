@@ -14,6 +14,7 @@ let
     "Public"
     "Video"
     "Documents"
+    "Whatever"
   ];
 
   # Function to generate mount points
