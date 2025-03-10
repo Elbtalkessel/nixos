@@ -30,11 +30,7 @@ rec {
       enable = true;
       settings =
         let
-          cmd =
-            if programs.uwsm.enable then
-              "if uwsm check may-start; then exec uwsm start hyprland-uwsm.desktop; fi"
-            else
-              "Hyprland";
+          cmd = if programs.uwsm.enable then "uwsm start hyprland-uwsm.desktop" else "Hyprland";
         in
         {
           initial_session = {
