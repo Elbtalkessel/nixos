@@ -4,6 +4,7 @@ let
     "float,^(${builtins.concatStringsSep "|" clss})$"
     "center,^(${builtins.concatStringsSep "|" clss})$"
   ];
+  keyboard = "moergo-glove80-left-keyboard";
 in
 {
   wayland.windowManager.hyprland = {
@@ -70,7 +71,7 @@ in
         "$M, mouse:273, resizewindow"
       ];
       bind = [
-        "$M, left, exec, hyprctl switchxkblayout moergo-glove80-left-keyboard next"
+        "$M, left, exec, hyprctl switchxkblayout ${keyboard} next"
 
         # Launcher
         "$M, SPACE, exec, tofi-drun | xargs hyprctl dispatch exec --"

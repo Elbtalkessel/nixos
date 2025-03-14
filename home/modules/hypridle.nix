@@ -1,4 +1,8 @@
-_: {
+_:
+let
+  keyboard = "moergo-glove80-left-keyboard";
+in
+{
   # https://mynixos.com/home-manager/options/services.hypridle
   services.hypridle = {
     enable = true;
@@ -12,9 +16,9 @@ _: {
       };
 
       listener = [
-        # Lower brightness after 2.5 minutes.
+        # Lower brightness after 5 minutes.
         {
-          timeout = 150;
+          timeout = 300;
           on-timeout = "brightnessctl -s set 10";
           on-resume = "brightnessctl -r";
         }
@@ -24,14 +28,14 @@ _: {
         #  on-timeout = "brightnessctl -s set 10 ";
         #  on-resume = "brightnessctl -r";
         #}
-        # Lock session after 5 min.
+        # Switch layout to 0, should be english, and lock session after 7.5 min.
         {
-          timeout = 300;
-          on-timeout = "loginctl lock-session";
+          timeout = 450;
+          on-timeout = "hyprctl switchxkblayout ${keyboard} 0 && loginctl lock-session";
         }
-        # Turn off screen after 5.5min
+        # Turn off screen after 15min
         {
-          timeout = 330;
+          timeout = 900;
           on-timeout = "hyprctl dispatch dpms off";
           on-resume = "hyprctl dispatch dpms on";
         }
