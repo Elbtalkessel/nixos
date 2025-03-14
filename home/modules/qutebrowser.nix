@@ -296,8 +296,17 @@ in
       downloads.remove_finished = 10000;
 
       tabs.position = "top";
-      editor.command = [ "nvim" "-f" "{file}" "-c" "normal {line}G{column0}l" ];
-      spellcheck.languages = [ "en-US" "ru-RU" ];
+      editor.command = [
+        "nvim"
+        "-f"
+        "{file}"
+        "-c"
+        "normal {line}G{column0}l"
+      ];
+      spellcheck.languages = [
+        "en-US"
+        "ru-RU"
+      ];
     };
 
     keyBindings = {

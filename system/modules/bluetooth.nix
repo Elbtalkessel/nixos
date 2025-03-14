@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   # HARDWARE
   # Bluetooth
   # doesn't work, nor bluetoothctl nor blueman. authentication cancelled...
