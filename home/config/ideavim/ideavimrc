@@ -85,8 +85,8 @@ let g:WhichKey_ShowTypedSequence = "true"
 "" Key Mappings
 "" ========================================================
 " Tab navigation
-nmap <S-l> <Action>(PreviousTab)
-nmap <S-h> <Action>(NextTab)
+nmap <S-h> <Action>(PreviousTab)
+nmap <S-l> <Action>(NextTab)
 
 " Pane navigation
 nnoremap <C-h> <C-w>h
@@ -149,25 +149,25 @@ let g:WhichKeyDesc_info_method_hierarchy = "<leader>im Method Hierarchy"
 
 
 " Window splits
-let g:WhichKeyDesc_window = "<leader>w Window splits"
+let g:WhichKeyDesc_window = "<leader>w Split"
 
-nmap <leader>w| <action>(SplitVertically)
-let g:WhichKeyDesc_window_split_vertically = "<leader>w| Split vertically"
+nmap <leader>wv <action>(SplitVertically)
+let g:WhichKeyDesc_window_split_vertically = "<leader>wv right"
 
-ndowsnmap <leader>w- <action>(SplitHorizontally)
-let g:WhichKeyDesc_window_split_horizontally = "<leader>w- Split horizontally"
+nmap <leader>wh <action>(SplitHorizontally)
+let g:WhichKeyDesc_window_split_horizontally = "<leader>wh down"
 
 nmap <leader>ww <action>(Unsplit)
-let g:WhichKeyDesc_window_split_unsplit = "<leader>ww Unsplit"
+let g:WhichKeyDesc_window_split_unsplit = "<leader>ww merge"
 
 nmap <leader>wm <action>(MoveEditorToOppositeTabGroup)
-let g:WhichKeyDesc_window_split_move_editor = "<leader>wm Move editor to opposite tab group"
+let g:WhichKeyDesc_window_split_move_editor = "<leader>wm send tab"
 
 nmap <leader>wb <action>(Back)
-let g:WhichKeyDesc_window_split_back = "<leader>wb Back split"
+let g:WhichKeyDesc_window_split_back = "<leader>wb previous"
 
 nmap <leader>wf <action>(Forward)
-let g:WhichKeyDesc_window_split_forward = "<leader>wf Forward split"
+let g:WhichKeyDesc_window_split_forward = "<leader>wf next"
 
 
 " Tab (Buffer)

@@ -11,6 +11,7 @@ _: ''
 
   #workspaces button {
     padding: 5px 10px;
+    opacity: 0.4;
   }
 
   #workspaces button.empty {
