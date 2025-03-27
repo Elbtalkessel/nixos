@@ -29,7 +29,6 @@
     arp-scan
 
     # Development
-    python311Packages.ipython
     lazydocker
     lazygit
     devenv
