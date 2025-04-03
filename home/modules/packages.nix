@@ -19,6 +19,8 @@
     telegram-desktop
     hyprpicker
     wl-clipboard-rs
+    gthumb
+    libreoffice
 
     # CLI for searching packages on search.nixos.org
     nix-search-cli
