@@ -14,7 +14,7 @@ in
   imports = [
     ./modules/samba.nix
     ./modules/virtualisation.nix
-    ./modules/ollama.nix
+    ./modules/llm.nix
     ./modules/bluetooth.nix
     ./modules/session.nix
   ];

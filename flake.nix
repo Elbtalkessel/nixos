@@ -28,6 +28,10 @@
     nixpkgs-custom = {
       url = "github:Elbtalkessel/nixpkgs-custom/master";
     };
+    stable-diffusion-webui-nix = {
+      url = "github:Janrupf/stable-diffusion-webui-nix/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -39,17 +43,46 @@
       nixos-hardware,
       disko,
       sops-nix,
+      stable-diffusion-webui-nix,
       ...
     }:
     let
       system = "x86_64-linux";
-
-      # Overlayed packages for home configuration.
       pkgs = import nixpkgs {
         inherit system;
-        config.allowUnfree = true;
+        config.allowUnfreePredicate =
+          pkg:
+          builtins.elem (nixpkgs.lib.getName pkg) [
+            "cuda_cudart"
+            "libcublas"
+            "libcufft"
+            "libcurand"
+            "libcusolver"
+            "libnvjitlink"
+            "libcusparse"
+            "libnpp"
+            "cuda_cccl"
+            "cuda_nvcc"
+            "cuda_cuobjdump"
+            "cuda_gdb"
+            "cuda_nvdisasm"
+            "cuda_nvprune"
+            "cuda_cupti"
+            "cuda_cuxxfilt"
+            "cuda_nvrtc"
+            "cuda_nvtx"
+            "cuda_profiler_api"
+            "cuda_sanitizer_api"
+            "cuda_nvml_dev"
+            "cuda-merged"
+            "nvidia-x11"
+            "nvidia-settings"
+            "slack"
+            "jetbrains-toolbox"
+          ];
         overlays = [
           nixpkgs-custom.overlays.default
+          stable-diffusion-webui-nix.overlays.default
         ];
       };
     in
@@ -60,6 +93,7 @@
           inherit nixos-hardware;
         };
         modules = [
+          { nixpkgs = { inherit pkgs; }; }
           disko.nixosModules.disko
           sops-nix.nixosModules.sops
           ./hosts/omen.nix

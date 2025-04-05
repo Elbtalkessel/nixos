@@ -50,16 +50,7 @@
   ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  nixpkgs.config.allowUnfreePredicate =
-    pkg:
-    builtins.elem (lib.getName pkg) [
-      "cuda_cudart"
-      "libcublas"
-      "cuda_cccl"
-      "cuda_nvcc"
-      "nvidia-x11"
-      "nvidia-settings"
-    ];
+
   hardware = {
     cpu.amd.updateMicrocode = true;
     graphics = {

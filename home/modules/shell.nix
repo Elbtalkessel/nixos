@@ -38,6 +38,7 @@
         #   watch dirty
         dirty = "grep -e Dirty: -e Writeback: /proc/meminfo";
         bg = "pueue";
+        serve-sd-forge = "stable-diffusion-webui --data-dir /media/sd-forge";
       };
     };
 
