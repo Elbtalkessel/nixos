@@ -1,8 +1,7 @@
 { pkgs, ... }:
 let
   center-rule = clss: [
-    "float,^(${builtins.concatStringsSep "|" clss})$"
-    "center,^(${builtins.concatStringsSep "|" clss})$"
+    "float,center,class:^(${builtins.concatStringsSep "|" clss})$"
   ];
   keyboard = "moergo-glove80-left-keyboard";
 in
@@ -34,13 +33,6 @@ in
         "udiskie"
         "polkit-gnome-authentication-agent-1"
         "solaar"
-      ];
-      windowrulev2 = [
-        # All jetbrains window has the same class,
-        # no way distinguish between a type completion window and search
-        # widnow.
-        # "center stayfocused,floating:1"
-        #"fullscreen,class:^(jetbrains-pycharm)$,floating:1"
       ];
 
       # See https://wiki.hyprland.org/Configuring/Keywords/ for more
