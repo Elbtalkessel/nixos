@@ -18,13 +18,14 @@
     # QEMU
     libvirtd = {
       enable = true;
-      onShutdown = "suspend";
+      onShutdown = "shutdown";
       onBoot = "ignore";
       qemu = {
         ovmf.enable = true;
         ovmf.packages = [ pkgs.OVMFFull.fd ];
         swtpm.enable = true;
         runAsRoot = false;
+        vhostUserPackages = with pkgs; [ virtiofsd ];
       };
     };
   };

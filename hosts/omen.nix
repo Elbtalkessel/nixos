@@ -12,7 +12,7 @@
     # The rest (kernel modules and prime config is in the omen.nix)
     nixos-hardware.nixosModules.common-cpu-amd
     nixos-hardware.nixosModules.common-cpu-amd-pstate
-    nixos-hardware.nixosModules.common-gpu-nvidia
+    #nixos-hardware.nixosModules.common-gpu-nvidia
     nixos-hardware.nixosModules.common-pc-laptop
     nixos-hardware.nixosModules.common-pc-laptop-ssd
     ./omen-disko.nix
@@ -56,13 +56,6 @@
     graphics = {
       enable = true;
       extraPackages = with pkgs; [ amdvlk ];
-    };
-    nvidia = {
-      open = false;
-      prime = {
-        amdgpuBusId = "PCI:7:0:0";
-        nvidiaBusId = "PCI:1:0:0";
-      };
     };
     logitech.wireless.enable = true;
   };
