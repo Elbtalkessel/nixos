@@ -39,7 +39,6 @@
     ncdu
     translate-shell
     btop
-    nvtopPackages.full
     brightnessctl
 
     # Shell scripts

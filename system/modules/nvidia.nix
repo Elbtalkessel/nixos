@@ -1,4 +1,8 @@
-_: {
+{ nixos-hardware, ... }:
+{
+  imports = [
+    nixos-hardware.nixosModules.common-gpu-nvidia
+  ];
   hardware = {
     nvidia = {
       open = false;

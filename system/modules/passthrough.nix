@@ -2,6 +2,7 @@
 {
   boot = {
     kernelModules = [
+      "kvm-amd"
       "vfio_pci"
       "vfio"
       "vfio_iommu_type1"

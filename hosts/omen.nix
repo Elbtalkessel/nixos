@@ -12,7 +12,6 @@
     # The rest (kernel modules and prime config is in the omen.nix)
     nixos-hardware.nixosModules.common-cpu-amd
     nixos-hardware.nixosModules.common-cpu-amd-pstate
-    #nixos-hardware.nixosModules.common-gpu-nvidia
     nixos-hardware.nixosModules.common-pc-laptop
     nixos-hardware.nixosModules.common-pc-laptop-ssd
     ./omen-disko.nix
@@ -30,7 +29,6 @@
     ];
     initrd.kernelModules = [ "amdgpu" ];
     kernelModules = [
-      "kvm-amd"
       "hp-wmi"
     ];
     extraModulePackages = [ ];
