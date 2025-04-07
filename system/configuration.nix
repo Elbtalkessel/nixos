@@ -92,21 +92,31 @@ in
       enable = true;
       ensureProfiles = {
         environmentFiles = [ config.sops.secrets."wireless.env".path ];
-
-        profiles = {
-          # --- HOME WIFI ---
-          home-wifi = {
-            connection.id = "home-wifi";
-            connection.type = "wifi";
-            wifi.ssid = "$HOME_WIFI_SSID";
-            wifi-security = {
-              auth-alg = "open";
-              key-mgmt = "wpa-psk";
-              psk = "$HOME_WIFI_PASSWORD";
+        profiles =
+          let
+            defaultWifi =
+              { ssid, password }:
+              {
+                connection.id = ssid;
+                connection.type = "wifi";
+                wifi.ssid = ssid;
+                wifi-security = {
+                  auth-alg = "open";
+                  key-mgmt = "wpa-psk";
+                  psk = password;
+                };
+              };
+          in
+          {
+            home = defaultWifi {
+              ssid = "$HOME_WIFI_SSID";
+              password = "$HOME_WIFI_PASSWORD";
+            };
+            phobos = defaultWifi {
+              ssid = "$PHOBOS_WIFI_SSID";
+              password = "$PHOBOS_WIFI_PASSWORD";
             };
           };
-          # ---
-        };
       };
     };
 
