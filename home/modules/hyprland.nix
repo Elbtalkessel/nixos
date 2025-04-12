@@ -29,7 +29,6 @@ in
       # https://wiki.hyprland.org/Configuring/Window-Rules/
       windowrule = center-rule [
         "org.gnome.Calculator"
-        "jetbrains-toolbox"
         "udiskie"
         "polkit-gnome-authentication-agent-1"
         "solaar"
