@@ -66,13 +66,12 @@
           { nixpkgs = { inherit pkgs; }; }
           disko.nixosModules.disko
           sops-nix.nixosModules.sops
-          ./hosts/omen.nix
-          ./system/configuration.nix
+          ./system/omen.nix
         ];
       };
 
       # Non-NixOS machines with home-manager installed.
-      homeConfigurations.remote = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations.virt = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
           {
@@ -80,7 +79,7 @@
               nixvim.packages.${pkgs.system}.default
             ];
           }
-          ./remote/home.nix
+          ./remote/virt.nix
         ];
       };
 
@@ -95,7 +94,7 @@
               pkgs.bootdev
             ];
           }
-          ./home/home.nix
+          ./home/omen.nix
         ];
       };
     };

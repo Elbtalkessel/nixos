@@ -4,6 +4,9 @@
 {
   pkgs,
   config,
+  modulesPath,
+  nixos-hardware,
+  lib,
   ...
 }:
 let
@@ -12,11 +15,20 @@ let
 in
 {
   imports = [
+    (modulesPath + "/installer/scan/not-detected.nix")
+    # Mostly from https://github.com/NixOS/nixos-hardware/blob/master/omen/16-n0280nd/default.nix
+    # The rest (kernel modules and prime config is in the omen.nix)
+    nixos-hardware.nixosModules.common-cpu-amd
+    nixos-hardware.nixosModules.common-cpu-amd-pstate
+    nixos-hardware.nixosModules.common-pc-laptop
+    nixos-hardware.nixosModules.common-pc-laptop-ssd
+    ./disko/omen.nix
     ./modules/samba.nix
     ./modules/virtualisation.nix
     ./modules/bluetooth.nix
     ./modules/session.nix
     ./modules/passthrough.nix
+    ./modules/nfs.nix
   ];
 
   boot = {
@@ -49,6 +61,20 @@ in
     # Another option is to pin a specific kernel version:
     # https://nixos.wiki/wiki/Linux_kernel
     kernelPackages = pkgs.linuxKernel.packages.linux_zen;
+
+    initrd.availableKernelModules = [
+      "nvme"
+      "xhci_pci"
+      "uas"
+      "usbhid"
+      "usb_storage"
+      "sd_mod"
+      "sdhci_pci"
+    ];
+    initrd.kernelModules = [ "amdgpu" ];
+    kernelModules = [
+      "hp-wmi"
+    ];
   };
 
   sops = {
@@ -88,6 +114,7 @@ in
 
   # Enable networking
   networking = {
+    useDHCP = lib.mkDefault true;
     networkmanager = {
       enable = true;
       ensureProfiles = {
@@ -224,6 +251,7 @@ in
     git
     neovim
     curl
+    solaar
   ];
 
   fonts = {
@@ -250,6 +278,16 @@ in
     };
   };
 
+  hardware = {
+    cpu.amd.updateMicrocode = true;
+    graphics = {
+      enable = true;
+      extraPackages = with pkgs; [ amdvlk ];
+    };
+    logitech.wireless.enable = true;
+  };
+
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
