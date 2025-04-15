@@ -22,13 +22,21 @@ in
     nixos-hardware.nixosModules.common-cpu-amd-pstate
     nixos-hardware.nixosModules.common-pc-laptop
     nixos-hardware.nixosModules.common-pc-laptop-ssd
+
     ./disko/omen.nix
-    ./modules/samba.nix
-    ./modules/virtualisation.nix
+
     ./modules/bluetooth.nix
-    ./modules/session.nix
-    ./modules/passthrough.nix
+    ./modules/fonts.nix
+    ./modules/i18n.nix
+    ./modules/networking.nix
     ./modules/nfs.nix
+    ./modules/packages.nix
+    ./modules/passthrough.nix
+    ./modules/samba.nix
+    ./modules/services.nix
+    ./modules/session.nix
+    ./modules/sops.nix
+    ./modules/virtualisation.nix
   ];
 
   boot = {
@@ -43,9 +51,6 @@ in
     };
 
     kernel.sysctl = {
-      # Allow starting server @ :80
-      "net.ipv4.ip_unprivileged_port_start" = 80;
-
       # Inotify is a kernel module that monitors file system events such as file creation,
       # deletion and modification. It allows other application to observe these changes.
       # Double amount of the default value.
@@ -77,130 +82,12 @@ in
     ];
   };
 
-  sops = {
-    defaultSopsFile = ./secrets/secrets.yaml;
-    defaultSopsFormat = "yaml";
-    age = {
-      keyFile = "/home/${username}/.config/sops/age/keys.txt";
-    };
-    secrets = {
-      "users/risus/password" = {
-        # https://github.com/Mic92/sops-nix?tab=readme-ov-file#setting-a-users-password
-        neededForUsers = true;
-      };
-      "wireless.env" = { };
-      "moon/risus" = { };
-      "optimizer/license" = {
-        owner = config.users.users.risus.name;
-      };
-    };
-  };
-
   nix = {
     settings = {
       experimental-features = "nix-command flakes";
       # devenv requirement, allows devenv to manager caches.
       trusted-users = [ "risus" ];
     };
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 7d";
-    };
-    optimise = {
-      automatic = true;
-    };
-  };
-
-  # Enable networking
-  networking = {
-    useDHCP = lib.mkDefault true;
-    networkmanager = {
-      enable = true;
-      ensureProfiles = {
-        environmentFiles = [ config.sops.secrets."wireless.env".path ];
-        profiles =
-          let
-            defaultWifi =
-              { ssid, password }:
-              {
-                connection.id = ssid;
-                connection.type = "wifi";
-                wifi.ssid = ssid;
-                wifi-security = {
-                  auth-alg = "open";
-                  key-mgmt = "wpa-psk";
-                  psk = password;
-                };
-              };
-          in
-          {
-            home = defaultWifi {
-              ssid = "$HOME_WIFI_SSID";
-              password = "$HOME_WIFI_PASSWORD";
-            };
-            phobos = defaultWifi {
-              ssid = "$PHOBOS_WIFI_SSID";
-              password = "$PHOBOS_WIFI_PASSWORD";
-            };
-          };
-      };
-    };
-
-    hostName = "omen";
-    extraHosts = ''
-      192.168.1.90 moon
-    '';
-
-    # networking.firewall.allowedUDPPorts = [ ... ];
-    # Or disable the firewall altogether.
-    firewall.enable = true;
-
-    # Open ports in the firewall.
-    # Allow HTTP and HTTPS traffic, required for guest vm to access host,
-    # ideally to narrow down to specific IP.
-    firewall.allowedTCPPorts = [
-      80
-      443
-      8000
-      9567
-    ];
-  };
-
-  # Set your time zone.
-  time.timeZone = "Europe/Warsaw";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_IE.UTF-8";
-    LC_IDENTIFICATION = "en_IE.UTF-8";
-    LC_MEASUREMENT = "en_IE.UTF-8";
-    LC_MONETARY = "en_IE.UTF-8";
-    LC_NAME = "en_IE.UTF-8";
-    LC_NUMERIC = "en_IE.UTF-8";
-    LC_PAPER = "en_IE.UTF-8";
-    LC_TELEPHONE = "en_IE.UTF-8";
-    LC_TIME = "en_IE.UTF-8";
-  };
-
-  # PROGRAMS
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  programs = {
-    # virt-manager requires dconf to remember settings
-    dconf.enable = true;
-    nix-ld.enable = true;
-    nix-ld.libraries = [
-      # Add any missing dynamic libraries for unpackaged programs
-      # here, NOT in environment.systemPackages
-    ];
-    gnupg.agent = {
-      enable = true;
-      enableSSHSupport = false;
-    };
-    zsh.enable = true;
   };
 
   # USERS
@@ -224,58 +111,6 @@ in
   security = {
     rtkit.enable = true;
     polkit.enable = true;
-  };
-
-  # List services that you want to enable:
-  services = {
-    udisks2.enable = true;
-    # Change runtime directory size
-    logind.extraConfig = "RuntimeDirectorySize=8G";
-    pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-    };
-    gnome.gnome-keyring.enable = true;
-    # Daemon for updating some devices' firmware
-    # https://github.com/fwupd/fwupd
-    fwupd.enable = true;
-  };
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    lm_sensors
-    home-manager
-    git
-    neovim
-    curl
-    solaar
-  ];
-
-  fonts = {
-    packages = with pkgs; [
-      nerd-fonts.overpass
-      noto-fonts-emoji
-    ];
-    fontconfig = {
-      enable = true;
-      subpixel.rgba = "rgb";
-      # https://mynixos.com/nixpkgs/option/fonts.fontconfig.hinting.style
-      hinting = {
-        enable = true;
-        style = "slight";
-      };
-      # https://mynixos.com/nixpkgs/option/fonts.fontconfig.antialias
-      antialias = true;
-      defaultFonts = {
-        monospace = [ "Overpass Nerd Font Mono" ];
-        sansSerif = [ "Overpass Nerd Font" ];
-        serif = [ "Overpass Nerd Font" ];
-        emoji = [ "Noto Color Emoji" ];
-      };
-    };
   };
 
   hardware = {

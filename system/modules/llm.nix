@@ -1,8 +1,8 @@
 _: {
   services.ollama = {
     enable = false;
-    home = "/media/ollama";
-    models = "/media/ollama/models";
+    home = "/srv/nfs/personal/ollama";
+    models = "/srv/nfs/personal/ollama/models";
     acceleration = "cuda";
   };
 }
