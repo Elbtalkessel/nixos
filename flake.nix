@@ -79,7 +79,7 @@
               nixvim.packages.${pkgs.system}.default
             ];
           }
-          ./remote/virt.nix
+          ./home/virt.nix
         ];
       };
 
