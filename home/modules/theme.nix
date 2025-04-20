@@ -22,7 +22,8 @@
 
   # Enable Qt theme configuration
   qt = {
-    enable = true;
+    # Broken after the latest upgrade
+    enable = false;
     platformTheme.name = "gtk";
     style = {
       name = "adwaita-dark";
