@@ -45,12 +45,7 @@
       system = "x86_64-linux";
       pkgs = import nixpkgs {
         inherit system;
-        config.allowUnfreePredicate =
-          pkg:
-          builtins.elem (nixpkgs.lib.getName pkg) [
-            "slack"
-            "jetbrains-toolbox"
-          ];
+        config.allowUnfree = true;
         overlays = [
           nixpkgs-custom.overlays.default
         ];

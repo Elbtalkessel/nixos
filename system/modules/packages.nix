@@ -28,5 +28,6 @@
     neovim
     curl
     solaar
+    gparted
   ];
 }

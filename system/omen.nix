@@ -27,11 +27,14 @@ in
 
     ./modules/bluetooth.nix
     ./modules/fonts.nix
+    ./modules/games.nix
     ./modules/i18n.nix
+    # ./modules/llm.nix
     ./modules/networking.nix
     ./modules/nfs.nix
+    ./modules/nvidia.nix
     ./modules/packages.nix
-    ./modules/passthrough.nix
+    # ./modules/passthrough.nix
     ./modules/samba.nix
     ./modules/services.nix
     ./modules/session.nix

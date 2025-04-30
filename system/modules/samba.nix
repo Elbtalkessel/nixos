@@ -5,16 +5,10 @@ let
     config.sops.secrets."moon/risus".path
   },uid=1000,gid=100";
   SHARES = [
-    "Backup"
-    "Calibre"
-    "Download"
-    "Game"
-    "Image"
-    "Music"
-    "Public"
-    "Video"
     "Documents"
-    "Whatever"
+    "Download"
+    "Music"
+    "Pictures"
   ];
 
   # Function to generate mount points
