@@ -27,7 +27,6 @@ in
 
     ./modules/bluetooth.nix
     ./modules/fonts.nix
-    ./modules/games.nix
     ./modules/i18n.nix
     # ./modules/llm.nix
     ./modules/networking.nix
@@ -39,6 +38,7 @@ in
     ./modules/services.nix
     ./modules/session.nix
     ./modules/sops.nix
+    ./modules/steam.nix
     ./modules/virtualisation.nix
   ];
 

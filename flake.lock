@@ -241,11 +241,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1740227874,
-        "narHash": "sha256-I0oLzo/GjrNu4DRFZS6qKJqUfo4uhMMSsrk/ugtZ1S4=",
+        "lastModified": 1746038119,
+        "narHash": "sha256-s5kNzAcAUA158IrP3rjGPREL9TSo+9KeJc0NC385hSs=",
         "owner": "Elbtalkessel",
         "repo": "nixpkgs-custom",
-        "rev": "5adafe3910dc440487036c13b5104cedc8600f8a",
+        "rev": "a517802d9dc5269b7c4b83b48244a6728851981c",
         "type": "github"
       },
       "original": {

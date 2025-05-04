@@ -16,6 +16,7 @@
       "optimizer/license" = {
         owner = config.users.users.risus.name;
       };
+      "wireguard/wg0" = { };
     };
   };
 }

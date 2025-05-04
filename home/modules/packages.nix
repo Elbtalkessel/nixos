@@ -41,6 +41,11 @@
     btop
     brightnessctl
 
+    # Gaming
+    bottles
+    minigalaxy
+    nexusmods-app-unfree
+
     # Shell scripts
     (writeShellScriptBin "screen" (builtins.readFile ../bin/screenshot.sh))
     # Reqired from imv.nix for applying a wallpaper
