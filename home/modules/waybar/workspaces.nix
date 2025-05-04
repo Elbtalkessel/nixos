@@ -19,4 +19,7 @@ _: {
     "special" = "󱊷";
     #"empty" = "";
   };
+  "persistent-workspaces" = {
+    "*" = 10;
+  };
 }

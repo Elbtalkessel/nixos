@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+_: {
   programs = {
     steam = {
       enable = true;
@@ -12,12 +11,6 @@
       enable = true;
       capSysNice = true;
     };
-  };
-  environment = {
-    systemPackages = with pkgs; [
-      mangohud
-      (writeShellScriptBin "gs-launcher" (builtins.readFile ../bin/gs-launcher.sh))
-    ];
   };
   hardware.xone.enable = true;
 }

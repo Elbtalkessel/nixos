@@ -8,7 +8,7 @@
 
   programs.chromium = {
     enable = true;
-    package = pkgs.brave;
+    package = pkgs.vivaldi;
     extensions = [
       # Vimium
       # https://chromewebstore.google.com/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb
