@@ -11,11 +11,11 @@ _: ''
 
   #workspaces button {
     padding: 5px 10px;
-    opacity: 0.4;
+    opacity: 0.6;
   }
 
   #workspaces button.empty {
-    opacity: 0.4;
+    opacity: 0.3;
   }
 
   #workspaces button.urgent {
