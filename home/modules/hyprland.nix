@@ -1,7 +1,7 @@
 { pkgs, ... }:
 let
-  center-rule = clss: [
-    "float,center,class:^(${builtins.concatStringsSep "|" clss})$"
+  center-rule = domain: classifiers: [
+    "float,center,${domain}:^(${builtins.concatStringsSep "|" classifiers})$"
   ];
   keyboard = "moergo-glove80-left-keyboard";
 in
@@ -27,12 +27,17 @@ in
       # While v2 rules allow multiple rules to be applied, the `center` rule
       # or `move` rule is not available.
       # https://wiki.hyprland.org/Configuring/Window-Rules/
-      windowrule = center-rule [
-        "org.gnome.Calculator"
-        "udiskie"
-        "polkit-gnome-authentication-agent-1"
-        "solaar"
-      ];
+      windowrule =
+        (center-rule "class" [
+          "org.gnome.Calculator"
+          "udiskie"
+          "polkit-gnome-authentication-agent-1"
+          "solaar"
+          "jetbrains-toolbox"
+        ])
+        ++ (center-rule "title" [
+          "Open Files"
+        ]);
 
       # See https://wiki.hyprland.org/Configuring/Keywords/ for more
       "$M" = "SUPER";
