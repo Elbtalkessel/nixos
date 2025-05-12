@@ -27,5 +27,8 @@
   };
 
   programs.virt-manager.enable = true;
-  users.users.risus.extraGroups = [ "libvirtd" ];
+  users.users.risus.extraGroups = [
+    "libvirtd"
+    "docker"
+  ];
 }

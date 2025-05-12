@@ -63,7 +63,7 @@
 
     # region Wireguard
     wg-quick.interfaces = {
-      wg0 = {
+      wg0 = lib.mkIf false {
         address = [ "10.2.0.2/32" ];
         dns = [ "10.2.0.1" ];
         privateKeyFile = config.sops.secrets."wireguard/wg0".path;
@@ -82,4 +82,8 @@
     # endregion Wireguard
 
   };
+
+  # Instead of symlinking, nixos will copy the hosts file, so you can modify it
+  # in /etc/hosts, however changes will be dropped after applying a new configuration.
+  environment.etc.hosts.mode = "0644";
 }
