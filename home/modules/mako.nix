@@ -3,21 +3,21 @@ _: {
   services.mako = {
     enable = true;
     settings = {
-      backgroundColor = "#282828CC";
-      textColor = "#ebdbb2";
-      borderColor = "#32302f";
-      progressColor = "over #414559";
-      borderRadius = "10";
-      defaultTimeout = "5000";
+      background-color = "#282828CC";
+      text-color = "#ebdbb2";
+      border-color = "#32302f";
+      progress-color = "over #414559";
+      border-radius = "10";
+      default-timeout = "5000";
       font = "OverpassM Nerd Font 14";
     };
     criterias = {
       "urgency=low" = {
-        defaultTimeout = "2500";
+        default-timeout = "2500";
       };
       "urgency=high" = {
-        textColor = "#fb4934";
-        defaultTimeout = "0";
+        text-color = "#fb4934";
+        default-timeout = "0";
       };
     };
   };
