@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   home = {
     packages = with pkgs; [
@@ -23,9 +23,20 @@
     #"idea/pycharm.properties".text = "idea.filewatcher.executable.path = ${pkgs.fsnotifier}/bin/fsnotifier";
   };
 
-  # alias instead of reproducible configuration, so
-  # settings can be managed from zed.
-  programs.nushell.shellAliases = {
-    zeditor = "nix run nixpkgs#zed-editor";
+  xdg.desktopEntries = {
+    zeditor =
+      let
+        executable = pkgs.writeShellScript "zed-editor-laucher.bash" ''
+          #!${lib.getExe pkgs.bash}
+          nix run nixpkgs#zed-editor
+        '';
+      in
+      {
+        type = "Application";
+        name = "Zed Editor";
+        exec = builtins.toString executable;
+        terminal = false;
+        categories = [ "Development" ];
+      };
   };
 }

@@ -21,6 +21,7 @@
     wl-clipboard-rs
     gthumb
     libreoffice
+    flatpak
 
     # CLI for searching packages on search.nixos.org
     nix-search-cli

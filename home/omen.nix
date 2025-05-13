@@ -1,4 +1,5 @@
-_: {
+{ config, lib, ... }:
+{
   imports = [
     ./environment.nix
     ./modules/alacritty.nix
@@ -29,6 +30,14 @@ _: {
   home = {
     username = "risus";
     homeDirectory = "/home/risus";
+
+    activation = {
+      # https://github.com/philj56/tofi/issues/115#issuecomment-1701748297
+      regenerateTofiCache = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        tofi_cache=${config.xdg.cacheHome}/tofi-drun
+        [[ -f "$tofi_cache" ]] && rm "$tofi_cache"
+      '';
+    };
 
     # This value determines the Home Manager release that your configuration is
     # compatible with. This helps avoid breakage when a new Home Manager release
