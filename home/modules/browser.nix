@@ -6,6 +6,8 @@
     "tampermonkey/userscripts".source = ../config/tampermonkey/userscripts;
   };
 
+  home.packages = with pkgs; [ tor-browser-bundle-bin ];
+
   programs.chromium = {
     enable = true;
     package = pkgs.vivaldi;
