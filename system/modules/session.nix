@@ -53,8 +53,6 @@ rec {
   };
 
   xdg = {
-    enable = true;
-    mime.enable = true;
     portal = {
       enable = true;
       extraPortals = with pkgs; [

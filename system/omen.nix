@@ -28,7 +28,7 @@ in
     ./modules/bluetooth.nix
     ./modules/fonts.nix
     ./modules/i18n.nix
-    # ./modules/llm.nix
+    ./modules/llm.nix
     ./modules/networking.nix
     ./modules/nfs.nix
     ./modules/nvidia.nix

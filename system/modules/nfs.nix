@@ -3,7 +3,6 @@ _: {
     enable = true;
     exports = ''
       /srv/nfs/work 192.168.122.0/24(insecure,rw,sync,no_subtree_check)
-      /srv/nfs/personal 192.168.122.0/24(insecure,rw,sync,no_subtree_check)
     '';
     # NFSv3 support
     lockdPort = 4001;
