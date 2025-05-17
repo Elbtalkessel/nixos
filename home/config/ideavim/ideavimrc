@@ -76,7 +76,6 @@ let g:WhichKey_FontSize = 18
 let g:WhichKey_PrefixColor = "#7B659A"
 let g:WhichKey_CommandColor = "#FFFFFF"
 let g:WhichKey_PrefixStyle = "bold"
-" let g:WhichKey_KeyStyle = "italic"
 let g:WhichKey_SortOrder = "by_key_prefix_first"
 let g:WhichKey_ShowTypedSequence = "true"
 
@@ -109,7 +108,7 @@ vnoremap > >gv
 " IDE interaction
 nmap <C-m> <Action>(ShowPopupMenu)
 nmap <C-S-m> <Action>(ToolWindowsGroup)
-
+nmap - <Action>(ShowNavBar)
 "" ========================================================
 "" Leader Commands
 "" ========================================================
@@ -151,17 +150,17 @@ let g:WhichKeyDesc_im = "<leader>im Method Hierarchy"
 " Window splits
 let g:WhichKeyDesc_w = "<leader>w Splits"
 
-nmap <leader>wv <action>(SplitVertically)
-let g:WhichKeyDesc_wv = "<leader>wv Split Vertically"
+nmap <leader>wl <action>(SplitVertically)
+let g:WhichKeyDesc_wl = "<leader>wl Split Vertically"
 
-nmap <leader>wh <action>(SplitHorizontally)
-let g:WhichKeyDesc_wh = "<leader>wh Split Horizontally"
+nmap <leader>wj <action>(SplitHorizontally)
+let g:WhichKeyDesc_wj = "<leader>wj Split Horizontally"
 
-nmap <leader>ww <action>(Unsplit)
-let g:WhichKeyDesc_ww = "<leader>ww Unsplit"
+nmap <leader>wu <action>(Unsplit)
+let g:WhichKeyDesc_wu = "<leader>wu Unsplit"
 
 nmap <leader>ws <action>(MoveEditorToOppositeTabGroup)
-let g:WhichKeyDesc_ws = "<leader>wso Send to Opposite Tab Group"
+let g:WhichKeyDesc_ws = "<leader>ws Swap Window"
 
 nmap <leader>wb <action>(Back)
 let g:WhichKeyDesc_wb = "<leader>wb Go Back"
@@ -236,9 +235,6 @@ let g:WhichKeyDesc_s = "<leader>s Show"
 
 nmap <leader>su <Action>(FindUsages)
 let g:WhichKeyDesc_su = "<leader>su Show Usages"
-
-nmap <leader>sn <Action>(ShowNavBar)
-let g:WhichKeyDesc_sn = "<leader>sn Show Navigation"
 
 nmap <leader>sl <Action>(RecentLocations)
 let g:WhichKeyDesc_sl = "<leader>sl Show Recent Locations"
