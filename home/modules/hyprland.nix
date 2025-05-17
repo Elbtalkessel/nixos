@@ -36,15 +36,7 @@ in
         ])
         ++ (center-rule "title" [
           "Open Files"
-        ])
-        ++ [
-          "noinitialfocus, class:jetbrains-toolbox, floating:0"
-          "noinitialfocus, class:(jetbrains-)(.*), floating:0"
-          "noinitialfocus, class:(jetbrains-)(.*), title:^$, initialTitle:^$, floating:0"
-          "center, class:(jetbrains-)(.*), initialTitle:(.+), floating:0"
-          "center, class:(jetbrains-)(.*), title:^$, initialTitle:^$, floating:0"
-          "noinitialfocus, class:(jetbrains-) (.*), title:^win(.*), initialTitle:win.*, floating:0"
-        ];
+        ]);
 
       # See https://wiki.hyprland.org/Configuring/Keywords/ for more
       "$M" = "SUPER";
