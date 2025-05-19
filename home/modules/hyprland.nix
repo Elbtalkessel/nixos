@@ -19,7 +19,10 @@ in
       variables = [ "--all" ];
     };
     settings = {
-      monitor = ",highres,auto,1";
+      monitor = [
+        "eDP-1,highres,auto,1"
+        "HDMI-A-1,1920x1080@60,0x0,1,mirror,eDP-1"
+      ];
       xwayland = {
         force_zero_scaling = true;
       };

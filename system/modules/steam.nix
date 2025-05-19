@@ -12,5 +12,6 @@ _: {
       capSysNice = true;
     };
   };
-  hardware.xone.enable = true;
+  hardware.xone.enable = false;
+  hardware.xpadneo.enable = true;
 }

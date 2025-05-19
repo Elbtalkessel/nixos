@@ -41,6 +41,11 @@
     translate-shell
     btop
     brightnessctl
+    # Obvious Unified Compression Helper
+    # ouch d file.zip
+    # ouch c file.7z
+    # ouch l file.tar.zip.7z.gs.xz.bz.bz3.lz.sz.zst.rar.br
+    ouch
 
     # Gaming
     bottles
