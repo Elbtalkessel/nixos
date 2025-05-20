@@ -235,9 +235,9 @@ in
         # I need to exclude chromium, usually if browser lauched from the terminal
         # it is for a) debug b) integration testing, both cases need browser to not be swallowed by terminal.
         # Disabled until not resolved: https://github.com/hyprwm/Hyprland/issues/2203
-        enable_swallow = false;
+        enable_swallow = true;
         swallow_regex = "^(Alacritty)$";
-        swallow_exception_regex = "(?i).*chromium|playwright.*";
+        swallow_exception_regex = "(?i)vivaldi.*|playwright.*";
       };
 
       cursor = {

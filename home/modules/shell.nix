@@ -38,13 +38,6 @@
         #   watch dirty
         dirty = "grep -e Dirty: -e Writeback: /proc/meminfo";
         bg = "pueue";
-        # Temporary here.
-        # https://github.com/Genymobile/scrcpy/issues/2114
-        # Use scrcpy --display-id <ID> to connect.
-        # TBD: better shell script able to setup and cleanup by itself.
-        # Check: https://github.com/nikp123/scrcpy-desktop/blob/main/startscreen.sh
-        "adb-create-desktop" = "adb shell settings put global overlay_display_devices 1920x1080/120";
-        "adb-remove-desktop" = "adb shell settings put global overlay_display_devices none";
       };
     };
 

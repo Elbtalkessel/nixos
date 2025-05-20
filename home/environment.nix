@@ -18,7 +18,7 @@ let
     XDG_VIDEOS_DIR = "/media/videos";
     EDITOR = "nvim";
     TERMINAL = "alacritty";
-    BROWSER = "brave";
+    BROWSER = "vivaldi";
     VAGRANT_DEFAULT_PROVIDER = "kvm";
     VIRSH_DEFAULT_CONNECT_URI = "qemu:///system";
     DOCKER_BUILDKIT = "1";

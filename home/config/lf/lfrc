@@ -24,6 +24,13 @@ cmd open ${{
 # Enhances the builtin rename command checking if specified node exists before renaming.
 cmd rename %[ -e $1 ] && printf "file exists" || mv $f $1
 
+cmd extract ${{
+    set -f
+    case $f in
+        *.tgz | *.tar | *.zip | *.7z | *.gz | *.xz | *.lzma | *.bz | *.bz2 | *.bz3 | *.lz4 | *.sz | *.zst | *.rar | *.br) ouch d $f;;
+    esac
+}}
+
 # Bindings.
 # Search and naviagtion is done recursively from a directory where LF has been started (OLDPWD).
 # fuzzy file search. Default is builtin find command, but I don't find it useful :)

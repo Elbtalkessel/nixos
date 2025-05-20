@@ -3,6 +3,7 @@
   imports = [
     ./environment.nix
     ./modules/alacritty.nix
+    ./modules/android.nix
     ./modules/shell.nix
     ./modules/git.nix
     ./modules/hyprland.nix

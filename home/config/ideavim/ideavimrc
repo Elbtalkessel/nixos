@@ -109,6 +109,7 @@ vnoremap > >gv
 nmap <C-m> <Action>(ShowPopupMenu)
 nmap <C-S-m> <Action>(ToolWindowsGroup)
 nmap - <Action>(ShowNavBar)
+map <Tab> <Action>(NextTab)
 "" ========================================================
 "" Leader Commands
 "" ========================================================
