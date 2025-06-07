@@ -44,7 +44,7 @@
 
     hostName = "omen";
     extraHosts = ''
-      192.168.1.90 moon
+      192.168.1.90 nas.ld
     '';
 
     # networking.firewall.allowedUDPPorts = [ ... ];

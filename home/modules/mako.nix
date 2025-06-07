@@ -10,8 +10,6 @@ _: {
       border-radius = "10";
       default-timeout = "5000";
       font = "OverpassM Nerd Font 14";
-    };
-    criterias = {
       "urgency=low" = {
         default-timeout = "2500";
       };
