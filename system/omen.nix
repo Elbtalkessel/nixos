@@ -34,7 +34,7 @@ in
     ./modules/nvidia.nix
     ./modules/packages.nix
     # ./modules/passthrough.nix
-    ./modules/samba.nix
+    # ./modules/samba.nix
     ./modules/services.nix
     ./modules/session.nix
     ./modules/sops.nix
