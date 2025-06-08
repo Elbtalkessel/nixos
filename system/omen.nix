@@ -40,6 +40,7 @@ in
     ./modules/sops.nix
     ./modules/steam.nix
     ./modules/virtualisation.nix
+    ./modules/webdav.nix
   ];
 
   boot = {

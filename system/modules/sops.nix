@@ -12,11 +12,15 @@
         neededForUsers = true;
       };
       "wireless.env" = { };
-      "moon/risus" = { };
       "optimizer/license" = {
         owner = config.users.users.risus.name;
       };
       "wireguard/wg0" = { };
+      "moon/risus" = { };
+      "moon/webdav" = {
+        mode = "0600";
+        path = "/etc/davfs2/secrets";
+      };
     };
   };
 }
