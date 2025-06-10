@@ -23,6 +23,7 @@ let
     VIRSH_DEFAULT_CONNECT_URI = "qemu:///system";
     DOCKER_BUILDKIT = "1";
     PASSWORD_STORE_DIR = "/home/risus/.local/share/pwdstr";
+    OLLAMA_HOST = "http://127.0.0.1:11434";
   };
 in
 {

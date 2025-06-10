@@ -35,6 +35,8 @@
     lazydocker
     lazygit
     devenv
+    tlm
+    lmstudio
 
     # Tools
     ncdu
