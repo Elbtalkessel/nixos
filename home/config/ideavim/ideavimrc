@@ -12,7 +12,7 @@ set hlsearch
 set visualbell
 
 " Clipboard Integration
-set clipboard+=unnamed
+set clipboard+=unnamedplus
 
 " Leader Key
 let mapleader=" "
@@ -21,7 +21,6 @@ let mapleader=" "
 set gdefault
 
 " iIdeaVim Specific Settings
-set ideajoin
 set ideamarks
 set idearefactormode=normal
 set ideastatusicon=gray
@@ -30,16 +29,21 @@ set ideastatusicon=gray
 "" ========================================================
 "" Plugin Settings
 "" ========================================================
-set exchange
+" More at https://github.com/JetBrains/ideavim/wiki/IdeaVim-Plugins#easymotion-simplifies-some-motions
+
+" shift-j smartly join two lines together
+set ideajoin
+
+" gc<num> to comment num lines after
 set commentary
-set ReplaceWithRegister
+
+" cs<from><to>, ex.: cs<! will replace < to ! (<foo> -> !foo!)
 set surround
+
+" allows vim motions in standard file tree
 set nerdtree
-map <C-space> :NERDTreeToggle<CR>
 
-
-" Searching Plugins
-set sneak
+" quick jump to any direction
 set easymotion
 let g:EasyMotion_override_acejump = 0
 
@@ -55,21 +59,23 @@ let g:WhichKeyDesc_easymotion_left = "<leader><leader>h look left"
 map <leader><leader>l <Plug>(easymotion-w)
 let g:WhichKeyDesc_jeasymotion_right = "<leader><leader>l look right"
 
-
-" Highlighting Plugins
+" makes yanked region visible
 set highlightedyank
+
+" navigation to a symbol <f> forward or <F> backward by typing
+" f<symbol> or F<symbol>.
+" Requires quickscope plugin installed in IDE as well to highlight unique
+" characters https://plugins.jetbrains.com/plugin/19417-ideavim-quickscope
 set quickscope
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
-
-" Object Plugins
-set textobj-entire
-set indent-object
+" selecting, changing and deleting an argument,
+" ex.: daa will delete currect argument, cia - change it, via - select it.
+" ex.: foo(<daa>a, b) -> foo(b)
 set argtextobj
-let g:argtextobj_pairs="[:],(:),<:>"
+let g:argtextobj_pairs="[:],(:),<:>,{:}"
 
-
-" Which-key settings
+" which-key settings
 set which-key
 set notimeout
 let g:WhichKey_FontSize = 18
@@ -83,6 +89,10 @@ let g:WhichKey_ShowTypedSequence = "true"
 "" ========================================================
 "" Key Mappings
 "" ========================================================
+" Maps an action to a key, more about actions:
+" https://github.com/JetBrains/ideavim?tab=readme-ov-file#executing-ide-actions
+" :actionlist [keyword] show all available actions filtered by optional
+" keyword.
 " Tab navigation
 nmap <S-h> <Action>(PreviousTab)
 nmap <S-l> <Action>(NextTab)
@@ -256,13 +266,10 @@ let g:WhichKeyDesc_si = "<leader>si Select In"
 let g:WhichKeyDesc_r = "<leader>r Run"
 
 nmap <leader>rm <action>(RunMenu)
-let g:WhichKeyDesc_rm = "<leader>rm Run Menu"
+let g:WhichKeyDesc_rm = "<leader>rm Show This Run Menu"
 
-nmap <leader>rC <action>(RunClass)
-let g:WhichKeyDesc_rn = "<leader>rn Run Class"
-
-nmap <leader>rc <Action>(ContextRun)
-let g:WhichKeyDesc_rc = "<leader>rc Context Run"
+nmap <leader>rc <Action>(RunClass)
+let g:WhichKeyDesc_rc = "<leader>rc Run This"
 
 nmap <leader>rr <action>(Rerun)
 let g:WhichKeyDesc_rr = "<leader>rr Rerun"
@@ -316,8 +323,8 @@ let g:WhichKeyDesc_dr = "<leader>dr Resume Debugging"
 nmap <leader>dR <Action>(EvaluateExpression)
 let g:WhichKeyDesc_dR = "<leader>dR Evaluate Expression"
 
-nmap <leader>dt <Action>(ActivateDebugToolWindow)
-let g:WhichKeyDesc_dt = "<leader>dt Activate Debug Tool Window"
+nmap <leader>dT <Action>(ActivateDebugToolWindow)
+let g:WhichKeyDesc_dT = "<leader>dT Activate Debug Tool Window"
 
 
 " Language Actions
