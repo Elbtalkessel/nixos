@@ -29,7 +29,7 @@ in
     ./modules/fonts.nix
     ./modules/i18n.nix
     ./modules/llm.nix
-    ./modules/networking.nix
+    ./modules/networking/networking.nix
     ./modules/nfs.nix
     ./modules/nvidia.nix
     ./modules/packages.nix
