@@ -36,7 +36,7 @@ _: {
 
       colors = {
         primary = {
-          background = "#2a2d3b";
+          background = "#0D0D0D";
         };
       };
     };
