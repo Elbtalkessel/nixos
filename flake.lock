@@ -149,11 +149,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1749546726,
-        "narHash": "sha256-YejQXPZqya3QlNqbKJlhZHLVvQpZ3DQIOfRrDcd8EEM=",
+        "lastModified": 1751536103,
+        "narHash": "sha256-id0jQZuKQI8hYH5I9vDxg+ZSC1fHNPTJbyd2flpOZRM=",
         "owner": "Elbtalkessel",
         "repo": "nixpkgs-custom",
-        "rev": "59e6d741533b67bd4ae3de5b0a51c06873946753",
+        "rev": "00f127e242a32ed6c4176b1976805b0fae16c9d0",
         "type": "github"
       },
       "original": {
@@ -165,11 +165,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1739020877,
-        "narHash": "sha256-mIvECo/NNdJJ/bXjNqIh8yeoSjVLAuDuTUzAo7dzs8Y=",
+        "lastModified": 1751271578,
+        "narHash": "sha256-P/SQmKDu06x8yv7i0s8bvnnuJYkxVGBWLWHaU+tt4YY=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "a79cfe0ebd24952b580b1cf08cd906354996d547",
+        "rev": "3016b4b15d13f3089db8a41ef937b13a9e33a8df",
         "type": "github"
       },
       "original": {
@@ -234,11 +234,11 @@
         "snacks-nvim": "snacks-nvim"
       },
       "locked": {
-        "lastModified": 1751525853,
-        "narHash": "sha256-a5pNQpvJwK75vD1l+sjVyUdo/ogkuzsrlKLQysewMv8=",
+        "lastModified": 1751527713,
+        "narHash": "sha256-S6x01TQzH34jamLc+TRcnOxaS/Y69W23LKAHlhH8qTE=",
         "owner": "Elbtalkessel",
         "repo": "nixvim",
-        "rev": "78f8c87b6ad9ebcd221dbcfdf62d3a58ee2b2adc",
+        "rev": "79c3c84415844da0ca8f49c6181b3284f2343598",
         "type": "github"
       },
       "original": {
