@@ -19,7 +19,6 @@
     telegram-desktop
     hyprpicker
     wl-clipboard-rs
-    gthumb
     libreoffice
     flatpak
 
@@ -36,11 +35,12 @@
     lazygit
     devenv
     tlm
-    lmstudio
+    python313Packages.ipython
+    deno
+    yaegi
 
     # Tools
     ncdu
-    translate-shell
     btop
     brightnessctl
     # Obvious Unified Compression Helper
@@ -48,10 +48,6 @@
     # ouch c file.7z
     # ouch l file.tar.zip.7z.gs.xz.bz.bz3.lz.sz.zst.rar.br
     ouch
-
-    # Gaming
-    bottles
-    minigalaxy
 
     # Shell scripts
     (writeShellScriptBin "screen" (builtins.readFile ../bin/screenshot.sh))
