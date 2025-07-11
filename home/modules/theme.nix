@@ -20,15 +20,9 @@
     };
   };
 
-  # Enable Qt theme configuration
   qt = {
-    # Broken after the latest upgrade
-    enable = false;
+    enable = true;
     platformTheme.name = "gtk";
-    style = {
-      name = "adwaita-dark";
-      package = pkgs.adwaita-qt;
-    };
   };
 
   # Configure GNOME settings for dark mode
