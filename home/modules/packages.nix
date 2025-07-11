@@ -21,6 +21,7 @@
     wl-clipboard-rs
     libreoffice
     flatpak
+    gnome-software
 
     # CLI for searching packages on search.nixos.org
     nix-search-cli

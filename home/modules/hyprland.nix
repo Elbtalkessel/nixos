@@ -222,8 +222,8 @@ in
 
       # MISC SETTINGS
       misc = {
-        disable_hyprland_logo = true;
-        disable_splash_rendering = true;
+        disable_hyprland_logo = false;
+        disable_splash_rendering = false;
         vrr = 0;
         vfr = false;
         mouse_move_enables_dpms = false;
