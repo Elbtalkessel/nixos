@@ -3,26 +3,28 @@ let
   # TODO(conf):
   #   - username is hardcoded.
   #   - can't be set anywhere else.
+  HOME = "/home/risus";
   sessionVariables = {
-    XDG_DATA_HOME = "/home/risus/.local/share";
-    XDG_CONFIG_HOME = "/home/risus/.config";
-    XDG_CACHE_HOME = "/home/risus/.cache";
-    XDG_DOWNLOAD_DIR = "/media/downloads";
+    XDG_DATA_HOME = "${HOME}/.local/share";
+    XDG_CONFIG_HOME = "${HOME}/.config";
+    XDG_CACHE_HOME = "${HOME}/.cache";
+    XDG_DOWNLOAD_DIR = "${HOME}/Downloads";
     XDG_RUNTIME_DIR = "/run/user/1000";
-    XDG_DESKTOP_DIR = "/media/desktop";
-    XDG_DOCUMENTS_DIR = "/media/docs";
-    XDG_MUSIC_DIR = "/media/music";
-    XDG_PICTURES_DIR = "/media/pictures";
-    XDG_PUBLICSHARE_DIR = "/media/public";
-    XDG_TEMPLATES_DIR = "/media/templates";
-    XDG_VIDEOS_DIR = "/media/videos";
+    XDG_DESKTOP_DIR = "${HOME}/Desktop";
+    XDG_DOCUMENTS_DIR = "${HOME}/Documents";
+    XDG_MUSIC_DIR = "/mnt/share/Music";
+    XDG_PICTURES_DIR = "${HOME}/Pictures";
+    XDG_PUBLICSHARE_DIR = "${HOME}/Public";
+    XDG_TEMPLATES_DIR = "${HOME}/Templates";
+    XDG_VIDEOS_DIR = "${HOME}/Videos";
+    XDG_DATA_DIRS = "${HOME}/.local/share/flatpak/exports/share";
     EDITOR = "nvim";
     TERMINAL = "alacritty";
     BROWSER = "vivaldi";
     VAGRANT_DEFAULT_PROVIDER = "kvm";
     VIRSH_DEFAULT_CONNECT_URI = "qemu:///system";
     DOCKER_BUILDKIT = "1";
-    PASSWORD_STORE_DIR = "/home/risus/.local/share/pwdstr";
+    PASSWORD_STORE_DIR = "${HOME}/.local/share/pwdstr";
     OLLAMA_HOST = "http://127.0.0.1:11434";
   };
 in
