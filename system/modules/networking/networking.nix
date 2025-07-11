@@ -18,12 +18,14 @@ let
     };
 in
 {
+  imports = [
+    ./dns.nix
+  ];
   boot.kernel.sysctl = {
     # Allow starting server @ :80
     "net.ipv4.ip_unprivileged_port_start" = 80;
   };
   networking = {
-    useDHCP = lib.mkDefault true;
     networkmanager = {
       enable = true;
       ensureProfiles = {
