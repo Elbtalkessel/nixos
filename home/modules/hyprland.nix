@@ -134,9 +134,9 @@ in
         rounding = 5;
         blur = {
           # Buggy, creates blurred ring around popover menus.
-          enabled = false;
-          size = 3;
-          passes = 1;
+          enabled = true;
+          size = 10;
+          passes = 2;
           new_optimizations = true;
         };
       };
@@ -145,7 +145,6 @@ in
         # apply blur on notification layer such as mako or dunst
         "blur,notifications"
         "blur,waybar"
-        # skip the blur on completely transparent parts (such as mako's margin)
         "ignorezero,notifications"
       ];
 
