@@ -15,19 +15,20 @@
   inputs = {
     nixpkgs = {
       # nixos-24.05 for stable, nixos-unstable for unstable
-      url = "github:nixos/nixpkgs/nixos-unstable";
+      url = "github:nixos/nixpkgs/nixos-25.05";
     };
     nixos-hardware = {
       url = "github:NixOS/nixos-hardware/master";
     };
     home-manager = {
       # release-24.05 for stable, master for unstable
-      url = "github:nix-community/home-manager/master";
+      url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixvim = {
       # Remove the branch name to switch to unstable
       url = "github:Elbtalkessel/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     disko = {
       url = "github:nix-community/disko/latest";
@@ -35,9 +36,11 @@
     };
     sops-nix = {
       url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs-custom = {
       url = "github:Elbtalkessel/nixpkgs-custom/master";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
