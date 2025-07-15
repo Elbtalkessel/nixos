@@ -4,6 +4,9 @@ let
     "float,center,${domain}:^(${builtins.concatStringsSep "|" classifiers})$"
   ];
   keyboard = "moergo-glove80-left-keyboard";
+  TERMINAL = "alacritty";
+  BROWSER = "vivaldi";
+  M = "SUPER";
 in
 {
   wayland.windowManager.hyprland = {
@@ -21,7 +24,6 @@ in
     settings = {
       monitor = [
         "eDP-1,highres,auto,1"
-        "HDMI-A-1,1920x1080@60,0x0,1,mirror,eDP-1"
       ];
       xwayland = {
         force_zero_scaling = true;
@@ -42,8 +44,6 @@ in
         ]);
 
       # See https://wiki.hyprland.org/Configuring/Keywords/ for more
-      "$M" = "SUPER";
-      "$TERMINAL" = "alacritty";
 
       "exec-once" = [
         "${pkgs.solaar}/bin/solaar --window=hide --battery-icons=symbolic"
@@ -58,71 +58,71 @@ in
         ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
         ", XF86MonBrightnessUp, exec, brightnessctl -c backlight s +20"
         ", XF86MonBrightnessDown, exec, brightnessctl -c backlight s 20-"
-        "$M CONTROL, H, resizeactive, -25 0"
-        "$M CONTROL, L, resizeactive, 25 0"
-        "$M CONTROL, K, resizeactive, 0 -25"
-        "$M CONTROL, J, resizeactive, 0 25"
+        "${M} CONTROL, H, resizeactive, -25 0"
+        "${M} CONTROL, L, resizeactive, 25 0"
+        "${M} CONTROL, K, resizeactive, 0 -25"
+        "${M} CONTROL, J, resizeactive, 0 25"
       ];
       # MOVE/RESIZE WINDOWS with M + LMB/RMB and dragging
       bindm = [
-        "$M, mouse:272, movewindow"
-        "$M, mouse:273, resizewindow"
+        "${M}, mouse:272, movewindow"
+        "${M}, mouse:273, resizewindow"
       ];
       bind = [
-        "$M, left, exec, hyprctl switchxkblayout ${keyboard} next"
+        "${M}, left, exec, hyprctl switchxkblayout ${keyboard} next"
 
         # Launcher
-        "$M, SPACE, exec, tofi-drun | xargs hyprctl dispatch exec --"
-        "$M SHIFT, SPACE, exec, tofi-run | xargs hyprctl dispatch exec --"
-        "$M CTRL, SPACE, exec, gopass ls --flat | tofi | xargs --no-run-if-empty gopass show -c"
-        "$M ALT, SPACE, exec, powermenu.nu"
-        "$M, RETURN, exec, $TERMINAL"
+        "${M}, SPACE, exec, tofi-drun | xargs hyprctl dispatch exec --"
+        "${M} SHIFT, SPACE, exec, tofi-run | xargs hyprctl dispatch exec --"
+        "${M} CTRL, SPACE, exec, gopass ls --flat | tofi | xargs --no-run-if-empty gopass show -c"
+        "${M} ALT, SPACE, exec, powermenu.nu"
+        "${M}, RETURN, exec, ${TERMINAL}"
 
         # Window management
-        "$M, f, fullscreen,"
-        "$M, delete, killactive,"
-        "$M, backspace, exec, hyprctl --batch 'dispatch togglefloating active; dispatch pin active'"
-        "$M SHIFT, escape, movetoworkspace, special" # move to the special workspace
-        "$M, escape, togglespecialworkspace" # show/hide special workspace
+        "${M}, f, fullscreen,"
+        "${M}, delete, killactive,"
+        "${M}, backspace, exec, hyprctl --batch 'dispatch togglefloating active; dispatch pin active'"
+        "${M} SHIFT, escape, movetoworkspace, special" # move to the special workspace
+        "${M}, escape, togglespecialworkspace" # show/hide special workspace
 
         # MOVE FOCUS with M + arrow keys
-        "$M, H, movefocus, l"
-        "$M, L, movefocus, r"
-        "$M, K, movefocus, u"
-        "$M, J, movefocus, d"
+        "${M}, H, movefocus, l"
+        "${M}, L, movefocus, r"
+        "${M}, K, movefocus, u"
+        "${M}, J, movefocus, d"
 
         # MOVE WINDOW with M SHIFT + arrow keys
-        "$M SHIFT, H, movewindow, l"
-        "$M SHIFT, L, movewindow, r"
-        "$M SHIFT, K, movewindow, u"
-        "$M SHIFT, J, movewindow, d"
+        "${M} SHIFT, H, movewindow, l"
+        "${M} SHIFT, L, movewindow, r"
+        "${M} SHIFT, K, movewindow, u"
+        "${M} SHIFT, J, movewindow, d"
 
         # SWITCH WORKSPACES with M + [0-9]
-        "$M, 1, workspace, 1"
-        "$M, 2, workspace, 2"
-        "$M, 3, workspace, 3"
-        "$M, 4, workspace, 4"
-        "$M, 5, workspace, 5"
-        "$M, 6, workspace, 6"
-        "$M, 7, workspace, 7"
-        "$M, 8, workspace, 8"
-        "$M, 9, workspace, 9"
-        "$M, 0, workspace, 10"
+        "${M}, 1, workspace, 1"
+        "${M}, 2, workspace, 2"
+        "${M}, 3, workspace, 3"
+        "${M}, 4, workspace, 4"
+        "${M}, 5, workspace, 5"
+        "${M}, 6, workspace, 6"
+        "${M}, 7, workspace, 7"
+        "${M}, 8, workspace, 8"
+        "${M}, 9, workspace, 9"
+        "${M}, 0, workspace, 10"
 
         # MOVE ACTIVE WINDOW TO A WORKSPACE with M + SHIFT + [0-9]
-        "$M SHIFT, 1, movetoworkspace, 1"
-        "$M SHIFT, 2, movetoworkspace, 2"
-        "$M SHIFT, 3, movetoworkspace, 3"
-        "$M SHIFT, 4, movetoworkspace, 4"
-        "$M SHIFT, 5, movetoworkspace, 5"
-        "$M SHIFT, 6, movetoworkspace, 6"
-        "$M SHIFT, 7, movetoworkspace, 7"
-        "$M SHIFT, 8, movetoworkspace, 8"
-        "$M SHIFT, 9, movetoworkspace, 9"
-        "$M SHIFT, 0, movetoworkspace, 10"
-        "$M, TAB, workspace, previous"
-        "$M, F6, exec, screen shot"
-        "$M, F7, exec, screen record"
+        "${M} SHIFT, 1, movetoworkspace, 1"
+        "${M} SHIFT, 2, movetoworkspace, 2"
+        "${M} SHIFT, 3, movetoworkspace, 3"
+        "${M} SHIFT, 4, movetoworkspace, 4"
+        "${M} SHIFT, 5, movetoworkspace, 5"
+        "${M} SHIFT, 6, movetoworkspace, 6"
+        "${M} SHIFT, 7, movetoworkspace, 7"
+        "${M} SHIFT, 8, movetoworkspace, 8"
+        "${M} SHIFT, 9, movetoworkspace, 9"
+        "${M} SHIFT, 0, movetoworkspace, 10"
+        "${M}, TAB, workspace, previous"
+        "${M}, F6, exec, screen shot"
+        "${M}, F7, exec, screen record"
       ];
 
       binds = {
@@ -235,8 +235,8 @@ in
         # it is for a) debug b) integration testing, both cases need browser to not be swallowed by terminal.
         # Disabled until not resolved: https://github.com/hyprwm/Hyprland/issues/2203
         enable_swallow = true;
-        swallow_regex = "^(Alacritty)$";
-        swallow_exception_regex = "(?i)vivaldi.*|playwright.*";
+        swallow_regex = "^(?i)${TERMINAL}$";
+        swallow_exception_regex = "(?i)${BROWSER}.*|playwright.*";
       };
 
       cursor = {
