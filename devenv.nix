@@ -6,7 +6,7 @@ _: {
     switch.exec = ''
       if [ $(whoami) = "root" ]
       then 
-        nixos-rebuild ''${1:-switch} --flake ./
+        nixos-rebuild ''${1:-switch} --flake ./ --accept-flake-config
       else
         home-manager switch --flake ./
       fi
@@ -14,7 +14,7 @@ _: {
     cleanup.exec = ''
       nix-collect-garbage -d
     '';
-    nixos-generations.exec = ''
+    generations.exec = ''
       nix profile history --profile /nix/var/nix/profiles/system
     '';
   };
