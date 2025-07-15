@@ -52,7 +52,6 @@
 
     # Shell scripts
     (writeShellScriptBin "screen" (builtins.readFile ../bin/screenshot.sh))
-    # Reqired from imv.nix for applying a wallpaper
-    (writeShellScriptBin "wallpaper" (builtins.readFile ../bin/wallpapper.sh))
+    (writeShellScriptBin "setbg" (builtins.readFile ../bin/setbg.sh))
   ];
 }

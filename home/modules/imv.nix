@@ -7,8 +7,7 @@ _: {
         l = "next";
         h = "prev";
         y = "exec wl-copy \"$imv_current_file\"";
-        # requires wallpaper.sh, see home.nix - programs.
-        u = "exec wallpaper \"$imv_current_file\"";
+        u = "exec setbg \"$imv_current_file\"";
         d = "exec rm \"$imv_current_file\"";
       };
     };
