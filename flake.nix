@@ -17,6 +17,9 @@
       # nixos-24.05 for stable, nixos-unstable for unstable
       url = "github:nixos/nixpkgs/nixos-25.05";
     };
+    nixpkgs-02b9 = {
+      url = "github:nixos/nixpkgs/02b9ebc695596cdcd7d58b1180e1be4b0d6735f8";
+    };
     nixos-hardware = {
       url = "github:NixOS/nixos-hardware/master";
     };
@@ -53,6 +56,7 @@
       nixos-hardware,
       disko,
       sops-nix,
+      nixpkgs-02b9,
       ...
     }:
     let
@@ -62,6 +66,11 @@
         config.allowUnfree = true;
         overlays = [
           nixpkgs-custom.overlays.default
+          # Downgrade devenv to version 1.6.1
+          # https://github.com/cachix/devenv/pull/1992
+          (_: _: {
+            inherit (import nixpkgs-02b9 { inherit system; }) devenv;
+          })
         ];
       };
     in
