@@ -15,18 +15,18 @@
   inputs = {
     nixpkgs = {
       # nixos-24.05 for stable, nixos-unstable for unstable
-      url = "github:nixos/nixpkgs/nixos-25.05";
+      url = "github:nixos/nixpkgs/nixos-unstable";
+    };
+    home-manager = {
+      # release-24.05 for stable, master for unstable
+      url = "github:nix-community/home-manager/master";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs-02b9 = {
       url = "github:nixos/nixpkgs/02b9ebc695596cdcd7d58b1180e1be4b0d6735f8";
     };
     nixos-hardware = {
       url = "github:NixOS/nixos-hardware/master";
-    };
-    home-manager = {
-      # release-24.05 for stable, master for unstable
-      url = "github:nix-community/home-manager/release-25.05";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     nixvim = {
       # Remove the branch name to switch to unstable
