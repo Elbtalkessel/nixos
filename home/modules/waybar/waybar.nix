@@ -32,7 +32,6 @@ in
           "custom/sep"
           "hyprland/workspaces"
           "custom/sep"
-          "custom/ollama"
         ];
         "modules-center" = [
           "hyprland/window"
@@ -67,7 +66,6 @@ in
         "custom/sep" = import ./sep.nix { inherit sep; };
         "mpd" = import ./mpd.nix { };
         "custom/powermenu" = import ./powermenu.nix { inherit pkgs; };
-        "custom/ollama" = import ./ollama.nix { inherit pkgs; };
       }
     ];
 
