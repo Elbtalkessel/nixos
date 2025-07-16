@@ -28,6 +28,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [ $SCREENSHOT ]; then
+  # TODO: hard-coded value.
   FILEPATH=/media/pictures/capture/$(date +'%s').png
   TEMPFILE=$(mktemp)
   ERROR=$(grim -g "$(slurp)" $TEMPFILE 2>&1 >/dev/null)
@@ -54,6 +55,7 @@ if [ $SCREENRECORD ]; then
     notify-send "Screenrecord" "Stopped recording."
     exit 0
   fi
+  # TODO: hard-coded value.
   FILEPATH=/media/video/capture/$(date +'%s').mp4
   notify-send "Screenrecord" "Recording to $FILEPATH."
   wl-screenrec -g "$(slurp)" -f $FILEPATH

@@ -9,10 +9,6 @@
   lib,
   ...
 }:
-let
-  # TODO(conf): a central point to define default username.
-  username = "risus";
-in
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
@@ -90,16 +86,16 @@ in
     settings = {
       experimental-features = "nix-command flakes";
       # devenv requirement, allows devenv to manager caches.
-      trusted-users = [ "risus" ];
+      trusted-users = [ config.username ];
     };
   };
 
   # USERS
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.${username} = {
+  users.users.${config.username} = {
     isNormalUser = true;
-    hashedPasswordFile = config.sops.secrets."users/risus/password".path;
-    description = "${username}";
+    hashedPasswordFile = config.sops.secrets."users/${config.username}/password".path;
+    description = "${config.username}";
     extraGroups = [
       "networkmanager"
       "input"
@@ -108,6 +104,7 @@ in
       "audio"
       "tss"
     ];
+    # TODO(conf): need to sync this, home/modules/shell.nix and options.nix
     shell = pkgs.nushell;
   };
 

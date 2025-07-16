@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 {
   # VIRTUALISATION
   # DOCKER / PODMAN
@@ -27,7 +27,7 @@
   };
 
   programs.virt-manager.enable = true;
-  users.users.risus.extraGroups = [
+  users.users.${config.username}.extraGroups = [
     "libvirtd"
     "docker"
   ];

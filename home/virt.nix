@@ -1,4 +1,5 @@
-_: {
+{ config, ... }:
+{
   imports = [
     ../home/modules/lf.nix
     ../home/modules/git.nix
@@ -8,8 +9,8 @@ _: {
   home = {
     stateVersion = "24.11";
 
-    username = "risus";
-    homeDirectory = "/home/risus";
+    inherit (config) username;
+    homeDirectory = "/home/${config.username}";
 
     packages = [
       # # You can also create simple shell scripts directly inside your
@@ -21,24 +22,11 @@ _: {
     ];
 
     sessionVariables = {
-      EDITOR = "nvim";
-    };
-
-    file = {
-      # # Building this configuration will create a copy of 'dotfiles/screenrc' in
-      # # the Nix store. Activating the configuration will then make '~/.screenrc' a
-      # # symlink to the Nix store copy.
-      # ".screenrc".source = dotfiles/screenrc;
-
-      # # You can also set the file content immediately.
-      # ".gradle/gradle.properties".text = ''
-      #   org.gradle.console=verbose
-      #   org.gradle.daemon.idletimeout=3600000
-      # '';
+      EDITOR = config.editor;
     };
 
     shellAliases = {
-      n = "nvim";
+      n = config.editor;
       s = "sudo";
       S = "sudo systemctl";
       Su = "systemctl --user";

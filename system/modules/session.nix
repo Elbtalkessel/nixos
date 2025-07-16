@@ -1,4 +1,9 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 rec {
   # Graphical session related, auth, greeter.
   # It is required to enable it to manage system settings, despite it being enabled in the home-manager.
@@ -35,8 +40,7 @@ rec {
         {
           initial_session = {
             command = cmd;
-            # TODO(conf): a central point to define default username.
-            user = "risus";
+            user = config.username;
           };
           default_session = {
             command = "${lib.getExe pkgs.greetd.tuigreet} --asterisks --remember --time --cmd '${cmd}'";

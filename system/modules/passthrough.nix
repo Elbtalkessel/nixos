@@ -24,9 +24,9 @@
 
   # https://looking-glass.io/docs/B7-rc1/ivshmem_kvmfr/#permissions
   services.udev.extraRules = ''
-    SUBSYSTEM=="kvmfr", OWNER="risus", GROUP="kvm", MODE="0660"
+    SUBSYSTEM=="kvmfr", OWNER="${config.username}", GROUP="kvm", MODE="0660"
   '';
-  users.users.risus.extraGroups = [ "kvm" ];
+  users.users.${config.username}.extraGroups = [ "kvm" ];
 
   # https://looking-glass.io/docs/B7-rc1/ivshmem_kvmfr/#cgroups
   virtualisation.libvirtd.qemu.verbatimConfig = ''
