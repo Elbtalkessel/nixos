@@ -18,4 +18,12 @@ _: {
       nix profile history --profile /nix/var/nix/profiles/system
     '';
   };
+  enterShell = ''
+    echo "Available commands:"
+    echo " - chsecret: Edit secrets using sops"
+    echo " - switch: Switch to new home configuration"
+    echo " - sudo switch [switch|boot|test|...]: Reconfigure NixOS"
+    echo " - cleanup: Delete garbage"
+    echo " - generations: Availabel NixOS generations."
+  '';
 }
