@@ -1,9 +1,6 @@
-_:
+{ options, ... }:
 let
-  # TODO(conf):
-  #   - username is hardcoded.
-  #   - can't be set anywhere else.
-  HOME = "/home/risus";
+  HOME = "/home/${options.user}";
   sessionVariables = {
     XDG_DATA_HOME = "${HOME}/.local/share";
     XDG_CONFIG_HOME = "${HOME}/.config";
