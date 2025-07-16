@@ -50,6 +50,10 @@
     # ouch l file.tar.zip.7z.gs.xz.bz.bz3.lz.sz.zst.rar.br
     ouch
 
+    usbdrivetools
+    bootdev
+    neovim
+
     # Shell scripts
     (writeShellScriptBin "screen" (builtins.readFile ../bin/screenshot.sh))
     (writeShellScriptBin "setbg" (builtins.readFile ../bin/setbg.sh))

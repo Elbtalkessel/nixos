@@ -71,6 +71,9 @@
           (_: _: {
             inherit (import nixpkgs-02b9 { inherit system; }) devenv;
           })
+          (_: _: {
+            neovim = nixvim.packages.${pkgs.system}.default;
+          })
         ];
       };
     in
@@ -92,11 +95,6 @@
       homeConfigurations.virt = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
-          {
-            home.packages = [
-              nixvim.packages.${pkgs.system}.default
-            ];
-          }
           ./home/virt.nix
         ];
       };
@@ -105,13 +103,6 @@
       homeConfigurations.risus = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
-          {
-            home.packages = [
-              nixvim.packages.${pkgs.system}.default
-              pkgs.usbdrivetools
-              pkgs.bootdev
-            ];
-          }
           ./home/omen.nix
         ];
       };

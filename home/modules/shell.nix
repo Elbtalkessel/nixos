@@ -1,13 +1,5 @@
 { lib, ... }:
 {
-  # Background tasks
-  # https://github.com/Nukesor/pueue
-  services = {
-    pueue = {
-      enable = true;
-    };
-  };
-
   programs = {
     # file database for nixpkgs
     # usage example: `nix-locate 'bin/hello'`
@@ -31,13 +23,13 @@
         Sr = "sudo systemctl restart";
         g = "lazygit";
         d = "lazydocker";
+        vi = "nvim";
         # For monitoring cached data to permanent storage syncronization progress.
         # Example:
         #   cp a_large_file /run/media/risus/pendrive/
         #   sync
         #   watch dirty
         dirty = "grep -e Dirty: -e Writeback: /proc/meminfo";
-        bg = "pueue";
       };
     };
 
