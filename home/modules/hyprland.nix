@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 let
   center-rule = domain: classifiers: [
     "float,center,${domain}:^(${builtins.concatStringsSep "|" classifiers})$"
@@ -142,9 +142,11 @@ in
       };
 
       layerrule = [
-        # apply blur on notification layer such as mako or dunst
+        # Apply rule to a layer
+        # https://wiki.hypr.land/Configuring/Keywords/#blurring-layersurfaces
         "blur,notifications"
         "blur,waybar"
+        "blur,laucher"
         "ignorezero,notifications"
       ];
 
