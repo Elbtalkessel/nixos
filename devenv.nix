@@ -17,6 +17,9 @@ _: {
     generations.exec = ''
       nix profile history --profile /nix/var/nix/profiles/system
     '';
+    news.exec = ''
+      home-manager news --flake ./
+    '';
   };
   enterShell = ''
     echo "Available commands:"

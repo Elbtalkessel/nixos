@@ -30,6 +30,7 @@
     curl
     wget
     arp-scan
+    dig
 
     # Development
     lazydocker
