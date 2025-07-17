@@ -41,7 +41,10 @@ in
         ])
         ++ (center-rule "title" [
           "Open Files"
-        ]);
+        ])
+        ++ [
+          "noblur,floating:1"
+        ];
 
       # See https://wiki.hyprland.org/Configuring/Keywords/ for more
 
