@@ -14,7 +14,7 @@ _: {
         {
           path = "screenshot";
           blur_passes = 3;
-          blur_size = 8;
+          blur_size = 10;
         }
       ];
 
@@ -61,7 +61,7 @@ _: {
       image = {
         path = "${../../assets/profpic.jpg}";
         border_size = 2;
-        border_color = "rgba(255, 255, 255, .65)";
+        border_color = "rgba(0, 0, 0, .65)";
         size = 130;
         rounding = -1;
         rotate = 0;
@@ -81,8 +81,8 @@ _: {
           dots_spacing = 0.2;
           dots_center = true;
           outer_color = "rgba(255, 255, 255, 0)";
-          inner_color = "rgba(255, 255, 255, 0.1)";
-          font_color = "rgb(200, 200, 200)";
+          inner_color = "rgba(0, 0, 0, 0.75)";
+          font_color = "rgb(255, 255, 255)";
           fade_on_empty = false;
           placeholder_text = ''<span foreground="##ffffff99">Enter Password</span>'';
           hide_input = false;
