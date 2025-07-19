@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, ... }:
 let
   center-rule = domain: classifiers: [
     "float,center,${domain}:^(${builtins.concatStringsSep "|" classifiers})$"
