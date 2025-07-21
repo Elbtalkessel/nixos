@@ -61,6 +61,10 @@
     }:
     let
       system = "x86_64-linux";
+      pkgs-02b9 = import nixpkgs-02b9 {
+        inherit system;
+        config.allowUnfree = true;
+      };
       pkgs = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
@@ -69,7 +73,7 @@
           # Downgrade devenv to version 1.6.1
           # https://github.com/cachix/devenv/pull/1992
           (_: _: {
-            inherit (import nixpkgs-02b9 { inherit system; }) devenv;
+            inherit (pkgs-02b9) devenv;
           })
           (_: _: {
             neovim = nixvim.packages.${pkgs.system}.default;
