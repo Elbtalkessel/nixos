@@ -24,7 +24,7 @@ let
     TERMINAL = config.terminal;
     BROWSER = config.browser;
     # TODO(conf): only if vagrant + qemu is installed.
-    VAGRANT_DEFAULT_PROVIDER = "kvm";
+    VAGRANT_DEFAULT_PROVIDER = "libvirt";
     # TODO(conf): only if qemu is installed.
     VIRSH_DEFAULT_CONNECT_URI = "qemu:///system";
     DOCKER_BUILDKIT = "1";
