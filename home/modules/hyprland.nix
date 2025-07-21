@@ -1,7 +1,7 @@
-{ pkgs, config, ... }:
+{ pkgs, ... }:
 let
   center-rule = domain: classifiers: [
-    "float,center,${domain}:^(${builtins.concatStringsSep "|" classifiers})$"
+    "float,center,dimaround,${domain}:(${builtins.concatStringsSep "|" classifiers})"
   ];
   keyboard = "moergo-glove80-left-keyboard";
   TERMINAL = "alacritty";
@@ -38,11 +38,15 @@ in
           "udiskie"
           "polkit-gnome-authentication-agent-1"
           "solaar"
+          "jetbrains-toolbox"
         ])
         ++ (center-rule "title" [
+          "Open File"
           "Open Files"
         ])
         ++ [
+          # no blur for floating window, elector apps render popup menus
+          # as a floating window causing a blurred outline around the popup.
           "noblur,floating:1"
         ];
 
@@ -135,8 +139,8 @@ in
       decoration = {
         # See https://wiki.hyprland.org/Configuring/Variables/ for more
         rounding = 5;
+        dim_inactive = true;
         blur = {
-          # Buggy, creates blurred ring around popover menus.
           enabled = true;
           size = 10;
           passes = 2;
@@ -154,7 +158,7 @@ in
       ];
 
       animations = {
-        enabled = true;
+        enabled = false;
         # Some default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
         bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
         animation = [
