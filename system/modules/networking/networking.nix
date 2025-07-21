@@ -1,10 +1,15 @@
 {
   config,
+  lib,
   ...
 }:
 let
   defaultWifi =
-    { ssid, password }:
+    {
+      ssid,
+      password,
+      dns ? null,
+    }:
     {
       connection.id = ssid;
       connection.type = "wifi";
@@ -14,25 +19,38 @@ let
         key-mgmt = "wpa-psk";
         psk = password;
       };
+      ipv4 = lib.mkIf (dns != null) {
+        inherit dns;
+        ignore-auto-dns = true;
+        method = "auto";
+      };
+      # I just don't know / care how to configure it.
+      ipv6 = lib.mkIf (dns != null) {
+        method = "disabled";
+      };
     };
 in
 {
-  imports = [
-    ./dns.nix
-  ];
   boot.kernel.sysctl = {
-    # Allow starting server @ :80
+    # Allow starting unpriv services @ 80 and higher.
     "net.ipv4.ip_unprivileged_port_start" = 80;
   };
   networking = {
+    useDHCP = lib.mkDefault true;
+    # I'm unsure on this one.
+    dhcpcd.enable = false;
+
     networkmanager = {
       enable = true;
+      # dns = "none";
       ensureProfiles = {
         environmentFiles = [ config.sops.secrets."wireless.env".path ];
         profiles = {
           home = defaultWifi {
             ssid = "$HOME_WIFI_SSID";
             password = "$HOME_WIFI_PASSWORD";
+            # dnsmasq instance available exclusively on this network.
+            dns = "192.168.1.90";
           };
           phobos = defaultWifi {
             ssid = "$PHOBOS_WIFI_SSID";
