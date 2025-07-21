@@ -4,7 +4,7 @@
   ...
 }:
 let
-  defaultWifi =
+  mkWifi =
     {
       ssid,
       password,
@@ -37,22 +37,21 @@ in
   };
   networking = {
     useDHCP = lib.mkDefault true;
-    # I'm unsure on this one.
+    # TODO: I'm unsure on this one.
     dhcpcd.enable = false;
 
     networkmanager = {
       enable = true;
-      # dns = "none";
       ensureProfiles = {
         environmentFiles = [ config.sops.secrets."wireless.env".path ];
         profiles = {
-          home = defaultWifi {
+          home = mkWifi {
             ssid = "$HOME_WIFI_SSID";
             password = "$HOME_WIFI_PASSWORD";
             # dnsmasq instance available exclusively on this network.
             dns = "192.168.1.90";
           };
-          phobos = defaultWifi {
+          phobos = mkWifi {
             ssid = "$PHOBOS_WIFI_SSID";
             password = "$PHOBOS_WIFI_PASSWORD";
           };
