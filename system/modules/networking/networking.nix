@@ -64,17 +64,20 @@ in
 
     # networking.firewall.allowedUDPPorts = [ ... ];
     # Or disable the firewall altogether.
-    firewall.enable = true;
-
-    # Open ports in the firewall.
-    # Allow HTTP and HTTPS traffic, required for guest vm to access host,
-    # ideally to narrow down to specific IP.
-    firewall.allowedTCPPorts = [
-      80
-      443
-      8000
-      9567
-    ];
+    firewall = {
+      enable = true;
+      # At some point virtual machines has stopped getting an IP address,
+      # adding ports 67 and 68 to allowedUDPPorts fixed it. However, machines
+      # didn't have internet connection. So, now everything from these 4 interfaces
+      # (a random number, tbh, vagrant likes to create bridges), bypasses firewall.
+      trustedInterfaces = lib.mkIf config.virtualisation.libvirtd.enable [
+        "virbr0"
+        "virbr1"
+        "virbr2"
+        "virbr3"
+        "virbr4"
+      ];
+    };
   };
 
   # Instead of symlinking, nixos will copy the hosts file, so you can modify it
