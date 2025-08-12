@@ -24,5 +24,6 @@ _: {
     # Daemon for updating some devices' firmware
     # https://github.com/fwupd/fwupd
     fwupd.enable = true;
+    flatpak.enable = true;
   };
 }

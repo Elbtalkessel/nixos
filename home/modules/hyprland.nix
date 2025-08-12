@@ -140,6 +140,7 @@ in
         # See https://wiki.hyprland.org/Configuring/Variables/ for more
         rounding = 5;
         dim_inactive = true;
+        dim_strength = 0.25;
         blur = {
           enabled = true;
           size = 10;
@@ -179,7 +180,7 @@ in
       # GENERAL SETTINGS
       general = {
         border_size = 1;
-        no_border_on_floating = false;
+        no_border_on_floating = true;
         gaps_in = 3;
         gaps_out = 3;
         "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
