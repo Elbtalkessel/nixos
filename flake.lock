@@ -167,11 +167,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1752243155,
-        "narHash": "sha256-z5SmroTd882XcwcKBKnu4zs0AZxQhjvTm+vVsSNPHPU=",
+        "lastModified": 1755611149,
+        "narHash": "sha256-Y1PNZBn+UNAKnxTTZzlxYcqVbtHaGXrE/uZmQtWJwjk=",
         "owner": "Elbtalkessel",
         "repo": "nixpkgs-custom",
-        "rev": "130a3610c77d1daaec556c0cfc3fddaac89f61aa",
+        "rev": "4fbc4e9734c510d712666b35846626389f815f87",
         "type": "github"
       },
       "original": {
