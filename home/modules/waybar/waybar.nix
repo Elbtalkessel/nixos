@@ -40,7 +40,7 @@ in
           "tray"
           "custom/sep"
           "pulseaudio"
-          "mpd"
+          # "mpd"
           "custom/sep"
           "network"
           # these may or may not be visible, separator is inside these.
@@ -64,7 +64,7 @@ in
         "battery" = import ./battery.nix { inherit lib lpad; };
         "backlight" = import ./backlight.nix { inherit lib lpad; };
         "custom/sep" = import ./sep.nix { inherit sep; };
-        "mpd" = import ./mpd.nix { };
+        # "mpd" = import ./mpd.nix { };
         "custom/powermenu" = import ./powermenu.nix { inherit pkgs; };
       }
     ];

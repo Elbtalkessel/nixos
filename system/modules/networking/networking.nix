@@ -82,4 +82,6 @@ in
   # Instead of symlinking, nixos will copy the hosts file, so you can modify it
   # in /etc/hosts, however changes will be dropped after applying a new configuration.
   environment.etc.hosts.mode = "0644";
+
+  security.pki.certificateFiles = [ ../../../assets/home-ca.pem ];
 }

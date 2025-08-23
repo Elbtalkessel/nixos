@@ -1,15 +1,16 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 let
   MUSIC = /mnt/share/Music;
+  enable = false;
 in
 {
-  home.packages = with pkgs; [
-    mpc-cli
-    (writeShellScriptBin "genplaylists" (builtins.readFile ../bin/genplaylists.sh))
+  home.packages = lib.mkIf enable [
+    pkgs.mpc-cli
+    (pkgs.writeShellScriptBin "genplaylists" (builtins.readFile ../bin/genplaylists.sh))
   ];
 
   services.mpd = {
-    enable = true;
+    inherit enable;
     musicDirectory = MUSIC;
     extraConfig = ''
       audio_output {
@@ -20,7 +21,7 @@ in
   };
 
   programs.ncmpcpp = {
-    enable = true;
+    inherit enable;
     mpdMusicDir = MUSIC;
     bindings = [
       {
