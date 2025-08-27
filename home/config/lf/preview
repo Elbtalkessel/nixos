@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/usr/bin/env nix-shell
+#! nix-shell -i sh --pure
+#! nix-shell -p bat
 
 case "$(printf "%s\n" "$1" | awk '{print tolower($0)}')" in
 *.tgz | *.tar | *.zip | *.7z | *.gz | *.xz | *.lzma | *.bz | *.bz2 | *.bz3 | *.lz4 | *.sz | *.zst | *.rar | *.br) ouch l "$1" ;;
