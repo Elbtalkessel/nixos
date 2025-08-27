@@ -48,8 +48,7 @@ in
           home = mkWifi {
             ssid = "$HOME_WIFI_SSID";
             password = "$HOME_WIFI_PASSWORD";
-            # dnsmasq instance available exclusively on this network.
-            dns = "192.168.1.90";
+            dns = "192.168.1.90;9.9.9.9";
           };
           phobos = mkWifi {
             ssid = "$PHOBOS_WIFI_SSID";
