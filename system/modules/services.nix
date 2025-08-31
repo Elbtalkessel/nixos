@@ -12,8 +12,11 @@ _: {
   # List services that you want to enable:
   services = {
     udisks2.enable = true;
-    # Change runtime directory size
-    logind.extraConfig = "RuntimeDirectorySize=8G";
+    logind.settings.Login = {
+      # Change runtime directory size
+      # UPD: for what?
+      RuntimeDirectorySize = "8G";
+    };
     pipewire = {
       enable = true;
       alsa.enable = true;
