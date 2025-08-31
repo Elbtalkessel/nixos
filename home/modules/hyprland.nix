@@ -81,7 +81,7 @@ in
         # Launcher
         "${M}, SPACE, exec, tofi-drun | xargs hyprctl dispatch exec --"
         "${M} SHIFT, SPACE, exec, tofi-run | xargs hyprctl dispatch exec --"
-        "${M} CTRL, SPACE, exec, gopass ls --flat | tofi | xargs --no-run-if-empty gopass show -c"
+        "${M} CTRL, SPACE, exec, bw-menu.nu"
         "${M} ALT, SPACE, exec, powermenu.nu"
         "${M}, RETURN, exec, ${TERMINAL}"
 
