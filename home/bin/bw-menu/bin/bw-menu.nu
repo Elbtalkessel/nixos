@@ -5,7 +5,7 @@ let SESSION_CACHE = $"($env.XDG_RUNTIME_DIR)/bw-session";
 let NAME_ID_CACHE = $"($env.XDG_RUNTIME_DIR)/bw-name-id.json";
 
 # Caches { <name of an item in vault>: <id of the item> } mapping for faster search.
-def cache-items [] {
+def cache-items []: nothing -> nothing {
   open $SESSION_CACHE 
   | bw list items --session $in
   | from json
@@ -15,7 +15,7 @@ def cache-items [] {
 }
 
 # Unlocks vault and caches returned session key.
-def cache-session [] {
+def cache-session []: nothing -> nothing {
   yad --button=Unlock:0 --fixed --form --field Password:H ""
   | split column "|" 
   | get column1 
@@ -27,7 +27,7 @@ def cache-session [] {
 
 # For given record, creates a tofi menu with keys of the record
 # to select.
-def select-record-key [] {
+def select-record-key []: record -> string {
   $in
   | columns
   | str join "\n"
@@ -36,7 +36,7 @@ def select-record-key [] {
 
 # Retrievs an item from vault by an ID from the stdin.
 # Returns a record with secrets user may intersed in.
-def get-bw-id [] {
+def get-bw-id []: string -> record {
   let i = (bw get item $in --session (open $SESSION_CACHE) | from json)
   { username: $i.login.username, password: $i.login.password } 
   | merge (
@@ -46,15 +46,13 @@ def get-bw-id [] {
   )
 }
 
-def main [] {
+def main []: nothing -> nothing {
   # disable self signed cert verification
   $env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
   if not ($SESSION_CACHE | path exists) {
-    notify-send "Cache" $"($SESSION_CACHE) is missing"
     cache-session
   }
   if not ($NAME_ID_CACHE | path exists) {
-    notify-send "Cache" $"($NAME_ID_CACHE) is missing"
     cache-items
   }
   let n = open $NAME_ID_CACHE
