@@ -46,13 +46,17 @@ def get-bw-id []: string -> record {
   )
 }
 
+def has-content []: string -> bool {
+  ($in | path exists) and not ((cat $in) | is-empty)
+}
+
 def main []: nothing -> nothing {
   # disable self signed cert verification
   $env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-  if not ($SESSION_CACHE | path exists) {
+  if not ($SESSION_CACHE | has-content) {
     cache-session
   }
-  if not ($NAME_ID_CACHE | path exists) {
+  if not ($NAME_ID_CACHE | has-content) {
     cache-items
   }
   let n = open $NAME_ID_CACHE

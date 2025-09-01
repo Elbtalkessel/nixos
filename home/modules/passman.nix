@@ -1,15 +1,9 @@
 { pkgs, ... }:
 let
-  # writeShellScriptBin doesn't work, nix complains about wrong syntax.
-  # llm told me the command supports only POSIX complaint scripts,
-  # I have no idea if this is true.
-  # TODO: move it to my nix pkgs repo.
-  bitwarden-nu-menu = pkgs.stdenv.mkDerivation {
+  bitwarden-nu-menu = pkgs.writeShellApplication {
     name = "bw-menu.nu";
-    src = ../bin/bw-menu;
-    phases = [ "installPhase" ];
-    dontBuild = true;
-    buildInputs = with pkgs; [
+    text = ../bin/bw-menu.nu;
+    runtimeInputs = with pkgs; [
       yad
       bitwarden-cli
       ripgrep
@@ -17,9 +11,6 @@ let
       tofi
       libnotify
     ];
-    installPhase = ''
-      cp -r $src/ $out/
-    '';
   };
 in
 {
