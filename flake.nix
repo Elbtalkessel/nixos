@@ -45,6 +45,11 @@
       url = "github:Elbtalkessel/nixpkgs-custom/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # https://determinate.systems/blog/nuenv/
+    nuenv = {
+      url = "https://flakehub.com/f/xav-ie/nuenv/*.tar.gz";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -57,6 +62,7 @@
       disko,
       sops-nix,
       nixpkgs-02b9,
+      nuenv,
       ...
     }:
     let
@@ -70,6 +76,7 @@
         config.allowUnfree = true;
         overlays = [
           nixpkgs-custom.overlays.default
+          nuenv.overlays.default
           # Downgrade devenv to version 1.6.1
           # https://github.com/cachix/devenv/pull/1992
           (_: _: {

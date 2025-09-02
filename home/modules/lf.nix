@@ -1,4 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
+let
+  lfextra = import ../../packages/lf { inherit pkgs; };
+in
 {
   programs.lf = {
     enable = true;
@@ -12,7 +15,8 @@
   # requires fzf
   xdg.configFile = {
     "lf/lfrc".source = ../config/lf/lfrc;
-    "lf/preview".source = ../config/lf/preview;
+    # getting exe from import seems somewhat wrong
+    "lf/preview".source = lib.getExe lfextra.preview;
     "lf/scope".source = ../config/lf/scope;
   };
 }
