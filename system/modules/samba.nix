@@ -1,14 +1,18 @@
 { pkgs, config, ... }:
 let
-  HOST = "moon";
+  HOST = "nas.home.arpa";
   MOUNT_OPTS = "nofail,x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s,user,users,credentials=${
     config.sops.secrets."moon/${config.username}".path
   },uid=1000,gid=100";
   SHARES = [
+    "Calibre"
+    "Docker"
     "Documents"
     "Download"
-    "Music"
+    "Home"
     "Pictures"
+    "Whatever"
+    "Video"
   ];
 
   # Function to generate mount points
