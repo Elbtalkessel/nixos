@@ -14,15 +14,16 @@ def video []: string -> string {
   | split row -r '\n' 
   | parse '{key}={value}' 
   | each {|| 
-      if ($in.key == 'size') {
-        $in.value | into filesize | format filesize MB
-      } else {
-        $in.value
-      }} 
+      match $in.key {
+        size => ($in.value | into filesize | format filesize MB)
+        filename => ($in.value | path basename)
+        _ => $in.value
+      }
+  } 
   | str join "\n"
 }
 
-def main [f: string, w: number, h: number, x: number, y: number]: nothing -> string {
+def main [f: string, w = 0, h = 0, x = 0, y = 0]: nothing -> string {
   $f 
   # TODO: rewrite using media query
   | parse -r "\\.(?<ext>[0-9a-zA-Z]+$)" 
