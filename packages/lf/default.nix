@@ -8,6 +8,8 @@
       id3v2
       flac
       ffmpeg
+      file
+      ouch
     ];
     text = builtins.readFile ./preview.nu;
     meta = {
