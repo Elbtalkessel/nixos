@@ -21,6 +21,7 @@
         mode = "0600";
         path = "/etc/davfs2/secrets";
       };
+      "tailscale/one-of-key" = { };
     };
   };
 }
