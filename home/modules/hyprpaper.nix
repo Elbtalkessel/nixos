@@ -2,11 +2,13 @@ _: {
   services.hyprpaper = {
     enable = true;
     settings = {
-      ipc = "on";
+      ipc = true;
       splash = false;
       splash_offset = 2.0;
-      preload = [ ];
-      wallpaper = [ ];
+      preload = [ "~/.cache/wallpaper" ];
+      wallpaper = [
+        ",~/.cache/wallpaper"
+      ];
     };
   };
 }

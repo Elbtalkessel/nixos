@@ -17,6 +17,5 @@ in
     "lf/lfrc".source = ../config/lf/lfrc;
     # getting exe from import seems somewhat wrong
     "lf/preview".source = lib.getExe lfextra.preview;
-    "lf/scope".source = ../config/lf/scope;
   };
 }
