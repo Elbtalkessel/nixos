@@ -43,7 +43,7 @@ rec {
             user = config.username;
           };
           default_session = {
-            command = "${lib.getExe pkgs.greetd.tuigreet} --asterisks --remember --time --cmd '${cmd}'";
+            command = "${lib.getExe pkgs.tuigreet} --asterisks --remember --time --cmd '${cmd}'";
           };
         };
     };

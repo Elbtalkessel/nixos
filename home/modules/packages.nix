@@ -21,6 +21,8 @@
     wl-clipboard-rs
     libreoffice
     gnome-software
+    obsidian
+    shortwave
 
     # CLI for searching packages on search.nixos.org
     nix-search-cli

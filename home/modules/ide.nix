@@ -28,7 +28,7 @@
       let
         executable = pkgs.writeShellScript "zed-editor-laucher.bash" ''
           #!${lib.getExe pkgs.bash}
-          nix run nixpkgs#zed-editor
+          nix run nixpkgs#zed-editor-fhs
         '';
       in
       {

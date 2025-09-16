@@ -1,6 +1,6 @@
 _: {
   services.nfs.server = {
-    enable = true;
+    enable = false;
     exports = ''
       /srv/nfs/work 192.168.122.0/24(insecure,rw,sync,no_subtree_check)
     '';

@@ -247,6 +247,8 @@ in
         enable_swallow = true;
         swallow_regex = "^(?i)${TERMINAL}$";
         swallow_exception_regex = "(?i)${BROWSER}.*|playwright.*";
+        # Disable "Application not responding" dialog.
+        enable_anr_dialog = false;
       };
 
       cursor = {
