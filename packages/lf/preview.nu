@@ -53,9 +53,6 @@ def main [f: string, w = 0, h = 0, x = 0, y = 0]: nothing -> string {
   | merge-mime-supertype
   | match $in {
     archive => (ouch l $"($f)")
-    audio => {
-
-    }
     mp3 => (id3v2 --list $"($f)")
     video => ($f | video)
     _ => (bat --color=always --style=plain --pager=never $"($f)")

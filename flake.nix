@@ -22,9 +22,6 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixpkgs-02b9 = {
-      url = "github:nixos/nixpkgs/02b9ebc695596cdcd7d58b1180e1be4b0d6735f8";
-    };
     nixos-hardware = {
       url = "github:NixOS/nixos-hardware/master";
     };
@@ -61,27 +58,17 @@
       nixos-hardware,
       disko,
       sops-nix,
-      nixpkgs-02b9,
       nuenv,
       ...
     }:
     let
       system = "x86_64-linux";
-      pkgs-02b9 = import nixpkgs-02b9 {
-        inherit system;
-        config.allowUnfree = true;
-      };
       pkgs = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
         overlays = [
           nixpkgs-custom.overlays.default
           nuenv.overlays.default
-          # Downgrade devenv to version 1.6.1
-          # https://github.com/cachix/devenv/pull/1992
-          (_: _: {
-            inherit (pkgs-02b9) devenv;
-          })
           (_: _: {
             neovim = nixvim.packages.${pkgs.system}.default;
           })

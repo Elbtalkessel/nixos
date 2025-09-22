@@ -144,22 +144,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-02b9": {
-      "locked": {
-        "lastModified": 1746708488,
-        "narHash": "sha256-Sb0iGmNC66Qafk5y8gMUXbdXyR9o0cT6jnMViC+rzv8=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "02b9ebc695596cdcd7d58b1180e1be4b0d6735f8",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "02b9ebc695596cdcd7d58b1180e1be4b0d6735f8",
-        "type": "github"
-      }
-    },
     "nixpkgs-custom": {
       "inputs": {
         "nixpkgs": [
@@ -290,7 +274,6 @@
         "home-manager": "home-manager",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-02b9": "nixpkgs-02b9",
         "nixpkgs-custom": "nixpkgs-custom",
         "nixvim": "nixvim",
         "nuenv": "nuenv",
