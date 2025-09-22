@@ -35,7 +35,7 @@
           options = {
             host = lib.mkOption {
               type = lib.types.str;
-              default = "nas.home.arpa";
+              default = "nas.s1.home.arpa";
               description = "The hostname or IP address of the NAS server.";
             };
             shares = lib.mkOption {

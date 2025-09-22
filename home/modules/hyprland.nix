@@ -159,22 +159,18 @@ in
       ];
 
       animations = {
-        enabled = false;
+        enabled = true;
         # Some default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
         bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
+        # NAME, ON_OFF, SPEED, CURVE, [,STYLE]
         animation = [
-          "windows, 1, 2, myBezier"
-          "windowsOut, 1, 2, default, popin 80%"
-          "border, 1, 3, default"
-          "borderangle, 1, 4, default"
-          "fade, 1, 2, default"
-          "workspaces, 1, 2, default"
+          "windows, 1, 1, myBezier"
+          "windowsOut, 1, 1, default, popin 80%"
+          "border, 1, 2, default"
+          "borderangle, 1, 2, default"
+          "fade, 1, 1, default"
+          "workspaces, 1, 1, default"
         ];
-      };
-
-      gestures = {
-        # See https://wiki.hyprland.org/Configuring/Variables/ for more
-        workspace_swipe = false;
       };
 
       # GENERAL SETTINGS

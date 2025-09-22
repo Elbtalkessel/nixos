@@ -9,7 +9,7 @@
   home.packages = with pkgs; [ tor-browser-bundle-bin ];
 
   programs.chromium = {
-    enable = true;
+    enable = false;
     package = pkgs.vivaldi;
     extensions = [
       # Vimium

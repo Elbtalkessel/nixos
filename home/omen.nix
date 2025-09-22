@@ -15,7 +15,7 @@
     ./modules/waybar/waybar.nix
     ./modules/lf.nix
     #./modules/qutebrowser.nix
-    ./modules/browser.nix
+    #./modules/browser.nix
     ./modules/gpg.nix
     ./modules/passman.nix
     ./modules/imv.nix

@@ -42,6 +42,7 @@
     python313Packages.ipython
     deno
     yaegi
+    vagrant
 
     # Tools
     ncdu
