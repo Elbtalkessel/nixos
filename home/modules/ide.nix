@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 {
   home = {
     packages = with pkgs; [
@@ -9,12 +9,6 @@
       # related: https://github.com/JetBrains/intellij-community/pull/2171
       # fsnotifier
     ];
-
-    sessionVariables = {
-      # Custom path to the proerties file, see xdg.configFile below.
-      # https://intellij-support.jetbrains.com/hc/en-us/articles/207240985-Changing-IDE-default-directories-used-for-config-plugins-and-caches-storage?page=3
-      #PYCHARM_PROPERTIES = "/home/risus/.config/idea/pycharm.properties";
-    };
   };
 
   xdg.configFile = {
@@ -23,20 +17,25 @@
     #"idea/pycharm.properties".text = "idea.filewatcher.executable.path = ${pkgs.fsnotifier}/bin/fsnotifier";
   };
 
-  xdg.desktopEntries = {
-    zeditor =
-      let
-        executable = pkgs.writeShellScript "zed-editor-laucher.bash" ''
-          #!${lib.getExe pkgs.bash}
-          nix run nixpkgs#zed-editor-fhs
-        '';
-      in
-      {
-        type = "Application";
-        name = "Zed Editor";
-        exec = builtins.toString executable;
-        terminal = false;
-        categories = [ "Development" ];
-      };
+  programs.zed-editor = {
+    enable = true;
+
+    # Define extensions for Nix, shell, Docker Compose, etc.
+    extensions = [
+      "nix"
+      "bash"
+      "toml"
+      "docker-compose"
+      "nu"
+    ];
+
+    # Add LSPs or helpers for these languages/scripts.
+    extraPackages = with pkgs; [
+      nixd
+      shellcheck
+      shfmt
+      dockerfile-language-server
+      yaml-language-server
+    ];
   };
 }

@@ -3,7 +3,6 @@ let
   center-rule = domain: classifiers: [
     "float,center,dimaround,${domain}:(${builtins.concatStringsSep "|" classifiers})"
   ];
-  keyboard = "moergo-glove80-left-keyboard";
   TERMINAL = "alacritty";
   BROWSER = "vivaldi";
   M = "SUPER";
@@ -76,7 +75,7 @@ in
         "${M}, mouse:273, resizewindow"
       ];
       bind = [
-        "${M}, left, exec, hyprctl switchxkblayout ${keyboard} next"
+        "${M}, left, exec, hyprswitch next"
 
         # Launcher
         "${M}, SPACE, exec, tofi-drun | xargs hyprctl dispatch exec --"
@@ -176,7 +175,7 @@ in
       # GENERAL SETTINGS
       general = {
         border_size = 1;
-        no_border_on_floating = true;
+        no_border_on_floating = false;
         gaps_in = 3;
         gaps_out = 3;
         "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
@@ -210,9 +209,11 @@ in
       };
 
       # INPUT DEVICES
+      # Layouts and Options you can find here:
+      # https://github.com/Webconverger/webc/blob/master/usr/share/X11/xkb/rules/base.lst
       input = {
-        kb_layout = "us,ru";
-        kb_options = "grp:alt_shift_toggle";
+        kb_layout = "us,ru,ua,pl,it";
+        kb_options = "grp:alt_space_toggle";
         repeat_rate = 75;
         repeat_delay = 250;
         follow_mouse = 1;

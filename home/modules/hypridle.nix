@@ -1,8 +1,4 @@
-_:
-let
-  keyboard = "moergo-glove80-left-keyboard";
-in
-{
+_: {
   # https://mynixos.com/home-manager/options/services.hypridle
   services.hypridle = {
     enable = true;
@@ -31,7 +27,7 @@ in
         # Switch layout to 0, should be english, and lock session after 7.5 min.
         {
           timeout = 450;
-          on-timeout = "hyprctl switchxkblayout ${keyboard} 0 && loginctl lock-session";
+          on-timeout = "hyprswitch 0 && loginctl lock-session";
         }
         # Turn off screen after 15min
         {

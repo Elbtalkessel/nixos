@@ -61,5 +61,13 @@
     # Shell scripts
     (writeShellScriptBin "screen" (builtins.readFile ../bin/screenshot.sh))
     (writeShellScriptBin "setbg" (builtins.readFile ../bin/setbg.sh))
+    (nuenv.writeShellApplication {
+      name = "lsd";
+      text = builtins.readFile ../bin/lsd.nu;
+    })
+    (nuenv.writeShellApplication {
+      name = "hyprswitch";
+      text = builtins.readFile ../bin/hyprswitch.nu;
+    })
   ];
 }
