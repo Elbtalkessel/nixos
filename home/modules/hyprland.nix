@@ -212,7 +212,7 @@ in
       # Layouts and Options you can find here:
       # https://github.com/Webconverger/webc/blob/master/usr/share/X11/xkb/rules/base.lst
       input = {
-        kb_layout = "us,ru,ua,pl,it";
+        kb_layout = "us,ru,pl,ua,it";
         kb_options = "grp:alt_space_toggle";
         repeat_rate = 75;
         repeat_delay = 250;
