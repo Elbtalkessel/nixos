@@ -38,11 +38,11 @@
     lazydocker
     lazygit
     devenv
-    tlm
     python313Packages.ipython
     deno
     yaegi
     vagrant
+    neovim
 
     # Tools
     ncdu
@@ -54,10 +54,11 @@
     # ouch l file.tar.zip.7z.gs.xz.bz.bz3.lz.sz.zst.rar.br
     ouch
 
+    # From nixpkgs-custom overlay
+    waifu
     usbdrivetools
     bootdev
-    neovim
-    waifu
+    tlm
 
     # Shell scripts
     (writeShellScriptBin "screen" (builtins.readFile ../bin/screenshot.sh))
