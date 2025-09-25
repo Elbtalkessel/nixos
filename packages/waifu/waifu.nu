@@ -1,8 +1,9 @@
 #!/usr/bin/env nu
 
+let DL_ROOT = "~/Pictures/waifu"
 let BASE_URL = "api.waifu.im"
-
 let TAGS = "/tags"
+let TAGS_CACHE_PATH = "/tmp/waifu.nu.tags.json"
 let SEARCH = "/search"
 
 let HEADERS = {
@@ -16,25 +17,28 @@ def get-url [path: string, params = {}]: nothing -> string {
     "scheme": "https",
     "host": $BASE_URL,
     "path": $path,
-    "params": $params
+    "params": (
+      $params 
+      | transpose k v 
+      | where $it.v != null 
+      | reduce -f {} {|i,a| $a | insert $i.k $i.v}
+    )
   } | url join
 }
 
 def get-tags []: nothing -> list {
-  let cache = $"/tmp/waifu.nu.tags.json"
-
-  if ($cache | path exists) {
-    let cached = ($cache | open)
+  if ($TAGS_CACHE_PATH | path exists) {
+    let cached = ($TAGS_CACHE_PATH | open)
     if ($cached != null) {
       return $cached
     }
-    rm $cache
+    rm $TAGS_CACHE_PATH
   }
 
   http get (get-url $TAGS {"full": true}) --headers $HEADERS
   | values 
   | flatten
-  | tee { to json | save $cache }
+  | tee { to json | save $TAGS_CACHE_PATH }
 }
 
 
@@ -73,7 +77,7 @@ def tags-select []: nothing -> list {
 }
 
 
-# creates a filename from search response item
+# creates a filename from the search response item.
 def get-filename [item: record]: nothing -> string {
   (
     ["waifu", (if $item.is_nsfw { "nsfw" } else { "sfw" })]
@@ -84,28 +88,44 @@ def get-filename [item: record]: nothing -> string {
 }
 
 
-# https://docs.waifu.im/reference/api-reference/tags
-# Returns flatten, without top level keys result.
-def "main tags" [] {
-  tags-select
+def download []: record -> string {
+  let p = ([$DL_ROOT, (get-filename $in)] | path join)
+  http get $in.url
+  | tee { save $p }
+  | tee {|| notify-send "Saved" $p}
+  $p
 }
 
+
+# Invalidates and populates the tag cache returning the result.
+# More: https://docs.waifu.im/reference/api-reference/tags
+def "main retags" []: nothing -> list {
+  try { rm $TAGS_CACHE_PATH }
+  get-tags
+}
+
+# Image search with interactive tag select.
+# More: https://docs.waifu.im/reference/api-reference/search
 def "main search" [] {
   let tags = (tags-select | get name)
   mut saved = [];
-  loop {
-    clear
-    get-search { "included_tags": $tags }
-    | each {||
-      let p = (["~/Pictures/waifu", (get-filename $in)] | path join)
-      http get $in.url
-      | tee { save $p }
-      | tee {|| notify-send "Saved" $p}
-      | imv -
-    }
-  }
+  get-search { "included_tags": $tags }
+  | first
+  | download
+  | open
+  | imv -
 }
 
-def main [] {
-  
+# Downloads an image and returns its path.
+def main [
+  --nsfw (-n) = false,
+  --landscape (-l) = false,
+  ...tags: string,
+]: nothing -> string {
+  get-search { 
+    "is_nsfw": $nsfw,
+    "gif": false,
+    "orientation": (if ($landscape) { "landscape" } else { null }),
+    "included_tags": $tags,
+  } | first | download
 }
