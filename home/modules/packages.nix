@@ -57,6 +57,7 @@
     usbdrivetools
     bootdev
     neovim
+    waifu
 
     # Shell scripts
     (writeShellScriptBin "screen" (builtins.readFile ../bin/screenshot.sh))

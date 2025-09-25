@@ -45,7 +45,7 @@
     },
     "flake-utils": {
       "inputs": {
-        "systems": "systems"
+        "systems": "systems_2"
       },
       "locked": {
         "lastModified": 1731533236,
@@ -148,14 +148,15 @@
       "inputs": {
         "nixpkgs": [
           "nixpkgs"
-        ]
+        ],
+        "nuenv": "nuenv"
       },
       "locked": {
-        "lastModified": 1755611149,
-        "narHash": "sha256-Y1PNZBn+UNAKnxTTZzlxYcqVbtHaGXrE/uZmQtWJwjk=",
+        "lastModified": 1758816801,
+        "narHash": "sha256-HVBHxK9qdOa9hNg8uV07/wWb/UsVBqYP2iVPDWTjA8M=",
         "owner": "Elbtalkessel",
         "repo": "nixpkgs-custom",
-        "rev": "4fbc4e9734c510d712666b35846626389f815f87",
+        "rev": "d4d7fdb756c0f08d03d5a9d8bf29a3c1db2face8",
         "type": "github"
       },
       "original": {
@@ -208,7 +209,7 @@
         "flake-parts": "flake-parts",
         "nixpkgs": "nixpkgs_2",
         "nuschtosSearch": "nuschtosSearch",
-        "systems": "systems_2"
+        "systems": "systems_3"
       },
       "locked": {
         "lastModified": 1756587208,
@@ -227,9 +228,30 @@
     "nuenv": {
       "inputs": {
         "nixpkgs": [
+          "nixpkgs-custom",
           "nixpkgs"
         ],
-        "systems": "systems_3"
+        "systems": "systems"
+      },
+      "locked": {
+        "lastModified": 1752707024,
+        "narHash": "sha256-DAn1+h8TV66v0P1eGkZh1tAttj0L+fFh2N1QjIxEgxM=",
+        "rev": "d860f88cfb9b2ded365554698488defa7e5e070c",
+        "revCount": 207,
+        "type": "tarball",
+        "url": "https://api.flakehub.com/f/pinned/xav-ie/nuenv/1.1.2/0198159c-7ec7-75bb-b643-3e7edb04b629/source.tar.gz"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://flakehub.com/f/xav-ie/nuenv/%2A.tar.gz"
+      }
+    },
+    "nuenv_2": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "systems": "systems_4"
       },
       "locked": {
         "lastModified": 1752707024,
@@ -276,7 +298,7 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs-custom": "nixpkgs-custom",
         "nixvim": "nixvim",
-        "nuenv": "nuenv",
+        "nuenv": "nuenv_2",
         "sops-nix": "sops-nix"
       }
     },
@@ -347,6 +369,21 @@
       }
     },
     "systems_3": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_4": {
       "locked": {
         "lastModified": 1681028828,
         "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
