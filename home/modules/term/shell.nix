@@ -10,7 +10,7 @@
     nushell = {
       enable = true;
       # for editing directly to config.nu
-      configFile.source = ../config/nushell/config.nu;
+      configFile.source = ../../config/nushell/config.nu;
       shellAliases = {
         cp = "cp -iv";
         ln = "ln -v";

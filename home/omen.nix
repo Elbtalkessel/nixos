@@ -2,10 +2,12 @@
 {
   imports = [
     ./environment.nix
-    ./modules/alacritty.nix
+    ./modules/term/alacritty.nix
+    ./modules/term/foot.nix
+    ./modules/term/shell.nix
+    ./modules/waybar/waybar.nix
     ./modules/android.nix
     ./modules/apps.nix
-    ./modules/shell.nix
     ./modules/git.nix
     ./modules/hyprland.nix
     ./modules/hypridle.nix
@@ -13,10 +15,9 @@
     ./modules/hyprpaper.nix
     ./modules/hyprsunset.nix
     ./modules/mako.nix
-    ./modules/waybar/waybar.nix
     ./modules/lf.nix
-    #./modules/qutebrowser.nix
-    #./modules/browser.nix
+    ./modules/qutebrowser.nix
+    ./modules/browser.nix
     ./modules/gpg.nix
     ./modules/passman.nix
     ./modules/imv.nix

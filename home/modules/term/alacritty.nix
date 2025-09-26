@@ -1,11 +1,12 @@
-_: {
+{ config, pkgs, ... }:
+{
   programs.alacritty = {
-    enable = true;
+    enable = config.terminal == pkgs.alacritty;
 
     settings = {
       font = {
         normal = {
-          family = "OverpassM Nerd Font Mono";
+          family = config.font-family-mono;
           style = "Regular";
         };
         size = 17;
