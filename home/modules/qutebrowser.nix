@@ -26,7 +26,7 @@ let
 in
 {
   programs.qutebrowser = {
-    enable = true;
+    enable = false;
     settings = {
       colors = {
         completion = {
