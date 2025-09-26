@@ -20,12 +20,15 @@
       hidden = true;
       # Enable image preview.
       sixel = true;
+      # TODO: Implement clearer as part of lf-tools.
+      cleaner = "${pkgs.ctpv}/bin/ctpvclear";
     };
 
     previewer = {
       # TODO: implement wrapper to let previewer only access
       #   what it needs to run, nix wrap, bubblewrap or something else.
       source = pkgs.writeShellScript "previewer.sh" ''
+        # ctpv gives pixilated image preview.
         ${pkgs.lib.getExe pkgs.lf-tools.preview} ''$@
       '';
     };
@@ -34,12 +37,14 @@
     # & - run command asynchronously.
     # $ - run command replacing UI.
     commands = {
+      # TODO: move it to lf-tools
       open = ''
         ''${{
           # inode/x-empty is a file without an extension and with no content
           # for some reason when using zsh EDITOR is set to nano
           case $(file --mime-type $f -b) in
           text/*|application/json|inode/x-empty) nvim $f;;
+          image/*) imv $f;;
           esac
         }}
       '';
@@ -117,6 +122,12 @@
           fi
         }}
       '';
+
+      aswallpaper = ''
+        &{{
+          setbg $f
+        }}
+      '';
     };
 
     keybindings = {
@@ -139,6 +150,7 @@
       # TODO: increase / reset preview ratio using shortcuts.
       # "<a-l>" = "";
       # "<a-h>" = "";
+      u = "aswallpaper";
     };
   };
 }
