@@ -19,7 +19,7 @@ let
     XDG_TEMPLATES_DIR = "${HOME}/Templates";
     XDG_VIDEOS_DIR = "${HOME}/Videos";
     # TODO(conf): only if flatpak is installed.
-    XDG_DATA_DIRS = "${HOME}/.local/share/flatpak/exports/share";
+    XDG_DATA_DIRS = "${HOME}/.local/share/flatpak/exports/share:/run/current-system/sw/share/applications";
     EDITOR = config.editor;
     TERMINAL = config.terminal;
     BROWSER = config.browser;

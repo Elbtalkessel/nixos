@@ -7,6 +7,7 @@ def dirs []: nothing -> list {
     | each {|| $"($in)/applications"}
   ) 
   | append $"($env.XDG_DATA_HOME)/applications"
+  | append "/run/current-system/sw/share/applications"
   | where (path exists)
 }
 

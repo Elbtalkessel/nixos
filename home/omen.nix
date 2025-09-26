@@ -4,6 +4,7 @@
     ./environment.nix
     ./modules/alacritty.nix
     ./modules/android.nix
+    ./modules/apps.nix
     ./modules/shell.nix
     ./modules/git.nix
     ./modules/hyprland.nix
