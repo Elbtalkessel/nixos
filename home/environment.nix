@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 let
   HOME = "/home/${config.username}";
   sessionVariables = {
@@ -21,8 +21,7 @@ let
     # TODO(conf): only if flatpak is installed.
     XDG_DATA_DIRS = "${HOME}/.local/share/flatpak/exports/share:/run/current-system/sw/share/applications";
     EDITOR = config.editor;
-    TERMINAL = config.terminal;
-    BROWSER = config.browser;
+    TERMINAL = pkgs.lib.getName config.terminal;
     # TODO(conf): only if vagrant + qemu is installed.
     VAGRANT_DEFAULT_PROVIDER = "libvirt";
     # TODO(conf): only if qemu is installed.

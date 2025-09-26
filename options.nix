@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 {
   # https://nlewo.github.io/nixos-manual-sphinx/development/option-types.xml.html
   options = {
@@ -18,14 +18,14 @@
       description = "The default editor for the user.";
     };
     terminal = lib.mkOption {
-      type = lib.types.str;
-      default = "alacritty";
+      type = lib.types.package;
+      default = pkgs.foot;
       description = "The default terminal emulator for the user.";
     };
-    browser = lib.mkOption {
+    font-family-mono = lib.mkOption {
       type = lib.types.str;
-      default = "vivaldi";
-      description = "The default web browser for the user.";
+      default = "OverpassM Nerd Font Mono";
+      description = "Default monospace font";
     };
     # TODO(conf): make system/modules/{samba,webdav,sops}.nix toggable and
     # put here common configuration options.

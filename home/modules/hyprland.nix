@@ -1,10 +1,9 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 let
   center-rule = domain: classifiers: [
     "float,center,dimaround,${domain}:(${builtins.concatStringsSep "|" classifiers})"
   ];
-  TERMINAL = "alacritty";
-  BROWSER = "vivaldi";
+  TERMINAL = pkgs.lib.getName config.terminal;
   M = "SUPER";
 in
 {
@@ -243,7 +242,7 @@ in
         # Disabled until not resolved: https://github.com/hyprwm/Hyprland/issues/2203
         enable_swallow = true;
         swallow_regex = "^(?i)${TERMINAL}$";
-        swallow_exception_regex = "(?i)${BROWSER}.*|playwright.*";
+        swallow_exception_regex = "(?i)playwright.*";
         # Disable "Application not responding" dialog.
         enable_anr_dialog = false;
       };
