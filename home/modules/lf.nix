@@ -37,15 +37,9 @@
     # & - run command asynchronously.
     # $ - run command replacing UI.
     commands = {
-      # TODO: move it to lf-tools
       open = ''
         ''${{
-          # inode/x-empty is a file without an extension and with no content
-          # for some reason when using zsh EDITOR is set to nano
-          case $(file --mime-type $f -b) in
-          text/*|application/json|inode/x-empty) nvim $f;;
-          image/*) imv $f;;
-          esac
+          xdg-open $f
         }}
       '';
 
