@@ -22,6 +22,9 @@
       hidden = true;
     };
 
+    # % - run shell command inside UI.
+    # & - run command asynchronously.
+    # $ - run command replacing UI.
     commands = {
       open = ''
         ''${{
@@ -33,21 +36,28 @@
         }}
       '';
 
+      # TODO: Prefill input with the file's path.
+      #   There is no bash / sh tool to do so.
+      #   `rlwrap -o -S ">" -P "WHAAT" cat` in terminal, but not in lf.
+      #   Maybe I can just before calling `read` start a bg task which
+      #     after a delay run `lf -remote` to itself. `send echo "..."` does work, except
+      #     it changes prompt, if I could somehow send keypresses...
       # Enhances the builtin rename command checking if specified node exists before renaming.
       rename = ''
         %[ -e $1 ] && printf "file exists" || mv $f $1
       '';
 
+      # Un-archive usin ouch.
       extract = ''
         ''${{
           set -f
           case $f in
-          *.tgz | *.tar | *.zip | *.7z | *.gz | *.xz | *.lzma | *.bz | *.bz2 | *.bz3 | *.lz4 | *.sz | *.zst | *.rar | *.br) ouch d $f;;
+          *.tgz | *.tar | *.zip | *.7z | *.gz | *.xz | *.lzma | *.bz | *.bz2 | *.bz3 | *.lz4 | *.sz | *.zst | *.rar | *.br) ${pkgs.lib.getExe pkgs.ouch} d $f;;
           esac
         }}
       '';
 
-      # Fuzzy file search. Default is builtin find command, but I don't find it useful :)
+      # File search.
       # Search and naviagtion is done recursively from a directory where LF has been started (OLDPWD).
       fsearch = ''
         ''${{
@@ -65,6 +75,7 @@
         }}
       '';
 
+      # Search for a destination and move it.
       fmove = ''
         ''${{
           dest="$(fd -t d -c never . $OLDPWD | fzf)" &&
@@ -72,11 +83,11 @@
         }}
       '';
 
-      # % - run shell command inside UI.
+      # Creates a file or directory.
       append = ''
         %{{
            set -f
-           printf " file name or directory path/: "
+           printf " File name or directory path/ "
            read path
            if [[ $path == */ ]]; then
              mkdir -p $path
@@ -90,7 +101,7 @@
 
       # Navigate back up to starting directory.
       # You still can leave starting dir by pressing `h`.
-      # & - run command asynchronously, or you will get screen flicker.
+      # Runs asynchronously or you will get screen flicker.
       pback = ''
         &{{
           if [[ "$PWD" != "$OLDPWD" ]]; then
