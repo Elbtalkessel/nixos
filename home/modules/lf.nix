@@ -13,19 +13,20 @@
         3
       ];
       shell = "bash";
-      cleaner = "${pkgs.ctpv}/bin/ctpvclear";
       shellopts = "-eu";
       ifs = "\n";
       scrolloff = 10;
       icons = true;
       hidden = true;
+      # Enable image preview.
+      sixel = true;
     };
 
     previewer = {
       # TODO: implement wrapper to let previewer only access
-      # what it needs to run, nix wrap, bubblewrap or something else.
+      #   what it needs to run, nix wrap, bubblewrap or something else.
       source = pkgs.writeShellScript "previewer.sh" ''
-        ${pkgs.ctpv}/bin/ctpv $@
+        ${pkgs.lib.getExe pkgs.lf-tools.preview} ''$@
       '';
     };
 
@@ -135,6 +136,9 @@
       "<backspace2>" = "pback";
       r = "push :rename<space>";
       "<enter>" = "open";
+      # TODO: increase / reset preview ratio using shortcuts.
+      # "<a-l>" = "";
+      # "<a-h>" = "";
     };
   };
 }
