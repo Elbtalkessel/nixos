@@ -13,13 +13,20 @@
         3
       ];
       shell = "bash";
-      previewer = "${pkgs.ctpv}/bin/ctpv";
       cleaner = "${pkgs.ctpv}/bin/ctpvclear";
       shellopts = "-eu";
       ifs = "\n";
       scrolloff = 10;
       icons = true;
       hidden = true;
+    };
+
+    previewer = {
+      # TODO: implement wrapper to let previewer only access
+      # what it needs to run, nix wrap, bubblewrap or something else.
+      source = pkgs.writeShellScript "previewer.sh" ''
+        ${pkgs.ctpv}/bin/ctpv $@
+      '';
     };
 
     # % - run shell command inside UI.
