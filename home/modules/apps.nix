@@ -3,7 +3,6 @@ _: {
     mimeApps = {
       enable = true;
       defaultApplications = {
-        # browser
         "x-scheme-handler/http" = "app.zen_browser.zen.desktop";
         "x-scheme-handler/https" = "app.zen_browser.zen.desktop";
         "x-scheme-handler/about" = "app.zen_browser.zen.desktop";
@@ -20,6 +19,9 @@ _: {
         "text/calendar" = "nvim.desktop";
         "text/javascript" = "nvim.desktop";
         "text/xml" = "nvim.desktop";
+        "text/x-script.python" = "nvim.desktop";
+        "text/x-ruby" = "nvim.desktop";
+        "application/json" = "nvim.desktop";
 
         "image/jpeg" = "imv.desktop";
         "image/bmp" = "imv.desktop";
@@ -31,7 +33,6 @@ _: {
         "video/ogg" = "mpv.desktop";
         "video/webm" = "mpv.desktop";
         "video/3gpp" = "mpv.desktop";
-        # mkv
         "video/x-matroska" = "mpv.desktop";
 
         "audio/mpeg" = "mpv.desktop";
@@ -39,6 +40,8 @@ _: {
         "audio/wav" = "mpv.desktop";
         "audio/aac" = "mpv.desktop";
         "audio/flac" = "mpv.desktop";
+
+        "application/pdf" = "org.pwmt.zathura.desktop";
       };
     };
 

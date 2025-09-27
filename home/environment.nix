@@ -19,7 +19,8 @@ let
     XDG_TEMPLATES_DIR = "${HOME}/Templates";
     XDG_VIDEOS_DIR = "${HOME}/Videos";
     # TODO(conf): only if flatpak is installed.
-    XDG_DATA_DIRS = "${HOME}/.local/share/flatpak/exports/share:/run/current-system/sw/share/applications";
+    # TODO: shouldn't it work automagically?
+    XDG_DATA_DIRS = "${HOME}/.local/share/flatpak/exports/share:/run/current-system/sw/share:${HOME}/.local/state/nix/profiles/home-manager/home-path/share:${HOME}/.local/share";
     EDITOR = config.editor;
     TERMINAL = pkgs.lib.getName config.terminal;
     # TODO(conf): only if vagrant + qemu is installed.
