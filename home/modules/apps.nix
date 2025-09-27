@@ -2,6 +2,8 @@ _: {
   xdg = {
     mimeApps = {
       enable = true;
+      # Prefer using mimeo (https://xyne.dev/projects/mimeo/) to
+      # get a file mimetype, the `file` utility doesn't always work right :(
       defaultApplications = {
         "x-scheme-handler/http" = "app.zen_browser.zen.desktop";
         "x-scheme-handler/https" = "app.zen_browser.zen.desktop";
@@ -20,8 +22,14 @@ _: {
         "text/javascript" = "nvim.desktop";
         "text/xml" = "nvim.desktop";
         "text/x-script.python" = "nvim.desktop";
+        "text/x-python3" = "nvim.desktop";
         "text/x-ruby" = "nvim.desktop";
+        "text/x-crystal" = "nvim.desktop";
+        "text/markdown" = "nvim.desktop";
+        "text/x-systemd-unit" = "nvim.desktop";
         "application/json" = "nvim.desktop";
+        "application/yaml" = "nvim.desktop";
+        "application/sql" = "nvim.desktop";
 
         "image/jpeg" = "imv.desktop";
         "image/bmp" = "imv.desktop";
@@ -44,6 +52,5 @@ _: {
         "application/pdf" = "org.pwmt.zathura.desktop";
       };
     };
-
   };
 }
