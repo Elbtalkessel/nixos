@@ -1,14 +1,9 @@
 #!/usr/bin/env nu
 
 def dirs []: nothing -> list {
-  (
-    $env.XDG_DATA_DIRS 
-    | split row ":" 
-    | each {|| $"($in)/applications"}
-  ) 
-  | append $"($env.XDG_DATA_HOME)/applications"
-  | append "/run/current-system/sw/share/applications"
-  | where (path exists)
+  $env.XDG_DATA_DIRS
+  | split row ":"
+  | each {|| $"($in)/applications"}
 }
 
 def "main dirs" []: nothing -> list {
