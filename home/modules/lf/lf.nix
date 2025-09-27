@@ -153,24 +153,38 @@
     };
 
     keybindings = {
-      f = "fsearch";
+      # File(s) operations
+      # fuzzy search. use / to search in current directory.
+      ff = "fsearch";
       # remaps cut from `d` to `x`, easier to remember.
-      d = "delete";
+      fd = "delete";
       "<delete>" = "delete";
-      x = "cut";
-      # remaps `c` - clear to fuzzy copy, and sets clear on `e` (bc empty).
-      c = "fcopy";
-      # clears y (yank) or cut (x) selection.
-      e = "clear";
-      # m - move a file / directory or a selection to a directory
-      m = "fmove";
+      # cut a file, use `p` to paste it.
+      fx = "cut";
+      # fuzzy copy.
+      fc = "fcopy";
+      # empty-out selection
+      fe = "clear";
+      # fuzzy move.
+      fm = "fmove";
       # a - append, creates a file or a directory if path ends with slash.
-      a = "append";
+      fa = "append";
+      # rename a file
+      fr = "push :rename<space>";
+      # disable default renaming.
+      r = "";
+      f = "";
+
+      # Navigation
+      # navigate back up to a starting directory.
       "<backspace2>" = "pback";
-      r = "push :rename<space>";
+      # calls xdg-open.
       "<enter>" = "open";
-      "<c-e>" = "texpand";
-      u = "aswallpaper";
+
+      # Actions
+      ax = "texpand";
+      aw = "aswallpaper";
+      ae = "edit";
     };
   };
 }
