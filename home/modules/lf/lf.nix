@@ -1,6 +1,9 @@
 { pkgs, ... }:
 {
-  programs.lf = {
+  xdg.configFile = {
+    "lf/icons".source = ./icons;
+  };
+  programs.lf = rec {
     enable = true;
 
     settings = {
@@ -17,7 +20,8 @@
       ifs = "\n";
       scrolloff = 10;
       icons = true;
-      hidden = true;
+      # Show hidden files by default.
+      hidden = false;
       # Enable image preview.
       sixel = true;
       # TODO: Implement clearer as part of lf-tools.
@@ -122,6 +126,30 @@
           setbg $f
         }}
       '';
+
+      # Toggles the preview pane expanded state by changing ratios.
+      texpand = ''
+        &{{
+          # I didn't find how to get current ratios value,
+          if test -f /tmp/lf.texpanded
+          then
+            lf -remote "send set ratios ${pkgs.lib.concatStringsSep ":" (map builtins.toString settings.ratios)}"
+            rm /tmp/lf.texpanded
+          else
+            lf -remote "send set ratios 1:2:10"
+            touch /tmp/lf.texpanded
+          fi
+        }}
+      '';
+
+      # Edit a file using EDITOR.
+      # Usually a file can be opened by the opener (xdg-open),
+      # but it doesn't always work :(
+      edit = ''
+        ''${{
+          $EDITOR $fx
+        }}
+      '';
     };
 
     keybindings = {
@@ -141,9 +169,7 @@
       "<backspace2>" = "pback";
       r = "push :rename<space>";
       "<enter>" = "open";
-      # TODO: increase / reset preview ratio using shortcuts.
-      # "<a-l>" = "";
-      # "<a-h>" = "";
+      "<c-e>" = "texpand";
       u = "aswallpaper";
     };
   };

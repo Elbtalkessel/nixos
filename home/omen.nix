@@ -2,6 +2,7 @@
 {
   imports = [
     ./environment.nix
+    ./modules/lf/lf.nix
     ./modules/term/alacritty.nix
     ./modules/term/foot.nix
     ./modules/term/shell.nix
@@ -15,7 +16,6 @@
     ./modules/hyprpaper.nix
     ./modules/hyprsunset.nix
     ./modules/mako.nix
-    ./modules/lf.nix
     ./modules/qutebrowser.nix
     ./modules/browser.nix
     ./modules/gpg.nix
