@@ -53,6 +53,9 @@
     # ouch c file.7z
     # ouch l file.tar.zip.7z.gs.xz.bz.bz3.lz.sz.zst.rar.br
     ouch
+    # Deleting into trash bin
+    # https://github.com/umlx5h/gtrash
+    gtrash
 
     # From nixpkgs-custom overlay
     waifu

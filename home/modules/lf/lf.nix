@@ -150,6 +150,32 @@
           $EDITOR $fx
         }}
       '';
+
+      waifu = ''
+        &{{
+          waifu -n true -l true
+        }}
+      '';
+
+      delete = ''%gtrash put $fx'';
+
+      restore = ''
+        ''${{
+          gtrash find\
+          | fzf --multi --layout reverse --tac --footer="Restore"\
+          | awk -F'\t' '{print $2}'\
+          | xargs -I{} gtrash restore '{}'
+        }}
+      '';
+
+      delete-forever = ''
+        ''${{
+          gtrash find\
+          | fzf --multi --layout reverse --tac --footer="Delete Forever"\
+          | awk -F'\t' '{print $2}'\
+          | xargs -I{} gtrash rm '{}'
+        }}
+      '';
     };
 
     keybindings = {
@@ -157,8 +183,10 @@
       # fuzzy search. use / to search in current directory.
       ff = "fsearch";
       # remaps cut from `d` to `x`, easier to remember.
-      fd = "delete";
+      fdd = "delete";
       "<delete>" = "delete";
+      fdr = "restore";
+      fde = "delete-forever";
       # cut a file, use `p` to paste it.
       fx = "cut";
       # fuzzy copy.
@@ -185,6 +213,7 @@
       ax = "texpand";
       aw = "aswallpaper";
       ae = "edit";
+      ad = "waifu";
     };
   };
 }
