@@ -27,6 +27,7 @@ _: {
         "text/x-crystal" = "nvim.desktop";
         "text/markdown" = "nvim.desktop";
         "text/x-systemd-unit" = "nvim.desktop";
+        "application/x-shellscript" = "nvim.desktop";
         "application/json" = "nvim.desktop";
         "application/yaml" = "nvim.desktop";
         "application/sql" = "nvim.desktop";

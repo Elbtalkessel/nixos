@@ -20,6 +20,8 @@
       ifs = "\n";
       scrolloff = 10;
       icons = true;
+      sortby = "time";
+      info = "time";
       # Show hidden files by default.
       hidden = false;
       # Enable image preview.
@@ -33,7 +35,7 @@
       #   what it needs to run, nix wrap, bubblewrap or something else.
       source = pkgs.writeShellScript "previewer.sh" ''
         # ctpv gives pixilated image preview.
-        ${pkgs.lib.getExe pkgs.lf-tools.preview} ''$@
+        ${pkgs.lib.getExe pkgs.lf-tools.preview} "''$1" "''$2" "''$3" "''$4" "''$5"
       '';
     };
 
@@ -209,7 +211,7 @@
       # calls xdg-open.
       "<enter>" = "open";
 
-      # Actions
+      # Action
       ax = "texpand";
       aw = "aswallpaper";
       ae = "edit";
