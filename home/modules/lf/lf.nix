@@ -1,4 +1,9 @@
 { pkgs, ... }:
+let
+  preview = pkgs.lib.getExe pkgs.lf-tools.preview;
+  mimeo = pkgs.lib.getExe pkgs.mimeo;
+  ouch = pkgs.lib.getExe pkgs.ouch;
+in
 {
   xdg.configFile = {
     "lf/icons".source = ./icons;
@@ -35,7 +40,7 @@
       #   what it needs to run, nix wrap, bubblewrap or something else.
       source = pkgs.writeShellScript "previewer.sh" ''
         # ctpv gives pixilated image preview.
-        ${pkgs.lib.getExe pkgs.lf-tools.preview} "''$1" "''$2" "''$3" "''$4" "''$5"
+        ${preview} "''$1" "''$2" "''$3" "''$4" "''$5"
       '';
     };
 
@@ -43,9 +48,10 @@
     # & - run command asynchronously.
     # $ - run command replacing UI.
     commands = {
+      # mimeo instead of xdg-open because works better.
       open = ''
         ''${{
-          xdg-open $f
+          ${mimeo} $f
         }}
       '';
 
@@ -64,9 +70,16 @@
       extract = ''
         ''${{
           set -f
-          case $f in
-          *.tgz | *.tar | *.zip | *.7z | *.gz | *.xz | *.lzma | *.bz | *.bz2 | *.bz3 | *.lz4 | *.sz | *.zst | *.rar | *.br) ${pkgs.lib.getExe pkgs.ouch} d $f;;
-          esac
+          if test $(${preview} mime $f major) == "x-archive"; then
+            ${ouch} d $f
+          fi
+        }}
+      '';
+
+      compress = ''
+        ''${{
+          set -f
+          ${ouch} c $fx "$(basename $(pwd)).tgz"
         }}
       '';
 
@@ -216,6 +229,8 @@
       aw = "aswallpaper";
       ae = "edit";
       ad = "waifu";
+      aae = "extract";
+      aac = "compress";
     };
   };
 }

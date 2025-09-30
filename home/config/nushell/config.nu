@@ -56,8 +56,8 @@ $env.config = {
   }
 } 
 
-def --env lfcd [] {
-  let d = (lf -print-last-dir)
+def --env --wrapped lfcd [...args] {
+  let d = (lf -print-last-dir ...$args)
   cd $d
 }
 
@@ -65,6 +65,3 @@ def n [] {
   run-external $env.EDITOR
 }
 
-def nn [] {
-  nix run ~/code/nix/nixvim
-}
