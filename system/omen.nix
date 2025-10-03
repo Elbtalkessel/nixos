@@ -118,7 +118,6 @@
     cpu.amd.updateMicrocode = true;
     graphics = {
       enable = true;
-      extraPackages = with pkgs; [ amdvlk ];
     };
     logitech.wireless.enable = true;
   };
