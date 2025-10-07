@@ -2,6 +2,7 @@
 {
   imports = [
     ./environment.nix
+    ./modules/eww
     ./modules/lf/lf.nix
     ./modules/term/alacritty.nix
     ./modules/term/foot.nix
