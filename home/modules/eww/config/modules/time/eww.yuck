@@ -1,4 +1,6 @@
-(defpoll dt :interval "5s"
+(defpoll dt
+  :interval "5s"
+  :initial '{"year":0,"month":0,"day":0,"hour":0,"min":0}'
   `date +'{"year":"%Y","month":"%m","day":"%-d","hour":"%H","min":"%M"}'`
 )
 
