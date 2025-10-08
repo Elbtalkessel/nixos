@@ -1,8 +1,17 @@
 { pkgs, ... }:
+let
+  dev = true;
+in
 {
+  home.packages = with pkgs; [
+    # for resizing an image in eww random image widget.
+    imagemagick
+  ];
+
   programs.eww = {
     enable = true;
-    configDir = ./config;
+    # Disabled during development
+    # configDir = ./config;
   };
 
   systemd =
@@ -28,25 +37,26 @@
       };
     in
     {
-      user.services = {
-        eww = {
-          Unit = {
-            Description = "ElKowars wacky widgets";
-            Documentation = [ "https://elkowar.github.io/eww/" ];
-            PartOf = "graphical-session.target";
+      user.services =
+        pkgs.lib.mkIf dev == false {
+          eww = {
+            Unit = {
+              Description = "ElKowars wacky widgets";
+              Documentation = [ "https://elkowar.github.io/eww/" ];
+              PartOf = "graphical-session.target";
+            };
+            Install = {
+              WantedBy = [ "graphical-session.target" ];
+            };
+            Service = {
+              Type = "exec";
+              ExecStart = "${eww} daemon --no-daemonize";
+              Restart = "on-failure";
+              RestartSec = 1;
+              TimeoutStopSec = 10;
+            };
           };
-          Install = {
-            WantedBy = [ "graphical-session.target" ];
-          };
-          Service = {
-            Type = "exec";
-            ExecStart = "${eww} daemon --no-daemonize";
-            Restart = "on-failure";
-            RestartSec = 1;
-            TimeoutStopSec = 10;
-          };
+          eww-desktop = tmpl "desktop";
         };
-        eww-desktop = tmpl "desktop";
-      };
     };
 }

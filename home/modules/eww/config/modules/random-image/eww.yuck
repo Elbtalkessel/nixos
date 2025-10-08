@@ -1,12 +1,22 @@
-(defpoll path :interval "300s" "sh ~/.config/eww/modules/random-image/get-random-image.sh")
-(defwindow
-  :geometry (geometry :width 200 :height 200)
-  :anchor "center"
-  :stacking "fg"
+(defpoll random-image-path 
+  :interval "300s" 
+  :initial "/home/risus/.cache/wallpaper"
+  "sh ~/.config/eww/modules/random-image/get-random-image.sh"
+)
+
+(defwindow random-image-window
+  :monitor "0"
+  :stacking "bg"
+  :windowtype "normal"
+  :wm-ignore true
+  :geometry (geometry :width "10%" :height "10%")
+  (random-image-widget)
+)
+
+(defwidget random-image-widget []
   (box
-    :orientation "vertical"
-    :space-evenly "true"
-    (image :path path :width "200" :height "200")
+    :class "random-image-window"
+    (image :path random-image-path)
   )
 )
 

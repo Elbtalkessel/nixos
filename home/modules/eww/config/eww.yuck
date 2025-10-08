@@ -1,5 +1,6 @@
 (include "modules/time/eww.yuck")
 (include "modules/misc/eww.yuck")
+(include "modules/random-image/eww.yuck")
 
 (defwindow desktop
   :monitor "0"
