@@ -1,0 +1,21 @@
+(defpoll net :interval "100s"
+  :initial `0`
+  `nmcli -t -f SIGNAL,ACTIVE device wifi | awk -F ':' '{if($2=="yes")print$1}'`
+)
+
+(defwidget network [strength]
+  (box
+    :class "text-lg"
+    :space-evenly false
+    :spacing 8
+    (label 
+      :text {
+        strength == "" ? ""
+        : strength < 26 ? "󱛋"
+        : strength < 51 ? "󱛌"
+        : strength < 76 ? "󱛍"
+        : "󱛎"
+      }
+    )
+  )
+)

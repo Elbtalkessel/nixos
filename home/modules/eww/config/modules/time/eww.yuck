@@ -1,0 +1,54 @@
+(defpoll dt :interval "5s"
+  `date +'{"year":"%Y","month":"%m","day":"%-d","hour":"%H","min":"%M"}'`
+)
+
+
+(defwidget sundial []
+  (label
+    :class "text-md"
+    :text {
+      dt.hour >= 2 && dt.hour <= 4 ? "It Is Early Morning 🌙"
+      : dt.hour <= 5 ? "It Is Dawn 🌚" 
+      : dt.hour >= 6 && (dt.hour <= 8 && dt.min <= 59) ? "It Is Morning 🌄" 
+      : dt.hour >= 9 && (dt.hour <= 11 && dt.min <= 59) ? "It Is Late Morning 🌇" 
+      : dt.hour == 12 && dt.min <= 29 ? "It Is Midday 🌞" 
+      : dt.hour >= 12 && dt.hour <= 16 ? "It Is Afternoon ☀️" 
+      : dt.hour > 16 && dt.hour <= 17 ? "It Is Late Afternoon 🍖" 
+      : (dt.hour >= 17 && dt.min <= 1) || (dt.hour <= 18 && dt.min <= 20) ? "It Is Early Evening 📺" 
+      : dt.hour >= 18 && dt.hour <= 19 ? "It Is Dusk 🍹" 
+      : dt.hour > 19 && dt.hour <= 21 ? "It Is Late Evening 😪"
+      : dt.hour > 21 ? "It Is Night 🌃" 
+      : "It Is Midnight 😴"
+    }
+  )
+)
+
+(defwidget clock []
+  (label :class "text-xxl" :text "${dt.hour}:${dt.min}")
+)
+
+(defwidget date []
+  (box
+    :class "text-xl"
+    :space-evenly false
+    :halign "center"
+    :spacing 10
+    (label :text "${dt.day}")
+    (label :text {
+      dt.month == 1 ? "Junuary,"
+      : dt.month == 2 ? "February,"
+      : dt.month == 3 ? "March,"
+      : dt.month == 4 ? "April,"
+      : dt.month == 5 ? "May,"
+      : dt.month == 6 ? "June,"
+      : dt.month == 7 ? "July,"
+      : dt.month == 8 ? "August,"
+      : dt.month == 9 ? "September,"
+      : dt.month == 10 ? "October,"
+      : dt.month == 11 ? "November,"
+      : dt.month == 12 ? "December,"
+      : "What?!"
+    })
+    (label :text "${dt.year}")
+  )
+)

@@ -1,0 +1,12 @@
+(defpoll path :interval "300s" "sh ~/.config/eww/modules/random-image/get-random-image.sh")
+(defwindow
+  :geometry (geometry :width 200 :height 200)
+  :anchor "center"
+  :stacking "fg"
+  (box
+    :orientation "vertical"
+    :space-evenly "true"
+    (image :path path :width "200" :height "200")
+  )
+)
+
