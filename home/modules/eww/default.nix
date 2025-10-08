@@ -1,17 +1,11 @@
 { pkgs, ... }:
 let
-  services = false;
+  services = true;
 in
 {
-  home.packages = with pkgs; [
-    # for resizing an image in eww random image widget.
-    imagemagick
-  ];
-
   programs.eww = {
     enable = true;
-    # Disabled during development
-    # configDir = ./config;
+    configDir = ./config;
   };
 
   systemd =

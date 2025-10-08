@@ -1,5 +1,3 @@
-@import "./modules/random-image/eww.scss";
-
 $surface-darkgrey: #20252b;
 $surface-fg: #949494;
 $surface-lightgrey: #3d464e;
@@ -16,6 +14,10 @@ $surface-red: #f87070;
 
 .mt-10 {
   margin-top: 10em;
+}
+
+.mt-5 {
+  margin-top: 5em;
 }
 
 .text-lg {
