@@ -31,6 +31,7 @@ _: {
         "application/json" = "nvim.desktop";
         "application/yaml" = "nvim.desktop";
         "application/sql" = "nvim.desktop";
+        "application/vnd.coreos.ignition+json" = "nvim.desktop";
 
         "image/jpeg" = "imv.desktop";
         "image/bmp" = "imv.desktop";

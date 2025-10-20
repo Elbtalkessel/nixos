@@ -22,7 +22,6 @@
     libreoffice
     gnome-software
     obsidian
-    shortwave
 
     # CLI for searching packages on search.nixos.org
     nix-search-cli
@@ -61,7 +60,6 @@
     waifu
     usbdrivetools
     bootdev
-    tlm
 
     # Shell scripts
     (writeShellScriptBin "screen" (builtins.readFile ../bin/screenshot.sh))

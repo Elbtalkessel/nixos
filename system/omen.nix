@@ -21,22 +21,18 @@
 
     ./disko/omen.nix
 
+    ./modules/networking
     ./modules/bluetooth.nix
     ./modules/fonts.nix
     ./modules/i18n.nix
-    ./modules/llm.nix
-    ./modules/networking/networking.nix
     ./modules/nfs.nix
     ./modules/nvidia.nix
     ./modules/packages.nix
-    # ./modules/passthrough.nix
     ./modules/samba.nix
     ./modules/services.nix
     ./modules/session.nix
     ./modules/sops.nix
-    ./modules/steam.nix
     ./modules/virtualisation.nix
-    #./modules/webdav.nix
   ];
 
   boot = {
