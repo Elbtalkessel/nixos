@@ -85,6 +85,9 @@ in
         "virbr3"
         "virbr4"
       ];
+      allowedTCPPorts = [
+        8080
+      ];
     };
   };
 
