@@ -4,6 +4,8 @@
   ...
 }:
 let
+  _ = builtins;
+  ls = root: (_.map (f: root + "/${f}") (_.attrNames (_.readDir root)));
   mkWifi =
     {
       ssid,
@@ -90,5 +92,5 @@ in
   # in /etc/hosts, however changes will be dropped after applying a new configuration.
   environment.etc.hosts.mode = "0644";
 
-  security.pki.certificateFiles = [ ../../../assets/home-ca.pem ];
+  security.pki.certificateFiles = ls ../../../assets/certificates;
 }
