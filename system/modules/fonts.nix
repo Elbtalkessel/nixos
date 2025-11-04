@@ -3,7 +3,7 @@
   fonts = {
     packages = with pkgs; [
       nerd-fonts.overpass
-      noto-fonts-emoji
+      noto-fonts-color-emoji
     ];
     fontconfig = {
       enable = true;

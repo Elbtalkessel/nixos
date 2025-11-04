@@ -6,7 +6,7 @@
     "tampermonkey/userscripts".source = ../config/tampermonkey/userscripts;
   };
 
-  home.packages = with pkgs; [ tor-browser-bundle-bin ];
+  home.packages = with pkgs; [ tor-browser ];
 
   programs.chromium = {
     enable = false;

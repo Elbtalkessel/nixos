@@ -60,6 +60,11 @@
         }
       );
     };
+    tailscale = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Enable tailscale vpn. Requires tailscale/one-of-key secret.";
+    };
     # TODO(conf): Add an option combining system/modules/{nvidia,passthrough,llm}.nix
     #   and allowing to disabling / enabling selectively, but not let enable mutually exclusive options.
   };

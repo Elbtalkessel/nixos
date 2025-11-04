@@ -1,10 +1,15 @@
-{ pkgs, config, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 {
   services.tailscale = {
-    enable = true;
+    enable = config.tailscale;
   };
 
-  systemd.services.tailscale-autoconnect = {
+  systemd.services.tailscale-autoconnect = lib.mkIf config.tailscale {
     description = "Automatic connection to Tailscale";
     # make sure tailscale is running before trying to connect to tailscale
     after = [
