@@ -83,7 +83,7 @@
         };
         modules = [
           { nixpkgs = { inherit pkgs; }; }
-          ./options.nix
+          ./options
           disko.nixosModules.disko
           sops-nix.nixosModules.sops
           ./system/omen.nix
@@ -94,7 +94,7 @@
       homeConfigurations.virt = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
-          ./options.nix
+          ./options
           ./home/virt.nix
         ];
       };
@@ -103,7 +103,7 @@
       homeConfigurations.risus = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
-          ./options.nix
+          ./options
           ./home/omen.nix
         ];
       };
