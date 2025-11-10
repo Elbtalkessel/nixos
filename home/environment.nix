@@ -58,6 +58,8 @@ let
     PYTHONUSERBASE = "${XDG_DATA_HOME}/python";
     # ensure directory exists.
     HISTFILE = "${XDG_STATE_HOME}/bash/history";
+    GOPATH = "${XDG_DATA_HOME}/go";
+    GOMODCACHE = "${XDG_CACHE_HOME}/go/mod";
   };
 in
 {

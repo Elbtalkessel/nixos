@@ -25,8 +25,7 @@ in
       ifs = "\n";
       scrolloff = 10;
       icons = true;
-      sortby = "time";
-      info = "time";
+      info = "custom";
       # Show hidden files by default.
       hidden = false;
       # Enable image preview.
