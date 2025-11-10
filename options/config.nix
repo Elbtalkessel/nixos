@@ -7,7 +7,11 @@
       shell = "nu";
       shell-pkg = pkgs.nushell;
       editor = "nvim";
-      terminal = pkgs.foot;
+      terminal = {
+        pkg = pkgs.foot;
+        desktop = "foot.desktop";
+        exe = "foot";
+      };
       font-family-mono = "OverpassM Nerd Font Mono";
       net-mount = {
         host = "nas.s1.home.arpa";

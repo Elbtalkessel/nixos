@@ -37,8 +37,22 @@ in
               description = "The default editor for the user.";
             };
             terminal = opt {
-              type = package;
-              description = "The default terminal emulator for the user.";
+              type = submodule {
+                options = {
+                  pkg = opt {
+                    type = package;
+                    description = "The default terminal emulator for the user.";
+                  };
+                  desktop = opt {
+                    type = str;
+                    description = "Name of .desktop file";
+                  };
+                  exe = opt {
+                    type = str;
+                    description = "Name of executable";
+                  };
+                };
+              };
             };
             font-family-mono = opt {
               type = str;

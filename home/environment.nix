@@ -24,7 +24,7 @@ let
 
     # Configuration variables
     EDITOR = config.my.editor;
-    TERMINAL = pkgs.lib.getName config.my.terminal;
+    TERMINAL = config.my.terminal.exe;
     VAGRANT_DEFAULT_PROVIDER = "libvirt";
     VIRSH_DEFAULT_CONNECT_URI = "qemu:///system";
     DOCKER_BUILDKIT = "1";

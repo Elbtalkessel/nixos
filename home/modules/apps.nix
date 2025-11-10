@@ -1,4 +1,5 @@
-_: {
+{ config, ... }:
+{
   xdg = {
     mimeApps = {
       enable = true;
@@ -9,6 +10,7 @@ _: {
         "x-scheme-handler/https" = "app.zen_browser.zen.desktop";
         "x-scheme-handler/about" = "app.zen_browser.zen.desktop";
         "x-scheme-handler/unknown" = "app.zen_browser.zen.desktop";
+        "x-scheme-handler/terminal" = config.my.terminal.desktop;
 
         "x-scheme-handler/jetbrains" = "jetbrains-toolbox.desktop";
         "x-scheme-handler/tg" = "org.telegram.desktop.desktop";

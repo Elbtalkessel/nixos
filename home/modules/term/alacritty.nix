@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 {
   programs.alacritty = {
-    enable = config.my.terminal == pkgs.alacritty;
+    enable = config.my.terminal.pkg == pkgs.alacritty;
 
     settings = {
       font = {

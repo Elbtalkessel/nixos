@@ -1,8 +1,8 @@
 { pkgs, config, ... }:
 {
   programs.foot = {
-    enable = config.my.terminal == pkgs.foot;
-    package = config.my.terminal;
+    enable = config.my.terminal.pkg == pkgs.foot;
+    package = config.my.terminal.pkg;
     settings = {
       main = {
         font = "${config.my.font-family-mono}:size=17";
