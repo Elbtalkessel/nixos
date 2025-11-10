@@ -196,27 +196,24 @@ in
     keybindings = {
       # File(s) operations
       # fuzzy search. use / to search in current directory.
-      ff = "fsearch";
+      f = "fsearch";
       # remaps cut from `d` to `x`, easier to remember.
-      fdd = "delete";
+      dd = "delete";
       "<delete>" = "delete";
-      fdr = "restore";
-      fde = "delete-forever";
+      dr = "restore";
+      de = "delete-forever";
       # cut a file, use `p` to paste it.
-      fx = "cut";
+      x = "cut";
       # fuzzy copy.
-      fc = "fcopy";
+      c = "fcopy";
       # empty-out selection
-      fe = "clear";
+      e = "clear";
       # fuzzy move.
-      fm = "fmove";
+      m = "fmove";
       # a - append, creates a file or a directory if path ends with slash.
-      fa = "append";
+      a = "append";
       # rename a file
-      fr = "push :rename<space>";
-      # disable default renaming.
-      r = "";
-      f = "";
+      r = "push :rename<space>";
 
       # Navigation
       # navigate back up to a starting directory.
