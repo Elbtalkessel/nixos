@@ -22,11 +22,17 @@ _: {
     '';
   };
   enterShell = ''
-    echo "Available commands:"
-    echo " - chsecret: Edit secrets using sops"
-    echo " - switch: Switch to new home configuration"
-    echo " - sudo switch [switch|boot|test|...]: Reconfigure NixOS"
-    echo " - cleanup: Delete garbage"
-    echo " - generations: Availabel NixOS generations."
+    _r="\e[0m"
+    _i="\e[0;36;1m"
+    _s="\e[0;240;1m"
+
+    echo -e "$(cat <<-EOF
+    🤫 ''${_i}chsecret''${_r} Edit secrets using sops
+    🏠 ''${_i}switch''${_r} Switch to new home configuration
+    🌍 ''${_i}sudo switch''${_r} ''${_s}[switch|boot|test|...]''${_r} Reconfigure NixOS
+    🗑️ ''${_i}cleanup''${_r} Delete garbage
+    📰 ''${_i}news''${_r} home manager news
+    EOF
+    )"
   '';
 }
