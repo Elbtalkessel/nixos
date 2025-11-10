@@ -1,4 +1,9 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 let
   MUSIC = /mnt/share/Music;
   enable = false;
@@ -22,6 +27,10 @@ in
 
   programs.ncmpcpp = {
     inherit enable;
+    settings = {
+      ncmpcpp_directory = "${config.home.sessionVariables.XDG_DATA_HOME}/ncmpcpp";
+      lyrics_directory = "${config.home.sessionVariables.XDG_CACHE_HOME}/ncmpcpp-lyrics";
+    };
     mpdMusicDir = MUSIC;
     bindings = [
       {
