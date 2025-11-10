@@ -1,11 +1,11 @@
 { pkgs, config, ... }:
 {
   programs.foot = {
-    enable = config.terminal == pkgs.foot;
-    package = config.terminal;
+    enable = config.my.terminal == pkgs.foot;
+    package = config.my.terminal;
     settings = {
       main = {
-        font = "${config.font-family-mono}:size=17";
+        font = "${config.my.font-family-mono}:size=17";
         line-height = 30;
       };
       cursor = {

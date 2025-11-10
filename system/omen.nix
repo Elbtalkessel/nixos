@@ -82,16 +82,16 @@
     settings = {
       experimental-features = "nix-command flakes";
       # devenv requirement, allows devenv to manager caches.
-      trusted-users = [ config.username ];
+      trusted-users = [ config.my.username ];
     };
   };
 
   # USERS
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.${config.username} = {
+  users.users.${config.my.username} = {
     isNormalUser = true;
-    hashedPasswordFile = config.sops.secrets."users/${config.username}/password".path;
-    description = "${config.username}";
+    hashedPasswordFile = config.sops.secrets."users/${config.my.username}/password".path;
+    description = "${config.my.username}";
     extraGroups = [
       "networkmanager"
       "input"
@@ -101,7 +101,7 @@
       "tss"
     ];
     # TODO(conf): need to sync this, home/modules/shell.nix and options.nix
-    shell = pkgs.nushell;
+    shell = config.my.shell-pkg;
   };
 
   # SECURITY

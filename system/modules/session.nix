@@ -40,7 +40,7 @@ rec {
         {
           initial_session = {
             command = cmd;
-            user = config.username;
+            user = config.my.username;
           };
           default_session = {
             command = "${lib.getExe pkgs.tuigreet} --asterisks --remember --time --cmd '${cmd}'";

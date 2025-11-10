@@ -32,8 +32,8 @@
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home = {
-    inherit (config) username;
-    homeDirectory = "/home/${config.username}";
+    inherit (config.my) username;
+    homeDirectory = "/home/${config.my.username}";
 
     activation = {
       # https://github.com/philj56/tofi/issues/115#issuecomment-1701748297

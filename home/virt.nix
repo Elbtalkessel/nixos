@@ -9,8 +9,8 @@
   home = {
     stateVersion = "24.11";
 
-    inherit (config) username;
-    homeDirectory = "/home/${config.username}";
+    inherit (config.my) username;
+    homeDirectory = "/home/${config.my.username}";
 
     packages = [
       # # You can also create simple shell scripts directly inside your
@@ -22,11 +22,11 @@
     ];
 
     sessionVariables = {
-      EDITOR = config.editor;
+      EDITOR = config.my.editor;
     };
 
     shellAliases = {
-      n = config.editor;
+      n = config.my.editor;
       s = "sudo";
       S = "sudo systemctl";
       Su = "systemctl --user";

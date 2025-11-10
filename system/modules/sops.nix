@@ -7,7 +7,7 @@
       keyFile = "/home/${config.username}/.config/sops/age/keys.txt";
     };
     secrets = {
-      "users/${config.username}/password" = {
+      "users/${config.my.username}/password" = {
         # https://github.com/Mic92/sops-nix?tab=readme-ov-file#setting-a-users-password
         neededForUsers = true;
       };

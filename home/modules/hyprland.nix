@@ -3,7 +3,7 @@ let
   center-rule = domain: classifiers: [
     "float,center,dimaround,${domain}:(${builtins.concatStringsSep "|" classifiers})"
   ];
-  TERMINAL = pkgs.lib.getName config.terminal;
+  TERMINAL = pkgs.lib.getName config.my.terminal;
   M = "SUPER";
 in
 {
@@ -140,7 +140,7 @@ in
         dim_inactive = true;
         dim_strength = 0.25;
         blur = {
-          enabled = !config._userc.hyprland-performance;
+          enabled = !config.my.hyprland-performance;
           size = 10;
           passes = 2;
           new_optimizations = true;
@@ -157,7 +157,7 @@ in
       ];
 
       animations = {
-        enabled = !config._userc.hyprland-performance;
+        enabled = !config.my.hyprland-performance;
         # Some default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
         bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
         # NAME, ON_OFF, SPEED, CURVE, [,STYLE]
@@ -230,7 +230,7 @@ in
         disable_hyprland_logo = false;
         disable_splash_rendering = false;
         vrr = 0;
-        vfr = config._userc.hyprland-performance;
+        vfr = config.my.hyprland-performance;
         mouse_move_enables_dpms = false;
         key_press_enables_dpms = false;
         layers_hog_keyboard_focus = true;

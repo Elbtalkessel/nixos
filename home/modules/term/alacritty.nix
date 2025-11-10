@@ -1,12 +1,12 @@
 { config, pkgs, ... }:
 {
   programs.alacritty = {
-    enable = config.terminal == pkgs.alacritty;
+    enable = config.my.terminal == pkgs.alacritty;
 
     settings = {
       font = {
         normal = {
-          family = config.font-family-mono;
+          family = config.my.font-family-mono;
           style = "Regular";
         };
         size = 17;

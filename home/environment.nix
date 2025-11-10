@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 let
-  HOME = "/home/${config.username}";
+  HOME = "/home/${config.my.username}";
   sessionVariables = rec {
     # https://wiki.archlinux.org/title/XDG_Base_Directory
     XDG_DATA_HOME = "${HOME}/.local/share";
@@ -23,8 +23,8 @@ let
     XDG_DATA_DIRS = "${HOME}/.local/share/flatpak/exports/share:/run/current-system/sw/share:${HOME}/.local/state/nix/profiles/home-manager/home-path/share:${HOME}/.local/share";
 
     # Configuration variables
-    EDITOR = config.editor;
-    TERMINAL = pkgs.lib.getName config.terminal;
+    EDITOR = config.my.editor;
+    TERMINAL = pkgs.lib.getName config.my.terminal;
     VAGRANT_DEFAULT_PROVIDER = "libvirt";
     VIRSH_DEFAULT_CONNECT_URI = "qemu:///system";
     DOCKER_BUILDKIT = "1";
