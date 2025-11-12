@@ -3,7 +3,7 @@ let
   center-rule = domain: classifiers: [
     "float,center,dimaround,${domain}:(${builtins.concatStringsSep "|" classifiers})"
   ];
-  TERMINAL = pkgs.lib.getName config.my.terminal;
+  TERMINAL = config.my.terminal.exe;
   M = "SUPER";
 in
 {
@@ -77,10 +77,7 @@ in
         "${M}, left, exec, hyprswitch next"
 
         # Launcher
-        "${M}, SPACE, exec, tofi-drun | xargs hyprctl dispatch exec --"
-        "${M} SHIFT, SPACE, exec, tofi-run | xargs hyprctl dispatch exec --"
-        "${M} CTRL, SPACE, exec, bw-menu.nu"
-        "${M} ALT, SPACE, exec, powermenu.nu"
+        "${M}, SPACE, exec, vicinae toggle"
         "${M}, RETURN, exec, ${TERMINAL}"
 
         # Window management
@@ -154,6 +151,11 @@ in
         "blur,waybar"
         "blur,laucher"
         "ignorezero,notifications"
+        # vicinae integration
+        # https://docs.vicinae.com/quickstart/hyprland
+        "blur,vicinae"
+        "ignorealpha 0, vicinae"
+        "noanim, vicinae"
       ];
 
       animations = {

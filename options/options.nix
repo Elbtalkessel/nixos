@@ -58,9 +58,17 @@ in
               type = str;
               description = "Default monospace font";
             };
+            font-family = opt {
+              type = str;
+              description = "Default font";
+            };
             tailscale = opt {
               type = bool;
               description = "Enable tailscale vpn. Requires tailscale/one-of-key secret.";
+            };
+            opacity = opt {
+              type = float;
+              description = "Opacity value between 1 (no opacity) and 0.0 (opaque) applied where it can (terminal, launcher).";
             };
             # TODO(conf): make system/modules/{samba,webdav,sops}.nix toggable and
             # put here common configuration options.

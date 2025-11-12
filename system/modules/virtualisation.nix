@@ -25,7 +25,7 @@
   };
 
   programs.virt-manager.enable = true;
-  users.users.${config.username}.extraGroups = [
+  users.users.${config.my.username}.extraGroups = [
     "libvirtd"
     "docker"
   ];

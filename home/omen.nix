@@ -25,7 +25,7 @@
     ./modules/music.nix
     ./modules/ide.nix
     ./modules/theme.nix
-    ./modules/tofi.nix
+    ./modules/launcher/vicinae.nix
     ./modules/packages.nix
   ];
 
