@@ -20,7 +20,6 @@ in
           "*" = {
             "left" = [
               "dashboard"
-              "media"
               "workspaces"
             ];
             "middle" = [
@@ -28,11 +27,12 @@ in
             ];
             "right" = [
               "systray"
-              "battery"
+              "media"
               "volume"
               "bluetooth"
               "network"
               "clock"
+              "battery"
               "notifications"
             ];
           };
@@ -75,14 +75,49 @@ in
         };
       };
 
+      # THEME
+      # menu (popup when a module clicked)
+      # global
+      "theme.bar.menus.border.size" = "0.1em";
+      "theme.bar.menus.border.radius" = "0.1em";
+      # dashboard
+      "theme.bar.menus.menu.dashboard.background.color" = primary;
+      "theme.bar.menus.menu.dashboard.border.color" = primary;
+      "theme.bar.menus.menu.dashboard.card.color" = primary;
+      "theme.bar.menus.menu.dashboard.profile.radius" = "5em";
+      # clock
+      "theme.bar.menus.menu.clock.background.color" = primary;
+      "theme.bar.menus.menu.clock.border.color" = primary;
+      "theme.bar.menus.menu.clock.card.color" = primary;
+      "theme.bar.menus.menu.battery.text" = primary;
+      "theme.bar.menus.menu.battery.card.color" = primary;
+      "theme.bar.menus.menu.battery.background.color" = primary;
+      "theme.bar.menus.menu.bluetooth.card.color" = primary;
+      "theme.bar.menus.menu.bluetooth.background.color" = primary;
+      "theme.bar.menus.menu.bluetooth.border.color" = primary;
+      "theme.bar.menus.menu.media.background.color" = primary;
+      "theme.bar.menus.menu.media.border.color" = primary;
+      "theme.bar.menus.menu.media.card.color" = primary;
+      "theme.bar.menus.menu.volume.card.color" = primary;
+      "theme.bar.menus.menu.volume.background.color" = primary;
+      "theme.bar.menus.menu.volume.border.color" = primary;
+      "theme.bar.menus.menu.systray.dropdownmenu.background" = primary;
+      "theme.bar.menus.menu.systray.dropdownmenu.divider" = primary;
+      "theme.bar.menus.menu.network.card.color" = primary;
+      "theme.bar.menus.menu.network.background.color" = primary;
+      "theme.bar.menus.menu.network.border.color" = primary;
+      "theme.bar.menus.border.color" = primary;
+      # ignore all colors set previously, use global theme styling.
+      "theme.bar.menus.monochrome" = true;
+      "theme.bar.menus.opacity" = 100;
+      # -----
+
       "theme.bar.transparent" = true;
       "theme.bar.buttons.background_opacity" = 40;
       "theme.bar.buttons.monochrome" = false;
       "theme.bar.buttons.background" = primary;
       "theme.bar.buttons.style" = "split";
       "theme.bar.buttons.icon_background" = "#242438";
-      "theme.bar.menus.border.size" = "0.13em";
-      "theme.bar.menus.border.radius" = "0.7em";
       "theme.bar.floating" = false;
       "theme.bar.buttons.borderSize" = "0.1em";
       "theme.bar.buttons.enableBorders" = false;
@@ -105,33 +140,7 @@ in
       "menus.dashboard.powermenu.avatar.image" = "/home/risus/Pictures/PFP/abstract-artwork.jpg";
       "menus.dashboard.shortcuts.enabled" = false;
       "menus.dashboard.directories.enabled" = false;
-      "theme.bar.menus.menu.dashboard.profile.radius" = "5em";
       "theme.matugen" = false;
-      "theme.bar.menus.menu.dashboard.background.color" = primary;
-      "theme.bar.menus.menu.dashboard.border.color" = primary;
-      "theme.bar.menus.menu.dashboard.card.color" = primary;
-      "theme.bar.menus.menu.clock.background.color" = primary;
-      "theme.bar.menus.menu.clock.border.color" = primary;
-      "theme.bar.menus.menu.clock.card.color" = primary;
-      "theme.bar.menus.menu.battery.text" = primary;
-      "theme.bar.menus.menu.battery.card.color" = primary;
-      "theme.bar.menus.menu.battery.background.color" = primary;
-      "theme.bar.menus.menu.bluetooth.card.color" = primary;
-      "theme.bar.menus.menu.bluetooth.background.color" = primary;
-      "theme.bar.menus.menu.bluetooth.border.color" = primary;
-      "theme.bar.menus.menu.media.background.color" = primary;
-      "theme.bar.menus.menu.media.border.color" = primary;
-      "theme.bar.menus.menu.media.card.color" = primary;
-      "theme.bar.menus.menu.volume.card.color" = primary;
-      "theme.bar.menus.menu.volume.background.color" = primary;
-      "theme.bar.menus.menu.volume.border.color" = primary;
-      "theme.bar.menus.menu.systray.dropdownmenu.background" = primary;
-      "theme.bar.menus.menu.systray.dropdownmenu.divider" = primary;
-      "theme.bar.menus.menu.network.card.color" = primary;
-      "theme.bar.menus.menu.network.background.color" = primary;
-      "theme.bar.menus.menu.network.border.color" = primary;
-      "theme.bar.menus.border.color" = primary;
-      "theme.bar.menus.monochrome" = false;
       "wallpaper.enable" = false;
       "scalingPriority" = "gdk";
       "menus.transition" = "crossfade";
@@ -161,7 +170,6 @@ in
       "bar.media.show_active_only" = true;
       "theme.bar.buttons.notifications.spacing" = spacing;
       "bar.clock.format" = "%a %b %d  %I:%M %p";
-      "theme.bar.menus.opacity" = 100;
       "theme.bar.buttons.opacity" = 80;
       "theme.bar.buttons.background_hover_opacity" = 100;
       "theme.bar.opacity" = 100;
