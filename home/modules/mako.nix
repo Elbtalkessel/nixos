@@ -1,7 +1,8 @@
-_: {
+{ config, ... }:
+{
   # Requires libnotify
   services.mako = {
-    enable = true;
+    inherit (config.programs.waybar) enable;
     settings = {
       background-color = "#282828CC";
       text-color = "#ebdbb2";

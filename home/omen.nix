@@ -2,12 +2,12 @@
 {
   imports = [
     ./environment.nix
+    ./modules/bar/hyprpanel.nix
     ./modules/eww
     ./modules/lf/lf.nix
     ./modules/term/alacritty.nix
     ./modules/term/foot.nix
     ./modules/term/shell.nix
-    ./modules/waybar/waybar.nix
     ./modules/android.nix
     ./modules/apps.nix
     ./modules/git.nix
