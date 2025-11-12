@@ -2,7 +2,7 @@
 {
   imports = [
     ./environment.nix
-    ./modules/bar/hyprpanel.nix
+    ./modules/bar/hyprpanel
     ./modules/eww
     ./modules/lf/lf.nix
     ./modules/term/alacritty.nix
