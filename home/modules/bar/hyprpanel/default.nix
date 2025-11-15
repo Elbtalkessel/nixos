@@ -1,4 +1,25 @@
-_: {
+{ pkgs, ... }:
+{
+  # https://github.com/Jas-SinghFSU/HyprPanel?tab=readme-ov-file#optional
+  home.packages = with pkgs; [
+    brightnessctl
+    pywal
+    grimblast
+    wf-recorder
+    hyprpicker
+    hyprsunset
+    btop
+    mutagen
+    swww
+  ];
+  # TODO:
+  #   - Use config.my.
+  #   - Split into modules.
+  #   - Automate unblocking config.json
+  #     Maybe a wrapper script that will change ~/.config/hyprpanel/config.json from
+  #     a symlink to a regualar file. After script exit translate
+  #     updated config file into nix and prompt user to rebuild system
+  #     removing current config.json.
   programs.hyprpanel = {
     enable = true;
     systemd.enable = true;
@@ -10,21 +31,21 @@ _: {
       "bar.layouts" = {
         "0" = {
           "left" = [
-            "dashboard"
             "workspaces"
+            "clock"
           ];
           "middle" = [
-            "clock"
             "windowtitle"
+            "media"
           ];
           "right" = [
-            "media"
             "volume"
             "network"
             "bluetooth"
             "battery"
             "notifications"
-            "systray"
+            "dashboard"
+            "kbinput"
           ];
         };
       };
@@ -38,7 +59,7 @@ _: {
       "bar.workspaces.show_numbered" = true;
       "bar.workspaces.workspaces" = 10;
       "bar.volume.label" = false;
-      "bar.network.label" = false;
+      "bar.network.label" = true;
       "bar.network.truncation" = false;
       "bar.bluetooth.label" = false;
       "bar.battery.hideLabelWhenFull" = true;
@@ -48,6 +69,7 @@ _: {
       "bar.clock.showTime" = true;
       "bar.media.show_label" = true;
       "bar.media.show_active_only" = true;
+      "bar.media.truncation" = true;
       "bar.notifications.hideCountWhenZero" = true;
       "theme.notification.enableShadow" = true;
       "notifications.showActionsOnHover" = false;
@@ -85,7 +107,7 @@ _: {
       "theme.bar.buttons.windowtitle.enableBorder" = false;
       "bar.windowtitle.class_name" = false;
       "bar.windowtitle.label" = true;
-      "bar.windowtitle.icon" = true;
+      "bar.windowtitle.icon" = false;
       "wallpaper.enable" = false;
       "theme.bar.menus.border.radius" = "0.7em";
       "theme.bar.buttons.spacing" = "0";
