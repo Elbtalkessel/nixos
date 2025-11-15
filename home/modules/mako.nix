@@ -1,8 +1,22 @@
-{ config, ... }:
 {
-  # Requires libnotify
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+let
+  # Only if hyprpanel disabled, they conflic.
+  enable = !config.programs.hyprpanel.enable;
+in
+{
+  home.packages = lib.mkIf enable (
+    with pkgs;
+    [
+      libnotify
+    ]
+  );
   services.mako = {
-    inherit (config.programs.waybar) enable;
+    inherit enable;
     settings = {
       background-color = "#282828CC";
       text-color = "#ebdbb2";
