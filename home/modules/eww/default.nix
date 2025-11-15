@@ -1,10 +1,10 @@
 { pkgs, ... }:
 let
-  services = true;
+  enable = false;
 in
 {
   programs.eww = {
-    enable = true;
+    inherit enable;
     configDir = ./config;
   };
 
@@ -31,7 +31,7 @@ in
       };
     in
     {
-      user.services = pkgs.lib.mkIf services {
+      user.services = pkgs.lib.mkIf enable {
         eww = {
           Unit = {
             Description = "ElKowars wacky widgets";
