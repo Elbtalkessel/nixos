@@ -28,5 +28,11 @@ _: {
     # https://github.com/fwupd/fwupd
     fwupd.enable = true;
     flatpak.enable = true;
+    # hyprpanel "soft" requirements (installed by home-manager).
+    # for changing power profile.
+    power-profiles-daemon.enable = true;
+    # for displying battery level.
+    upower.enable = true;
+    # ---
   };
 }
