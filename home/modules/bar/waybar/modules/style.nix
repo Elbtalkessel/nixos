@@ -6,7 +6,7 @@ _: ''
 
   window#waybar {
     border-radius: 5px;
-    background: rgba(13, 13, 13, 0.5);
+    background: rgba(13, 13, 13, 0.0);
     color: #d0d0d0;
   }
 

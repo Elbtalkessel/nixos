@@ -3,6 +3,7 @@
   imports = [
     ./environment.nix
     ./modules/bar/hyprpanel
+    ./modules/bar/waybar
     ./modules/eww
     ./modules/lf/lf.nix
     ./modules/term/alacritty.nix

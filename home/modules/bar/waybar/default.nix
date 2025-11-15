@@ -9,7 +9,7 @@ let
 in
 {
   programs.waybar = {
-    enable = true;
+    enable = false;
     systemd = {
       enable = true;
       target = "graphical-session.target";
@@ -53,19 +53,19 @@ in
           "custom/sep"
           "hyprland/language"
         ];
-        "hyprland/window" = import ./window.nix { };
-        "hyprland/workspaces" = import ./workspaces.nix { };
-        "hyprland/language" = import ./language.nix { };
-        "tray" = import ./tray.nix { };
-        "bluetooth" = import ./bluetooth.nix { inherit lib lpad; };
-        "network" = import ./network.nix { };
-        "pulseaudio" = import ./pulseaudio.nix { inherit lib; };
-        "clock" = import ./clock.nix { };
-        "battery" = import ./battery.nix { inherit lib lpad; };
-        "backlight" = import ./backlight.nix { inherit lib lpad; };
-        "custom/sep" = import ./sep.nix { inherit sep; };
-        # "mpd" = import ./mpd.nix { };
-        "custom/powermenu" = import ./powermenu.nix { inherit pkgs; };
+        "hyprland/window" = import ./modules/window.nix { };
+        "hyprland/workspaces" = import ./modules/workspaces.nix { };
+        "hyprland/language" = import ./modules/language.nix { };
+        "tray" = import ./modules/tray.nix { };
+        "bluetooth" = import ./modules/bluetooth.nix { inherit lib lpad; };
+        "network" = import ./modules/network.nix { };
+        "pulseaudio" = import ./modules/pulseaudio.nix { inherit lib; };
+        "clock" = import ./modules/clock.nix { };
+        "battery" = import ./modules/battery.nix { inherit lib lpad; };
+        "backlight" = import ./modules/backlight.nix { inherit lib lpad; };
+        "custom/sep" = import ./modules/sep.nix { inherit sep; };
+        "mpd" = import ./modules/mpd.nix { };
+        "custom/powermenu" = import ./modules/powermenu.nix { inherit pkgs; };
       }
     ];
 
