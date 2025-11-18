@@ -74,7 +74,7 @@ in
         "${M}, mouse:273, resizewindow"
       ];
       bind = [
-        "${M}, left, exec, hyprswitch cycle en,ru"
+        "${M}, left, exec, hyprswitch cycle us ru"
 
         # Launcher
         "${M}, SPACE, exec, vicinae toggle"

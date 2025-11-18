@@ -18,7 +18,7 @@ def "main cycle" [...layouts: string] {
     $kb.layout
     | split row ","
     | enumerate
-    | where {|i| ($i.item in $layouts and $i.index != $ac)}
+    | where $it.item in $layouts
   )
   let next = try {
     $layouts | where $it.index > $ac | first
