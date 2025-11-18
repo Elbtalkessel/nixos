@@ -11,6 +11,7 @@
     ./modules/term/shell.nix
     ./modules/android.nix
     ./modules/apps.nix
+    ./modules/game.nix
     ./modules/git.nix
     ./modules/hyprland.nix
     ./modules/hypridle.nix
