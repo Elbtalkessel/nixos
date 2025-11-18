@@ -99,8 +99,9 @@ in
                 };
               };
             };
-          };
-        };
-    };
-  };
+            # add more into my/options here.
+          }; # ./options
+        }; # ./submodule
+    }; # ./my
+  }; # /options
 }
