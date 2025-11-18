@@ -7,6 +7,6 @@ _: {
       localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
       gamescopeSession.enable = true;
     };
-    hardware.xone.enable = true;
   };
+  hardware.xone.enable = true;
 }
