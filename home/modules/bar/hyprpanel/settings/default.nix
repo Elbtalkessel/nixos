@@ -1,9 +1,9 @@
 _: {
   "bar.battery.hideLabelWhenFull" = true;
-  "bar.battery.label" = true;
+  "bar.battery.label" = false;
   "bar.bluetooth.label" = false;
   "bar.clock.format" = "%I:%M %p";
-  "bar.clock.showIcon" = true;
+  "bar.clock.showIcon" = false;
   "bar.clock.showTime" = true;
   "bar.customModules.storage.paths" = [
     "/"
@@ -24,20 +24,20 @@ _: {
         "volume"
         "network"
         "battery"
-        "kbinput"
         "bluetooth"
         "notifications"
         "dashboard"
+        "kbinput"
       ];
     };
   };
   "bar.media.show_active_only" = true;
   "bar.media.show_label" = true;
   "bar.media.truncation" = true;
-  "bar.network.label" = true;
+  "bar.network.label" = false;
   "bar.network.truncation" = false;
   "bar.notifications.hideCountWhenZero" = true;
-  "bar.volume.label" = true;
+  "bar.volume.label" = false;
   "bar.windowtitle.class_name" = false;
   "bar.windowtitle.custom_title" = false;
   "bar.windowtitle.icon" = true;
@@ -82,7 +82,7 @@ _: {
   "theme.bar.buttons.style" = "default";
   "theme.bar.buttons.systray.enableBorder" = false;
   "theme.bar.buttons.windowtitle.enableBorder" = false;
-  "theme.bar.buttons.y_margins" = "0.2em";
+  "theme.bar.buttons.y_margins" = "0";
   "theme.bar.floating" = false;
   "theme.bar.margin_bottom" = "0";
   "theme.bar.margin_sides" = "0";
