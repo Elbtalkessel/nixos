@@ -29,6 +29,7 @@
     ./modules/nvidia.nix
     ./modules/packages.nix
     ./modules/samba.nix
+    ./modules/steam.nix
     ./modules/services.nix
     ./modules/session.nix
     ./modules/sops.nix
