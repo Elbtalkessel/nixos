@@ -123,8 +123,6 @@ in
         "${M} SHIFT, 9, movetoworkspace, 9"
         "${M} SHIFT, 0, movetoworkspace, 10"
         "${M}, TAB, workspace, previous"
-        "${M}, F6, exec, screen shot"
-        "${M}, F7, exec, screen record"
       ];
 
       binds = {

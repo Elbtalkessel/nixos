@@ -62,7 +62,6 @@
     bootdev
 
     # Shell scripts
-    (writeShellScriptBin "screen" (builtins.readFile ../bin/screenshot.sh))
     (writeShellScriptBin "setbg" (builtins.readFile ../bin/setbg.sh))
     (nuenv.writeShellApplication {
       name = "lsd";
