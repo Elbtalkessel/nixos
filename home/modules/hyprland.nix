@@ -1,7 +1,7 @@
 { pkgs, config, ... }:
 let
   center-rule = domain: classifiers: [
-    "float,center,dimaround,${domain}:(${builtins.concatStringsSep "|" classifiers})"
+    "float,center,${domain}:(${builtins.concatStringsSep "|" classifiers})"
   ];
   TERMINAL = config.my.terminal.exe;
   M = "SUPER";
@@ -46,6 +46,8 @@ in
           # no blur for floating window, elector apps render popup menus
           # as a floating window causing a blurred outline around the popup.
           "noblur,floating:1"
+          "float,initialClass:steam_proton"
+          "float,title:^SteamTinkerLaunch.*$"
         ];
 
       # See https://wiki.hyprland.org/Configuring/Keywords/ for more
