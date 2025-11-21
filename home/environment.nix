@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, ... }:
 let
   HOME = "/home/${config.my.username}";
   sessionVariables = rec {
