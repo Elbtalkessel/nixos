@@ -63,6 +63,7 @@
 
     # Shell scripts
     (writeShellScriptBin "setbg" (builtins.readFile ../bin/setbg.sh))
+    (writeShellScriptBin "gs" (builtins.readFile ../bin/gs.sh))
     (nuenv.writeShellApplication {
       name = "lsd";
       text = builtins.readFile ../bin/lsd.nu;
