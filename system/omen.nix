@@ -22,6 +22,7 @@
     ./disko/omen.nix
 
     ./modules/networking
+    ./modules/audio.nix
     ./modules/bluetooth.nix
     ./modules/fonts.nix
     ./modules/i18n.nix

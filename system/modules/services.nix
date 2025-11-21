@@ -17,12 +17,6 @@ _: {
       # UPD: for what?
       RuntimeDirectorySize = "8G";
     };
-    pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-    };
     gnome.gnome-keyring.enable = true;
     # Daemon for updating some devices' firmware
     # https://github.com/fwupd/fwupd
