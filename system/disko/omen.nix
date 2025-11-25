@@ -1,4 +1,17 @@
 {
+  fileSystems = {
+    "/mnt/storage" = {
+      device = "/dev/nvme0n1p2";
+      fsType = "ext4";
+      options = [
+        "noatime"
+        "data=writeback"
+        "barrier=0"
+        "commit=100"
+      ];
+    };
+  };
+
   disko.devices = {
     disk = {
       main = {
