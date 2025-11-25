@@ -48,6 +48,10 @@ in
           "noblur,floating:1"
           "float,initialClass:steam_proton"
           "float,title:^SteamTinkerLaunch.*$"
+          # becomes unresponsive if tiled and several times resized due
+          # new window open.
+          "float,initialClass:steam"
+          "float,initialClass:^.*\.exe$"
         ];
 
       # See https://wiki.hyprland.org/Configuring/Keywords/ for more
