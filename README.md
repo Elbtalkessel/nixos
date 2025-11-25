@@ -1,48 +1,58 @@
-# `NixOS` system and home configuration files
+# 🍞 NixOS Configuration
 
-## Deployment
+[bread] Home / NixOS / Configuration [/bread]
 
-_`disko-install` does not work for me when installing from a live USB_
+# NixOS Configuration ❄️
 
-Instruction is for a virtual machine and for booting from a live USB.
+Personal NixOS and Home Manager configuration, wired for reproducible installs, disk partitioning with `disko`, and secret management via `sops-nix` and age keys.
 
-```sh
-# If you're using nixos minimal installation image, it will be easier to connection via ssh:
-# - Grab machine's IP address:
-virsh net-dhcp-leases
-# - Set any password while you're inside virtual machine:
+## Features ✨
+
+- Flake-based NixOS and Home Manager configs for multiple hosts and users.
+- Disk layout and filesystem provisioning via `disko` (including encrypted root setups).
+- Secret management using `sops` and age keys for machine and user secrets.
+- Ready-to-use virtual machine profile (`virt`) for quick testing and development.
+
+## Quick start (VM / live ISO) 🚀
+
+From a NixOS live ISO or virtual machine, set a password and connect via SSH, then prepare the disk and install:
+
+```bash
+# Set a temporary password in the VM
 passwd
-# Open a terminal session on host:
-ssh nixos@192.168.122.121
 
-# Preparing disks.
-# Download layout:
+# Prepare disk layout (will format /dev/vda)
 curl https://raw.githubusercontent.com/Elbtalkessel/nixos/refs/heads/main/system/disko/virt.nix -o virt-disko.nix
-# Set a password for the main partition:
 echo -n "<password>" | sudo tee /tmp/secret.key
-# The following command will format /dev/vda (check virt-disko.nix content):
 sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko virt-disko.nix
 
-# OS Configuration.
-# Note: nix caches flakes, if you change it, use commit hash to
-# download the latest changes:
-# `git log --oneline | head -1 | awk '{print $1}' | xargs git rev-parse` instead of `deploy`.
+# Install NixOS from this flake
 sudo nixos-install -v --root /mnt --flake github:Elbtalkessel/nixos/main#virt --impure --no-write-lock-file
+```
 
-# Home Configuration
+After reboot, log into the system and activate the Home Manager configuration:
+
+```bash
 home-manager switch --flake github:Elbtalkessel/nixos/main#risus --no-write-lock-file
 ```
 
-### Setup secrets
+## Secrets setup 🔐
 
-```sh
-mkdir -p sops/age
+This configuration expects secrets to be managed with `sops` and age keys:
+
+```bash
+mkdir -p ~/.config/sops/age
 nix shell "nixpkgs#age" -c age-keygen -o ~/.config/sops/age/keys.txt
 nix run "nixpkgs#ssh-to-age" -- -private-key -i ~/.ssh/id_ed25519 >! ~/.config/sops/age/keys.txt
-# Open .sops.yaml and follow instruction
 ```
 
-## To do
+Then update `.sops.yaml` at the repo root to wire hosts, files, and key references.
 
-- Add [USB Guard](https://usbguard.github.io/)
-- Qemu declarative machine definition (ubuntu 20.04, windows)
+## Roadmap 🧭
+
+- USBGuard integration for better BadUSB protection on laptops and workstations.
+- Declarative QEMU virtual machines (e.g. Ubuntu 20.04, Windows) defined directly in Nix.
+
+## License 📜
+
+This repository is published under the Unlicense, dedicating the content to the public domain.
