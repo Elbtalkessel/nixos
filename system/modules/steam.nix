@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  programs = {
+  programs = rec {
     steam = {
       enable = true;
       # Open ports in the firewall for Steam Remote Play
@@ -11,16 +11,19 @@
       localNetworkGameTransfers.openFirewall = false;
       gamescopeSession.enable = false;
       extraPackages = with pkgs; [
-        qogir-icon-theme
         steamtinkerlaunch
       ];
       extraCompatPackages = with pkgs; [
+        # steam -> game -> props -> force compat tool -> use steam tinker launch
+        # to install mods.
         steamtinkerlaunch
       ];
+      protontricks.enable = true;
     };
     gamescope = {
-      enable = true;
+      inherit (steam.gamescopeSession) enable;
       capSysNice = true;
     };
+    gamemode.enable = true;
   };
 }

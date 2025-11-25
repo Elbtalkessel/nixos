@@ -54,7 +54,6 @@ in
           home = mkWifi {
             ssid = "$HOME_WIFI_SSID";
             password = "$HOME_WIFI_PASSWORD";
-            # dns = "192.168.1.90;9.9.9.9";
           };
           home_2 = mkWifi {
             ssid = "$HOME_2_WIFI_SSID";
