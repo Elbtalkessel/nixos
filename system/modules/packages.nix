@@ -159,5 +159,7 @@
     curl
     solaar
     gparted
+    # gparted requirement to work with NTFS file systems.
+    ntfs3g
   ];
 }
