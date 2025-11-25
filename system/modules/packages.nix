@@ -1,4 +1,9 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 {
   # PROGRAMS
   # Some programs need SUID wrappers, can be configured further or are
@@ -129,7 +134,19 @@
       enable = true;
       enableSSHSupport = false;
     };
-    zsh.enable = true;
+  };
+
+  environment.shells = [
+    config.my.shell-pkg
+  ];
+
+  # https://wiki.nixos.org/wiki/Nushell
+  programs.bash = lib.mkIf (config.my.shell == "nu") {
+    interactiveShellInit = ''
+      if ! [ "$TERM" = "dumb" ] && [ -z "$BASH_EXECUTION_STRING" ]; then
+        exec nu
+      fi
+    '';
   };
 
   # List packages installed in system profile. To search, run:

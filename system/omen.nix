@@ -102,9 +102,9 @@
       "audio"
       "tss"
     ];
-    # TODO(conf): need to sync this, home/modules/shell.nix and options.nix
-    shell = config.my.shell-pkg;
+    useDefaultShell = true;
   };
+  users.defaultUserShell = config.my.shell-pkg;
 
   # SECURITY
   security = {
