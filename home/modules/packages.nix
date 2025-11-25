@@ -22,6 +22,8 @@
     libreoffice
     gnome-software
     obsidian
+    # Sometimes drag-n-drop is only option
+    nautilus
 
     # CLI for searching packages on search.nixos.org
     nix-search-cli

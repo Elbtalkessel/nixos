@@ -54,6 +54,8 @@
         "audio/flac" = "mpv.desktop";
 
         "application/pdf" = "org.pwmt.zathura.desktop";
+
+        "inode/directory" = "org.gnome.Nautilus.desktop";
       };
     };
   };
