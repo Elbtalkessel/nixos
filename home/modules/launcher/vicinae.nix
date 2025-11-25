@@ -36,12 +36,9 @@
   };
   # https://github.com/nix-community/home-manager/blob/master/modules/programs/vicinae.nix
   # https://docs.vicinae.com/launcher-window
-  # Settings the layer shell is workaround:
-  # https://github.com/vicinaehq/vicinae/issues/398
   # No way to set scaling without custom env.
   systemd.user.services.vicinae.Service.EnvironmentFile = lib.mkForce (
     pkgs.writeText "vicinae-env" ''
-      USE_LAYER_SHELL=0
       QT_SCALE_FACTOR=1.5
     ''
   );
