@@ -26,4 +26,9 @@
     };
     gamemode.enable = true;
   };
+  # voice server
+  services.murmur = {
+    enable = true;
+    openFirewall = true;
+  };
 }

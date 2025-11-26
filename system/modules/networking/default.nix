@@ -85,7 +85,8 @@ in
         "virbr4"
       ];
       allowedTCPPorts = [
-        8080
+        # xrMPE server
+        5555
       ];
     };
   };
