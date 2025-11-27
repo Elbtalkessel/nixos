@@ -20,6 +20,7 @@
 
     ./disko/omen.nix
 
+    ./modules/filesystem
     ./modules/networking
     ./modules/audio.nix
     ./modules/bluetooth.nix
@@ -27,10 +28,8 @@
     ./modules/fonts.nix
     ./modules/hardware.nix
     ./modules/i18n.nix
-    ./modules/nfs.nix
     ./modules/nvidia.nix
     ./modules/packages.nix
-    ./modules/samba.nix
     ./modules/services.nix
     ./modules/session.nix
     ./modules/sops.nix

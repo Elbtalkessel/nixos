@@ -19,6 +19,16 @@
         host = "nas.s1.home.arpa";
         mountTo = "/mnt/share";
         type = "nfs";
+        smb-shares = [
+          "Calibre"
+          "Docker"
+          "Documents"
+          "Download"
+          "Home"
+          "Pictures"
+          "Whatever"
+          "Video"
+        ];
       };
       tailscale = false;
     };
