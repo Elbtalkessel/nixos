@@ -136,7 +136,7 @@ in
         # See https://wiki.hyprland.org/Configuring/Variables/ for more
         rounding = 5;
         dim_inactive = true;
-        dim_strength = 0.25;
+        dim_strength = 0.10;
         blur = {
           enabled = !config.my.hyprland-performance;
           size = 10;
