@@ -50,6 +50,10 @@
   security = {
     rtkit.enable = true;
     polkit.enable = true;
+    # ****** when typing password, insecure, but looks better :)
+    sudo.extraConfig = ''
+      Defaults pwfeedback
+    '';
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
