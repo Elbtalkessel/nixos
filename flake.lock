@@ -152,11 +152,11 @@
         "nuenv": "nuenv"
       },
       "locked": {
-        "lastModified": 1763494360,
-        "narHash": "sha256-D8P/7ZnZNZTIenqu8Y3HwPAOXqMZPivF5kCpQyFj1Sw=",
+        "lastModified": 1764772659,
+        "narHash": "sha256-z9/eeG+Frm9kG0D7k4VeSzfXYZRxbUMBObsr79/9Rxs=",
         "owner": "Elbtalkessel",
         "repo": "nixpkgs-custom",
-        "rev": "a409f5b81dc85f2a03e063bffac2299096943e4e",
+        "rev": "fa22096823ce0e28b428630283a4a109c5a91cbe",
         "type": "github"
       },
       "original": {
