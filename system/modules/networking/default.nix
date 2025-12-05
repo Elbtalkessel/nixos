@@ -89,6 +89,11 @@ in
         5555
       ];
     };
+
+    hosts = {
+      # Make easy anti cheat work
+      "0.0.0.0" = [ "modules-cdn.eac-prod.on.epicgames.com" ];
+    };
   };
 
   # Instead of symlinking, nixos will copy the hosts file, so you can modify it

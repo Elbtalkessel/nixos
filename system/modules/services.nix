@@ -1,10 +1,12 @@
 _: {
   nix = {
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 7d";
-    };
+    # rewrite it using suggestions from
+    # https://www.reddit.com/r/NixOS/comments/16tpwb3/how_to_only_keep_the_last_5_generations/
+    # gc = {
+    #   automatic = true;
+    #   dates = "weekly";
+    #   options = "--delete-older-than 7d";
+    # };
     optimise = {
       automatic = true;
     };

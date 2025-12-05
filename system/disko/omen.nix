@@ -5,9 +5,8 @@
       fsType = "ext4";
       options = [
         "noatime"
-        "data=writeback"
-        "barrier=0"
         "commit=100"
+        "nofail"
       ];
     };
   };
