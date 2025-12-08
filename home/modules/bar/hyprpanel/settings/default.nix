@@ -83,7 +83,7 @@ _: {
   "theme.bar.buttons.battery.spacing" = "0.35em";
   "theme.bar.buttons.bluetooth.spacing" = "0.35em";
   "theme.bar.buttons.clock.spacing" = "0.35em";
-  "theme.bar.buttons.icon" = "#9a9996";
+  "theme.bar.buttons.icon" = "#ffffff";
   "theme.bar.buttons.icon_background" = "#242438";
   "theme.bar.buttons.media.spacing" = "0.35em";
   "theme.bar.buttons.monochrome" = true;
