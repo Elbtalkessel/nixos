@@ -2,7 +2,7 @@
 {
   config = {
     my = {
-      hyprland-performance = true;
+      hyprland-performance = false;
       username = "risus";
       shell = "nu";
       shell-pkg = pkgs.nushell;
