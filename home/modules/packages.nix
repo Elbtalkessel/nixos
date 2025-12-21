@@ -57,6 +57,7 @@
     # Deleting into trash bin
     # https://github.com/umlx5h/gtrash
     gtrash
+    chafa
 
     # From nixpkgs-custom overlay
     waifu

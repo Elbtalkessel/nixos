@@ -14,13 +14,11 @@ _: {
     "0" = {
       "left" = [
         "workspaces"
-        "clock"
-        "systray"
-      ];
-      "middle" = [
         "windowtitle"
       ];
+      "middle" = [ ];
       "right" = [
+        "systray"
         "media"
         "volume"
         "network"
@@ -29,6 +27,7 @@ _: {
         "notifications"
         "dashboard"
         "kbinput"
+        "clock"
       ];
     };
   };
@@ -76,39 +75,52 @@ _: {
   "menus.dashboard.shortcuts.left.shortcut4.tooltip" = "";
   "menus.dashboard.shortcuts.right.shortcut1.icon" = "";
   "menus.transition" = "crossfade";
-  "menus.volume.raiseMaximumVolume" = true;
+  "menus.volume.raiseMaximumVolume" = false;
   "notifications.showActionsOnHover" = false;
+  "theme.bar.buttons.background" = "#242438";
   "theme.bar.buttons.background_hover_opacity" = 100;
   "theme.bar.buttons.background_opacity" = 0;
   "theme.bar.buttons.battery.spacing" = "0.35em";
   "theme.bar.buttons.bluetooth.spacing" = "0.35em";
   "theme.bar.buttons.clock.spacing" = "0.35em";
+  "theme.bar.buttons.icon" = "#ffffff";
+  "theme.bar.buttons.icon_background" = "#242438";
   "theme.bar.buttons.media.spacing" = "0.35em";
-  "theme.bar.buttons.monochrome" = true;
+  "theme.bar.buttons.monochrome" = false;
   "theme.bar.buttons.network.spacing" = "0.35em";
   "theme.bar.buttons.notifications.spacing" = "0.35em";
   "theme.bar.buttons.opacity" = 100;
-  "theme.bar.buttons.padding_x" = "0.3rem";
+  "theme.bar.buttons.padding_x" = "0.2em";
   "theme.bar.buttons.padding_y" = "0";
   "theme.bar.buttons.radius" = "0";
-  "theme.bar.buttons.spacing" = "0.3rem";
+  "theme.bar.buttons.spacing" = "0.5em";
+  "theme.bar.buttons.style" = "default";
   "theme.bar.buttons.systray.enableBorder" = false;
-  "theme.bar.buttons.volume.spacing" = "0.35em";
+  "theme.bar.buttons.text" = "#deddda";
+  "theme.bar.buttons.volume.spacing" = "0.5em";
   "theme.bar.buttons.windowtitle.enableBorder" = false;
   "theme.bar.buttons.windowtitle.spacing" = "0.5em";
-  "theme.bar.buttons.y_margins" = "0";
-  "theme.bar.floating" = false;
-  "theme.bar.margin_bottom" = "0";
-  "theme.bar.margin_sides" = "0";
+  "theme.bar.buttons.workspaces.available" = "#9a9996";
+  "theme.bar.buttons.workspaces.occupied" = "#ffffff";
+  "theme.bar.buttons.y_margins" = "0.2em";
+  "theme.bar.floating" = true;
+  "theme.bar.margin_bottom" = "0.2em";
+  "theme.bar.margin_sides" = "0.2em";
   "theme.bar.margin_top" = "0";
+  "theme.bar.menus.background" = "#1a1a1a";
   "theme.bar.menus.border.radius" = "0.7rem";
   "theme.bar.menus.border.size" = "0.1em";
+  "theme.bar.menus.buttons.default" = "#b4befe";
   "theme.bar.menus.buttons.radius" = "0.7em";
   "theme.bar.menus.card_radius" = "0.5em";
+  "theme.bar.menus.cards" = "#1a1a1a";
+  "theme.bar.menus.iconbuttons.active" = "#b4beff";
+  "theme.bar.menus.iconbuttons.passive" = "#cdd6f3";
+  "theme.bar.menus.label" = "#ffffff";
   "theme.bar.menus.menu.dashboard.profile.radius" = "5em";
   "theme.bar.menus.menu.dashboard.profile.size" = "11em";
   "theme.bar.menus.menu.dashboard.scaling" = 85;
-  "theme.bar.menus.monochrome" = true;
+  "theme.bar.menus.monochrome" = false;
   "theme.bar.menus.popover.scaling" = 75;
   "theme.bar.menus.progressbar.radius" = "5rem";
   "theme.bar.menus.scroller.radius" = "0.7em";
@@ -116,8 +128,9 @@ _: {
   "theme.bar.menus.slider.slider_radius" = "5rem";
   "theme.bar.menus.switch.radius" = "5em";
   "theme.bar.menus.switch.slider_radius" = "5em";
+  "theme.bar.menus.text" = "#ffffff";
   "theme.bar.opacity" = 90;
-  "theme.bar.outer_spacing" = "0";
+  "theme.bar.outer_spacing" = "0.2em";
   "theme.bar.scaling" = 85;
   "theme.bar.transparent" = false;
   "theme.font.label" = "OverpassM Nerd Font Semi-Bold";
@@ -133,19 +146,11 @@ _: {
   "wallpaper.enable" = false;
   "wallpaper.image" = "/home/risus/.cache/wallpaper";
   "wallpaper.pywal" = false;
-  # theming
-  "theme.bar.buttons.background" = "#242438";
-  "theme.bar.buttons.icon" = "#ffffff";
-  "theme.bar.buttons.icon_background" = "#242438";
-  "theme.bar.buttons.style" = "default";
-  "theme.bar.buttons.text" = "#deddda";
-  "theme.bar.buttons.workspaces.available" = "#9a9996";
-  "theme.bar.buttons.workspaces.occupied" = "#ffffff";
-  "theme.bar.menus.background" = "#1a1a1a";
-  "theme.bar.menus.buttons.default" = "#b4befe";
-  "theme.bar.menus.cards" = "#1a1a1a";
-  "theme.bar.menus.iconbuttons.active" = "#b4beff";
-  "theme.bar.menus.iconbuttons.passive" = "#cdd6f3";
-  "theme.bar.menus.label" = "#ffffff";
-  "theme.bar.menus.text" = "#ffffff";
+  "theme.bar.menus.enableShadow" = false;
+  "theme.bar.location" = "bottom";
+  "theme.bar.border.location" = "full";
+  "theme.bar.border.width" = "0.03em";
+  "theme.bar.enableShadow" = false;
+  "theme.bar.border_radius" = "0.5em";
+  "theme.bar.buttons.volume.enableBorder" = false;
 }
