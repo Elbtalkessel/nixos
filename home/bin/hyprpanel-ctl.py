@@ -8,6 +8,8 @@ import json
 import sys
 import subprocess
 import tempfile
+import os
+import typing
 
 SETTINGS_JSON = Path("~/.config/hyprpanel/config.json").expanduser()
 
@@ -35,7 +37,19 @@ def read_config() -> dict:
         return json.loads(f.read())
 
 
-def dump_config(config: dict) -> tuple[str, bool]:
+def command(func: typing.Callable[..., str]) -> typing.Callable[..., None]:
+    def inner(*args, **kwargs) -> None:
+        try:
+            r = func(*args, **kwargs)
+            sys.stdout.write(r)
+        except Exception as e:
+            sys.stderr.write(str(e))
+
+    return inner
+
+
+@command
+def dump_config(config: dict) -> str:
     with tempfile.NamedTemporaryFile() as f:
         f.write(json.dumps(config, sort_keys=True).encode("utf-8"))
         r = subprocess.run(
@@ -49,8 +63,22 @@ def dump_config(config: dict) -> tuple[str, bool]:
             capture_output=True,
         )
     if r.returncode != 0:
-        return r.stderr.decode("utf-8"), False
-    return r.stdout.decode("utf-8"), True
+        raise RuntimeError(r.stderr.decode("utf-8"))
+    return r.stdout.decode("utf-8")
+
+
+@command
+def unlink_config() -> str:
+    try:
+        target = os.readlink(SETTINGS_JSON)
+    except OSError:
+        raise RuntimeError("not a link or missing")
+    with open(target, "r") as f:
+        content = f.read()
+    os.unlink(SETTINGS_JSON)
+    with open(SETTINGS_JSON, "w") as f:
+        f.write(content)
+    return "Done!"
 
 
 if __name__ == "__main__":
@@ -59,12 +87,17 @@ if __name__ == "__main__":
         "--nixify",
         action="store_true",
         default=False,
-        help=f"Converts {SETTINGS_JSON} into nix's attribute set.",
+        help=f"Converts {SETTINGS_JSON} into nix's attribute set and sends it to stdout.",
+    )
+    parser.add_argument(
+        "--unlink",
+        action="store_true",
+        default=False,
+        help=f"Unlinks {SETTINGS_JSON} making it writable.",
     )
     args = parser.parse_args()
+
     if args.nixify:
-        result, ok = dump_config(unflatten_dict(read_config()))
-        if not ok:
-            sys.stderr.write(result)
-        else:
-            sys.stdout.write(result)
+        dump_config(unflatten_dict(read_config()))
+    if args.unlink:
+        unlink_config()

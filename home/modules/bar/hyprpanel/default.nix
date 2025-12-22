@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 {
   # https://github.com/Jas-SinghFSU/HyprPanel?tab=readme-ov-file#optional
   home.packages = with pkgs; [
@@ -23,6 +23,6 @@
   programs.hyprpanel = {
     enable = true;
     systemd.enable = true;
-    settings = import ./settings { };
+    settings = import ./settings { inherit config; };
   };
 }

@@ -56,6 +56,10 @@ _: {
     notifications = {
       hideCountWhenZero = true;
     };
+    systray = {
+      customIcons = { };
+      ignore = [ ];
+    };
     volume = {
       label = false;
     };
@@ -91,7 +95,7 @@ _: {
       };
       powermenu = {
         avatar = {
-          image = "/home/risus/Pictures/Horny/cheeky-schoolgirl.jpg";
+          image = "/home/risus/.cache/wallpaper";
           name = "system";
         };
         logout = "hyprctl dispatch exit";
@@ -141,9 +145,9 @@ _: {
     bar = {
       border = {
         location = "full";
-        width = "0.03em";
+        width = "0.01em";
       };
-      border_radius = "0.5em";
+      border_radius = "0.3em";
       buttons = {
         background = "#242438";
         background_hover_opacity = 100;
@@ -154,11 +158,13 @@ _: {
         bluetooth = {
           spacing = "0.35em";
         };
+        borderSize = "0.1em";
         clock = {
           spacing = "0.35em";
         };
         icon = "#ffffff";
         icon_background = "#242438";
+        innerRadiusMultiplier = "0";
         media = {
           spacing = "0.35em";
         };
@@ -170,9 +176,12 @@ _: {
           spacing = "0.35em";
         };
         opacity = 100;
-        padding_x = "0.2em";
+        padding_x = "0em";
         padding_y = "0";
         radius = "0";
+        separator = {
+          margins = "0.15em";
+        };
         spacing = "0.5em";
         style = "default";
         systray = {
@@ -191,14 +200,14 @@ _: {
           available = "#9a9996";
           occupied = "#ffffff";
         };
-        y_margins = "0.2em";
+        y_margins = "0em";
       };
       enableShadow = false;
       floating = true;
       location = "bottom";
       margin_bottom = "0.2em";
       margin_sides = "0.2em";
-      margin_top = "0";
+      margin_top = "0.2em";
       menus = {
         background = "#1a1a1a";
         border = {
@@ -247,7 +256,7 @@ _: {
         text = "#ffffff";
       };
       opacity = 90;
-      outer_spacing = "0.2em";
+      outer_spacing = "0em";
       scaling = 85;
       transparent = false;
     };
@@ -256,7 +265,7 @@ _: {
       name = "OverpassM Nerd Font";
       size = "1.1rem";
       style = "normal";
-      weight = 900;
+      weight = 400;
     };
     matugen = true;
     matugen_settings = {
