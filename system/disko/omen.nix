@@ -1,7 +1,11 @@
 {
   fileSystems = {
     "/mnt/storage" = {
-      device = "/dev/nvme0n1p2";
+      # Trying to resolve issue:
+      #   /mnt/storage: fsconfig() failed: /dev/nvme0n1p2
+      # UUID instead of LABEL. If won't help, try remove the commit opt,
+      # (the default value is around 30 or 15 seconds afaik.)
+      device = "/dev/disk/by-uuid/24bc5091-edd2-4209-b790-e1740a7a5ea1";
       fsType = "ext4";
       options = [
         "noatime"

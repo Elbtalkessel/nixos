@@ -144,8 +144,9 @@ _: {
   theme = {
     bar = {
       border = {
+        color = "#000000";
         location = "full";
-        width = "0.01em";
+        width = "0.03em";
       };
       border_radius = "0.3em";
       buttons = {
@@ -206,11 +207,12 @@ _: {
       floating = true;
       location = "bottom";
       margin_bottom = "0.2em";
-      margin_sides = "0.2em";
+      margin_sides = "0.15em";
       margin_top = "0.2em";
       menus = {
         background = "#1a1a1a";
         border = {
+          color = "#313244";
           radius = "0.7rem";
           size = "0.1em";
         };
