@@ -33,7 +33,6 @@
     wget
     arp-scan
     dig
-    bruno
 
     # Development
     lazydocker

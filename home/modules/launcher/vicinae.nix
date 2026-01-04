@@ -42,6 +42,4 @@
       QT_SCALE_FACTOR=1.5
     ''
   );
-  # let hm overwrite the config file if present in .config.
-  xdg.configFile."vicinae/vicinae.json".force = true;
 }
