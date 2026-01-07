@@ -42,6 +42,11 @@
         };
       };
 
+      # A POSIX complaint shell for testing things.
+      zsh = {
+        enable = true;
+      };
+
       # Nushell autocomplete
       carapace = {
         enable = true;

@@ -3,6 +3,7 @@
   home = {
     packages = with pkgs; [
       jetbrains-toolbox
+      # junie can't use nushell.
       # Patched JetBrains fsnotifier
       # reason: https://github.com/cachix/devenv/issues/1258
       # fix: https://github.com/NixOS/nixpkgs/pull/318358
