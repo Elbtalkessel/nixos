@@ -9,7 +9,6 @@ in
 {
   wayland.windowManager.hyprland = {
     enable = true;
-    xwayland.enable = true;
     # https://wiki.hyprland.org/Nix/Hyprland-on-Home-Manager/#using-the-home-manager-module-with-nixos
     package = null;
     portalPackage = null;
@@ -24,6 +23,7 @@ in
         "eDP-1,highres,auto,1"
       ];
       xwayland = {
+        enabled = true;
         force_zero_scaling = true;
       };
 
@@ -77,8 +77,6 @@ in
         "${M}, mouse:273, resizewindow"
       ];
       bind = [
-        "${M}, left, exec, hyprswitch cycle us ru"
-
         # Launcher
         "${M}, SPACE, exec, vicinae toggle"
         "${M}, RETURN, exec, ${TERMINAL}"
@@ -214,7 +212,7 @@ in
       # Layouts and Options you can find here:
       # https://github.com/Webconverger/webc/blob/master/usr/share/X11/xkb/rules/base.lst
       input = {
-        kb_layout = "us,ru,pl,ua,it";
+        kb_layout = "us,ru";
         kb_options = "grp:alt_space_toggle";
         repeat_rate = 75;
         repeat_delay = 250;
