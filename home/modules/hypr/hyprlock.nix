@@ -59,7 +59,7 @@ _: {
 
       # Profie-Photo
       image = {
-        path = "${../../assets/profpic.jpg}";
+        path = "${../../../assets/profpic.jpg}";
         border_size = 2;
         border_color = "rgba(0, 0, 0, .65)";
         size = 130;

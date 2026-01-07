@@ -1,37 +1,9 @@
-{
-  pkgs,
-  lib,
-  config,
-  ...
-}:
+{ pkgs, lib, ... }:
 {
   programs.vicinae = {
     enable = true;
     systemd = {
       enable = true;
-    };
-    settings = {
-      closeOnFocusLoss = false;
-      faviconService = "google";
-      font = {
-        normal = config.my.font-family;
-        size = 10;
-      };
-      keybindings = "default";
-      keybinds = { };
-
-      popToRootOnClose = true;
-      rootSearch = {
-        searchFiles = true;
-      };
-      theme = {
-        name = "vicinae-dark";
-      };
-      window = {
-        csd = true;
-        inherit (config.my) opacity;
-        rounding = 10;
-      };
     };
   };
   # https://github.com/nix-community/home-manager/blob/master/modules/programs/vicinae.nix

@@ -2,22 +2,15 @@
 {
   imports = [
     ./environment.nix
-    ./modules/bar/hyprpanel
-    ./modules/bar/waybar
-    ./modules/eww
-    ./modules/lf/lf.nix
-    ./modules/term/alacritty.nix
-    ./modules/term/foot.nix
-    ./modules/term/shell.nix
+    ./modules/bar
+    ./modules/hypr
+    ./modules/launcher
+    ./modules/explorer
+    ./modules/term
     ./modules/android.nix
     ./modules/apps.nix
     ./modules/game.nix
     ./modules/git.nix
-    ./modules/hyprland.nix
-    ./modules/hypridle.nix
-    ./modules/hyprlock.nix
-    ./modules/hyprpaper.nix
-    ./modules/hyprsunset.nix
     ./modules/mako.nix
     ./modules/qutebrowser.nix
     ./modules/browser.nix
@@ -27,7 +20,6 @@
     ./modules/music.nix
     ./modules/ide.nix
     ./modules/theme.nix
-    ./modules/launcher/vicinae.nix
     ./modules/packages.nix
   ];
 
