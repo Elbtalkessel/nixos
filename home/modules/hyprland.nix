@@ -1,7 +1,7 @@
 { pkgs, config, ... }:
 let
   center-rule = domain: classifiers: [
-    "float,center,${domain}:(${builtins.concatStringsSep "|" classifiers})"
+    "match:${domain} (${builtins.concatStringsSep "|" classifiers}),float on,center on"
   ];
   TERMINAL = config.my.terminal.exe;
   M = "SUPER";
@@ -45,10 +45,10 @@ in
         ++ [
           # no blur for floating window, elector apps render popup menus
           # as a floating window causing a blurred outline around the popup.
-          "noblur,floating:1"
-          "float,initialClass:steam_proton"
-          "float,title:^SteamTinkerLaunch.*$"
-          "float,initialClass:^.*\.exe$"
+          "match:float true, no_blur on"
+          "match:initial_class steam_proton, float on"
+          "match:title ^SteamTinkerLaunch.*$, float on"
+          "match:initial_class ^.*\.exe$, float on"
         ];
 
       # See https://wiki.hyprland.org/Configuring/Keywords/ for more
@@ -146,15 +146,15 @@ in
       layerrule = [
         # Apply rule to a layer
         # https://wiki.hypr.land/Configuring/Keywords/#blurring-layersurfaces
-        "blur,notifications"
-        "blur,waybar"
-        "blur,laucher"
-        "ignorezero,notifications"
         # vicinae integration
         # https://docs.vicinae.com/quickstart/hyprland
-        "blur,vicinae"
-        "ignorealpha 0, vicinae"
-        "noanim, vicinae"
+        {
+          name = "vicinae-blur";
+          blur = "on";
+          ignore_alpha = 0;
+          no_anim = "on";
+          "match:namespace" = "vicinae";
+        }
       ];
 
       animations = {
@@ -175,7 +175,6 @@ in
       # GENERAL SETTINGS
       general = {
         border_size = 1;
-        no_border_on_floating = false;
         gaps_in = 3;
         gaps_out = 3;
         "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
@@ -205,7 +204,6 @@ in
         mfact = 0.55;
         new_on_top = false;
         orientation = "left";
-        inherit_fullscreen = true;
       };
 
       # INPUT DEVICES
