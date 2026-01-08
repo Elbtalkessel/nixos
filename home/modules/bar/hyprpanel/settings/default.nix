@@ -33,6 +33,7 @@ in
       "0" = {
         left = [
           "workspaces"
+          "clock"
         ];
         middle = [
           "windowtitle"
@@ -47,7 +48,6 @@ in
           "notifications"
           "dashboard"
           "kbinput"
-          "clock"
         ];
       };
     };
@@ -302,13 +302,13 @@ in
       };
       opacity = 90;
       outer_spacing = "0em";
-      scaling = 85;
+      scaling = 100;
       transparent = false;
     };
     font = {
       label = "OverpassM Nerd Font Semi-Bold";
       name = "OverpassM Nerd Font";
-      size = "1.1rem";
+      size = "1rem";
       style = "normal";
       weight = 400;
     };
