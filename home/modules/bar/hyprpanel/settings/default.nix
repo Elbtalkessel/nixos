@@ -1,5 +1,6 @@
 _:
 let
+  # https://arsmoriendy.github.io/GruvboxHSL/
   monochrome = true;
   autocolor = false;
   wallpaper = "/home/risus/.cache/wallpaper";
@@ -206,8 +207,12 @@ in
           spacing = "0.5em";
         };
         workspaces = {
-          available = "#9a9996";
-          occupied = "#ffffff";
+          active = "#f5c2e7";
+          available = "#ffffff";
+          border = "#f5c2e7";
+          hover = "#f5c2e7";
+          numbered_active_underline_color = "#f5c2e7";
+          occupied = "#f2cdcd";
         };
         y_margins = "0em";
       };
@@ -218,28 +223,39 @@ in
       margin_sides = "0.15em";
       margin_top = "0.2em";
       menus = {
-        background = "#1a1a1a";
+        background = "#1d2021";
         border = {
-          color = "#313244";
+          color = "#1d2021";
           radius = "0.7rem";
           size = "0.1em";
         };
         buttons = {
-          default = "#b4befe";
+          default = "#fbf1c7";
           radius = "0.7em";
         };
         card_radius = "0.5em";
-        cards = "#1a1a1a";
+        cards = "#1d2021";
+        check_radio_button = {
+          active = "#fbf1c7";
+        };
+        dimtext = "#bdae93";
         dropdownmenu = {
           divider = "#11111b";
           text = "#ffffff";
         };
         enableShadow = false;
+        feinttext = "#a89984";
         iconbuttons = {
-          active = "#b4beff";
+          active = "#fbf1c7";
           passive = "#cdd6f3";
         };
+        icons = {
+          active = "#fbf1c7";
+        };
         label = "#ffffff";
+        listitems = {
+          active = "#fbf1c7";
+        };
         menu = {
           dashboard = {
             profile = {
@@ -256,25 +272,32 @@ in
           };
         };
         inherit monochrome;
-        opacity = 95;
+        opacity = 98;
         popover = {
           scaling = 75;
+          text = "#fbf1c7";
         };
         progressbar = {
+          foreground = "#fbf1c7";
           radius = "5rem";
         };
         scroller = {
           radius = "0.7em";
         };
         slider = {
+          primary = "#fbf1c7";
           progress_radius = "5rem";
           slider_radius = "5rem";
         };
         switch = {
+          enabled = "#fbf1c7";
           radius = "5em";
           slider_radius = "5em";
         };
         text = "#ffffff";
+        tooltip = {
+          text = "#fbf1c7";
+        };
       };
       opacity = 90;
       outer_spacing = "0em";
@@ -295,23 +318,33 @@ in
     };
     notification = {
       actions = {
-        background = "#b4befd";
+        background = "#fbf1c7";
       };
-      background = "#241f31";
+      background = "#1d2021";
       border = "#241f31";
       close_button = {
-        background = "#f38ba7";
+        background = "#fb4934";
         label = "#11111b";
       };
       enableShadow = true;
       label = "#ffffff";
       labelicon = "#ffffff";
-      opacity = 90;
+      opacity = 100;
       text = "#ffffff";
       time = "#ffffff";
     };
     osd = {
-      location = "right";
+      bar_color = "#fbf1c7";
+      bar_empty_color = "#241f31";
+      border = {
+        color = "#fbf1c7";
+      };
+      icon_container = "#fbf1c7";
+      label = "#fbf1c7";
+      location = "bottom";
+      muted_zero = true;
+      opacity = 95;
+      orientation = "horizontal";
     };
     tooltip = {
       scaling = 85;
