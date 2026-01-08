@@ -4,18 +4,17 @@
   :windowtype "dialog"
   :wm-ignore true
   :geometry (geometry 
-    :x "0%" 
-    :y "0%" 
-    :height "500px"
-    :width "100px"
+    :y "-15px" 
+    :x "5px"
+    :height "30px"
+    :width "30px"
     :anchor "bottom right"
   )
   (box
     :class "tray-popup"
-    :vexpand false
     (systray
-      :icon-size 20
-      :spacing 5
+      :icon-size 22
+      :spacing 20
       :orientation "v"
       :prepend-new true
       :space-evenly false

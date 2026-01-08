@@ -1,5 +1,8 @@
 // vim:ft=scss
 
 .tray-popup {
-  background-color: rgba(#000000, 0);
+  background-color: rgba(#1d2021, 1);
+  /* works bad when overlays another window */
+  /* border-radius: 0.7rem; */
+  padding: 14px;
 }

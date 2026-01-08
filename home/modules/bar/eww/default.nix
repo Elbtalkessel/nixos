@@ -50,7 +50,7 @@ in
             TimeoutStopSec = 10;
           };
         };
-        eww-desktop = tmpl "desktop";
+        eww-desktop = tmpl "tray-popup";
       };
     };
 }
