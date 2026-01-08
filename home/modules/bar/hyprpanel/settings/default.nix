@@ -1,4 +1,11 @@
-_: {
+_:
+let
+  monochrome = true;
+  autocolor = false;
+  wallpaper = "/home/risus/.cache/wallpaper";
+  avatar = "/home/risus/.cache/avatar";
+in
+{
   bar = {
     battery = {
       hideLabelWhenFull = true;
@@ -95,7 +102,7 @@ _: {
       };
       powermenu = {
         avatar = {
-          image = "/home/risus/.cache/wallpaper";
+          image = avatar;
           name = "system";
         };
         logout = "hyprctl dispatch exit";
@@ -139,6 +146,7 @@ _: {
     };
   };
   notifications = {
+    position = "bottom right";
     showActionsOnHover = false;
   };
   theme = {
@@ -169,7 +177,7 @@ _: {
         media = {
           spacing = "0.35em";
         };
-        monochrome = false;
+        inherit monochrome;
         network = {
           spacing = "0.35em";
         };
@@ -222,6 +230,10 @@ _: {
         };
         card_radius = "0.5em";
         cards = "#1a1a1a";
+        dropdownmenu = {
+          divider = "#11111b";
+          text = "#ffffff";
+        };
         enableShadow = false;
         iconbuttons = {
           active = "#b4beff";
@@ -236,8 +248,15 @@ _: {
             };
             scaling = 85;
           };
+          systray = {
+            dropdownmenu = {
+              divider = "#11111b";
+              text = "#ffffff";
+            };
+          };
         };
-        monochrome = false;
+        inherit monochrome;
+        opacity = 95;
         popover = {
           scaling = 75;
         };
@@ -269,13 +288,30 @@ _: {
       style = "normal";
       weight = 400;
     };
-    matugen = true;
+    matugen = !monochrome && autocolor;
     matugen_settings = {
       scheme_type = "content";
       variation = "standard_3";
     };
     notification = {
+      actions = {
+        background = "#b4befd";
+      };
+      background = "#241f31";
+      border = "#241f31";
+      close_button = {
+        background = "#f38ba7";
+        label = "#11111b";
+      };
       enableShadow = true;
+      label = "#ffffff";
+      labelicon = "#ffffff";
+      opacity = 90;
+      text = "#ffffff";
+      time = "#ffffff";
+    };
+    osd = {
+      location = "right";
     };
     tooltip = {
       scaling = 85;
@@ -283,7 +319,7 @@ _: {
   };
   wallpaper = {
     enable = false;
-    image = "/home/risus/.cache/wallpaper";
+    image = wallpaper;
     pywal = false;
   };
 }
