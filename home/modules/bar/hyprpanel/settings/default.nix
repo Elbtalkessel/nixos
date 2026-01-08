@@ -33,9 +33,10 @@ in
       "0" = {
         left = [
           "workspaces"
+        ];
+        middle = [
           "windowtitle"
         ];
-        middle = [ ];
         right = [
           "systray"
           "media"
@@ -153,13 +154,13 @@ in
   theme = {
     bar = {
       border = {
-        color = "#000000";
+        color = "#111313";
         location = "full";
         width = "0.03em";
       };
       border_radius = "0.3em";
       buttons = {
-        background = "#242438";
+        background = "#1d2021";
         background_hover_opacity = 100;
         background_opacity = 0;
         battery = {
@@ -173,7 +174,7 @@ in
           spacing = "0.35em";
         };
         icon = "#ffffff";
-        icon_background = "#242438";
+        icon_background = "#1d2021";
         innerRadiusMultiplier = "0";
         media = {
           spacing = "0.35em";
@@ -185,7 +186,7 @@ in
         notifications = {
           spacing = "0.35em";
         };
-        opacity = 100;
+        opacity = 98;
         padding_x = "0em";
         padding_y = "0";
         radius = "0";
@@ -197,7 +198,7 @@ in
         systray = {
           enableBorder = false;
         };
-        text = "#deddda";
+        text = "#ffffff";
         volume = {
           enableBorder = false;
           spacing = "0.5em";
@@ -208,7 +209,7 @@ in
         };
         workspaces = {
           active = "#f5c2e7";
-          available = "#ffffff";
+          available = "#A89984";
           border = "#f5c2e7";
           hover = "#f5c2e7";
           numbered_active_underline_color = "#f5c2e7";
@@ -225,18 +226,18 @@ in
       menus = {
         background = "#1d2021";
         border = {
-          color = "#1d2021";
+          color = "#111313";
           radius = "0.7rem";
           size = "0.1em";
         };
         buttons = {
-          default = "#fbf1c7";
+          default = "#f9f5d7";
           radius = "0.7em";
         };
         card_radius = "0.5em";
         cards = "#1d2021";
         check_radio_button = {
-          active = "#fbf1c7";
+          active = "#f9f5d7";
         };
         dimtext = "#bdae93";
         dropdownmenu = {
@@ -246,15 +247,15 @@ in
         enableShadow = false;
         feinttext = "#a89984";
         iconbuttons = {
-          active = "#fbf1c7";
+          active = "#f9f5d7";
           passive = "#cdd6f3";
         };
         icons = {
-          active = "#fbf1c7";
+          active = "#f9f5d7";
         };
         label = "#ffffff";
         listitems = {
-          active = "#fbf1c7";
+          active = "#f9f5d7";
         };
         menu = {
           dashboard = {
@@ -275,28 +276,28 @@ in
         opacity = 98;
         popover = {
           scaling = 75;
-          text = "#fbf1c7";
+          text = "#f9f5d7";
         };
         progressbar = {
-          foreground = "#fbf1c7";
+          foreground = "#f9f5d7";
           radius = "5rem";
         };
         scroller = {
           radius = "0.7em";
         };
         slider = {
-          primary = "#fbf1c7";
+          primary = "#f9f5d7";
           progress_radius = "5rem";
           slider_radius = "5rem";
         };
         switch = {
-          enabled = "#fbf1c7";
+          enabled = "#f9f5d7";
           radius = "5em";
           slider_radius = "5em";
         };
         text = "#ffffff";
         tooltip = {
-          text = "#fbf1c7";
+          text = "#f9f5d7";
         };
       };
       opacity = 90;
@@ -318,12 +319,12 @@ in
     };
     notification = {
       actions = {
-        background = "#fbf1c7";
+        background = "#f9f5d7";
       };
-      background = "#1d2021";
-      border = "#241f31";
+      background = "#282828";
+      border = "#1D2021";
       close_button = {
-        background = "#fb4934";
+        background = "#EBDBB2";
         label = "#11111b";
       };
       enableShadow = true;
@@ -334,13 +335,13 @@ in
       time = "#ffffff";
     };
     osd = {
-      bar_color = "#fbf1c7";
+      bar_color = "#f9f5d7";
       bar_empty_color = "#241f31";
       border = {
-        color = "#fbf1c7";
+        color = "#f9f5d7";
       };
-      icon_container = "#fbf1c7";
-      label = "#fbf1c7";
+      icon_container = "#f9f5d7";
+      label = "#f9f5d7";
       location = "bottom";
       muted_zero = true;
       opacity = 95;
