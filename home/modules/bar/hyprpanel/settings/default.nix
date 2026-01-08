@@ -67,7 +67,7 @@ _:
     windowtitle = {
       class_name = false;
       custom_title = false;
-      icon = true;
+      icon = false;
       label = true;
       # https://hyprpanel.com/configuration/panel.html#window-title-mappings
       # [<title> <icon> <new title>]
@@ -151,6 +151,12 @@ _:
           };
         };
       };
+    };
+    media = {
+      displayTime = false;
+      displayTimeTooltip = false;
+      hideAlbum = false;
+      hideAuthor = false;
     };
     transition = "crossfade";
     volume = {
@@ -242,7 +248,7 @@ _:
         };
         buttons = {
           default = "#f9f5d7";
-          radius = "0.7em";
+          radius = "1em";
         };
         card_radius = "0.5em";
         cards = "#1d2021";
@@ -275,6 +281,11 @@ _:
             };
             scaling = 85;
           };
+          media = {
+            card = {
+              tint = 0;
+            };
+          };
           systray = {
             dropdownmenu = {
               divider = "#11111b";
@@ -297,8 +308,9 @@ _:
         };
         slider = {
           primary = "#f9f5d7";
-          progress_radius = "5rem";
-          slider_radius = "5rem";
+          progress_radius = "0.2rem";
+          puck = "#f9f5d7";
+          slider_radius = "0.2rem";
         };
         switch = {
           enabled = "#f9f5d7";
