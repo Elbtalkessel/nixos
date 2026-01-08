@@ -1,5 +1,9 @@
 { pkgs, config, ... }:
 {
+  imports = [
+    ./modules
+  ];
+
   # https://github.com/Jas-SinghFSU/HyprPanel?tab=readme-ov-file#optional
   home.packages = with pkgs; [
     brightnessctl
@@ -12,6 +16,7 @@
     mutagen
     swww
   ];
+
   # TODO:
   #   - Use config.my.
   #   - Split into modules.

@@ -1,11 +1,5 @@
 _:
-let
-  # https://arsmoriendy.github.io/GruvboxHSL/
-  monochrome = true;
-  autocolor = false;
-  wallpaper = "/home/risus/.cache/wallpaper";
-  avatar = "/home/risus/.cache/avatar";
-in
+# https://arsmoriendy.github.io/GruvboxHSL/
 {
   bar = {
     battery = {
@@ -35,11 +29,8 @@ in
           "workspaces"
           "clock"
         ];
-        middle = [
-          "windowtitle"
-        ];
+        middle = [ "windowtitle" ];
         right = [
-          "systray"
           "media"
           "volume"
           "network"
@@ -48,6 +39,7 @@ in
           "notifications"
           "dashboard"
           "kbinput"
+          "custom/tray-popup"
         ];
       };
     };
@@ -77,14 +69,32 @@ in
       custom_title = false;
       icon = true;
       label = true;
+      # https://hyprpanel.com/configuration/panel.html#window-title-mappings
+      # [<title> <icon> <new title>]
+      title_map = [
+        [
+          "foot"
+          ""
+          "Foot Terminal"
+        ]
+      ];
+      truncation_size = 51;
     };
     workspaces = {
       applicationIconEmptyWorkspace = "•";
+      # https://hyprpanel.com/configuration/panel.html#map-workspaces-to-application-icons
+      applicationIconMap = {
+        "class:foot$" = "";
+        "title:YouTube" = "";
+      };
       monitorSpecific = false;
       showApplicationIcons = true;
       showWsIcons = true;
       show_icons = false;
       show_numbered = false;
+      # https://hyprpanel.com/configuration/panel.html#show-workspace-icons
+      # <workspace id> = { color = ""; icon = "" };
+      workspaceIconMap = { };
       workspaces = 10;
     };
   };
@@ -104,7 +114,7 @@ in
       };
       powermenu = {
         avatar = {
-          image = avatar;
+          image = "/home/risus/.cache/avatar";
           name = "system";
         };
         logout = "hyprctl dispatch exit";
@@ -179,7 +189,7 @@ in
         media = {
           spacing = "0.35em";
         };
-        inherit monochrome;
+        monochrome = true;
         network = {
           spacing = "0.35em";
         };
@@ -209,11 +219,11 @@ in
         };
         workspaces = {
           active = "#f5c2e7";
-          available = "#A89984";
+          available = "#cccccc";
           border = "#f5c2e7";
           hover = "#f5c2e7";
           numbered_active_underline_color = "#f5c2e7";
-          occupied = "#f2cdcd";
+          occupied = "#ffffff";
         };
         y_margins = "0em";
       };
@@ -272,7 +282,7 @@ in
             };
           };
         };
-        inherit monochrome;
+        monochrome = true;
         opacity = 98;
         popover = {
           scaling = 75;
@@ -312,7 +322,7 @@ in
       style = "normal";
       weight = 400;
     };
-    matugen = !monochrome && autocolor;
+    matugen = false;
     matugen_settings = {
       scheme_type = "content";
       variation = "standard_3";
@@ -353,7 +363,7 @@ in
   };
   wallpaper = {
     enable = false;
-    image = wallpaper;
+    image = "/home/risus/.cache/wallpaper";
     pywal = false;
   };
 }

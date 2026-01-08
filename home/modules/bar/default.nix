@@ -1,7 +1,7 @@
 _: {
   imports = [
     #./waybar
-    #./eww
+    ./eww
     ./hyprpanel
   ];
 

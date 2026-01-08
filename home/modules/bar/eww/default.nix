@@ -1,6 +1,7 @@
 { pkgs, ... }:
 let
-  enable = false;
+  enable = true;
+  service = false;
 in
 {
   programs.eww = {
@@ -31,7 +32,7 @@ in
       };
     in
     {
-      user.services = pkgs.lib.mkIf enable {
+      user.services = pkgs.lib.mkIf (enable && service) {
         eww = {
           Unit = {
             Description = "ElKowars wacky widgets";
