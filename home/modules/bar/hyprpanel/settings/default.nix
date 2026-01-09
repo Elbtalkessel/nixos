@@ -31,7 +31,6 @@ _:
         ];
         middle = [ "windowtitle" ];
         right = [
-          "media"
           "volume"
           "network"
           "battery"
@@ -39,7 +38,6 @@ _:
           "notifications"
           "dashboard"
           "kbinput"
-          "custom/tray-popup"
         ];
       };
     };

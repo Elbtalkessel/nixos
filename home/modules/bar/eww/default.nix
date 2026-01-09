@@ -1,7 +1,7 @@
 { pkgs, ... }:
 let
   enable = true;
-  service = false;
+  service = true;
 in
 {
   programs.eww = {
@@ -37,7 +37,7 @@ in
           Unit = {
             Description = "ElKowars wacky widgets";
             Documentation = [ "https://elkowar.github.io/eww/" ];
-            PartOf = "graphical-session.target";
+            PartOf = [ "graphical-session.target" ];
           };
           Install = {
             WantedBy = [ "graphical-session.target" ];
@@ -50,7 +50,19 @@ in
             TimeoutStopSec = 10;
           };
         };
-        eww-desktop = tmpl "tray-popup";
+        eww-tray-inline = (tmpl "tray-inline") // {
+          Unit = {
+            Requires = [ "eww.service" ];
+            After = [
+              "eww.service"
+              "hyprpanel.service"
+            ];
+            PartOf = [
+              "eww.service"
+              "hyprpanel.service"
+            ];
+          };
+        };
       };
     };
 }

@@ -21,3 +21,27 @@
     )
   )
 )
+
+(defwindow tray-inline
+  :monitor "0"
+  :stacking "fg"
+  :windowtype "dialog"
+  :wm-ignore true
+  :geometry (geometry 
+    :y "-40px" 
+    :x "10.7%"
+    :height "30px"
+    :width "30px"
+    :anchor "bottom right"
+  )
+  (box
+    :class "tray-inline"
+    (systray
+      :icon-size 20
+      :spacing 13
+      :orientation "h"
+      :prepend-new true
+      :space-evenly false
+    )
+  )
+)
