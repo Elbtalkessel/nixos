@@ -2,7 +2,6 @@
 {
   config = {
     my = {
-      hyprland-performance = false;
       username = "risus";
       shell = "nu";
       shell-pkg = pkgs.nushell;
@@ -31,7 +30,10 @@
         ];
       };
       tailscale = false;
-      wm.uwsm.enable = true;
+      wm = {
+        uwsm.enable = true;
+        performance = false;
+      };
     };
   };
 }

@@ -140,7 +140,7 @@ in
         dim_inactive = true;
         dim_strength = 0.10;
         blur = {
-          enabled = !config.my.hyprland-performance;
+          enabled = !config.my.wm.performance;
           size = 10;
           passes = 2;
           new_optimizations = true;
@@ -175,7 +175,7 @@ in
       # NAME you can find here https://wiki.hypr.land/Configuring/Animations/#animation-tree
       # Animation style can be overriden in the window or layer rule set.
       animations = {
-        enabled = !config.my.hyprland-performance;
+        enabled = !config.my.wm.performance;
         bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
         # NAME, ON_OFF, SPEED, CURVE, [,STYLE]
         animation = [
@@ -247,7 +247,7 @@ in
         disable_hyprland_logo = false;
         disable_splash_rendering = false;
         vrr = 0;
-        vfr = config.my.hyprland-performance;
+        vfr = config.my.wm.performance;
         mouse_move_enables_dpms = false;
         key_press_enables_dpms = false;
         layers_hog_keyboard_focus = true;

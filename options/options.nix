@@ -13,11 +13,6 @@ in
         with lib.types;
         submodule {
           options = {
-            hyprland-performance = opt {
-              type = bool;
-              default = false;
-              description = "Performance mode switching off all animations.";
-            };
             username = opt {
               type = str;
               description = "Default user's username.";
@@ -102,6 +97,11 @@ in
             wm = opt {
               type = submodule {
                 options = {
+                  performance = opt {
+                    type = bool;
+                    default = false;
+                    description = "Enable performance mode.";
+                  };
                   uwsm = opt {
                     type = submodule {
                       options = {
