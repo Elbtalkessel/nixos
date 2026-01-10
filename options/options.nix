@@ -99,6 +99,23 @@ in
                 };
               };
             };
+            wm = opt {
+              type = submodule {
+                options = {
+                  uwsm = opt {
+                    type = submodule {
+                      options = {
+                        enable = opt {
+                          type = bool;
+                          description = "Enable UWSM support.";
+                          default = true;
+                        };
+                      };
+                    };
+                  };
+                };
+              };
+            };
             # add more into my/options here.
           }; # ./options
         }; # ./submodule

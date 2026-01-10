@@ -4,17 +4,18 @@
   config,
   ...
 }:
-rec {
+{
   # Graphical session related, auth, greeter.
   # It is required to enable it to manage system settings, despite it being enabled in the home-manager.
   programs.hyprland = {
     enable = true;
-    withUWSM = programs.uwsm.enable;
+    withUWSM = config.my.wm.uwsm.enable;
   };
 
-  programs.uwsm.enable = true;
+  programs.uwsm.enable = config.my.wm.uwsm.enable;
 
   systemd = {
+    # TODO: replace with hyprpolkit?
     user.services.polkit-gnome-authentication-agent-1 = {
       description = "polkit-gnome-authentication-agent-1";
       wantedBy = [ "graphical-session.target" ];
@@ -35,7 +36,7 @@ rec {
       enable = true;
       settings =
         let
-          cmd = if programs.uwsm.enable then "uwsm start hyprland-uwsm.desktop" else "Hyprland";
+          cmd = if config.my.wm.uwsm.enable then "uwsm start hyprland-uwsm.desktop" else "Hyprland";
         in
         {
           initial_session = {

@@ -31,6 +31,7 @@
         ];
       };
       tailscale = false;
+      wm.uwsm.enable = true;
     };
   };
 }
