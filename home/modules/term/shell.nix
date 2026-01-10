@@ -20,26 +20,37 @@
         enable = true;
         # for editing directly to config.nu
         configFile.source = ../../config/nushell/config.nu;
-        shellAliases = {
-          cp = "cp -iv";
-          ln = "ln -v";
-          mv = "mv -iv";
-          rm = "rm -v";
-          S = "sudo systemctl";
-          s = "sudo";
-          Ss = "sudo systemctl status";
-          Su = "systemctl --user";
-          Sr = "sudo systemctl restart";
-          g = "lazygit";
-          d = "lazydocker";
-          vi = "nvim";
-          # For monitoring cached data to permanent storage syncronization progress.
-          # Example:
-          #   cp a_large_file /run/media/risus/pendrive/
-          #   sync
-          #   watch dirty
-          dirty = "grep -e Dirty: -e Writeback: /proc/meminfo";
-        };
+        shellAliases =
+          let
+            Su = "systemctl --user";
+          in
+          {
+            cp = "cp -iv";
+            ln = "ln -v";
+            mv = "mv -iv";
+            rm = "rm -v";
+            inherit Su;
+            usta = "${Su} start";
+            usto = "${Su} stop";
+            ures = "${Su} restart";
+            ustat = "${Su} status";
+            urel = "${Su} daemon-reload";
+            ucat = "${Su} cat";
+            utimer = "${Su} list-timers";
+            usvc = "${Su} --type=service";
+            S = "sudo systemct";
+            g = "lazygit";
+            d = "lazydocker";
+            vi = "nvim";
+            n = "nvim";
+            # For monitoring cached data to permanent storage syncronization progress.
+            # Example:
+            #   cp a_large_file /run/media/risus/pendrive/
+            #   sync
+            #   watch dirty
+            # Or better use `usbcp` from `usbdrivetools` package.
+            dirty = "grep -e Dirty: -e Writeback: /proc/meminfo";
+          };
       };
 
       # A POSIX complaint shell for testing things.

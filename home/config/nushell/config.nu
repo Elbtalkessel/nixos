@@ -60,8 +60,3 @@ def --env --wrapped lfcd [...args] {
   let d = (lf -print-last-dir ...$args)
   cd $d
 }
-
-def n [] {
-  run-external $env.EDITOR
-}
-
