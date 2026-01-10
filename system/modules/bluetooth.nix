@@ -1,13 +1,6 @@
-{ pkgs, ... }:
-{
-  # HARDWARE
-  # Bluetooth
-  # doesn't work, nor bluetoothctl nor blueman. authentication cancelled...
+_: {
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
   };
-  environment.systemPackages = with pkgs; [
-    bluetuith
-  ];
 }
