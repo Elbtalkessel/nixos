@@ -17,8 +17,12 @@
         desktop = "foot.desktop";
         exe = "foot";
       };
-      font-family-mono = "OverpassM Nerd Font Mono";
-      font-family = "OverpassM Nerd Font";
+      font = {
+        family = {
+          mono = "OverpassM Nerd Font Mono";
+          default = "OverpassM Nerd Font";
+        };
+      };
       opacity = 0.98;
       net-mount = {
         host = "nas.s1.home.arpa";

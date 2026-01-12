@@ -5,7 +5,7 @@
     package = config.my.terminal.pkg;
     settings = {
       main = {
-        font = "${config.my.font-family-mono}:size=17";
+        font = "${config.my.font.family.mono}:size=17";
         line-height = 30;
       };
       cursor = {

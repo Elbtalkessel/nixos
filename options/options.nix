@@ -62,13 +62,25 @@ in
                 };
               };
             };
-            font-family-mono = opt {
-              type = str;
-              description = "Default monospace font";
-            };
-            font-family = opt {
-              type = str;
-              description = "Default font";
+            font = opt {
+              type = submodule {
+                options = {
+                  family = opt {
+                    type = submodule {
+                      options = {
+                        mono = opt {
+                          type = str;
+                          description = "Default monospace font";
+                        };
+                        default = opt {
+                          type = str;
+                          description = "Default font";
+                        };
+                      };
+                    };
+                  };
+                };
+              };
             };
             tailscale = opt {
               type = bool;

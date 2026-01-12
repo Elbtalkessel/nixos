@@ -17,9 +17,9 @@
       # https://mynixos.com/nixpkgs/option/fonts.fontconfig.antialias
       antialias = true;
       defaultFonts = {
-        monospace = [ config.my.font-family-mono ];
-        sansSerif = [ config.my.font-family ];
-        serif = [ config.my.font-family ];
+        monospace = [ config.my.font.family.mono ];
+        sansSerif = [ config.my.font.family.default ];
+        serif = [ config.my.font.family.default ];
         emoji = [ "Noto Color Emoji" ];
       };
     };
