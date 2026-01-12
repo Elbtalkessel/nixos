@@ -3,8 +3,10 @@
   config = {
     my = {
       username = "risus";
-      shell = "nu";
-      shell-pkg = pkgs.nushell;
+      shell = {
+        name = "nu";
+        package = pkgs.nushell;
+      };
       editor = "nvim";
       terminal = {
         pkg = pkgs.foot;

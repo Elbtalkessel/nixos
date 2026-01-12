@@ -16,5 +16,5 @@
     ];
     useDefaultShell = true;
   };
-  users.defaultUserShell = config.my.shell-pkg;
+  users.defaultUserShell = config.my.shell;
 }

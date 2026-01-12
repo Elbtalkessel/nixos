@@ -7,7 +7,7 @@
 {
   programs =
     let
-      enableNushellIntegration = config.my.shell-pkg == pkgs.nushell;
+      enableNushellIntegration = config.my.shell.package == pkgs.nushell;
     in
     {
       # file database for nixpkgs
@@ -38,7 +38,7 @@
             ucat = "${Su} cat";
             utimer = "${Su} list-timers";
             usvc = "${Su} --type=service";
-            S = "sudo systemct";
+            S = "sudo systemctl";
             g = "lazygit";
             d = "lazydocker";
             vi = "nvim";

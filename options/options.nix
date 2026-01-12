@@ -17,15 +17,20 @@ in
               type = str;
               description = "Default user's username.";
             };
-            # TODO(conf): One setting for shell?
-            #   Problem: for nushell the package name is nushell, but executable is nu.
+            # Problem: for nushell the package name is nushell, but executable is nu.
             shell = opt {
-              type = str;
-              description = "The default shell for the user.";
-            };
-            shell-pkg = opt {
-              type = package;
-              description = "Shell package.";
+              type = submodule {
+                options = {
+                  name = opt {
+                    type = str;
+                    description = "The default shell for the user.";
+                  };
+                  package = opt {
+                    type = package;
+                    description = "Shell package.";
+                  };
+                };
+              };
             };
             editor = opt {
               type = str;

@@ -137,7 +137,7 @@
   };
 
   environment.shells = [
-    config.my.shell-pkg
+    config.my.shell.package
   ];
 
   # https://wiki.nixos.org/wiki/Nushell
