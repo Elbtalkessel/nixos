@@ -17,6 +17,14 @@ in
               type = str;
               description = "Default user's username.";
             };
+            avatar = opt {
+              type = str;
+              description = "User's avatar.";
+            };
+            wallpaper = opt {
+              type = str;
+              description = "Desktop wallpaper.";
+            };
             # Problem: for nushell the package name is nushell, but executable is nu.
             shell = opt {
               type = submodule {

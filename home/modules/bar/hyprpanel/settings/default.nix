@@ -1,4 +1,4 @@
-_:
+{ config, ... }:
 # https://arsmoriendy.github.io/GruvboxHSL/
 {
   bar = {
@@ -112,7 +112,7 @@ _:
       };
       powermenu = {
         avatar = {
-          image = "/home/risus/.cache/avatar";
+          image = config.my.avatar;
           name = "system";
         };
         logout = "hyprctl dispatch exit";
@@ -373,7 +373,7 @@ _:
   };
   wallpaper = {
     enable = false;
-    image = "/home/risus/.cache/wallpaper";
+    image = config.my.wallpaper;
     pywal = false;
   };
 }

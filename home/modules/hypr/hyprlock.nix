@@ -1,4 +1,5 @@
-_: {
+{ config, ... }:
+{
   programs.hyprlock = {
     enable = true;
     settings = {
@@ -59,7 +60,7 @@ _: {
 
       # Profie-Photo
       image = {
-        path = "${../../../assets/profpic.jpg}";
+        path = config.my.avatar;
         border_size = 2;
         border_color = "rgba(0, 0, 0, .65)";
         size = 130;

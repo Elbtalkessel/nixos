@@ -3,6 +3,10 @@
   config = {
     my = {
       username = "risus";
+      # I don't need these paths in store and usually
+      # modules using these confs don't need them too.
+      avatar = "/home/risus/.cache/avatar";
+      wallpaper = "/home/risus/.cache/wallpaper";
       shell = {
         name = "nu";
         package = pkgs.nushell;

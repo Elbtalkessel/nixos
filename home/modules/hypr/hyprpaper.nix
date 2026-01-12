@@ -1,13 +1,16 @@
-_: {
+{ config, ... }:
+{
   services.hyprpaper = {
     enable = true;
     settings = {
       ipc = true;
       splash = false;
       splash_offset = 2;
-      preload = [ "~/.cache/wallpaper" ];
+      preload = [
+        config.my.wallpaper
+      ];
       wallpaper = [
-        ",~/.cache/wallpaper"
+        ",${config.my.wallpaper}"
       ];
     };
   };
