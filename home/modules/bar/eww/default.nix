@@ -50,17 +50,22 @@ in
             TimeoutStopSec = 10;
           };
         };
-        eww-tray-inline = (tmpl "tray-inline") // {
-          Unit = {
-            Requires = [ "eww.service" ];
+        # System tray widget specifically made for hyperpanel config
+        # (see the parent directory) because hyprpanel doesn't support
+        # changing tray icon size:
+        # https://github.com/Jas-SinghFSU/HyprPanel/issues/540
+        eww-tray-inline = pkgs.lib.recursiveUpdate (tmpl "tray-inline") {
+          Unit = rec {
             After = [
               "eww.service"
               "hyprpanel.service"
             ];
-            PartOf = [
-              "eww.service"
-              "hyprpanel.service"
-            ];
+            Requires = After;
+            PartOf = [ "hyprpanel.service" ];
+          };
+          Service = {
+            # A little delay before starting to ensure hyprpanel renders first.
+            ExecStartPre = "${pkgs.lib.getExe' pkgs.coreutils "sleep"} 1";
           };
         };
       };
