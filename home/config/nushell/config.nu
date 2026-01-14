@@ -60,3 +60,15 @@ def --env --wrapped lfcd [...args] {
   let d = (lf -print-last-dir ...$args)
   cd $d
 }
+
+# Takes `ls` input and returns duplicated files by calculating their md5 hash.
+def --env --wrapped duplicates [...args] {
+  $in
+  | where type == file
+  | insert hash {|it| open $it.name | hash md5} 
+  | group-by hash --to-table 
+  | insert dupno {|it| $it.items | length} 
+  | where dupno > 1 
+  | each {|it| $it.items | sort-by modified -r | slice 1..} 
+  | flatten
+}
