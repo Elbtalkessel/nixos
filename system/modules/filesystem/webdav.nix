@@ -1,6 +1,7 @@
+# WIP: support config.my.net-mount
 { config, lib, ... }:
 let
-  enable = config.my.net-mount.type == "webdav";
+  enable = config.my.net-mount.fsType == "webdav";
 in
 {
   services = {

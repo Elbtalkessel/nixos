@@ -95,11 +95,11 @@ in
             net-mount = opt {
               type = submodule {
                 options = {
-                  host = opt {
+                  device = opt {
                     type = str;
                     description = "The hostname or IP address of the NAS server.";
                   };
-                  smb-shares = opt {
+                  shares = opt {
                     type = listOf str;
                     default = [ ];
                     description = "List of shares to mount from the NAS server (only if type is set to samba).";
@@ -108,10 +108,9 @@ in
                     type = str;
                     description = "The mount point for the shares.";
                   };
-                  type = opt {
+                  fsType = opt {
                     type = enum [
-                      "smb"
-                      "webdav"
+                      "cifs"
                       "nfs"
                     ];
                     description = "The type of the share.";
@@ -134,6 +133,29 @@ in
                           type = bool;
                           description = "Enable UWSM support.";
                           default = true;
+                        };
+                      };
+                    };
+                  };
+                };
+              };
+            };
+            virt = opt {
+              type = submodule {
+                options = {
+                  docker = opt {
+                    type = submodule {
+                      options = {
+                        gpu = opt {
+                          type = submodule {
+                            options = {
+                              enable = opt {
+                                type = bool;
+                                description = "Allow docker containers to use GPU";
+                                default = false;
+                              };
+                            };
+                          };
                         };
                       };
                     };

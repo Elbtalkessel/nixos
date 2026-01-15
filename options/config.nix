@@ -27,25 +27,20 @@
       };
       opacity = 0.98;
       net-mount = {
-        host = "nas.s1.home.arpa";
+        # samba shares should start with `//` !
+        # nfs should end with `:` !
+        device = "192.168.8.90:";
         mountTo = "/mnt/share";
-        type = "nfs";
-        smb-shares = [
-          "Calibre"
-          "Docker"
-          "Documents"
-          "Download"
-          "Home"
-          "Pictures"
-          "Whatever"
-          "Video"
-        ];
+        fsType = "nfs";
+        # full path to each share
+        shares = [ "/volume1/xyz" ];
       };
       tailscale = false;
       wm = {
         uwsm.enable = true;
         performance = false;
       };
+      virt.docker.gpu.enable = true;
     };
   };
 }

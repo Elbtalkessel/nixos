@@ -28,6 +28,7 @@
     ./modules/fonts.nix
     ./modules/hardware.nix
     ./modules/i18n.nix
+    ./modules/llm.nix
     ./modules/nvidia.nix
     ./modules/packages.nix
     ./modules/services.nix

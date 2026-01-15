@@ -1,7 +1,7 @@
 _: {
   imports = [
-    ./nfs.nix
-    ./samba.nix
+    ./server.nix
+    ./client.nix
     ./webdav.nix
   ];
 }
