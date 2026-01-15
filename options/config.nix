@@ -6,7 +6,9 @@
       # I don't need these paths in store and usually
       # modules using these confs don't need them too.
       avatar = "/home/risus/.cache/avatar";
-      wallpaper = "/home/risus/.cache/wallpaper";
+      # GNOME uses the same path too,
+      # `dconf dump /org/gnome/desktop/wallpaper/`
+      wallpaper = "/home/risus/.config/background";
       shell = {
         name = "nu";
         package = pkgs.nushell;

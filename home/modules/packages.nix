@@ -65,7 +65,6 @@
     bootdev
 
     # Shell scripts
-    (writeShellScriptBin "setbg" (builtins.readFile ../bin/setbg.sh))
     (nuenv.writeShellApplication {
       name = "lsd";
       text = builtins.readFile ../bin/lsd.nu;
