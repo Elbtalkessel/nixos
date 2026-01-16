@@ -61,7 +61,6 @@ in
               "hyprpanel.service"
             ];
             Requires = After;
-            PartOf = [ "hyprpanel.service" ];
           };
           Service = {
             # A little delay before starting to ensure hyprpanel renders first.
