@@ -87,8 +87,8 @@ in
       allowedTCPPorts = [
         # xrMPE server
         5555
-        # AI server (see code/devops/nsrv)
-        8000
+        # AI server (see code/devops)
+        9998
       ];
     };
 

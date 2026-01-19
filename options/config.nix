@@ -40,7 +40,7 @@
         uwsm.enable = true;
         performance = false;
       };
-      virt.docker.gpu.enable = true;
+      virt.docker.gpu.enable = false;
     };
   };
 }
