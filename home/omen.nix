@@ -6,6 +6,7 @@
     ./modules/hypr
     ./modules/launcher
     ./modules/explorer
+    ./modules/packages
     ./modules/term
     ./modules/android.nix
     ./modules/apps.nix
@@ -20,7 +21,6 @@
     ./modules/music.nix
     ./modules/ide.nix
     ./modules/theme.nix
-    ./modules/packages.nix
     ./modules/wallpaper.nix
   ];
 

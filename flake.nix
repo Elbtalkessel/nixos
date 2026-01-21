@@ -36,6 +36,9 @@
       url = "https://flakehub.com/f/xav-ie/nuenv/*.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-flatpak = {
+      url = "github:gmodena/nix-flatpak/?ref=latest";
+    };
   };
 
   outputs =
@@ -48,6 +51,7 @@
       disko,
       sops-nix,
       nuenv,
+      nix-flatpak,
       ...
     }:
     let
@@ -93,6 +97,7 @@
         inherit pkgs;
         modules = [
           ./options
+          nix-flatpak.homeManagerModules.nix-flatpak
           ./home/omen.nix
         ];
       };
