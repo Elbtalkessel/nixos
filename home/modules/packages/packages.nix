@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   home.packages = with pkgs; [
     # Web access
@@ -15,26 +15,23 @@
     mpv
     xdg-user-dirs
     pavucontrol
-    calibre
     telegram-desktop
     hyprpicker
     wl-clipboard-rs
     libreoffice
-    gnome-software
-    obsidian
     # Sometimes drag-n-drop is only option
     nautilus
     shotwell
 
     # CLI for searching packages on search.nixos.org
+    # General
     nix-search-cli
-
+    tmsu
     # Network
     curl
     wget
     arp-scan
     dig
-
     # Development
     lazydocker
     lazygit
@@ -44,7 +41,6 @@
     yaegi
     vagrant
     neovim
-
     # Tools
     ncdu
     btop
@@ -64,4 +60,28 @@
     usbdrivetools
     bootdev
   ];
+
+  # Missing desktop entries
+  xdg.desktopEntries = {
+    "org.gnome.Nautilus" = {
+      name = "Nautilus";
+      genericName = "File Manager";
+      exec = lib.getExe pkgs.nautilus;
+      terminal = false;
+      categories = [
+        "System"
+        "FileManager"
+      ];
+    };
+    "org.gnome.Shotwell" = {
+      name = "Shotwell";
+      genericName = "Photo Manager";
+      exec = lib.getExe pkgs.shotwell;
+      terminal = false;
+      categories = [
+        "System"
+        "FileManager"
+      ];
+    };
+  };
 }

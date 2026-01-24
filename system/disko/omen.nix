@@ -1,4 +1,8 @@
 {
+  # You can also use `fileSystems."/tmp".fsType = "tmpfs";`,
+  # but since we do have this option...
+  boot.tmp.useTmpfs = true;
+
   fileSystems = {
     "/mnt/storage" = {
       # Trying to resolve issue:
