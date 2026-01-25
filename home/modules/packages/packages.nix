@@ -26,7 +26,6 @@
     # CLI for searching packages on search.nixos.org
     # General
     nix-search-cli
-    tmsu
     # Network
     curl
     wget
