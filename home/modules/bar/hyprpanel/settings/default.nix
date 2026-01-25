@@ -373,7 +373,7 @@
   };
   wallpaper = {
     enable = false;
-    image = config.my.wallpaper;
+    image = config.my.wallpaper.path;
     pywal = false;
   };
 }

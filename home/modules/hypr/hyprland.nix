@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  lib,
   ...
 }:
 let
@@ -58,7 +59,8 @@ in
       # See https://wiki.hyprland.org/Configuring/Keywords/ for more
 
       "exec-once" = [
-        "${pkgs.solaar}/bin/solaar --window=hide --battery-icons=symbolic"
+        "${lib.getExe pkgs.solaar} --window=hide --battery-icons=symbolic"
+        "systemctl --user start hyprland-session.service"
       ];
 
       # KEY BINDINGS, see https://wiki.hyprland.org/Configuring/Binds/ for more

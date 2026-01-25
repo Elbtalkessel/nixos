@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 let
   preview = pkgs.lib.getExe pkgs.lf-tools.preview;
   mimeo = pkgs.lib.getExe pkgs.mimeo;
@@ -137,7 +137,7 @@ in
 
       aswallpaper = ''
         &{{
-          setbg $f
+          ${config.my.wallpaper.cmd.set} $f
         }}
       '';
 
@@ -147,7 +147,7 @@ in
           # I didn't find how to get current ratios value,
           if test -f /tmp/lf.texpanded
           then
-            lf -remote "send set ratios ${pkgs.lib.concatStringsSep ":" (map builtins.toString settings.ratios)}"
+            lf -remote "send set ratios ${pkgs.lib.concatStringsSep ":" (map toString settings.ratios)}"
             rm /tmp/lf.texpanded
           else
             lf -remote "send set ratios 1:2:10"

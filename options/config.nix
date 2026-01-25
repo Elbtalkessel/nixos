@@ -1,14 +1,24 @@
 { pkgs, ... }:
+let
+  username = "risus";
+  userhome = "/home/${username}";
+in
 {
   config = {
     my = {
-      username = "risus";
+      inherit username;
       # I don't need these paths in store and usually
       # modules using these confs don't need them too.
-      avatar = "/home/risus/.cache/avatar";
+      avatar = "${userhome}/.cache/avatar";
       # GNOME uses the same path too,
       # `dconf dump /org/gnome/desktop/wallpaper/`
-      wallpaper = "/home/risus/.config/background";
+      wallpaper = {
+        path = "${userhome}/.config/background";
+        cmd = {
+          get = "get-wallpaper";
+          set = "set-wallpaper";
+        };
+      };
       shell = {
         name = "nu";
         package = pkgs.nushell;

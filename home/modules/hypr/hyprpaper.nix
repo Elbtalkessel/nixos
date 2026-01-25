@@ -7,10 +7,10 @@
       splash = false;
       splash_offset = 2;
       preload = [
-        config.my.wallpaper
+        config.my.wallpaper.path
       ];
       wallpaper = [
-        ",${config.my.wallpaper}"
+        ",${config.my.wallpaper.path}"
       ];
     };
   };

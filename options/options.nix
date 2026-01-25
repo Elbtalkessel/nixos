@@ -22,8 +22,30 @@ in
               description = "User's avatar.";
             };
             wallpaper = opt {
-              type = str;
-              description = "Desktop wallpaper.";
+              type = submodule {
+                options = {
+                  path = opt {
+                    type = str;
+                    description = "Absolute path to a wallpaper.";
+                  };
+                  cmd = opt {
+                    type = submodule {
+                      options = {
+                        set = opt {
+                          type = str;
+                          description = "Name of a wallpaper setter command.";
+                          default = "set-wallpaper";
+                        };
+                        get = opt {
+                          type = str;
+                          description = "Name of a wallpaper gett command.";
+                          default = "get-wallpaper";
+                        };
+                      };
+                    };
+                  };
+                };
+              };
             };
             # Problem: for nushell the package name is nushell, but executable is nu.
             shell = opt {
