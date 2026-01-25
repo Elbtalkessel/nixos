@@ -61,11 +61,16 @@ def --env --wrapped lfcd [...args] {
   cd $d
 }
 
-# Takes `ls` input and returns duplicated files by calculating their md5 hash.
-def --env --wrapped duplicates [...args] {
+def --env --wrapped hashit [...args] {
   $in
   | where type == file
   | insert hash {|it| open $it.name | hash md5} 
+}
+
+# Takes `ls` input and returns duplicated files by calculating their md5 hash.
+def --env --wrapped duplicates [...args] {
+  $in
+  | hashit
   | group-by hash --to-table 
   | insert dupno {|it| $it.items | length} 
   | where dupno > 1 
