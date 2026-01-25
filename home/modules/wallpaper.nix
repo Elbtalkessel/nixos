@@ -1,15 +1,22 @@
 { config, pkgs, ... }:
 {
   home.packages = with pkgs; [
-    (writeShellScriptBin "setbg" ''
+    (writeShellScriptBin "get-wallpaper" ''
       #!/usr/bin/env sh
-      path=$(dconf dump /org/gnome/desktop/background/ | rg "picture-uri='file://([^']+)'$" -or '$1')
-      cp -f $1 $path
+      echo $(dconf dump /org/gnome/desktop/background/ | rg "picture-uri='file://([^']+)'$" -or '$1')
+    '')
+    (writeShellScriptBin "set-wallpaper" ''
+      #!/usr/bin/env sh
+      if test -z "$1"; then
+        echo "missing wallpaper path" >&2
+        exit 1
+      fi
+      cp -f "$1" $(get-wallpaper)
     '')
   ];
   systemd.user = {
     paths.wallpaper = {
-      Unit.Description = "Watches the background file changes";
+      Unit.Description = "wallpaper file watcher";
       Path = {
         PathChanged = config.my.wallpaper;
         Unit = "wallpaper.service";
@@ -17,14 +24,14 @@
       Install.WantedBy = [ "graphical-session.target" ];
     };
     services.wallpaper = {
-      Unit.Description = "Calls hyprpaper on background file change.";
+      Unit.Description = "wallpaper setter";
+      Unit.After = [ "hyprpaper.service" ];
       Install.WantedBy = [ "graphical-session.target" ];
       Service = {
         Type = "oneshot";
-        ExecStart = pkgs.writeShellScript "set-wallpaper" ''
+        ExecStart = pkgs.writeShellScript "apply-wallpaper" ''
           #!/usr/bin/env sh
-          path=$(dconf dump /org/gnome/desktop/background/ | rg "picture-uri='file://([^']+)'$" -or '$1')
-          hyprctl hyprpaper wallpaper ",$path"
+          hyprctl hyprpaper wallpaper ",$(get-wallpaper)"
         '';
       };
     };

@@ -2,6 +2,33 @@
 let
   enable = true;
   service = true;
+
+  gst = "graphical-session.target";
+  ews = "eww.service";
+  hps = "hyprpanel.service";
+
+  eww = pkgs.lib.getExe pkgs.eww;
+
+  # Various approaches to the systemd template services, https://discourse.nixos.org/t/systemd-templates/36356
+  tmpl = name: {
+    Unit = {
+      Description = "wacky ${name} widget";
+      Requires = [ ews ];
+      After = [ ews ];
+    };
+    Service = {
+      Type = "exec";
+      ExecStart = "${eww} open ${name} --no-daemonize";
+      ExecStop = "${eww} close ${name}";
+      RemainAfterExit = "yes";
+      Restart = "on-failure";
+      RestartSec = 2;
+      TimeoutStopSec = 10;
+    };
+    Install = {
+      WantedBy = [ gst ];
+    };
+  };
 in
 {
   programs.eww = {
@@ -9,64 +36,51 @@ in
     configDir = ./config;
   };
 
-  systemd =
-    let
-      eww = pkgs.lib.getExe pkgs.eww;
-      # Various approaches to the systemd template services, https://discourse.nixos.org/t/systemd-templates/36356
-      tmpl = name: {
+  systemd = {
+    user.services = pkgs.lib.mkIf (enable && service) {
+      # Main service required for other widgets.
+      eww = {
         Unit = {
-          Description = "ElKowars wacky ${name} widget";
+          Description = "ElKowars wacky widgets";
           Documentation = [ "https://elkowar.github.io/eww/" ];
-          Requires = [ "eww.service" ];
-          After = [ "eww.service" ];
-        };
-        Service = {
-          Type = "oneshot";
-          ExecStart = "${eww} open --no-daemonize ${name}";
-          ExecStop = "${eww} close --no-daemonize ${name}";
-          RemainAfterExit = "yes";
+          PartOf = [ gst ];
         };
         Install = {
-          WantedBy = [ "graphical-session.target" ];
+          WantedBy = [ gst ];
+        };
+        Service = {
+          Type = "exec";
+          ExecStart = "${eww} daemon --no-daemonize";
+          Restart = "on-failure";
+          RestartSec = 1;
+          TimeoutStopSec = 10;
         };
       };
-    in
-    {
-      user.services = pkgs.lib.mkIf (enable && service) {
-        eww = {
-          Unit = {
-            Description = "ElKowars wacky widgets";
-            Documentation = [ "https://elkowar.github.io/eww/" ];
-            PartOf = [ "graphical-session.target" ];
-          };
-          Install = {
-            WantedBy = [ "graphical-session.target" ];
-          };
-          Service = {
-            Type = "exec";
-            ExecStart = "${eww} daemon --no-daemonize";
-            Restart = "on-failure";
-            RestartSec = 1;
-            TimeoutStopSec = 10;
-          };
+      # ---
+
+      # System tray widget specifically made for hyperpanel config
+      # (see the parent directory) because hyprpanel doesn't support
+      # changing tray icon size:
+      # https://github.com/Jas-SinghFSU/HyprPanel/issues/540
+      eww-tray-inline = pkgs.lib.recursiveUpdate (tmpl "tray-inline") {
+        Unit = {
+          Requires = [ ews ];
+          After = [
+            gst
+            ews
+            hps
+          ];
+          PartOf = [
+            ews
+            gst
+          ];
         };
-        # System tray widget specifically made for hyperpanel config
-        # (see the parent directory) because hyprpanel doesn't support
-        # changing tray icon size:
-        # https://github.com/Jas-SinghFSU/HyprPanel/issues/540
-        eww-tray-inline = pkgs.lib.recursiveUpdate (tmpl "tray-inline") {
-          Unit = rec {
-            After = [
-              "eww.service"
-              "hyprpanel.service"
-            ];
-            Requires = After;
-          };
-          Service = {
-            # A little delay before starting to ensure hyprpanel renders first.
-            ExecStartPre = "${pkgs.lib.getExe' pkgs.coreutils "sleep"} 1";
-          };
+        Service = {
+          # A little delay before starting to ensure hyprpanel renders first.
+          ExecStartPre = "${pkgs.lib.getExe' pkgs.coreutils "sleep"} 2";
         };
       };
+      # ---
     };
+  };
 }
