@@ -246,8 +246,8 @@ in
 
       # MISC SETTINGS
       misc = {
-        disable_hyprland_logo = false;
-        disable_splash_rendering = false;
+        disable_hyprland_logo = true;
+        disable_splash_rendering = true;
         vrr = 0;
         vfr = config.my.wm.performance;
         mouse_move_enables_dpms = false;

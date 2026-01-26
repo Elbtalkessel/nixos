@@ -4,6 +4,7 @@
     ./environment.nix
     ./modules/bar
     ./modules/hypr
+    ./modules/imv
     ./modules/launcher
     ./modules/explorer
     ./modules/packages
@@ -17,7 +18,6 @@
     ./modules/browser.nix
     ./modules/gpg.nix
     ./modules/passman.nix
-    ./modules/imv.nix
     ./modules/music.nix
     ./modules/ide.nix
     ./modules/theme.nix

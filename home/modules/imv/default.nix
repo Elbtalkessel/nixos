@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 {
   programs.imv = {
     enable = true;
@@ -14,5 +14,12 @@
         D = ''exec (rm "$imv_current_file"; imv-msg $imv_pid next) &'';
       };
     };
+    # 5.0.1 issue,
+    # https://todo.sr.ht/~exec64/imv/85
+    package = pkgs.imv.overrideAttrs (oldAttrs: {
+      patches = (oldAttrs.patches or [ ]) ++ [
+        ./issue-85.patch
+      ];
+    });
   };
 }
