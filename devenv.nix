@@ -34,10 +34,10 @@ _: {
     }
 
     hr
-    info 'Home generations\n'
+    info '🏠 Home generations\n'
     home-manager generations
     hr
-    info 'System generations\n'
+    info '🌍 System generations\n'
     nix profile history --profile /nix/var/nix/profiles/system
     hr
 
