@@ -14,11 +14,14 @@
       # usage example: `nix-locate 'bin/hello'`
       nix-index = {
         enable = true;
+        # doesn't work at version 0.9.1, fix will be released in version
+        # 0.1.10
+        # https://github.com/nix-community/nix-index/pull/293
+        inherit enableNushellIntegration;
       };
 
       nushell = {
         enable = true;
-        # for editing directly to config.nu
         configFile.source = ../../config/nushell/config.nu;
         shellAliases =
           let
