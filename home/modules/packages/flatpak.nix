@@ -1,4 +1,5 @@
-_: {
+{ config, ... }:
+{
   services.flatpak.packages = [
     "app.zen_browser.zen"
     "com.github.tchx84.Flatseal"
@@ -17,6 +18,7 @@ _: {
         "Game"
         "Network"
       ];
+      icon = "${config.my.theme.icon.path}/apps/geforcenow.svg";
     };
   };
 }

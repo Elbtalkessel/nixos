@@ -185,6 +185,22 @@ in
                 };
               };
             };
+            theme = opt {
+              type = submodule {
+                options = {
+                  icon = opt {
+                    type = submodule {
+                      options = {
+                        path = opt {
+                          type = str;
+                          description = "Icon theme path.";
+                        };
+                      };
+                    };
+                  };
+                };
+              };
+            };
             # add more into my/options here.
           }; # ./options
         }; # ./submodule

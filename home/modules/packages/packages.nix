@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 {
   home.packages = with pkgs; [
     # Web access
@@ -59,28 +59,4 @@
     usbdrivetools
     bootdev
   ];
-
-  # Missing desktop entries
-  xdg.desktopEntries = {
-    "org.gnome.Nautilus" = {
-      name = "Nautilus";
-      genericName = "File Manager";
-      exec = lib.getExe pkgs.nautilus;
-      terminal = false;
-      categories = [
-        "System"
-        "FileManager"
-      ];
-    };
-    "org.gnome.Shotwell" = {
-      name = "Shotwell";
-      genericName = "Photo Manager";
-      exec = lib.getExe pkgs.shotwell;
-      terminal = false;
-      categories = [
-        "System"
-        "FileManager"
-      ];
-    };
-  };
 }

@@ -51,6 +51,11 @@ in
         performance = false;
       };
       virt.docker.gpu.enable = false;
+      theme = {
+        icon = {
+          path = "${pkgs.papirus-icon-theme}/share/icons/Papirus-Dark/22x22";
+        };
+      };
     };
   };
 }
