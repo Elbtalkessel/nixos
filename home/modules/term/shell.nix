@@ -56,6 +56,7 @@
       # A POSIX complaint shell for testing things.
       zsh = {
         enable = true;
+        dotDir = "${config.home.homeDirectory}/zsh";
       };
 
       # Nushell autocomplete

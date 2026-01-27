@@ -2,11 +2,12 @@
 let
   HOME = "/home/${config.my.username}";
   sessionVariables = rec {
+    # It seems nix sets these vars automatically, remove?
     # https://wiki.archlinux.org/title/XDG_Base_Directory
     XDG_DATA_HOME = "${HOME}/.local/share";
     XDG_CONFIG_HOME = "${HOME}/.config";
     XDG_CACHE_HOME = "${HOME}/.cache";
-    XDG_STATE_HOME = "${HOME}/.state";
+    XDG_STATE_HOME = "${HOME}/.local/state";
 
     # https://wiki.archlinux.org/title/XDG_user_directories
     XDG_DOWNLOAD_DIR = "${HOME}/Downloads";

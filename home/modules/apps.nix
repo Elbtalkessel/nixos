@@ -1,6 +1,7 @@
 { config, ... }:
 {
   xdg = {
+    enable = true;
     mimeApps = {
       enable = true;
       # Prefer using mimeo (https://xyne.dev/projects/mimeo/) to
