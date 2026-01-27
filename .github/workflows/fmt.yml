@@ -21,4 +21,4 @@ jobs:
             auto-optimise-store = true
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
             experimental-features = nix-command flakes
-      - run: find . -type f -name '*.nix' | xargs -I{} nixfmt {}
+      - run: find . -type f -name '*.nix' -not -name '.*' | xargs -I{} nix run nixpkgs#nixfmt -- --check {}
