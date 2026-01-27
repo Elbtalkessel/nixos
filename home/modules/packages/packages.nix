@@ -19,9 +19,6 @@
     hyprpicker
     wl-clipboard-rs
     libreoffice
-    # Sometimes drag-n-drop is only option
-    nautilus
-    shotwell
 
     # CLI for searching packages on search.nixos.org
     # General

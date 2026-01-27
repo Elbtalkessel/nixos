@@ -52,6 +52,9 @@ Then update `.sops.yaml` at the repo root to wire hosts, files, and key referenc
 
 - USBGuard integration for better BadUSB protection on laptops and workstations.
 - Declarative QEMU virtual machines (e.g. Ubuntu 20.04, Windows) defined directly in Nix.
+- Show trash size.
+- Show disk usage.
+- Periodically remove trash (Maybe based on disk usage? Only if 70% left, remove trash for last 7 days? Or by size, 20% of disk?)
 
 ## License 📜
 
