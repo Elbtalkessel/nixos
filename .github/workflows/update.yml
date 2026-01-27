@@ -1,3 +1,4 @@
+---
 name: Update flakes
 on:
   repository_dispatch:

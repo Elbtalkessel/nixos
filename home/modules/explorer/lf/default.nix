@@ -171,7 +171,7 @@ in
         }}
       '';
 
-      delete = ''%gtrash put $fx'';
+      delete = "%gtrash put $fx";
 
       restore = ''
         ''${{

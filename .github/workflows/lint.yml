@@ -1,10 +1,11 @@
+---
 on:
   push:
     paths:
-      - '**.nix'
+      - "**.nix"
   pull_request:
     paths:
-      - '**.nix'
+      - "**.nix"
   workflow_dispatch:
 name: Lint Nix code
 jobs:

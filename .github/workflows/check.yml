@@ -1,13 +1,14 @@
+---
 name: Check
 on:
   push:
     paths:
-      - '**.nix'
-      - '**.lock'
+      - "**.nix"
+      - "**.lock"
   pull_request:
     paths:
-      - '**.nix'
-      - '**.lock'
+      - "**.nix"
+      - "**.lock"
   workflow_dispatch:
 jobs:
   checks:

@@ -1,11 +1,12 @@
+---
 name: Dead code analysis
 on:
   push:
     paths:
-      - '**.nix'
+      - "**.nix"
   pull_request:
     paths:
-      - '**.nix'
+      - "**.nix"
   workflow_dispatch:
 jobs:
   deadnix:
