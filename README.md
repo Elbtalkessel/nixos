@@ -55,6 +55,7 @@ Then update `.sops.yaml` at the repo root to wire hosts, files, and key referenc
 - Show trash size.
 - Show disk usage.
 - Periodically remove trash (Maybe based on disk usage? Only if 70% left, remove trash for last 7 days? Or by size, 20% of disk?)
+- Automatic home generation cleanup, always keep 5 latest.
 
 ## License 📜
 
