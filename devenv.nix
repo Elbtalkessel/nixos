@@ -22,16 +22,31 @@ _: {
     '';
   };
   enterShell = ''
-    _r="\e[0m"
-    _i="\e[0;36;1m"
-    _s="\e[0;240;1m"
+    _w=$(tput cols)
+    hr() {
+      printf '%*s\n' "$_w"  | tr ' ' '-'
+    }
+    info() {
+      printf "\e[0;36;1m$1\e[0m"
+    }
+    bold() {
+      printf "\e[0;240;1m$1\e[0m"
+    }
+
+    hr
+    info 'Home generations\n'
+    home-manager generations
+    hr
+    info 'System generations\n'
+    nix profile history --profile /nix/var/nix/profiles/system
+    hr
 
     echo -e "$(cat <<-EOF
-    🤫 ''${_i}chsecret''${_r} Edit secrets using sops
-    🏠 ''${_i}switch''${_r} Switch to new home configuration
-    🌍 ''${_i}sudo switch''${_r} ''${_s}[switch|boot|test|...]''${_r} Reconfigure NixOS
-    🗑️ ''${_i}cleanup''${_r} Delete garbage
-    📰 ''${_i}news''${_r} home manager news
+    🤫 $(info 'chsecret') Edit secrets using sops.
+    🏠 $(info 'switch') Switch to the new home configuration.
+    🌍 $(info 'sudo switch') $(bold '[switch|boot|test|...]') Reconfigure NixOS.
+    🗑️ $(info 'cleanup') Delete garbage.
+    📰 $(info 'news') Home Manager news.
     EOF
     )"
   '';
