@@ -23,6 +23,10 @@
           home-manager switch --flake ./
         fi
       '';
+    rollback.exec = # sh
+      ''
+        home-manager switch --rollback --flake ./
+      '';
     cleanup.exec = # sh
       ''
         nix-collect-garbage -d
@@ -75,7 +79,8 @@
       🤫 $(info 'chsecret') Edit secrets using sops.
       🏠 $(info 'switch') Switch to the new home configuration.
       🌍 $(info 'sudo switch') $(bold '[switch|boot|test|...]') Reconfigure NixOS.
-      🗑️ $(info 'cleanup') Delete garbage.
+      ♻️ $(info 'rollback') Rollback to a previous HM generation.
+      🗑️ $(info 'cleanup') Delete garbage, will remove inactive HM configurations.
       📰 $(info 'news') Home Manager news.
       🔧 $(info 'fix-nix') *.nix files auto-formatting.
       EOF
