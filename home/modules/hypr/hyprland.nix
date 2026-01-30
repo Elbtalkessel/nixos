@@ -36,16 +36,17 @@ in
       # or `move` rule is not available.
       # https://wiki.hyprland.org/Configuring/Window-Rules/
       windowrule =
-        (center-rule "class" [
+        (center-rule "initial_class" [
           "org.gnome.Calculator"
           "udiskie"
           "polkit-gnome-authentication-agent-1"
           "solaar"
           "jetbrains-toolbox"
         ])
-        ++ (center-rule "title" [
+        ++ (center-rule "initial_title" [
           "Open File"
           "Open Files"
+          "Set Background"
         ])
         ++ [
           # no blur for floating window, elector apps render popup menus
@@ -130,6 +131,8 @@ in
         "${M} SHIFT, 9, movetoworkspace, 9"
         "${M} SHIFT, 0, movetoworkspace, 10"
         "${M}, TAB, workspace, previous"
+        "ALT, TAB, cyclenext"
+        "ALT, TAB, bringactivetotop"
       ];
 
       binds = {
