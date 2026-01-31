@@ -1,6 +1,30 @@
 { lib, ... }:
 let
   opt = lib.mkOption;
+  get-color-opts = name: {
+    "fg-${name}" = opt {
+      type = lib.types.str;
+      description = "text on ${name} background.";
+    };
+    "bg-${name}" = opt {
+      type = lib.types.str;
+      description = "background of ${name}.";
+    };
+    "fg-${name}-container" = opt {
+      type = lib.types.str;
+      description = "text on ${name} container.";
+    };
+    "bg-${name}-container" = opt {
+      type = lib.types.str;
+      description = "background of ${name} container.";
+    };
+  };
+  color-options = builtins.foldl' (acc: variant: acc // get-color-opts variant) { } [
+    "primary"
+    "secondary"
+    "tertiary"
+    "error"
+  ];
 in
 {
   # https://nlewo.github.io/nixos-manual-sphinx/development/option-types.xml.html
@@ -208,6 +232,34 @@ in
                         path = opt {
                           type = str;
                           description = "Icon theme path.";
+                        };
+                      };
+                    };
+                  };
+                  color = opt {
+                    type = submodule {
+                      options = {
+                        dark = opt {
+                          type = submodule {
+                            options = color-options // {
+                              bg = opt {
+                                type = str;
+                                description = "Background color.";
+                              };
+                              fg = opt {
+                                type = str;
+                                description = "Text on background.";
+                              };
+                              fg-surface = opt {
+                                type = str;
+                                description = "Surface background color.";
+                              };
+                              bg-surface = opt {
+                                type = str;
+                                description = "Text on surface.";
+                              };
+                            };
+                          };
                         };
                       };
                     };

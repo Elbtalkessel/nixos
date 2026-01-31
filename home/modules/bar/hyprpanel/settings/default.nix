@@ -1,13 +1,7 @@
 { config, ... }:
 # https://arsmoriendy.github.io/GruvboxHSL/
 let
-  dark-900 = "#111313";
-  dark-800 = "#1d2021";
-  light-900 = "#ffffff";
-  light-700 = "#cccccc";
-  urgent = "#f5c2e7";
-  accent = "#FF8FB7";
-  highlight = "#f9f5d7";
+  palette = config.my.theme.color.dark;
 in
 {
   bar = {
@@ -177,13 +171,13 @@ in
   theme = {
     bar = {
       border = {
-        color = dark-900;
+        color = palette.fg;
         location = "full";
         width = "0.03em";
       };
       border_radius = "0.3em";
       buttons = {
-        background = dark-800;
+        background = palette.bg-primary;
         background_hover_opacity = 100;
         background_opacity = 0;
         battery = {
@@ -196,8 +190,8 @@ in
         clock = {
           spacing = "0.35em";
         };
-        icon = light-900;
-        icon_background = dark-800;
+        icon = palette.fg-secondary;
+        icon_background = palette.bg-primary;
         innerRadiusMultiplier = "0";
         media = {
           spacing = "0.35em";
@@ -221,7 +215,7 @@ in
         systray = {
           enableBorder = false;
         };
-        text = light-900;
+        text = palette.fg-secondary;
         volume = {
           enableBorder = false;
           spacing = "0.5em";
@@ -231,12 +225,12 @@ in
           spacing = "0.5em";
         };
         workspaces = {
-          active = urgent;
-          available = light-700;
-          border = urgent;
-          hover = urgent;
-          numbered_active_underline_color = urgent;
-          occupied = light-900;
+          active = palette.bg-primary-container;
+          available = palette.bg-secondary-container;
+          border = palette.bg-primary-container;
+          hover = palette.bg-primary-container;
+          numbered_active_underline_color = palette.bg-primary-container;
+          occupied = palette.bg-secondary-container;
         };
         y_margins = "0em";
       };
@@ -247,38 +241,38 @@ in
       margin_sides = "0.15em";
       margin_top = "0.2em";
       menus = {
-        background = dark-800;
+        background = palette.bg-surface;
         border = {
-          color = dark-900;
+          color = palette.fg;
           radius = "0.7rem";
           size = "0.1em";
         };
         buttons = {
-          default = accent;
+          default = palette.bg-primary-container;
           radius = "1em";
         };
         card_radius = "0.5em";
-        cards = dark-800;
+        cards = palette.bg-surface;
         check_radio_button = {
-          active = accent;
+          active = palette.fg-primary;
         };
-        dimtext = light-700;
+        dimtext = palette.fg-secondary;
         dropdownmenu = {
-          divider = dark-800;
-          text = light-900;
+          divider = palette.bg-surface;
+          text = palette.fg-surface;
         };
         enableShadow = false;
-        feinttext = light-700;
+        feinttext = palette.fg-secondary;
         iconbuttons = {
-          active = accent;
-          passive = highlight;
+          active = palette.bg-primary-container;
+          passive = palette.bg-secondary-container;
         };
         icons = {
-          active = accent;
+          active = palette.bg-secondary-container;
         };
-        label = light-900;
+        label = palette.fg-secondary;
         listitems = {
-          active = accent;
+          active = palette.fg-primary;
         };
         menu = {
           dashboard = {
@@ -295,8 +289,8 @@ in
           };
           systray = {
             dropdownmenu = {
-              divider = dark-800;
-              text = light-900;
+              divider = palette.bg-surface;
+              text = palette.fg-surface;
             };
           };
         };
@@ -304,29 +298,29 @@ in
         opacity = 98;
         popover = {
           scaling = 75;
-          text = accent;
+          text = palette.fg-surface;
         };
         progressbar = {
-          foreground = accent;
+          foreground = palette.fg-primary;
           radius = "5rem";
         };
         scroller = {
           radius = "0.7em";
         };
         slider = {
-          primary = accent;
+          primary = palette.bg-primary-container;
           progress_radius = "0.2rem";
-          puck = accent;
+          puck = palette.fg-primary-container;
           slider_radius = "0.2rem";
         };
         switch = {
-          enabled = accent;
+          enabled = palette.bg-primary-container;
           radius = "5em";
           slider_radius = "5em";
         };
-        text = light-900;
+        text = palette.fg-secondary;
         tooltip = {
-          text = accent;
+          text = palette.fg-secondary;
         };
       };
       opacity = 90;
@@ -348,29 +342,29 @@ in
     };
     notification = {
       actions = {
-        background = accent;
+        background = palette.bg-secondary-container;
       };
-      background = dark-900;
-      border = dark-800;
+      background = palette.bg-secondary;
+      border = palette.fg-secondary;
       close_button = {
-        background = accent;
-        label = dark-900;
+        background = palette.bg-secondary-container;
+        label = palette.fg-secondary-container;
       };
       enableShadow = true;
-      label = light-900;
-      labelicon = light-900;
+      label = palette.fg-secondary;
+      labelicon = palette.fg-secondary;
       opacity = 100;
-      text = light-900;
-      time = light-900;
+      text = palette.fg-secondary;
+      time = palette.fg-secondary;
     };
     osd = {
-      bar_color = accent;
-      bar_empty_color = dark-800;
+      bar_color = palette.fg-primary;
+      bar_empty_color = palette.bg-surface;
       border = {
-        color = accent;
+        color = palette.bg-surface;
       };
-      icon_container = accent;
-      label = accent;
+      icon_container = palette.bg-primary-container;
+      label = palette.fg-primary;
       location = "bottom";
       muted_zero = true;
       opacity = 95;
