@@ -10,6 +10,7 @@ let
   ];
   TERMINAL = config.my.terminal.exe;
   M = "SUPER";
+  palette = config.my.theme.color.dark;
 in
 {
   wayland.windowManager.hyprland = {
@@ -196,16 +197,22 @@ in
       };
 
       # GENERAL SETTINGS
-      general = {
-        border_size = 1;
-        gaps_in = 3;
-        gaps_out = 3;
-        "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
-        "col.inactive_border" = "rgba(595959aa)";
-        layout = "dwindle";
-        extend_border_grab_area = true;
-        hover_icon_on_border = true;
-      };
+      general =
+        let
+          color-from = lib.strings.removePrefix "#" palette.fg-primary-container;
+          color-to = lib.strings.removePrefix "#" palette.fg-secondary;
+          inactive-color = lib.strings.removePrefix "#" palette.fg;
+        in
+        {
+          border_size = 1;
+          gaps_in = 3;
+          gaps_out = 3;
+          "col.active_border" = "rgba(${color-from}ee) rgba(${color-to}ee) 45deg";
+          "col.inactive_border" = "rgba(${inactive-color}aa)";
+          layout = "dwindle";
+          extend_border_grab_area = true;
+          hover_icon_on_border = true;
+        };
 
       # DWINDLE LAYOUT
       dwindle = {
