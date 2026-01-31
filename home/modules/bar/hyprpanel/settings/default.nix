@@ -1,5 +1,14 @@
 { config, ... }:
 # https://arsmoriendy.github.io/GruvboxHSL/
+let
+  dark-900 = "#111313";
+  dark-800 = "#1d2021";
+  light-900 = "#ffffff";
+  light-700 = "#cccccc";
+  urgent = "#f5c2e7";
+  accent = "#FF8FB7";
+  highlight = "#f9f5d7";
+in
 {
   bar = {
     battery = {
@@ -168,13 +177,13 @@
   theme = {
     bar = {
       border = {
-        color = "#111313";
+        color = dark-900;
         location = "full";
         width = "0.03em";
       };
       border_radius = "0.3em";
       buttons = {
-        background = "#1d2021";
+        background = dark-800;
         background_hover_opacity = 100;
         background_opacity = 0;
         battery = {
@@ -187,8 +196,8 @@
         clock = {
           spacing = "0.35em";
         };
-        icon = "#ffffff";
-        icon_background = "#1d2021";
+        icon = light-900;
+        icon_background = dark-800;
         innerRadiusMultiplier = "0";
         media = {
           spacing = "0.35em";
@@ -212,7 +221,7 @@
         systray = {
           enableBorder = false;
         };
-        text = "#ffffff";
+        text = light-900;
         volume = {
           enableBorder = false;
           spacing = "0.5em";
@@ -222,12 +231,12 @@
           spacing = "0.5em";
         };
         workspaces = {
-          active = "#f5c2e7";
-          available = "#cccccc";
-          border = "#f5c2e7";
-          hover = "#f5c2e7";
-          numbered_active_underline_color = "#f5c2e7";
-          occupied = "#ffffff";
+          active = urgent;
+          available = light-700;
+          border = urgent;
+          hover = urgent;
+          numbered_active_underline_color = urgent;
+          occupied = light-900;
         };
         y_margins = "0em";
       };
@@ -238,38 +247,38 @@
       margin_sides = "0.15em";
       margin_top = "0.2em";
       menus = {
-        background = "#1d2021";
+        background = dark-800;
         border = {
-          color = "#111313";
+          color = dark-900;
           radius = "0.7rem";
           size = "0.1em";
         };
         buttons = {
-          default = "#f9f5d7";
+          default = accent;
           radius = "1em";
         };
         card_radius = "0.5em";
-        cards = "#1d2021";
+        cards = dark-800;
         check_radio_button = {
-          active = "#f9f5d7";
+          active = accent;
         };
-        dimtext = "#bdae93";
+        dimtext = light-700;
         dropdownmenu = {
-          divider = "#11111b";
-          text = "#ffffff";
+          divider = dark-800;
+          text = light-900;
         };
         enableShadow = false;
-        feinttext = "#a89984";
+        feinttext = light-700;
         iconbuttons = {
-          active = "#f9f5d7";
-          passive = "#cdd6f3";
+          active = accent;
+          passive = highlight;
         };
         icons = {
-          active = "#f9f5d7";
+          active = accent;
         };
-        label = "#ffffff";
+        label = light-900;
         listitems = {
-          active = "#f9f5d7";
+          active = accent;
         };
         menu = {
           dashboard = {
@@ -286,8 +295,8 @@
           };
           systray = {
             dropdownmenu = {
-              divider = "#11111b";
-              text = "#ffffff";
+              divider = dark-800;
+              text = light-900;
             };
           };
         };
@@ -295,29 +304,29 @@
         opacity = 98;
         popover = {
           scaling = 75;
-          text = "#f9f5d7";
+          text = accent;
         };
         progressbar = {
-          foreground = "#f9f5d7";
+          foreground = accent;
           radius = "5rem";
         };
         scroller = {
           radius = "0.7em";
         };
         slider = {
-          primary = "#f9f5d7";
+          primary = accent;
           progress_radius = "0.2rem";
-          puck = "#f9f5d7";
+          puck = accent;
           slider_radius = "0.2rem";
         };
         switch = {
-          enabled = "#f9f5d7";
+          enabled = accent;
           radius = "5em";
           slider_radius = "5em";
         };
-        text = "#ffffff";
+        text = light-900;
         tooltip = {
-          text = "#f9f5d7";
+          text = accent;
         };
       };
       opacity = 90;
@@ -339,29 +348,29 @@
     };
     notification = {
       actions = {
-        background = "#f9f5d7";
+        background = accent;
       };
-      background = "#282828";
-      border = "#1D2021";
+      background = dark-900;
+      border = dark-800;
       close_button = {
-        background = "#EBDBB2";
-        label = "#11111b";
+        background = accent;
+        label = dark-900;
       };
       enableShadow = true;
-      label = "#ffffff";
-      labelicon = "#ffffff";
+      label = light-900;
+      labelicon = light-900;
       opacity = 100;
-      text = "#ffffff";
-      time = "#ffffff";
+      text = light-900;
+      time = light-900;
     };
     osd = {
-      bar_color = "#f9f5d7";
-      bar_empty_color = "#241f31";
+      bar_color = accent;
+      bar_empty_color = dark-800;
       border = {
-        color = "#f9f5d7";
+        color = accent;
       };
-      icon_container = "#f9f5d7";
-      label = "#f9f5d7";
+      icon_container = accent;
+      label = accent;
       location = "bottom";
       muted_zero = true;
       opacity = 95;
