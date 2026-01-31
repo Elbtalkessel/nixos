@@ -1,7 +1,11 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 let
-  enable = true;
-  service = true;
+  enable = lib.mkIf config.my.wm.bar.provider == "hyprpanel";
 
   gst = "graphical-session.target";
   ews = "eww.service";
@@ -31,13 +35,13 @@ let
   };
 in
 {
-  programs.eww = {
-    inherit enable;
+  programs.eww = lib.mkIf enable {
+    enable = true;
     configDir = ./config;
   };
 
   systemd = {
-    user.services = pkgs.lib.mkIf (enable && service) {
+    user.services = pkgs.lib.mkIf enable {
       # Main service required for other widgets.
       eww = {
         Unit = {

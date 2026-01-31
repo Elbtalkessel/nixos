@@ -1,12 +1,11 @@
 {
+  pkgs,
   config,
   lib,
-  pkgs,
   ...
 }:
 let
-  # Only if hyprpanel disabled, they conflic.
-  enable = !config.programs.hyprpanel.enable;
+  enable = config.my.wm.bar.provider != "hyprpanel";
 in
 {
   home.packages = lib.mkIf enable (

@@ -159,6 +159,20 @@ in
                       };
                     };
                   };
+                  bar = opt {
+                    type = submodule {
+                      options = {
+                        provider = opt {
+                          type = enum [
+                            "ashell"
+                            "hyprpanel"
+                            "waybar"
+                          ];
+                          description = "Bar provider";
+                        };
+                      };
+                    };
+                  };
                 };
               };
             };

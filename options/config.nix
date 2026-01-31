@@ -49,6 +49,7 @@ in
       wm = {
         uwsm.enable = true;
         performance = false;
+        bar.provider = "hyprpanel";
       };
       virt.docker.gpu.enable = false;
       theme = {

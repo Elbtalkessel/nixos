@@ -1,21 +1,32 @@
-{ pkgs, config, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
+let
+  enable = config.my.wm.bar.provider == "hyprpanel";
+in
 {
   imports = [
     ./modules
   ];
 
   # https://github.com/Jas-SinghFSU/HyprPanel?tab=readme-ov-file#optional
-  home.packages = with pkgs; [
-    brightnessctl
-    pywal
-    grimblast
-    wf-recorder
-    hyprpicker
-    hyprsunset
-    btop
-    mutagen
-    swww
-  ];
+  home.packages = lib.mkIf enable (
+    with pkgs;
+    [
+      brightnessctl
+      pywal
+      grimblast
+      wf-recorder
+      hyprpicker
+      hyprsunset
+      btop
+      mutagen
+      swww
+    ]
+  );
 
   # TODO:
   #   - Use config.my.
@@ -25,7 +36,7 @@
   #     a symlink to a regualar file. After script exit translate
   #     updated config file into nix and prompt user to rebuild system
   #     removing current config.json.
-  programs.hyprpanel = {
+  programs.hyprpanel = lib.mkIf enable {
     enable = true;
     systemd.enable = true;
     settings = import ./settings { inherit config; };

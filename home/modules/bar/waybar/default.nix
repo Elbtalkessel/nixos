@@ -1,15 +1,17 @@
 {
   pkgs,
   lib,
+  config,
   ...
 }:
 let
   sep = "  ";
   lpad = v: if lib.stringLength v > 0 then sep + v else v;
+  enable = config.my.wm.bar.provider == "waybar";
 in
 {
-  programs.waybar = {
-    enable = false;
+  programs.waybar = lib.mkIf enable {
+    enable = true;
     systemd = {
       enable = true;
       target = "graphical-session.target";
@@ -68,7 +70,5 @@ in
         "custom/powermenu" = import ./modules/powermenu.nix { inherit pkgs; };
       }
     ];
-
-    style = import ./style.nix { };
   };
 }

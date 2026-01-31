@@ -1,8 +1,8 @@
 _: {
   imports = [
-    #./waybar
-    #./eww
-    #./hyprpanel
+    ./hyprpanel
+    ./eww
     ./ashell
+    ./waybar
   ];
 }
