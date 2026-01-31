@@ -5,7 +5,7 @@
   ...
 }:
 let
-  enable = lib.mkIf config.my.wm.bar.provider == "hyprpanel";
+  enable = config.my.wm.bar.provider == "hyprpanel";
 
   gst = "graphical-session.target";
   ews = "eww.service";
@@ -40,8 +40,8 @@ in
     configDir = ./config;
   };
 
-  systemd = {
-    user.services = pkgs.lib.mkIf enable {
+  systemd = pkgs.lib.mkIf enable {
+    user.services = {
       # Main service required for other widgets.
       eww = {
         Unit = {
