@@ -50,6 +50,7 @@
     # https://github.com/umlx5h/gtrash
     gtrash
     chafa
+    tmsu
 
     # From nixpkgs-custom overlay
     waifu
