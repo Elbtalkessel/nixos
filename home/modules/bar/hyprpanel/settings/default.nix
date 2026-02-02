@@ -278,8 +278,8 @@ in
         menu = {
           dashboard = {
             profile = {
-              radius = "5em";
-              size = "11em";
+              radius = "0.7rem";
+              size = "15em";
             };
             scaling = 85;
           };
