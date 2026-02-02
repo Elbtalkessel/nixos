@@ -311,7 +311,7 @@ in
         slider = {
           primary = palette.bg-primary-container;
           progress_radius = "0.2rem";
-          puck = palette.fg-primary-container;
+          puck = palette.fg-primary;
           slider_radius = "0.2rem";
         };
         switch = {
