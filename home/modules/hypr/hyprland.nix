@@ -42,7 +42,6 @@ in
           "udiskie"
           "polkit-gnome-authentication-agent-1"
           "solaar"
-          "jetbrains-toolbox"
         ])
         ++ (center-rule "initial_title" [
           "Open File"
@@ -56,6 +55,7 @@ in
           "match:initial_class steam_proton, float on"
           "match:title ^SteamTinkerLaunch.*$, float on"
           "match:initial_class ^.*\.exe$, float on"
+          "match:initial_class jetbrains-toolbox, stay_focused on"
         ];
 
       # See https://wiki.hyprland.org/Configuring/Keywords/ for more
