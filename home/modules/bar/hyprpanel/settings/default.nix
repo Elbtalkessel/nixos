@@ -32,6 +32,7 @@ in
         left = [
           "workspaces"
           "clock"
+          "media"
         ];
         middle = [ "windowtitle" ];
         right = [
@@ -46,7 +47,7 @@ in
       };
     };
     media = {
-      format = "{title}";
+      format = " ";
       show_active_only = true;
       show_label = true;
       truncation = true;
