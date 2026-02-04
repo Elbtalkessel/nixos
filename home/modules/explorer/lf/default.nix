@@ -199,7 +199,11 @@ in
           else
             printf "''${tags#*:} "
             read more
-            ${tmsu} tag $f --tags "$more"
+            if test -d $f; then
+              find $f -type f | xargs -I{} ${tmsu} tag {} --tags "$more"
+            else
+              ${tmsu} tag $f --tags "$more"
+            fi
           fi
           }}
         '';

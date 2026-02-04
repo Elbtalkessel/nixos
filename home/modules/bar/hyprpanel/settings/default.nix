@@ -2,7 +2,7 @@
 # https://arsmoriendy.github.io/GruvboxHSL/
 let
   palette = config.my.theme.color.dark;
-  transparent = true;
+  opacity = 65;
 in
 {
   bar = {
@@ -175,7 +175,7 @@ in
       border = {
         color = palette.fg;
         location = "full";
-        width = if transparent then "0" else "0.03em";
+        width = 0;
       };
       border_radius = "0.3em";
       buttons = {
@@ -325,10 +325,10 @@ in
           text = palette.fg-secondary;
         };
       };
-      opacity = 90;
-      outer_spacing = "0em";
+      inherit opacity;
+      outer_spacing = "0";
       scaling = 100;
-      inherit transparent;
+      transparent = opacity == 0;
     };
     font = {
       label = "OverpassM Nerd Font Semi-Bold";
