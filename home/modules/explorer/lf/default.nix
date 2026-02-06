@@ -200,9 +200,9 @@ in
             printf "''${tags#*:} "
             read more
             if test -d $f; then
-              find $f -type f | xargs -I{} ${tmsu} tag {} --tags "$more"
+              find $fx -type f | xargs -I{} ${tmsu} tag {} --tags "$more"
             else
-              ${tmsu} tag $f --tags "$more"
+              ${tmsu} tag $fx --tags "$more"
             fi
           fi
           }}

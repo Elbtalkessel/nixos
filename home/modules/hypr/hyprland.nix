@@ -52,10 +52,6 @@ in
           # no blur for floating window, elector apps render popup menus
           # as a floating window causing a blurred outline around the popup.
           "match:float true, no_blur on"
-          "match:initial_class steam_proton, float on"
-          "match:title ^SteamTinkerLaunch.*$, float on"
-          "match:initial_class ^.*\.exe$, float on"
-          "match:initial_class jetbrains-toolbox, stay_focused on"
         ];
 
       # See https://wiki.hyprland.org/Configuring/Keywords/ for more
