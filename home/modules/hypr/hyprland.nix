@@ -37,9 +37,9 @@ in
       windowrule =
         let
           # Builtin toString, but returns bool as "bool" instead of 1 or 0.
-          _toString = val: if _.typeOf val == "bool" then if val then "true" else "false" else _.toString val;
+          _toString = val: if _.isBool val then if val then "true" else "false" else _.toString val;
           # Ensures that param is a list.
-          _toList = l: if _.typeOf l != "list" then [ l ] else l;
+          _toList = l: if _.isList l then l else [ l ];
           # Generates a window rule matcher, example:
           #   `on "float" true` will return `match:float true`,
           #   `on "class" ["foo", "bar"]` will return `match:class (foo|bar)`.
