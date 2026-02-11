@@ -9,6 +9,37 @@ let
   M = "SUPER";
   palette = config.my.theme.color.dark;
   _ = builtins;
+  wr = rec {
+    toStr = val: if _.isBool val then if val then "true" else "false" else _.toString val;
+    # Turns a list into a regualar expression list.
+    toReg = items: "(" + (map toStr items |> _.concatStringsSep "|") + ")";
+    # Accepts both p as a string and list of any type, returns a string.
+    concat = p: if _.isList p then toReg p else toStr p;
+    on = props: params: "match:${props} ${concat params}";
+    enable =
+      name: sel: if _.isList name then lib.foldl (a: c: "${a},${c} on") sel name else "${sel},${name} on";
+    rule = {
+      # Apply `param` when window `match` one of following `class` or `title`.
+      modal = {
+        param = [
+          "center"
+          "float"
+        ];
+        class = [
+          "org.gnome.Calculator"
+          "udiskie"
+          "polkit-gnome-authentication-agent-1"
+          "solaar"
+          "xdg-desktop-portal-gtk"
+        ];
+        title = [
+          "Open File"
+          "Open Files"
+          "Set Background"
+        ];
+      };
+    };
+  };
 in
 {
   wayland.windowManager.hyprland = {
@@ -34,42 +65,14 @@ in
       # While v2 rules allow multiple rules to be applied, the `center` rule
       # or `move` rule is not available.
       # https://wiki.hyprland.org/Configuring/Window-Rules/
-      windowrule =
-        let
-          # Builtin toString, but returns bool as "<bool>" instead of 1 or 0.
-          toStr = val: if _.isBool val then if val then "true" else "false" else _.toString val;
-          # Turns a list into a regualar expression list.
-          toExpression = items: "(" + (map toStr items |> _.concatStringsSep "|") + ")";
-          # Accepts both p as a string and list of any type, returns a string.
-          concat = p: if _.isList p then toExpression p else toStr p;
-          on = props: params: "match:${props} ${concat params}";
-          enable =
-            name: sel: if _.isList name then lib.foldl (a: c: "${a},${c} on") sel name else "${sel},${name} on";
-          rule_modal = [
-            "center"
-            "float"
-          ];
-          class_modal = [
-            "org.gnome.Calculator"
-            "udiskie"
-            "polkit-gnome-authentication-agent-1"
-            "solaar"
-            "xdg-desktop-portal-gtk"
-          ];
-          title_modal = [
-            "Open File"
-            "Open Files"
-            "Set Background"
-          ];
-        in
-        [
-          (on "initial_class" class_modal |> enable rule_modal)
-          (on "initial_title" title_modal |> enable rule_modal)
-          (on "modal" true |> enable rule_modal)
-          # Workaround: electron apps render popup as a floating window, applied blur effect to such windows looks bad.
-          (on "float" true |> enable "no_blur")
-          (on "initial_class" "^jetbrains-toolbox$" |> enable "stay_focused")
-        ];
+      windowrule = [
+        (wr.on "initial_class" wr.rule.modal.class |> wr.enable wr.rule.modal.param)
+        (wr.on "initial_title" wr.rule.modal.title |> wr.enable wr.rule.modal.param)
+        (wr.on "modal" true |> wr.enable wr.rule.modal.param)
+        # Workaround: electron apps render popup as a floating window, applied blur effect to such windows looks bad.
+        (wr.on "float" true |> wr.enable "no_blur")
+        (wr.on "initial_class" "^jetbrains-toolbox$" |> wr.enable "stay_focused")
+      ];
 
       # See https://wiki.hyprland.org/Configuring/Keywords/ for more
 
