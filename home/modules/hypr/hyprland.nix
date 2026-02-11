@@ -9,6 +9,7 @@ let
   M = "SUPER";
   palette = config.my.theme.color.dark;
   _ = builtins;
+  # A namespace for helpers related to window rule defs.
   wr = rec {
     toStr = val: if _.isBool val then if val then "true" else "false" else _.toString val;
     # Turns a list into a regualar expression list.
@@ -24,6 +25,7 @@ let
         param = [
           "center"
           "float"
+          "stay_focused"
         ];
         class = [
           "org.gnome.Calculator"
@@ -65,12 +67,16 @@ in
       # While v2 rules allow multiple rules to be applied, the `center` rule
       # or `move` rule is not available.
       # https://wiki.hyprland.org/Configuring/Window-Rules/
+      # Evaluated from top to bottom.
       windowrule = [
         (wr.on "initial_class" wr.rule.modal.class |> wr.enable wr.rule.modal.param)
         (wr.on "initial_title" wr.rule.modal.title |> wr.enable wr.rule.modal.param)
         (wr.on "modal" true |> wr.enable wr.rule.modal.param)
         # Workaround: electron apps render popup as a floating window, applied blur effect to such windows looks bad.
         (wr.on "float" true |> wr.enable "no_blur")
+        # I'd like to apply stay_focused on all floating window especially for
+        # jetbrains, but doesn't work if a floating window has a popover, can't
+        # focus on the popover.
         (wr.on "initial_class" "^jetbrains-toolbox$" |> wr.enable "stay_focused")
       ];
 
