@@ -41,41 +41,31 @@ in
           # Turns a list into a regualar expression list.
           toExpression = items: "(" + (map toStr items |> _.concatStringsSep "|") + ")";
           # Accepts both p as a string and list of any type, returns a string.
-          concat = p: if _.isList p then toExpression p else toString p;
+          concat = p: if _.isList p then toExpression p else toStr p;
           on = props: params: "match:${props} ${concat params}";
-          enable = name: sel: "${sel},${name} on";
-          chain = fns: base: lib.pipe base fns;
+          enable =
+            name: sel: if _.isList name then lib.foldl (a: c: "${a},${c} on") sel name else "${sel},${name} on";
+          rule_modal = [
+            "center"
+            "float"
+          ];
+          class_modal = [
+            "org.gnome.Calculator"
+            "udiskie"
+            "polkit-gnome-authentication-agent-1"
+            "solaar"
+            "xdg-desktop-portal-gtk"
+          ];
+          title_modal = [
+            "Open File"
+            "Open Files"
+            "Set Background"
+          ];
         in
         [
-          (
-            on "initial_class" [
-              "org.gnome.Calculator"
-              "udiskie"
-              "polkit-gnome-authentication-agent-1"
-              "solaar"
-              "xdg-desktop-portal-gtk"
-            ]
-            |> chain (
-              _.map enable [
-                "center"
-                "float"
-              ]
-            )
-          )
-          (
-            on "initial_title" [
-              "Open File"
-              "Open Files"
-              "Set Background"
-            ]
-            |> chain (
-              _.map enable [
-                "center"
-                "float"
-              ]
-            )
-          )
-          (on "modal" true |> enable "center" |> enable "float")
+          (on "initial_class" class_modal |> enable rule_modal)
+          (on "initial_title" title_modal |> enable rule_modal)
+          (on "modal" true |> enable rule_modal)
           # Workaround: electron apps render popup as a floating window, applied blur effect to such windows looks bad.
           (on "float" true |> enable "no_blur")
           (on "initial_class" "^jetbrains-toolbox$" |> enable "stay_focused")
