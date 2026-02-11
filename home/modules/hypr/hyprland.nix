@@ -36,16 +36,15 @@ in
       # https://wiki.hyprland.org/Configuring/Window-Rules/
       windowrule =
         let
-          # Builtin toString, but returns bool as "bool" instead of 1 or 0.
-          _toString = val: if _.isBool val then if val then "true" else "false" else _.toString val;
-          # Ensures that param is a list.
-          _toList = l: if _.isList l then l else [ l ];
-          # Generates a window rule matcher, example:
-          #   `on "float" true` will return `match:float true`,
-          #   `on "class" ["foo", "bar"]` will return `match:class (foo|bar)`.
-          on =
-            props: params: "match:${props} ${params |> _toList |> map _toString |> _.concatStringsSep "|"}";
+          # Builtin toString, but returns bool as "<bool>" instead of 1 or 0.
+          toStr = val: if _.isBool val then if val then "true" else "false" else _.toString val;
+          # Turns a list into a regualar expression list.
+          toExpression = items: "(" + (map toStr items |> _.concatStringsSep "|") + ")";
+          # Accepts both p as a string and list of any type, returns a string.
+          concat = p: if _.isList p then toExpression p else toString p;
+          on = props: params: "match:${props} ${concat params}";
           enable = name: sel: "${sel},${name} on";
+          chain = fns: base: lib.pipe base fns;
         in
         [
           (
@@ -56,8 +55,12 @@ in
               "solaar"
               "xdg-desktop-portal-gtk"
             ]
-            |> enable "center"
-            |> enable "float"
+            |> chain (
+              _.map enable [
+                "center"
+                "float"
+              ]
+            )
           )
           (
             on "initial_title" [
@@ -65,8 +68,12 @@ in
               "Open Files"
               "Set Background"
             ]
-            |> enable "center"
-            |> enable "float"
+            |> chain (
+              _.map enable [
+                "center"
+                "float"
+              ]
+            )
           )
           (on "modal" true |> enable "center" |> enable "float")
           # Workaround: electron apps render popup as a floating window, applied blur effect to such windows looks bad.
