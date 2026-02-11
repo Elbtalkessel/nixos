@@ -41,7 +41,7 @@
 
   nix = {
     settings = {
-      experimental-features = "nix-command flakes";
+      experimental-features = "nix-command flakes pipe-operators";
       # devenv requirement, allows devenv to manager caches.
       trusted-users = [ config.my.username ];
     };

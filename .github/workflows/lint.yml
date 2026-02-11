@@ -20,4 +20,5 @@ jobs:
       - uses: cachix/cachix-action@v15
         with:
           name: statix
+      # Replace it with https://github.com/molybdenumsoftware/statix to support pipes
       - uses: jocelynthode/statix-action@master

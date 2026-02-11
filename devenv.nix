@@ -3,7 +3,8 @@
 
   packages = [
     pkgs.nixfmt
-    pkgs.statix
+    # TODO(pipe): use https://github.com/molybdenumsoftware/statix to support pipes.
+    #pkgs.statix
     pkgs.deadnix
   ];
 
@@ -91,7 +92,8 @@
     nixfmt-rfc-style.enable = true;
     # Nix linting
     deadnix.enable = true;
-    statix.enable = true;
+    # TODO(pipe): use https://github.com/molybdenumsoftware/statix to support pipes.
+    # statix.enable = true;
     # General hygiene
     shellcheck.enable = true;
     check-yaml.enable = true;

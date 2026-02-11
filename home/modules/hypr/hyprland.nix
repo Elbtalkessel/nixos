@@ -5,12 +5,10 @@
   ...
 }:
 let
-  center-rule = domain: classifiers: [
-    "match:${domain} (${builtins.concatStringsSep "|" classifiers}),float on,center on"
-  ];
   TERMINAL = config.my.terminal.exe;
   M = "SUPER";
   palette = config.my.theme.color.dark;
+  _ = builtins;
 in
 {
   wayland.windowManager.hyprland = {
@@ -37,21 +35,43 @@ in
       # or `move` rule is not available.
       # https://wiki.hyprland.org/Configuring/Window-Rules/
       windowrule =
-        (center-rule "initial_class" [
-          "org.gnome.Calculator"
-          "udiskie"
-          "polkit-gnome-authentication-agent-1"
-          "solaar"
-        ])
-        ++ (center-rule "initial_title" [
-          "Open File"
-          "Open Files"
-          "Set Background"
-        ])
-        ++ [
-          # no blur for floating window, elector apps render popup menus
-          # as a floating window causing a blurred outline around the popup.
-          "match:float true, no_blur on"
+        let
+          # Builtin toString, but returns bool as "bool" instead of 1 or 0.
+          _toString = val: if _.typeOf val == "bool" then if val then "true" else "false" else _.toString val;
+          # Ensures that param is a list.
+          _toList = l: if _.typeOf l != "list" then [ l ] else l;
+          # Generates a window rule matcher, example:
+          #   `on "float" true` will return `match:float true`,
+          #   `on "class" ["foo", "bar"]` will return `match:class (foo|bar)`.
+          on =
+            props: params: "match:${props} ${params |> _toList |> map _toString |> _.concatStringsSep "|"}";
+          enable = name: sel: "${sel},${name} on";
+        in
+        [
+          (
+            on "initial_class" [
+              "org.gnome.Calculator"
+              "udiskie"
+              "polkit-gnome-authentication-agent-1"
+              "solaar"
+              "xdg-desktop-portal-gtk"
+            ]
+            |> enable "center"
+            |> enable "float"
+          )
+          (
+            on "initial_title" [
+              "Open File"
+              "Open Files"
+              "Set Background"
+            ]
+            |> enable "center"
+            |> enable "float"
+          )
+          (on "modal" true |> enable "center" |> enable "float")
+          # Workaround: electron apps render popup as a floating window, applied blur effect to such windows looks bad.
+          (on "float" true |> enable "no_blur")
+          (on "initial_class" "^jetbrains-toolbox$" |> enable "stay_focused")
         ];
 
       # See https://wiki.hyprland.org/Configuring/Keywords/ for more
