@@ -51,11 +51,15 @@ in
       # Top-level commands
       # ------------------
 
-      # mimeo instead of xdg-open because works better.
       open = # bash
         ''
           ''${{
-            ${mimeo} $f
+          # mimeo instead of xdg-open because works better.
+          out=$(${mimeo} $f 2>&1)
+          if echo $out | grep -q "failed to determine command"; then
+            # But sometimes it doesn't, fallback.
+            xdg-open $f
+          fi
           }}
         '';
 

@@ -38,7 +38,6 @@
 
         "image/jpeg" = "imv.desktop";
         "image/bmp" = "imv.desktop";
-        "image/gif" = "imv.desktop";
         "image/png" = "imv.desktop";
         "image/tiff" = "imv.desktop";
 
@@ -47,6 +46,7 @@
         "video/webm" = "mpv.desktop";
         "video/3gpp" = "mpv.desktop";
         "video/x-matroska" = "mpv.desktop";
+        "image/gif" = "mpv.desktop";
 
         "audio/mpeg" = "mpv.desktop";
         "audio/ogg" = "mpv.desktop";

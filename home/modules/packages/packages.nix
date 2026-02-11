@@ -12,7 +12,6 @@
     # Desktop environment
     zathura
     libnotify
-    mpv
     xdg-user-dirs
     pavucontrol
     telegram-desktop

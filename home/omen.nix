@@ -7,6 +7,7 @@
     ./modules/imv
     ./modules/launcher
     ./modules/explorer
+    ./modules/media
     ./modules/packages
     ./modules/term
     ./modules/android.nix
@@ -18,7 +19,6 @@
     ./modules/browser.nix
     ./modules/gpg.nix
     ./modules/passman.nix
-    ./modules/music.nix
     ./modules/ide.nix
     ./modules/theme.nix
     ./modules/wallpaper.nix
