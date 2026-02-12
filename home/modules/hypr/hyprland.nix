@@ -17,8 +17,18 @@ let
     # Accepts both p as a string and list of any type, returns a string.
     concat = p: if _.isList p then toReg p else toStr p;
     on = props: params: "match:${props} ${concat params}";
+    and_on =
+      props: params: prev:
+      [
+        prev
+        (on props params)
+      ]
+      |> _.concatStringsSep ",";
+    set =
+      key: value: prev:
+      "${prev},${key} ${value}";
     enable =
-      name: sel: if _.isList name then lib.foldl (a: c: "${a},${c} on") sel name else "${sel},${name} on";
+      key: prev: if _.isList key then lib.foldl (a: c: set c "on" a) prev key else (set key "on" prev);
     rule = {
       # Apply `param` when window `match` one of following `class` or `title`.
       modal = {
@@ -74,10 +84,26 @@ in
         (wr.on "modal" true |> wr.enable wr.rule.modal.param)
         # Workaround: electron apps render popup as a floating window, applied blur effect to such windows looks bad.
         (wr.on "float" true |> wr.enable "no_blur")
-        # I'd like to apply stay_focused on all floating window especially for
-        # jetbrains, but doesn't work if a floating window has a popover, can't
-        # focus on the popover.
+
+        # Less junky jetbrains floating windows on hyprland.
+        # Keep toolbox in focus to prevent the lauched app grab focus and
+        # prevent you from closing the toolbox window.
         (wr.on "initial_class" "^jetbrains-toolbox$" |> wr.enable "stay_focused")
+        (
+          wr.on "float" true
+          |> wr.and_on "initial_class" "jetbrains-pycharm"
+          # After typing the search window doesn't resize,
+          # the default height only enough to render the input excluding
+          # the result part.
+          |> wr.set "min_size" "1000 600"
+          |> wr.enable "persistent_size"
+          # Isn't a "must" but feels less junky.
+          |> wr.enable "no_anim"
+          # When changing tab, the window will resize back to have tiny height
+          # but border and shadow would stay there creating an empty square.
+          |> wr.set "border_size" "0"
+          |> wr.enable "no_shadow"
+        )
       ];
 
       # See https://wiki.hyprland.org/Configuring/Keywords/ for more
@@ -261,14 +287,25 @@ in
       # INPUT DEVICES
       # Layouts and Options you can find here:
       # https://github.com/Webconverger/webc/blob/master/usr/share/X11/xkb/rules/base.lst
+      # https://wiki.hypr.land/Configuring/Variables/#input
       input = {
         kb_layout = "us,ru";
         kb_options = "grp:alt_space_toggle";
         repeat_rate = 75;
         repeat_delay = 250;
+        # 0: cursor movement won't change focus.
+        # 1: cursor movement always change focus.
+        # 2: change focus only on click.
+        # 3: disable focusing using mouse.
         follow_mouse = 1;
-        mouse_refocus = true;
-        float_switch_override_focus = 1;
+        # A distance in pixels mouse needs to travel to activate focus change.
+        # A random value higher than default 0 to prevent accidential re-focuses.
+        follow_mouse_threshold = 10;
+        # Breaks changing focus from tiled to float window,
+        # when float window is opened using a shortcut. For
+        # example jetbrains ide shift+shift.
+        mouse_refocus = false;
+        float_switch_override_focus = 0;
         touchpad = {
           disable_while_typing = true;
           scroll_factor = 1.0;
@@ -285,7 +322,7 @@ in
         mouse_move_enables_dpms = false;
         key_press_enables_dpms = false;
         layers_hog_keyboard_focus = true;
-        focus_on_activate = false;
+        focus_on_activate = true;
         mouse_move_focuses_monitor = true;
         # Swallow exclusion does not work for some reason
         # I need to exclude chromium, usually if browser lauched from the terminal
