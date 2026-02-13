@@ -35,6 +35,7 @@ in
 {
   imports = [
     ./tailscale.nix
+    ./dnsmasq.nix
   ];
 
   boot.kernel.sysctl = {

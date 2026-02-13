@@ -50,6 +50,7 @@
     gtrash
     chafa
     tmsu
+    tldr
 
     # From nixpkgs-custom overlay
     waifu

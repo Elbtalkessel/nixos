@@ -1,5 +1,5 @@
 { pkgs, ... }:
-{
+rec {
 
   packages = [
     pkgs.nixfmt
@@ -11,35 +11,52 @@
   languages.nix.enable = true;
 
   scripts = {
-    chsecret.exec = # sh
-      ''
-        nix-shell -p sops --run "sops system/secrets/secrets.yaml"
-      '';
-    switch.exec = # sh
-      ''
-        if [ $(whoami) = "root" ]
-        then
-          nixos-rebuild ''${1:-switch} --flake ./ --accept-flake-config
-        else
-          home-manager switch --flake ./
-        fi
-      '';
-    rollback.exec = # sh
-      ''
-        home-manager switch --rollback --flake ./
-      '';
-    cleanup.exec = # sh
-      ''
-        nix-collect-garbage -d
-      '';
-    generations.exec = # sh
-      ''
-        nix profile history --profile /nix/var/nix/profiles/system
-      '';
-    news.exec = # sh
-      ''
-        home-manager news --flake ./
-      '';
+    chsecret = {
+      exec = # sh
+        ''
+          nix-shell -p sops --run "sops system/secrets/secrets.yaml"
+        '';
+      description = "Edit secrets using sops.";
+    };
+    switch = {
+      exec = # sh
+        ''
+          if [ $(whoami) = "root" ]
+          then
+            nixos-rebuild ''${1:-switch} --flake ./ --accept-flake-config
+          else
+            home-manager switch --flake ./
+          fi
+        '';
+    };
+    rollback = {
+      exec = # sh
+        ''
+          home-manager switch --rollback --flake ./
+        '';
+      description = "Rollback to a previous HM generation.";
+    };
+    cleanup = {
+      exec = # sh
+        ''
+          nix-collect-garbage -d
+        '';
+      description = "Delete garbage, will remove inactive HM configurations.";
+    };
+    generations = {
+      exec = # sh
+        ''
+          nix profile history --profile /nix/var/nix/profiles/system
+        '';
+      description = "System generations.";
+    };
+    news = {
+      exec = # sh
+        ''
+          home-manager news --flake ./
+        '';
+      description = "Home Manager news.";
+    };
     fix-nix = {
       exec = # sh
         ''
@@ -52,6 +69,22 @@
           echo "Nix files fixed!"
         '';
       description = "Automatically fix linting, dead code, and formatting in .nix files.";
+    };
+    hm-squash = {
+      exec = # nu
+        ''
+          home-manager generations
+          | lines
+          | parse '{date} {time} : id {id} -> {path}'
+          | group-by date --to-table
+          | get items
+          | each {|g| $g | slice 1..}
+          | flatten
+          | each {|it| home-manager remove-generations $it.id}
+        '';
+      package = pkgs.nushell;
+      binary = "nu";
+      description = "Removes generations leaving 1 per day.";
     };
   };
 
@@ -77,13 +110,14 @@
       hr
 
       echo -e "$(cat <<-EOF
-      🤫 $(info 'chsecret') Edit secrets using sops.
+      🤫 $(info 'chsecret') ${scripts.chsecret.description}
       🏠 $(info 'switch') Switch to the new home configuration.
       🌍 $(info 'sudo switch') $(bold '[switch|boot|test|...]') Reconfigure NixOS.
-      ♻️ $(info 'rollback') Rollback to a previous HM generation.
-      🗑️ $(info 'cleanup') Delete garbage, will remove inactive HM configurations.
-      📰 $(info 'news') Home Manager news.
-      🔧 $(info 'fix-nix') *.nix files auto-formatting.
+      ♻️ $(info 'rollback') ${scripts.rollback.description}
+      🗑️ $(info 'cleanup') ${scripts.cleanup.description}
+      🔥 $(info 'hm-squash') ${scripts.hm-squash.description}
+      📰 $(info 'news') ${scripts.news.description}
+      🔧 $(info 'fix-nix') ${scripts.fix-nix.description}
       EOF
       )"
     '';
