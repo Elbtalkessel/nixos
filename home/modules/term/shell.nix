@@ -110,7 +110,6 @@ in
         add_newline = true;
         format = lib.concatStrings [
           "$username"
-          "$shell"
           "$hostname"
           "$directory"
           "$git_branch"
@@ -119,22 +118,29 @@ in
           "$cmd_duration"
           "$line_break"
           "$python"
-          "$character"
+          "$shell$character"
         ];
         directory = {
           style = "blue";
         };
+        shell = {
+          disabled = false;
+          zsh_indicator = "%";
+          nu_indicator = "λ";
+          unknown_indicator = "$";
+          style = "blue";
+        };
         character = {
-          success_symbol = "[λ](purple)";
-          error_symbol = "[λ](red)";
-          vimcmd_symbol = "[❮](green)";
+          success_symbol = "[_](purple)";
+          error_symbol = "[_](red)";
+          vimcmd_symbol = "[>](green)";
         };
         git_branch = {
           format = "[$branch]($style)";
           style = "bright-black";
         };
         git_status = {
-          format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed)]($style)";
+          format = "([[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed)]($style) )";
           style = "cyan";
           conflicted = "​";
           untracked = "​";
@@ -145,23 +151,16 @@ in
           stashed = "≡";
         };
         git_state = {
-          format = ''\([$state( $progress_current/$progress_total)]($style)\) '';
+          format = ''(\([$state( $progress_current/$progress_total)]($style)\) )'';
           style = "bright-black";
         };
         cmd_duration = {
-          format = "[$duration]($style) ";
+          format = "([$duration]($style) )";
           style = "yellow";
         };
         python = {
-          format = "[$virtualenv]($style) ";
+          format = "([$virtualenv]($style) )";
           style = "bright-black";
-        };
-        shell = {
-          zsh_indicator = "%_";
-          nu_indicator = "󰟆";
-          unknown_indicator = "󱄅";
-          disabled = false;
-          style = "blue";
         };
       };
     };
