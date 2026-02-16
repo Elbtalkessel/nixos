@@ -153,15 +153,16 @@ in
         };
         shell = {
           disabled = false;
+          format = "[$indicator]($style)";
           zsh_indicator = "%";
           nu_indicator = "λ";
           unknown_indicator = "$";
-          style = "blue";
+          style = "purple";
         };
         character = {
           success_symbol = "[_](purple)";
           error_symbol = "[_](red)";
-          vimcmd_symbol = "[>](green)";
+          vimcmd_symbol = "[_ >](purple)";
         };
       };
     };
