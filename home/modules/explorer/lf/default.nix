@@ -213,11 +213,11 @@ in
             echo "Init a tag repository first using the tmsu init command."
           else
             printf "''${tags#*:} "
-            read more
+            read tags
             if test -d $f; then
-              find $fx -type f | xargs -I{} ${tmsu} tag {} --tags "$more"
+              ${tmsu} tag $f --recursive --tags "$tags"
             else
-              ${tmsu} tag $fx --tags "$more"
+              ${tmsu} tag $fx --tags "$tags"
             fi
           fi
           }}
@@ -233,6 +233,21 @@ in
           p="$queries/$query"
           mkdir -p "$p"
           lf -remote "send $id select '$p'"
+          }}
+        '';
+
+      tag-remove = # bash
+        ''
+          %{{
+          set -f
+          tags=$(${tmsu} tags $f)
+          printf "''${tags#*:} "
+          read tags
+          if test -d $f; then
+            ${tmsu} untag $f --recursive --tags "$tags"
+          else
+            ${tmsu} untag $fx --tags "$tags"
+          fi
           }}
         '';
 
@@ -293,6 +308,7 @@ in
       aac = "compress";
       ata = "tag-add";
       ats = "tag-search";
+      atr = "tag-remove";
     };
   };
 }

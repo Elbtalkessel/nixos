@@ -49,7 +49,13 @@
     # https://github.com/umlx5h/gtrash
     gtrash
     chafa
-    tmsu
+    (tmsu.overrideAttrs (oldAttrs: {
+      postInstall = # bash
+        ''
+          ${oldAttrs.postInstall}
+          cp misc/bin/tmsu-fs-* $out/bin/
+        '';
+    }))
     tldr
 
     # From nixpkgs-custom overlay
