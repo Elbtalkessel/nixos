@@ -78,19 +78,25 @@ in
       delete = "%gtrash put $fx";
 
       # Creates a file or directory.
-      append = # bash
+      new-file = # bash
         ''
           %{{
-             set -f
-             printf " File name or directory path/ "
-             read path
-             if [[ $path == */ ]]; then
-               mkdir -p $path
-             else
-               mkdir -p $(dirname $path)
-               touch $path
-             fi
-             lf -remote "send $id select $path"
+            set -f
+            printf " new file: "
+            read path
+            mkdir -p $(dirname $path)
+            touch $path
+            lf -remote "send $id select $path"
+          }}
+        '';
+      new-directory = # bash
+        ''
+          %{{
+            set -f
+            printf " new directory: "
+            read path
+            mkdir -p $path
+            lf -remote "send $id select $path"
           }}
         '';
 
@@ -134,6 +140,11 @@ in
           ''${{
             dest="$(fd -t d -c never . $OLDPWD | fzf)" &&
             eval mv -i $fx $dest
+            if tmsu info > /dev/null 2>&1; then
+              for f in $fx; do
+                tmsu repair --manual "$f" "$dest/$(basename $f)"
+              done
+            fi
           }}
         '';
 
@@ -212,6 +223,19 @@ in
           }}
         '';
 
+      tag-search = # bash
+        ''
+          %{{
+          set -f -e -o pipefail
+          queries="$(tmsu mount | head | awk '{print $3}')/queries"
+          printf " query: "
+          read query
+          p="$queries/$query"
+          mkdir -p "$p"
+          lf -remote "send $id select '$p'"
+          }}
+        '';
+
       # Un-archive usin ouch.
       extract = # bash
         ''
@@ -249,7 +273,8 @@ in
       # fuzzy move.
       m = "fmove";
       # new file, shadows builtin n shortcut.
-      n = "append";
+      n = "new-file";
+      N = "new-directory";
       # rename a file
       r = "push :rename<space>";
 
@@ -267,6 +292,7 @@ in
       aae = "extract";
       aac = "compress";
       ata = "tag-add";
+      ats = "tag-search";
     };
   };
 }
