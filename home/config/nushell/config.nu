@@ -16,9 +16,9 @@ let zoxide_completer = {|spans|
   # `where name =~ $q` vs. `$q in name` have different meaning.
   # I prefer using `in` instead of regex `=~`.
   | where {|x| $q in $x.name and $x.type in [dir, symlink]}
-  | get name 
+  | get name
   # Query zoxide, append result and filter-out non-unique records.
-  | append ( zoxide query -l $q --exclude $env.PWD | lines ) 
+  | append ( zoxide query -l $q --exclude $env.PWD | lines )
   | uniq
 }
 
@@ -30,6 +30,7 @@ let completers = {|spans|
 }
 
 $env.config = {
+  edit_mode: 'vi',
   show_banner: false,
   completions: {
     # case-sensitive completions
@@ -54,7 +55,7 @@ $env.config = {
       completer: $completers
     }
   }
-} 
+}
 
 def --env --wrapped lfcd [...args] {
   let d = (lf -print-last-dir ...$args)
@@ -64,16 +65,16 @@ def --env --wrapped lfcd [...args] {
 def --env --wrapped hashit [...args] {
   $in
   | where type == file
-  | insert hash {|it| open $it.name | hash md5} 
+  | insert hash {|it| open $it.name | hash md5}
 }
 
 # Takes `ls` input and returns duplicated files by calculating their md5 hash.
 def --env --wrapped duplicates [...args] {
   $in
   | hashit
-  | group-by hash --to-table 
-  | insert dupno {|it| $it.items | length} 
-  | where dupno > 1 
-  | each {|it| $it.items | sort-by modified -r | slice 1..} 
+  | group-by hash --to-table
+  | insert dupno {|it| $it.items | length}
+  | where dupno > 1
+  | each {|it| $it.items | sort-by modified -r | slice 1..}
   | flatten
 }

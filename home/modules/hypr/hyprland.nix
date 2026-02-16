@@ -92,6 +92,7 @@ in
         (
           wr.on "float" true
           |> wr.and_on "initial_class" "jetbrains-pycharm"
+          |> wr.and_on "initial_title" "^$"
           # After typing the search window doesn't resize,
           # the default height only enough to render the input excluding
           # the result part.
