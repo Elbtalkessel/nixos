@@ -15,33 +15,36 @@ def _i [v: string] {
 
 def get-status []: string -> record {
   let start = date now
-  let status = http get -e -f $in | get status
+  let status = $in | try {
+    http get -e -f $in | get status
+  } catch {|err|
+    $err.msg
+  }
   let elapsed = (date now) - $start
   {
-    output: ($status | into string),
-    time: ($elapsed | into string),
+    url: $in,
+    status: $status,
+    time: $elapsed,
   }
 }
 
 def print-status []: record -> nothing {
-  let $s = $in.output
-  let $t = $in.time
-  let $v = if ($s == "200") { _s $s } else { _e $s }
-  print $"(_i $t) ($v)"
-}
-
-def request []: list<string> -> record {
-  $in
-  | each {|row|
-    try {
-      print -n $"($row) "
-      let r = $row | get-status | tee { print-status }
-      { url: $row, status: $r.output, time: $r.time }
-    } catch {|err|
-      print -e (_e $err.msg)
-      { url: $row, status: $err.msg, time: 0sec }
-    }
-  }
+  let ok = $in.status == 200
+  [
+    $in.url
+    (
+      $in
+      | if ($ok) {
+        _s ($in.status | into string)
+      } else {
+        _e ($in.status | into string)
+      }
+    )
+    (_i ($in.time | format duration sec))
+  ]
+  | str join " "
+  | if ($ok) { print $in } else { print -e $in }
+  | ignore
 }
 
 # Health check for a site(s).
@@ -53,10 +56,7 @@ def main [
   --input (-i): string,   # Optioanl input file path, stdin by default.
   --output (-o): string,  # Optional output file path. Must include an extension.
 ] {
-  if ($input != null) { open --raw $input } else { $in }
+  let r = if ($input != null) { open --raw $input } else { $in }
   | split row "\n"
-  | request
-  | collect
-  | tee {|| if ($output != null) { $in | save -f $output }}
-  | ignore
+  | par-each {|in| $in | get-status | tee { print-status } }
 }
