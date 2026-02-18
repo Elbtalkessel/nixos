@@ -1,17 +1,17 @@
 #!/usr/bin/env -S nu --stdin
 # Site health check script
 
-def get-status []: string -> string {
-  http get -e -f $in | get status | into string
+def get-status []: string -> record {
+  timeit --output { http get -e -f $in | get status | into string }
 }
 
-def print-status []: string -> nothing {
+def print-status []: record -> nothing {
   mut v = ""
   let $s = $in
   if ($s == "200") {
-    $v = $"(ansi green)($s)(ansi rst)"
+    $v = $"(ansi green)($s.output $s.time)(ansi rst)"
   } else {
-    $v = $"(ansi red)($s)(ansi rst)"
+    $v = $"(ansi red)($s.output $s.time)(ansi rst)"
   }
   print $v
 }
@@ -21,10 +21,11 @@ def request []: list<string> -> record {
   | each {|row|
     try {
       print -n $"($row) "
-      { url: $row, status: ($row | get-status | tee { print-status }) }
+      let r = $row | get-status | tee { print-status }
+      { url: $row, status: $r.output, time: $r.time }
     } catch {|err|
       print -e $"(ansi red)($err.msg)(ansi rst)"
-      { url: $row, status: $err.msg }
+      { url: $row, status: $err.msg, time: -1 }
     }
   }
 }
