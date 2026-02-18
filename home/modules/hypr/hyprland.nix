@@ -97,7 +97,6 @@ in
           # the default height only enough to render the input excluding
           # the result part.
           |> wr.set "min_size" "1000 600"
-          |> wr.enable "persistent_size"
           # Isn't a "must" but feels less junky.
           |> wr.enable "no_anim"
           # When changing tab, the window will resize back to have tiny height
