@@ -56,7 +56,10 @@ def main [
   --input (-i): string,   # Optioanl input file path, stdin by default.
   --output (-o): string,  # Optional output file path. Must include an extension.
 ] {
-  let r = if ($input != null) { open --raw $input } else { $in }
+  if ($input != null) { open --raw $input } else { $in }
   | split row "\n"
   | par-each {|in| $in | get-status | tee { print-status } }
+  | collect
+  | if ($output != nil) { save -f $output }
+  | ignore
 }
