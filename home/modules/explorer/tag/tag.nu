@@ -11,7 +11,7 @@ def get-mount-point [] {
 # Lists tags of one or multiple $v.
 def get-tags [...v: string]: nothing -> list<string> {
   tmsu_ tags -1 ...$v
-  | split row "\n" 
+  | split row "\n"
   | where {|it| not ($it | str ends-with ":") and $it != ""}
   | uniq
 }
@@ -54,13 +54,13 @@ def "main show" [...v: string] {
 # Tags one or multiple $v.
 def "main add" [...v: string, tags: string] {
   $v
-  | split row "\n" 
+  | split row "\n"
   | each {|it| tag $it $tags}
 }
 
 def "main rm" [...v: string -t,--tags: string = ""] {
   $v
-  | split row "\n" 
+  | split row "\n"
   | each {|it| untag $it $tags}
 }
 
