@@ -25,11 +25,12 @@ def get-status []: string -> record {
     url: $in,
     status: $status,
     time: $elapsed,
+    ok: ($status < 400),
   }
 }
 
 def print-status []: record -> nothing {
-  let ok = $in.status == 200
+  let ok = $in.ok
   [
     $in.url
     (
@@ -53,13 +54,25 @@ def print-status []: record -> nothing {
 # Prints site domain and its status.
 # Optionally saves detailed report to a file.
 def main [
-  --input (-i): string,   # Optioanl input file path, stdin by default.
+  --input (-i): string,   # Optional input file path, stdin by default.
   --output (-o): string,  # Optional output file path. Must include an extension.
 ] {
-  if ($input != null) { open --raw $input } else { $in }
+  let results = if ($input != null) { open --raw $input } else { $in }
   | split row "\n"
   | par-each {|in| $in | get-status | tee { print-status } }
   | collect
-  | if ($output != nil) { save -f $output }
-  | ignore
+  | tee {$in | if ($output != null) { save -f $output }}
+
+  printf '%*s\n' $"(tput cols)"  | tr ' ' '-'
+
+  {
+    "num": ($results | length),
+    "err": ($results | where not ok | length)
+    "avg": (($results | get time | math avg | format duration sec)),
+    "min": (($results | get time | math min | format duration sec)),
+    "max": (($results | get time | math max | format duration sec)),
+  }
+  | transpose
+  | to csv --separator '\t' --noheaders
+  | print
 }
