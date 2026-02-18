@@ -1,19 +1,33 @@
 #!/usr/bin/env -S nu --stdin
 # Site health check script
 
+def _s [v: string] {
+  $"(ansi green)($v)(ansi rst)"
+}
+
+def _e [v: string] {
+  $"(ansi red)($v)(ansi rst)"
+}
+
+def _i [v: string] {
+  $"(ansi d)($v)(ansi rst)"
+}
+
 def get-status []: string -> record {
-  timeit --output { http get -e -f $in | get status | into string }
+  let start = date now
+  let status = http get -e -f $in | get status
+  let elapsed = (date now) - $start
+  {
+    output: ($status | into string),
+    time: ($elapsed | into string),
+  }
 }
 
 def print-status []: record -> nothing {
-  mut v = ""
-  let $s = $in
-  if ($s == "200") {
-    $v = $"(ansi green)($s.output $s.time)(ansi rst)"
-  } else {
-    $v = $"(ansi red)($s.output $s.time)(ansi rst)"
-  }
-  print $v
+  let $s = $in.output
+  let $t = $in.time
+  let $v = if ($s == "200") { _s $s } else { _e $s }
+  print $"(_i $t) ($v)"
 }
 
 def request []: list<string> -> record {
@@ -24,8 +38,8 @@ def request []: list<string> -> record {
       let r = $row | get-status | tee { print-status }
       { url: $row, status: $r.output, time: $r.time }
     } catch {|err|
-      print -e $"(ansi red)($err.msg)(ansi rst)"
-      { url: $row, status: $err.msg, time: -1 }
+      print -e (_e $err.msg)
+      { url: $row, status: $err.msg, time: 0sec }
     }
   }
 }
