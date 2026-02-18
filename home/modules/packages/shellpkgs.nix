@@ -10,5 +10,9 @@
       name = "hyprswitch";
       text = builtins.readFile ../../bin/hyprswitch.nu;
     })
+    (nuenv.writeShellApplication {
+      name = "hhget";
+      text = builtins.readFile ../../bin/hhget.nu;
+    })
   ];
 }
