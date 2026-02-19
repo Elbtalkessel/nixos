@@ -8,6 +8,10 @@ def get-mount-point [] {
   $"($env.HOME)/Tags"
 }
 
+def get-query-dir [] {
+  [(get-mount-point) "queries"] | path join
+}
+
 # Lists tags of one or multiple $v.
 def get-tags [...v: string]: nothing -> list<string> {
   tmsu_ tags -1 ...$v
@@ -30,15 +34,15 @@ def tag [v: string, t: string] {
 }
 
 # Removes tags $t form a $v.
-def untag [v: string, t: string] {
+def untag [v: string, t?: string] {
   if (is-dir $v) {
-    if ($t == "") {
+    if ($t == null) {
       tmsu_ untag --recursive --all $v
     } else {
       tmsu_ untag --recursive --tags $"($t)" $v
     }
   } else {
-    if ($t == "") {
+    if ($t == null) {
       tmsu_ untag --all $v
     } else {
       tmsu_ untag --tags $"($t)" $v
@@ -56,16 +60,21 @@ def "main add" [...v: string, tags: string] {
   $v
   | split row "\n"
   | each {|it| tag $it $tags}
+  | ignore
 }
 
-def "main rm" [...v: string -t,--tags: string = ""] {
+def "main rm" [
+  ...v: string,
+  --tags (-t): string
+] {
   $v
   | split row "\n"
   | each {|it| untag $it $tags}
+  | ignore
 }
 
 def "main search" [v: string] {
-  [(get-mount-point) "queries" $"($v)"] | path join
+  [(get-query-dir) $v] | path join
 }
 
 def "main mount" [] {

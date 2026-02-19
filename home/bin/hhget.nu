@@ -48,12 +48,15 @@ def print-status []: record -> nothing {
   | ignore
 }
 
+
+def continious []: list<string> -> nothing {}
+
 # Site health check.
 # Parameters and flags
 def main [
-  ...domain: string,      # Domains to check.
-  --input (-i): string,   # Newline separated list of domains to check.
-  --output (-o): string,  # Dump results in a file, (.csv, .yaml, .md, .json).
+  ...domain: string,        # Domains to check.
+  --input (-i): string,     # Newline separated list of domains to check.
+  --output (-o): string,    # Dump results in a file, (.csv, .yaml, .md, .json).
 ]: [nothing -> nothing, string -> nothing] {
   if ($input != null) {
     open --raw $input | lines
