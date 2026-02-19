@@ -48,31 +48,39 @@ def print-status []: record -> nothing {
   | ignore
 }
 
-# Health check for a site(s).
-# Accepts list of new line separated site domain as an argument,
-# or from stdout.
-# Prints site domain and its status.
-# Optionally saves detailed report to a file.
+# Site health check.
+# Parameters and flags
 def main [
-  --input (-i): string,   # Optional input file path, stdin by default.
-  --output (-o): string,  # Optional output file path. Must include an extension.
-] {
-  let results = if ($input != null) { open --raw $input } else { $in }
-  | split row "\n"
+  ...domain: string,      # Domains to check.
+  --input (-i): string,   # Newline separated list of domains to check.
+  --output (-o): string,  # Dump results in a file, (.csv, .yaml, .md, .json).
+]: [nothing -> nothing, string -> nothing] {
+  if ($input != null) {
+    open --raw $input | lines
+  } else if ($domain != null) {
+    $domain
+  } else {
+    $in | lines
+  }
   | par-each {|in| $in | get-status | tee { print-status } }
   | collect
   | tee {$in | if ($output != null) { save -f $output }}
-
-  printf '%*s\n' $"(tput cols)"  | tr ' ' '-'
-
-  {
-    "num": ($results | length),
-    "err": ($results | where not ok | length)
-    "avg": (($results | get time | math avg | format duration sec)),
-    "min": (($results | get time | math min | format duration sec)),
-    "max": (($results | get time | math max | format duration sec)),
+  | tee {|in|
+    if (($in | length) == 0) {
+      return
+    }
+    printf '%*s\n' $"(tput cols)"  | tr ' ' '-'
+    $in
+    | {
+      "num": ($in | length),
+      "err": ($in | where not ok | length)
+      "avg": (($in | get time | math avg | format duration sec)),
+      "min": (($in | get time | math min | format duration sec)),
+      "max": (($in | get time | math max | format duration sec)),
+      }
+    | transpose
+    | to csv --separator '\t' --noheaders
+    | print
   }
-  | transpose
-  | to csv --separator '\t' --noheaders
-  | print
+  | ignore
 }
