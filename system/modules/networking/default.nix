@@ -35,7 +35,7 @@ in
 {
   imports = [
     ./tailscale.nix
-    ./dnsmasq.nix
+    ./hosts.nix
   ];
 
   boot.kernel.sysctl = {
@@ -92,16 +92,7 @@ in
         9998
       ];
     };
-
-    hosts = {
-      # Make easy anti cheat work
-      "0.0.0.0" = [ "modules-cdn.eac-prod.on.epicgames.com" ];
-    };
   };
-
-  # Instead of symlinking, nixos will copy the hosts file, so you can modify it
-  # in /etc/hosts, however changes will be dropped after applying a new configuration.
-  environment.etc.hosts.mode = "0644";
 
   security.pki.certificateFiles = ls ../../../assets/certificates;
 }
