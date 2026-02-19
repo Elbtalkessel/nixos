@@ -25,7 +25,7 @@ def get-status []: string -> record {
     url: $in,
     status: $status,
     time: $elapsed,
-    ok: ($status < 400),
+    ok: ((($status | describe) == "int") and ($status < 400)),
   }
 }
 
