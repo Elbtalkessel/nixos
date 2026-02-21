@@ -27,6 +27,8 @@
     wget
     arp-scan
     dig
+    # For exposing local servers to public.
+    cloudflared
     # Development
     lazydocker
     lazygit

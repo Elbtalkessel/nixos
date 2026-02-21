@@ -104,6 +104,7 @@ in
           |> wr.set "border_size" "0"
           |> wr.enable "no_shadow"
         )
+        (wr.on "initial_class" "Removing Cookies and Site Data" |> wr.set "min_size" "579 234")
       ];
 
       # See https://wiki.hyprland.org/Configuring/Keywords/ for more
