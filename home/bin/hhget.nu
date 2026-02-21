@@ -13,10 +13,11 @@ def _i [v: string] {
   $"(ansi d)($v)(ansi rst)"
 }
 
-def get-status []: string -> record {
+def get-status [timeout: duration]: string -> record {
   let start = date now
   let status = $in | try {
-    http get -e -f $in | get status
+    let m = if ($timeout == -1sec) { Infinity | into duration } else { $timeout }
+    http get -e -f -m $m $in | get status
   } catch {|err|
     $err.msg
   }
@@ -54,9 +55,10 @@ def continious []: list<string> -> nothing {}
 # Site health check.
 # Parameters and flags
 def main [
-  ...domain: string,        # Domains to check.
-  --input (-i): string,     # Newline separated list of domains to check.
-  --output (-o): string,    # Dump results in a file, (.csv, .yaml, .md, .json).
+  ...domain: string, # Domains to check.
+  --input (-i): string, # Newline separated list of domains to check.
+  --output (-o): string, # Dump results in a file, (.csv, .yaml, .md, .json).
+  --timeout (-t): duration = -1sec, # Timeout for a request.
 ]: [nothing -> nothing, string -> nothing] {
   if ($input != null) {
     open --raw $input | lines
@@ -65,7 +67,7 @@ def main [
   } else {
     $in | lines
   }
-  | par-each {|in| $in | get-status | tee { print-status } }
+  | par-each {|in| $in | get-status $timeout | tee { print-status } }
   | collect
   | tee {$in | if ($output != null) { save -f $output }}
   | tee {|in|
