@@ -50,23 +50,32 @@ def print-status []: record -> nothing {
 }
 
 
-def continious []: list<string> -> nothing {}
+def together [list: list<string>, stdin: string = ""] {
+  $list
+  | append ($stdin | lines)
+  | each {|it|
+    if (($it | path type) == "file") {
+      open --raw $it | lines
+    } else {
+      $it
+    }
+  }
+  | flatten
+}
+
 
 # Site health check.
-# Parameters and flags
+# Accepts new line domain list or file list from stdin
+# and as the first positional argument.
+# Example:
+#   # Check ddg.gg, goo.gl and everything in the file.txt
+#   "ddg.gg" | hhget goo.gl ./file.txt
 def main [
-  ...domain: string, # Domains to check.
-  --input (-i): string, # Newline separated list of domains to check.
+  ...domain: string, # Domain list, file list.
   --output (-o): string, # Dump results in a file, (.csv, .yaml, .md, .json).
   --timeout (-t): duration = -1sec, # Timeout for a request.
 ]: [nothing -> nothing, string -> nothing] {
-  if ($input != null) {
-    open --raw $input | lines
-  } else if ($domain != null) {
-    $domain
-  } else {
-    $in | lines
-  }
+  together $domain $in
   | par-each {|in| $in | get-status $timeout | tee { print-status } }
   | collect
   | tee {$in | if ($output != null) { save -f $output }}
