@@ -24,6 +24,8 @@ def get-status [timeout: duration]: string -> record {
   let elapsed = (date now) - $start
   {
     url: $in,
+    # TODO: only numerical status code,
+    #   error message should go into a separate filed.
     status: $status,
     time: $elapsed,
     ok: ((($status | describe) == "int") and ($status < 400)),
@@ -63,6 +65,29 @@ def together [list: list<string>, stdin: string = ""] {
   | flatten
 }
 
+# Turns an output file into <url>: { ... } map.
+def into-mapping []: list<record> -> record {
+  $in
+  | reduce --fold {} {|it, acc|
+    if ($it.url in $acc) {
+      $acc
+    } else {
+      $acc | insert $it.url $it
+    }
+  }
+}
+
+
+# Merges two output files ignoring duplicated urls.
+# Returns json.
+def "main merge" [a: string, b: string]: nothing -> string {
+  open $a
+  | into-mapping
+  | merge deep (open $b | into-mapping)
+  | values
+  | to json
+}
+
 
 # Site health check.
 # Accepts new line domain list or file list from stdin
@@ -74,9 +99,13 @@ def main [
   ...domain: string, # Domain list, file list.
   --output (-o): string, # Dump results in a file, (.csv, .yaml, .md, .json).
   --timeout (-t): duration = -1sec, # Timeout for a request.
+  --threads (-p): int = 4, # THe number of threads to use.
 ]: [nothing -> nothing, string -> nothing] {
   together $domain $in
-  | par-each {|in| $in | get-status $timeout | tee { print-status } }
+  | par-each --threads $threads {|in|
+    $in
+    | get-status $timeout | tee { print-status }
+  }
   | collect
   | tee {$in | if ($output != null) { save -f $output }}
   | tee {|in|
