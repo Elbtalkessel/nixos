@@ -78,3 +78,22 @@ def --env --wrapped duplicates [...args] {
   | each {|it| $it.items | sort-by modified -r | slice 1..}
   | flatten
 }
+
+# From https://github.com/nushell/nushell/issues/15807
+# A ∪ B - items from both collections.
+def union [other: list]: list -> list {
+  ($in ++ $other) | uniq
+}
+# Only items present in A and B collections.
+def intersection [other: list]: list -> list {
+  where $it in $other
+}
+# A items not present in B.
+def difference [other: list]: list -> list {
+  where $it not-in $other
+}
+# Items present only in of of A or B.
+def symmetric-difference [ other: list ]: list -> list {
+  let this = $in
+  ($this | union $other) | difference ($this | intersection $other)
+}

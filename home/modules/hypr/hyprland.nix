@@ -341,6 +341,13 @@ in
         hide_on_touch = true;
         inactive_timeout = 3;
       };
+
+      # DEVICE SPECIFIC
+      device = {
+        # Disable capslock on builtin keyboard.
+        name = "at-translated-set-2-keyboard";
+        kb_options = "caps:none";
+      };
     };
   };
 }
