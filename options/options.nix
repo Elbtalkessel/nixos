@@ -114,13 +114,17 @@ in
                   family = opt {
                     type = submodule {
                       options = {
+                        default = opt {
+                          type = str;
+                          description = "Default font";
+                        };
                         mono = opt {
                           type = str;
                           description = "Default monospace font";
                         };
-                        default = opt {
+                        propo = opt {
                           type = str;
-                          description = "Default font";
+                          description = "Default prop font";
                         };
                       };
                     };

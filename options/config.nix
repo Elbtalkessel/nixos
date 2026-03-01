@@ -33,6 +33,7 @@ in
         family = {
           mono = "OverpassM Nerd Font Mono";
           default = "OverpassM Nerd Font";
+          propo = "OverpassM Nerd Propo";
         };
       };
       opacity = 0.98;
@@ -49,7 +50,7 @@ in
       wm = {
         uwsm.enable = true;
         performance = false;
-        bar.provider = "hyprpanel";
+        bar.provider = "waybar";
       };
       virt.docker.gpu.enable = false;
       theme = {

@@ -15,9 +15,9 @@ _: {
     "8" = "8";
     "9" = "9";
     "0" = "0";
-    #"active" = "";
+    "active" = "";
     "special" = "󱊷";
-    #"empty" = "";
+    "empty" = "";
   };
   "persistent-workspaces" = {
     "*" = 10;

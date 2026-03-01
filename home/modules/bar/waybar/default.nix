@@ -1,5 +1,4 @@
 {
-  pkgs,
   lib,
   config,
   ...
@@ -16,10 +15,11 @@ in
       enable = true;
       target = "graphical-session.target";
     };
+    style = import ./style.nix { inherit config; };
     settings = [
       {
         "layer" = "top";
-        "position" = "top";
+        "position" = "bottom";
         "mode" = "dock";
         "exclusive" = true;
         "passthrough" = false;
@@ -30,13 +30,13 @@ in
         "margin-right" = 5;
         "margin-bottom" = 3;
         "modules-left" = [
-          "custom/powermenu"
-          "custom/sep"
           "hyprland/workspaces"
           "custom/sep"
+          "clock"
         ];
         "modules-center" = [
           "hyprland/window"
+          "custom/sep"
         ];
         "modules-right" = [
           "tray"
@@ -50,8 +50,6 @@ in
           "battery"
           "backlight"
           # ---
-          "custom/sep"
-          "clock"
           "custom/sep"
           "hyprland/language"
         ];
@@ -67,7 +65,6 @@ in
         "backlight" = import ./modules/backlight.nix { inherit lib lpad; };
         "custom/sep" = import ./modules/sep.nix { inherit sep; };
         "mpd" = import ./modules/mpd.nix { };
-        "custom/powermenu" = import ./modules/powermenu.nix { inherit pkgs; };
       }
     ];
   };
