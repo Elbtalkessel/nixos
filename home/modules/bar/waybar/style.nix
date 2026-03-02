@@ -4,7 +4,7 @@ let
 in
 ''
   * {
-    font-family: "${config.my.font.family.propo}";
+    font-family: "OverpassM Nerd Font Propo";
     font-size: 16px;
   }
 
@@ -40,7 +40,6 @@ in
   #battery,
   #bluetooth,
   #backlight,
-  #clock,
   #language
   {
     opacity: 0.7;

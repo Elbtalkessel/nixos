@@ -290,7 +290,7 @@ in
       # https://github.com/Webconverger/webc/blob/master/usr/share/X11/xkb/rules/base.lst
       # https://wiki.hypr.land/Configuring/Variables/#input
       input = {
-        kb_layout = "us,ru";
+        kb_layout = "us,ua";
         kb_options = "grp:alt_space_toggle";
         repeat_rate = 75;
         repeat_delay = 250;
@@ -346,7 +346,7 @@ in
       device = {
         # Disable capslock on builtin keyboard.
         name = "at-translated-set-2-keyboard";
-        kb_options = "caps:none";
+        kb_options = "caps:none,grp:alt_space_toggle";
       };
     };
   };
