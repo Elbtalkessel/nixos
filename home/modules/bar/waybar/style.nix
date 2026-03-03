@@ -21,6 +21,7 @@ in
   #workspaces button {
     padding: 5px 10px;
     opacity: 0.6;
+    border-radius: 0;
   }
 
   #workspaces button.empty {
@@ -35,6 +36,7 @@ in
   #workspaces button.focused,
   #workspaces button:hover {
     color: ${p.fg-secondary};
+    border-bottom: 1px solid ${p.fg-secondary};
     opacity: 1;
   }
 
