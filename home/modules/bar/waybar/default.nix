@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  pkgs,
   ...
 }:
 let
@@ -33,6 +34,7 @@ let
             lpad
             lib
             config
+            pkgs
             ;
         }
       );
@@ -97,7 +99,6 @@ in
             "tray"
             "custom/sep"
             "pulseaudio"
-            # "mpd"
             "custom/sep"
             "network"
             # these may or may not be visible, separator is inside these.
