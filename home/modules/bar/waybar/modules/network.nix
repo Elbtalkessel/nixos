@@ -1,5 +1,4 @@
 _: {
-  "interface" = "wlo1";
   "format" = "";
   "format-wifi" = "";
   "format-ethernet" = "󰈀";

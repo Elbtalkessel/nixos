@@ -1,4 +1,4 @@
-{ lib, lpad }:
+{ lib, lpad, ... }:
 {
   "format" = "{icon}";
   "tooltip-format" = "{percent}%";

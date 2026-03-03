@@ -1,4 +1,4 @@
-{ lib }:
+{ lib, ... }:
 {
   "format" = "{icon} ";
   "tooltip-format" = "{volume}%";
