@@ -2,10 +2,14 @@
 let
   p = config.my.theme.color.dark;
 in
+# css
 ''
   * {
     font-family: "OverpassM Nerd Font Propo";
     font-size: 16px;
+  }
+
+  tooltip label {
   }
 
   window#waybar {
