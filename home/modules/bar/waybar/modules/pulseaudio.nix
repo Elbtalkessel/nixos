@@ -12,7 +12,7 @@ let
     (lib.imap0 (
       i: _:
       lib.concatStrings [
-        "${pfx} "
+        pfx
         (lib.concatStrings (lib.replicate i "•"))
         (lib.concatStrings (lib.replicate (10 - i) "·"))
       ]
@@ -26,9 +26,9 @@ in
     # Depends on pulseaudio, if it can recognize type
     # of the device plugged-in. For me, everything is a speaker,
     # so it defaults to "default".
-    "default" = (iconSet "");
-    "headphone" = (iconSet "󰋋");
-    "headset" = (iconSet "󰥰");
+    "default" = (iconSet "");
+    "headphone" = (iconSet "󰋋 ");
+    "headset" = (iconSet "󰥰 ");
   };
   "scroll-step" = 5;
   "on-click" = "${lib.getExe pkgs.pavucontrol}";

@@ -104,8 +104,8 @@ in
             # these may or may not be visible, separator is inside these.
             "bluetooth"
             "battery"
+            # don't add separator after too ---
             "backlight"
-            # ---
             "custom/sep"
             "hyprland/language"
           ];

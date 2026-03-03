@@ -9,7 +9,7 @@ let
 in
 {
   "format" = "{icon}";
-  "tooltip-format" = "{percent}%";
+  "tooltip-format" = "Brightness @ {percent}%";
   "on-scroll-up" = "${bctl} s 2%+";
   "on-scroll-down" = "${bctl} s 2%-";
   "on-click" = "${bctl} s 100%";

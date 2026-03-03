@@ -1,5 +1,5 @@
 _: {
-  "format" = "{} ";
+  "format" = "{}";
   "format-en" = "🇺🇸";
   "format-ru" = "🏳️‍🌈";
   "format-uk" = "🇺🇦";
