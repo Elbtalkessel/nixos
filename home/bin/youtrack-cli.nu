@@ -1,14 +1,20 @@
 #!/usr/bin/env nu
 
-def load-settings []: nothing -> record {
-  # content required:
-  # default:
-  #   user:
-  #     id: <youtrack user id>
-  #     token: <permanent youtrack api token>
-  #   baseURL: <your instance url + /api>
-  open $"($env.XDG_CONFIG_HOME)/youtrack-cli/settings.yaml"
+# Base
+
+def settings-file []: nothing -> string {
+  $"($env.XDG_CONFIG_HOME)/youtrack-cli/settings.yaml"
 }
+
+def askfor [key: string, default: string]: nothing -> string {
+  let default_ = if ($default != "") { $" \(($default)\)" } else {""}
+  print -n $"($key)($default_): "
+  input --default $default | str trim
+}
+
+# end base ---
+
+# API Client
 
 def get-headers []: record -> record {
   { Authorization: $"Bearer ($in.default.user.token)", Accept: "application/json" }
@@ -44,9 +50,14 @@ def range-filter [start: datetime, endOffset: duration]: nothing -> record {
   }
 }
 
+# end API Client ---
+
+
+# Targets
+
 # Amount of time tracked today.
 def "main spent-today" []: nothing -> string {
-  load-settings
+  open (settings-file)
   | client-get "/workItems" (
     {
       author: $in.default.user.id,
@@ -60,5 +71,40 @@ def "main spent-today" []: nothing -> string {
   | into duration --unit min
   | into string
 }
+
+# Creates / updates a settings file
+def "main init" []: nothing -> nothing {
+  let sf = settings-file
+
+  let s = if ($sf | path exists) {
+    open $sf
+  } else {
+    {
+      name: "YouTrack Config",
+      default: {
+        user: {
+          id: "",
+          token: "",
+        },
+        baseURL: "",
+      },
+    }
+  }
+  $s
+  | merge {
+    default: {
+      baseURL: (askfor "YouTrack instance URL (without schema)" $s.default.baseURL),
+      user: {
+        id: (askfor "YouTrack user ID" $s.default.user.id),
+        token: (askfor "YouTrack API Token" $s.default.user.token),
+      },
+    },
+  }
+  | to yml
+  | save -f $sf
+  print $"($sf) updated"
+}
+
+# end Targets
 
 def main [] {}
