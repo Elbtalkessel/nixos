@@ -1,0 +1,4 @@
+_: {
+  "format" = "|";
+  "tooltip" = false;
+}

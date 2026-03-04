@@ -1,0 +1,32 @@
+_: {
+  "icon-spacing" = 4;
+  "transition-duration" = 250;
+  "modules" = [
+    {
+      "type" = "screenshare";
+      "tooltip" = true;
+      "tooltip-icon-size" = 24;
+    }
+    {
+      "type" = "audio-out";
+      "tooltip" = true;
+      "tooltip-icon-size" = 24;
+    }
+    {
+      "type" = "audio-in";
+      "tooltip" = true;
+      "tooltip-icon-size" = 24;
+    }
+  ];
+  "ignore-monitor" = true;
+  "ignore" = [
+    {
+      "type" = "audio-in";
+      "name" = "cava";
+    }
+    {
+      "type" = "screenshare";
+      "name" = "obs";
+    }
+  ];
+}

@@ -90,6 +90,8 @@ in
             "hyprland/workspaces"
             "custom/sep"
             "clock"
+            "custom/sep"
+            "user"
           ];
           "modules-center" = [
             "hyprland/window"
@@ -97,6 +99,8 @@ in
           ];
           "modules-right" = [
             "tray"
+            "custom/sep"
+            "privacy"
             "custom/sep"
             "pulseaudio"
             "custom/sep"
