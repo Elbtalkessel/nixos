@@ -72,11 +72,10 @@ def "main spent-today" []: nothing -> string {
   | into string
 }
 
-# Creates / updates a settings file
+# Creates / updates the settings file.
 def "main init" []: nothing -> nothing {
   let sf = settings-file
-
-  let s = if ($sf | path exists) {
+  if ($sf | path exists) {
     open $sf
   } else {
     {
@@ -90,13 +89,12 @@ def "main init" []: nothing -> nothing {
       },
     }
   }
-  $s
   | merge {
     default: {
-      baseURL: (askfor "YouTrack instance URL (without schema)" $s.default.baseURL),
+      baseURL: (askfor "YouTrack instance URL" $in.default.baseURL),
       user: {
-        id: (askfor "YouTrack user ID" $s.default.user.id),
-        token: (askfor "YouTrack API Token" $s.default.user.token),
+        id: (askfor "YouTrack user ID" $in.default.user.id),
+        token: (askfor "YouTrack API Token" $in.default.user.token),
       },
     },
   }
@@ -107,4 +105,4 @@ def "main init" []: nothing -> nothing {
 
 # end Targets
 
-def main [] {}
+def main []: nothing -> nothing {}
