@@ -135,7 +135,7 @@ in
       ];
       bind = [
         # Launcher
-        "${M}, SPACE, exec, vicinae toggle"
+        "${M}, SPACE, exec, ${lib.getExe pkgs.vicinae} toggle"
         "${M}, RETURN, exec, ${TERMINAL}"
 
         # Window management

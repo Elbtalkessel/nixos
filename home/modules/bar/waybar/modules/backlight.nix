@@ -1,6 +1,5 @@
 {
   lib,
-  lpad,
   pkgs,
   ...
 }:
@@ -10,10 +9,11 @@ in
 {
   "format" = "{icon}";
   "tooltip-format" = "Brightness @ {percent}%";
-  "on-scroll-up" = "${bctl} s 2%+";
-  "on-scroll-down" = "${bctl} s 2%-";
+  "on-scroll-up" = "${bctl} s 5%+";
+  "on-scroll-down" = "${bctl} s 5%-";
   "on-click" = "${bctl} s 100%";
-  "format-icons" = lib.map lpad [
+  "smooth-scrolling-threshold" = 1.0;
+  "format-icons" = [
     "󱩎"
     "󱩏"
     "󱩐"
