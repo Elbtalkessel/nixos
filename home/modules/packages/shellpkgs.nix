@@ -14,5 +14,9 @@
       name = "hhget";
       text = builtins.readFile ../../bin/hhget.nu;
     })
+    (nuenv.writeShellApplication {
+      name = "youtrack-cli";
+      text = builtins.readFile ../../bin/youtrack-cli.nu;
+    })
   ];
 }

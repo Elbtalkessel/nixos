@@ -92,6 +92,8 @@ in
             "clock"
             "custom/sep"
             "user"
+            "custom/sep"
+            "custom/youtrack"
           ];
           "modules-center" = [
             "hyprland/window"
