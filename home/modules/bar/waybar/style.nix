@@ -6,10 +6,7 @@ in
 ''
   * {
     font-family: "OverpassM Nerd Font Propo";
-    font-size: 16px;
-  }
-
-  tooltip label {
+    font-size: 18px;
   }
 
   window#waybar {
@@ -19,7 +16,7 @@ in
   }
 
   #workspaces button {
-    padding: 5px 10px;
+    padding: 0px 10px;
     opacity: 0.6;
     border-radius: 0;
   }
