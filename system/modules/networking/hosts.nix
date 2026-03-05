@@ -1,11 +1,14 @@
 _: {
-  # To add local hosts, edit /etc/dnsmasq-conf.conf,
-  # IP changes, no point to add it here.
+  # To add local hosts, edit `/var/lib/dnsmasq/dnsmasq.conf` and
+  # restart dnsmasq service. IP changes, no point to add it here.
+  # This also means you need to add this file manually and set correct
+  # ownership of dnsmasq:dnsmasq.
   services.dnsmasq = {
     enable = true;
     alwaysKeepRunning = true;
     resolveLocalQueries = true;
     settings = {
+      conf-file = "/var/lib/dnsmasq/dnsmasq.conf";
       listen-address = [
         "::1"
         "127.0.0.1"
