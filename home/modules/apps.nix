@@ -1,4 +1,7 @@
-{ config, ... }:
+{ config, lib, ... }:
+let
+  group = handler: mimes: lib.genAttrs mimes (_: handler);
+in
 {
   xdg = {
     enable = true;
@@ -6,58 +9,59 @@
       enable = true;
       # Prefer using mimeo (https://xyne.dev/projects/mimeo/) to
       # get a file mimetype, the `file` utility doesn't always work right :(
-      defaultApplications = {
-        "x-scheme-handler/http" = "app.zen_browser.zen.desktop";
-        "x-scheme-handler/https" = "app.zen_browser.zen.desktop";
-        "x-scheme-handler/about" = "app.zen_browser.zen.desktop";
-        "x-scheme-handler/unknown" = "app.zen_browser.zen.desktop";
-        "x-scheme-handler/terminal" = config.my.terminal.desktop;
-
-        "x-scheme-handler/jetbrains" = "jetbrains-toolbox.desktop";
-        "x-scheme-handler/tg" = "org.telegram.desktop.desktop";
-        "x-scheme-handler/tonsite" = "org.telegram.desktop.desktop";
-
-        "text/plain" = "nvim.desktop";
-        "text/css" = "nvim.desktop";
-        "text/csv" = "nvim.desktop";
-        "text/html" = "nvim.desktop";
-        "text/calendar" = "nvim.desktop";
-        "text/javascript" = "nvim.desktop";
-        "text/xml" = "nvim.desktop";
-        "text/x-script.python" = "nvim.desktop";
-        "text/x-python3" = "nvim.desktop";
-        "text/x-ruby" = "nvim.desktop";
-        "text/x-crystal" = "nvim.desktop";
-        "text/markdown" = "nvim.desktop";
-        "text/x-systemd-unit" = "nvim.desktop";
-        "application/x-shellscript" = "nvim.desktop";
-        "application/json" = "nvim.desktop";
-        "application/yaml" = "nvim.desktop";
-        "application/sql" = "nvim.desktop";
-        "application/vnd.coreos.ignition+json" = "nvim.desktop";
-
-        "image/jpeg" = "imv.desktop";
-        "image/bmp" = "imv.desktop";
-        "image/png" = "imv.desktop";
-        "image/tiff" = "imv.desktop";
-
-        "video/mpeg" = "mpv.desktop";
-        "video/ogg" = "mpv.desktop";
-        "video/webm" = "mpv.desktop";
-        "video/3gpp" = "mpv.desktop";
-        "video/x-matroska" = "mpv.desktop";
-        "image/gif" = "mpv.desktop";
-
-        "audio/mpeg" = "mpv.desktop";
-        "audio/ogg" = "mpv.desktop";
-        "audio/wav" = "mpv.desktop";
-        "audio/aac" = "mpv.desktop";
-        "audio/flac" = "mpv.desktop";
-
-        "application/pdf" = "org.pwmt.zathura.desktop";
-
-        "inode/directory" = "org.gnome.Nautilus.desktop";
-      };
+      defaultApplications = (
+        lib.mergeAttrsList [
+          (group "app.zen_browser.zen.desktop" [
+            "x-scheme-handler/http"
+            "x-scheme-handler/https"
+            "x-scheme-handler/about"
+            "x-scheme-handler/unknown"
+          ])
+          (group config.my.terminal.desktop [ "x-scheme-handler/terminal" ])
+          (group "jetbrains-toolbox.desktop" [ "x-scheme-handler/jetbrains" ])
+          (group "org.telegram.desktop.desktop" [
+            "x-scheme-handler/tg"
+            "x-scheme-handler/tonsite"
+          ])
+          (group "nvim.desktop" [
+            "text/plain"
+            "text/css"
+            "text/csv"
+            "text/html"
+            "text/calendar"
+            "text/javascript"
+            "text/xml"
+            "text/x-script.python"
+            "text/x-python3"
+            "text/x-ruby"
+            "text/x-crystal"
+            "text/markdown"
+            "text/x-systemd-unit"
+            "text/x-go"
+            "application/x-shellscript"
+            "application/json"
+            "application/yaml"
+            "application/sql"
+            "application/vnd.coreos.ignition+json"
+          ])
+          (group "imv.desktop" [
+            "image/jpeg"
+            "image/bmp"
+            "image/png"
+            "image/tiff"
+          ])
+          (group "mpv.desktop" [
+            "video/mpeg"
+            "video/ogg"
+            "video/webm"
+            "video/3gpp"
+            "video/x-matroska"
+            "image/gif"
+          ])
+          (group "org.pwmt.zathura.desktop" [ "application/pdf" ])
+          (group "org.gnome.Nautilus.desktop" [ "inode/directory" ])
+        ]
+      );
     };
   };
 }
