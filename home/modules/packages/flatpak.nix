@@ -6,6 +6,7 @@
     "com.usebottles.bottles"
     "io.github.astralvixen.geforce-infinity"
     "com.plexamp.Plexamp"
+    "org.onlyoffice.desktopeditors"
   ];
 
   xdg.desktopEntries = {

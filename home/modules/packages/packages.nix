@@ -17,7 +17,6 @@
     telegram-desktop
     hyprpicker
     wl-clipboard-rs
-    onlyoffice-desktopeditors
     mimeo
 
     # CLI for searching packages on search.nixos.org
