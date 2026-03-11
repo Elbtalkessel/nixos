@@ -251,11 +251,14 @@ in
           color-from = lib.strings.removePrefix "#" palette.fg-primary-container;
           color-to = lib.strings.removePrefix "#" palette.fg-secondary;
           inactive-color = lib.strings.removePrefix "#" palette.fg;
+          # it is slightly bigger than waybar has with the same number,
+          # +1 helps.
+          gap = config.my.theme.size.edge-gap + 1.0;
         in
         {
-          border_size = 1;
-          gaps_in = config.my.theme.size.edge-gap;
-          gaps_out = config.my.theme.size.edge-gap;
+          border_size = 0;
+          gaps_in = gap / 2;
+          gaps_out = gap;
           "col.active_border" = "rgba(${color-from}ee) rgba(${color-to}ee) 45deg";
           "col.inactive_border" = "rgba(${inactive-color}aa)";
           layout = "dwindle";

@@ -234,7 +234,7 @@ in
                     type = submodule {
                       options = {
                         edge-gap = opt {
-                          type = int;
+                          type = float;
                           description = "Gap between a window and the edge of screen.";
                         };
                       };

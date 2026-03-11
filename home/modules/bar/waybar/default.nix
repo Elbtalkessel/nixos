@@ -63,6 +63,7 @@ let
     |> map (dir: buildModuleAttrSet "${rootdir}/${subdir}" dir)
     |> lib.mergeAttrsList
   );
+  gap = config.my.theme.size.edge-gap |> lib.floor;
 in
 {
   programs.waybar = lib.mkIf enable {
@@ -71,7 +72,7 @@ in
       enable = true;
       target = "graphical-session.target";
     };
-    style = import ./style.nix { inherit config; };
+    style = import ./style.nix { inherit config lib; };
     settings = [
       (
         {
@@ -84,9 +85,9 @@ in
           "height" = 0;
           # Window manager already defines distannce
           "margin-top" = 0;
-          "margin-left" = config.my.theme.size.edge-gap;
-          "margin-right" = config.my.theme.size.edge-gap;
-          "margin-bottom" = config.my.theme.size.edge-gap;
+          "margin-left" = gap;
+          "margin-right" = gap;
+          "margin-bottom" = gap;
           "modules-left" = [
             "hyprland/workspaces"
             "custom/sep"

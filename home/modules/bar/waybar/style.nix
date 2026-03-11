@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, lib, ... }:
 let
   p = config.my.theme.color.dark;
 in
@@ -11,12 +11,12 @@ in
 
   window#waybar {
     border-radius: 5px;
-    background: rgba(13, 13, 13, 0.5);
+    background: rgba(13, 13, 13, ${config.my.opacity - 0.1 |> toString});
     color: ${p.fg-secondary};
   }
 
   #workspaces button {
-    padding: 0px 10px;
+    padding: ${config.my.theme.size.edge-gap |> lib.floor |> toString}px 10px;
     opacity: 0.6;
     border-radius: 0;
   }

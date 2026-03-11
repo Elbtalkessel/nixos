@@ -55,7 +55,7 @@ in
       virt.docker.gpu.enable = false;
       theme = {
         size = {
-          edge-gap = 3;
+          edge-gap = 4.0;
         };
         icon = {
           path = "${pkgs.papirus-icon-theme}/share/icons/Papirus-Dark/22x22";
