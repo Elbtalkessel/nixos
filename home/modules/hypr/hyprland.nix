@@ -254,8 +254,8 @@ in
         in
         {
           border_size = 1;
-          gaps_in = 3;
-          gaps_out = 3;
+          gaps_in = config.my.theme.size.edge-gap;
+          gaps_out = config.my.theme.size.edge-gap;
           "col.active_border" = "rgba(${color-from}ee) rgba(${color-to}ee) 45deg";
           "col.inactive_border" = "rgba(${inactive-color}aa)";
           layout = "dwindle";

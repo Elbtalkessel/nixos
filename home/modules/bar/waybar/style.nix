@@ -11,7 +11,7 @@ in
 
   window#waybar {
     border-radius: 5px;
-    background: rgba(13, 13, 13, 0.0);
+    background: rgba(13, 13, 13, 0.5);
     color: ${p.fg-secondary};
   }
 

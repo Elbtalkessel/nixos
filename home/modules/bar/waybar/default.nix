@@ -82,10 +82,11 @@ in
           "passthrough" = false;
           "gtk-layer-shell" = true;
           "height" = 0;
-          "margin-top" = 5;
-          "margin-left" = 5;
-          "margin-right" = 5;
-          "margin-bottom" = 3;
+          # Window manager already defines distannce
+          "margin-top" = 0;
+          "margin-left" = config.my.theme.size.edge-gap;
+          "margin-right" = config.my.theme.size.edge-gap;
+          "margin-bottom" = config.my.theme.size.edge-gap;
           "modules-left" = [
             "hyprland/workspaces"
             "custom/sep"

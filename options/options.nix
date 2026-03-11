@@ -230,6 +230,16 @@ in
             theme = opt {
               type = submodule {
                 options = {
+                  size = opt {
+                    type = submodule {
+                      options = {
+                        edge-gap = opt {
+                          type = int;
+                          description = "Gap between a window and the edge of screen.";
+                        };
+                      };
+                    };
+                  };
                   icon = opt {
                     type = submodule {
                       options = {
