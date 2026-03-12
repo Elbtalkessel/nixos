@@ -48,10 +48,6 @@ let
           ;;
       esac
     done
-    if ! test -d "$SOURCE"; then
-      echo "$SOURCE is not a directory"
-      exit 1
-    fi
 
     CACHE_FILE=/tmp/random-wallpaper-list
     USE_FILE=/tmp/random-wallpaper-used
@@ -66,6 +62,11 @@ let
     # in using cache from the first run. This is intentional,
     # to reset it, use `-c` option.
     if ! test -s $CACHE_FILE; then
+      if ! test -d "$SOURCE"; then
+        echo "$SOURCE is not a directory"
+        exit 1
+      fi
+
       flist=$(find "$SOURCE" -type f -name '*.jpg' -or -name '*.png')
       if test -z "$flist"; then
         echo "$SOURCE directory doesn't contain any *.jpg or *.png"
