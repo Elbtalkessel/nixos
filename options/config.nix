@@ -19,7 +19,7 @@ in
           set = "set-wallpaper";
         };
         random = {
-          path = "${userhome}/Pictures/bytag/queries/landscape";
+          path = "${userhome}/Pictures/bytag/queries/landscape and not nsfw";
           timer = "3m";
         };
       };
