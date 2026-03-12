@@ -63,7 +63,7 @@
           nixpkgs-custom.overlays.default
           nuenv.overlays.default
           (_: _: {
-            neovim = nixvim.packages.${pkgs.system}.default;
+            neovim = nixvim.packages.${pkgs.stdenv.hostPlatform.system}.default;
           })
         ];
       };

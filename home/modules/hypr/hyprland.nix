@@ -224,6 +224,13 @@ in
           name = "bottom-menu-slide-up";
           animation = "slide bottom";
         }
+        {
+          name = "waybar-blur";
+          blur = "on";
+          ignore_alpha = 0;
+          no_anim = "on";
+          "match:namespace" = "waybar";
+        }
       ];
 
       # Global animation configuration, controls layer and window animation.
