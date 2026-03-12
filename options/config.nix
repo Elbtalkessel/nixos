@@ -18,6 +18,10 @@ in
           get = "get-wallpaper";
           set = "set-wallpaper";
         };
+        random = {
+          path = "${userhome}/Pictures/bytag/queries/landscape";
+          timer = "3m";
+        };
       };
       shell = {
         name = "nu";

@@ -52,6 +52,22 @@ in
                     type = str;
                     description = "Absolute path to a wallpaper.";
                   };
+                  random = opt {
+                    type = submodule {
+                      options = {
+                        path = opt {
+                          type = str;
+                          description = "Path to a directory to select a random wallpaper from. Empty to disable.";
+                          default = "";
+                        };
+                        timer = opt {
+                          type = str;
+                          description = "Time between changing wallpaper using systemd notation (For example 5s.)";
+                          default = "";
+                        };
+                      };
+                    };
+                  };
                   cmd = opt {
                     type = submodule {
                       options = {
@@ -62,7 +78,7 @@ in
                         };
                         get = opt {
                           type = str;
-                          description = "Name of a wallpaper gett command.";
+                          description = "Name of a wallpaper get command.";
                           default = "get-wallpaper";
                         };
                       };
