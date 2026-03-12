@@ -20,7 +20,7 @@ in
           rnd = "rnd-wallpaper";
         };
         random = {
-          path = "${userhome}/Pictures/bytag/queries/landscape and not nsfw";
+          path = "${userhome}/Pictures/Wallpaper";
           timer = "3m";
         };
       };
