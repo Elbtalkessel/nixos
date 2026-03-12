@@ -17,6 +17,7 @@ in
         cmd = {
           get = "get-wallpaper";
           set = "set-wallpaper";
+          rnd = "rnd-wallpaper";
         };
         random = {
           path = "${userhome}/Pictures/bytag/queries/landscape and not nsfw";

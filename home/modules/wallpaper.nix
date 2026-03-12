@@ -19,22 +19,80 @@ let
     WantedBy = [ "hyprland-session.target" ];
   };
 
-  rnd-wallpaper-script = pkgs.writeShellScript "rnd-wallpaper" ''
-    #!/usr/bin/env sh
-    p="${config.my.wallpaper.random.path}"
-    if ! test -d "$p"; then
-      exit 0
+  rnd-wallpaper = pkgs.writeShellScriptBin config.my.wallpaper.cmd.rnd ''
+    #!/usr/bin/env bash
+    # Picks a random file from given path.
+    # Doesn't choose a file twice unless all files has been
+    # picked once.
+    CLEANUP=false
+    SOURCE="${config.my.wallpaper.random.path}"
+    DRY_RUN=false
+    while [[ $# -gt 0 ]]; do
+      case $1 in
+        -c|--clean)
+          CLEANUP=true
+          shift
+          ;;
+        -s|--source)
+          SOURCE="$2"
+          shift
+          shift
+          ;;
+        -d|--dry-run)
+          DRY_RUN=true
+          shift
+          ;;
+        *)
+          echo "Unknown option $1"
+          exit 1
+          ;;
+      esac
+    done
+    if ! test -d "$SOURCE"; then
+      echo "$SOURCE is not a directory"
+      exit 1
     fi
-    f="$(find "$p" -type f -name '*.jpg' -or -name '*.png' | shuf | head -1)"
+
+    CACHE_FILE=/tmp/random-wallpaper-list
+    USE_FILE=/tmp/random-wallpaper-used
+
+    if $CLEANUP; then
+      rm /tmp/random-wallpaper-{list,used}
+    fi
+    touch $CACHE_FILE $USE_FILE
+
+    # Populate empty cache.
+    # Note: calling script twice using different -s will result
+    # in using cache from the first run. This is intentional,
+    # to reset it, use `-c` option.
+    if ! test -s $CACHE_FILE; then
+      flist=$(find "$SOURCE" -type f -name '*.jpg' -or -name '*.png')
+      if test -z "$flist"; then
+        echo "$SOURCE directory doesn't contain any *.jpg or *.png"
+        exit 0
+      fi
+      echo "$flist" > $CACHE_FILE
+    fi
+
+    # List of used files and a pool of files to choice from.
+    # Empty pool means USE_FILE == CACHE_FILE, in such case,
+    # empty the USE_FILE and use CACHE_FILE content as the pool value.
+    pool=$(comm -2 -3 <(sort $CACHE_FILE) <(sort $USE_FILE))
+    if test -z "$pool"; then
+      echo "" > $USE_FILE
+      pool=$(<$CACHE_FILE)
+    fi
+
+    # Pick a random file, exit early if the file is missing.
+    f=$(echo "$pool" | shuf | head -1)
+    echo "$f" >> $USE_FILE
     if ! test -f "$f"; then
       exit 0
     fi
-    ${config.my.wallpaper.cmd.set} "$f"
-  '';
 
-  apply-wallpaper-script = pkgs.writeShellScript "apply-wallpaper" ''
-    #!/usr/bin/env sh
-    hyprctl hyprpaper wallpaper ",`${config.my.wallpaper.cmd.get}`"
+    if ! $DRY_RUN; then
+      ${config.my.wallpaper.cmd.set} "$f"
+    fi
   '';
 in
 {
@@ -51,6 +109,7 @@ in
       fi
       cp -f "$1" $(get-wallpaper)
     '')
+    rnd-wallpaper
   ];
 
   systemd.user = {
@@ -78,7 +137,10 @@ in
         };
         Service = {
           Type = "oneshot";
-          ExecStart = apply-wallpaper-script;
+          ExecStart = pkgs.writeShellScript "apply-wallpaper" ''
+            #!/usr/bin/env sh
+            hyprctl hyprpaper wallpaper ",`${config.my.wallpaper.cmd.get}`"
+          '';
           Restart = "on-failure";
           RestartSec = 2;
           TimeoutStopSec = 10;
@@ -91,7 +153,7 @@ in
         };
         Service = {
           Type = "oneshot";
-          ExecStart = rnd-wallpaper-script;
+          ExecStart = lib.getExe rnd-wallpaper;
           Restart = "on-failure";
           RestartSec = 2;
           TimeoutStopSec = 10;

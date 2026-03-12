@@ -81,6 +81,11 @@ in
                           description = "Name of a wallpaper get command.";
                           default = "get-wallpaper";
                         };
+                        rnd = opt {
+                          type = str;
+                          description = "Name of random wallpaper picker command.";
+                          default = "rnd-wallpaper";
+                        };
                       };
                     };
                   };

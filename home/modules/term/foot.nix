@@ -14,7 +14,7 @@
         blink = true;
         blink-rate = 800;
       };
-      colors = {
+      colors-dark = {
         alpha = config.my.opacity;
         background = "0D0D0D";
       };

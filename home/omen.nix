@@ -12,7 +12,6 @@
     ./modules/term
     ./modules/android.nix
     ./modules/apps.nix
-    ./modules/game.nix
     ./modules/git.nix
     ./modules/mako.nix
     ./modules/qutebrowser.nix
