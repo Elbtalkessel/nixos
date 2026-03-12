@@ -19,50 +19,45 @@ let
   #   > { "custom/sep" = ''a string content returned by sep.nix call''; }
   #   loadModule ./modules "." tray.nix
   #   > { "tray" = ''a string content returned by calling the tray.nix''; }
-  loadModule = (
+  loadModule =
     rootdir: subdir: module:
     let
-      name = (lib.removeSuffix ".nix" module);
+      name = lib.removeSuffix ".nix" module;
       pfx = if subdir != "modules" then "${subdir}/" else "";
     in
     {
       name = "${pfx}${name}";
-      value = (
-        import "${rootdir}/${subdir}/${module}" {
-          inherit
-            sep
-            lpad
-            lib
-            config
-            pkgs
-            ;
-        }
-      );
-    }
-  );
+      value = import "${rootdir}/${subdir}/${module}" {
+        inherit
+          sep
+          lpad
+          lib
+          config
+          pkgs
+          ;
+      };
+    };
   # Builds an attribute set for *.nix files in a given `subdir` under the
   # `rootdir`.
   # Example:
   #   buildModuleAttrSet ./. "modules"
   #   > { backlight = ''content''; "custom/sep" = ''content''; }
-  buildModuleAttrSet = (
+  buildModuleAttrSet =
     rootdir: subdir:
     _.readDir "${rootdir}/${subdir}"
     |> lib.filterAttrs (k: _: lib.hasSuffix ".nix" k)
     |> lib.attrNames
     |> map (loadModule rootdir subdir)
-    |> lib.listToAttrs
-  );
+    |> lib.listToAttrs;
   # Builds an attribute set for *.nix files located under the `rootdir`/`subdir`/`subssubdir`.
   # Convoluted, but easier to read than recursion and we'll never have more than 1 level deep nesting.
-  buildSubmoduleAttrSet = (
+  buildSubmoduleAttrSet =
     rootdir: subdir:
     _.readDir "${rootdir}/${subdir}"
     |> lib.filterAttrs (_: v: v == "directory")
     |> lib.attrNames
     |> map (dir: buildModuleAttrSet "${rootdir}/${subdir}" dir)
-    |> lib.mergeAttrsList
-  );
+    |> lib.mergeAttrsList;
   gap = config.my.theme.size.edge-gap |> lib.floor;
 in
 {
