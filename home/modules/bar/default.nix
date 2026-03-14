@@ -4,5 +4,6 @@ _: {
     ./eww
     ./ashell
     ./waybar
+    ./quickshell
   ];
 }

@@ -216,6 +216,7 @@ in
                             "ashell"
                             "hyprpanel"
                             "waybar"
+                            "quickshell"
                           ];
                           description = "Bar provider";
                         };
