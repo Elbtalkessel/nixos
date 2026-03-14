@@ -193,7 +193,7 @@ in
         # See https://wiki.hyprland.org/Configuring/Variables/ for more
         rounding = 5;
         dim_inactive = true;
-        dim_strength = 0.20;
+        dim_strength = 0.30;
         blur = {
           enabled = !config.my.wm.performance;
           size = 10;

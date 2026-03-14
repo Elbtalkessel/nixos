@@ -41,7 +41,7 @@ in
           propo = "OverpassM Nerd Propo";
         };
       };
-      opacity = 0.70;
+      opacity = 0.80;
       net-mount = {
         # samba shares should start with `//` !
         # nfs should end with `:` !
