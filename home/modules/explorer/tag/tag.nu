@@ -1,91 +1,94 @@
-#!/usr/bin/env nu
+#!/usr/bin/env -S nu --stdin
 
 def --wrapped tmsu_ [...rest] {
-  tmsu --database $"($env.XDG_CONFIG_HOME)/tmsu/db" ...$rest
-}
-
-def get-mount-point [] {
-  $"($env.HOME)/Tags"
-}
-
-def get-query-dir [] {
-  [(get-mount-point) "queries"] | path join
-}
-
-# Lists tags of one or multiple $v.
-def get-tags [...v: string]: nothing -> list<string> {
-  tmsu_ tags -1 ...$v
-  | split row "\n"
-  | where {|it| not ($it | str ends-with ":") and $it != ""}
-  | uniq
+  tmsu ...$rest
 }
 
 def is-dir [value: string]: nothing -> bool {
   ($value | path type) == "dir"
 }
 
-# Adds tags $t to a $v.
-def tag [v: string, t: string] {
-  if (is-dir $v) {
-    tmsu_ tag $v --recursive --tags $"($t)"
+# Returns two value list: [width, height].
+def get-image-resolution []: string -> list<number> {
+  identify -format "%w %h" $in
+  | split row " "
+  | each {|i| $i | into int}
+}
+
+# Returns aspect ratio name based on an image resolution.
+def aspect-name []: string -> string {
+  let v = $in | get-image-resolution
+  if ($v.0 < $v.1) {
+    "portrait"
+  } else if ($v.0 > $v.1) {
+    "landscape"
   } else {
-    tmsu_ tag $v --tags $"($t)"
+    "square"
   }
 }
 
-# Removes tags $t form a $v.
-def untag [v: string, t?: string] {
-  if (is-dir $v) {
-    if ($t == null) {
-      tmsu_ untag --recursive --all $v
-    } else {
-      tmsu_ untag --recursive --tags $"($t)" $v
-    }
-  } else {
-    if ($t == null) {
-      tmsu_ untag --all $v
-    } else {
-      tmsu_ untag --tags $"($t)" $v
-    }
-  }
-}
-
-# Space separated tag list of one or multiple $v.
-def "main show" [...v: string] {
-  get-tags ...$v | str join " "
-}
-
-# Tags one or multiple $v.
-def "main add" [...v: string, tags: string] {
-  $v
+def get-unique-tags [...paths: string]: nothing -> list<string> {
+  tmsu_ tags -1 ...$paths
   | split row "\n"
+  | where {|it| not ($it | str ends-with ":") and $it != ""}
+  | uniq
+}
+
+def tag [path: string, tags: string] {
+  if (is-dir $path) {
+    tmsu_ tag $path --recursive --tags $tags
+  } else {
+    tmsu_ tag $path --tags $tags
+  }
+}
+
+def untag [
+  tags: string,
+  path: string,
+] {
+  if (is-dir $path) {
+    if ($tags == null) {
+      tmsu_ untag --recursive --all $path
+    } else {
+      tmsu_ untag --recursive --tags $tags $path
+    }
+  } else {
+    if ($tags == null) {
+      tmsu_ untag --all $path
+    } else {
+      tmsu_ untag --tags $tags $path
+    }
+  }
+}
+
+# All unique tags of a file(s).
+def "main show" []: string -> string {
+  get-unique-tags ...($in | lines) | str join "\n"
+}
+
+# Tags one or multiple paths.
+def "main add" [tags: string]: string -> nothing {
+  $in
+  | lines
   | each {|it| tag $it $tags}
   | ignore
 }
 
-def "main rm" [
-  ...v: string,
-  --tags (-t): string
-] {
-  $v
-  | split row "\n"
+# Remove a tag or all tags if -t omitted.
+def "main rm" [--tags (-t): string]: string -> nothing {
+  $in
+  | lines
   | each {|it| untag $it $tags}
   | ignore
 }
 
-def "main search" [v: string] {
-  [(get-query-dir) $v] | path join
+# Sets a tag indicating image's aspect ratio.
+def "main set-aspect-ratio" []: string -> nothing {
+  $in
+  | lines
+  |  {|it| tag $it ($it | aspect-name)}
+  | ignore
 }
 
-def "main mount" [] {
-  mkdir (get-mount-point)
-  tmsu_ mount (get-mount-point)
-}
-
-def "main unmount" [] {
-  tmsu_ unmount (get-mount-point)
-}
-
-def --wrapped main [...rest] {
-  tmsu_ ...$rest
-}
+# TMSU helper functions, see --help for more.
+def main [] {}
