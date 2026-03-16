@@ -10,7 +10,9 @@ def is-dir [value: string]: nothing -> bool {
 
 # Returns two value list: [width, height].
 def get-image-resolution []: string -> list<number> {
-  identify -format "%w %h" $in
+  # Regardless of file type get width and height from the first frame [0].
+  # If ffmpeg is installed, video formats will be supported as well.
+  identify -format "%w %h" $"($in)[0]"
   | split row " "
   | each {|i| $i | into int}
 }
@@ -37,6 +39,7 @@ def image-aspect-tag []: string -> string {
 def get-unique-tags [...paths: string]: nothing -> list<string> {
   tmsu_ tags -1 ...$paths
   | split row "\n"
+  # Just in case, -1 outputs clean strings, but idk.
   | where {|it| not ($it | str ends-with ":") and $it != ""}
   | uniq
 }
@@ -51,8 +54,8 @@ def tag [path: string, tags: string]: nothing -> string {
 }
 
 def untag [
-  tags: string,
   path: string,
+  tags?: string,
 ]: nothing -> string {
   if (is-dir $path) {
     if ($tags == null) {
@@ -76,31 +79,38 @@ def "main show" []: string -> string {
 }
 
 # Tags one or multiple paths.
-def "main add" [tags: string]: string -> nothing {
+def "main add" [tags: string]: string -> list<string> {
   $in
   | lines
-  | each {|it| tag $it $tags}
+  | each {|path| tag $path $tags}
 }
 
 # Remove a tag or all tags if -t omitted.
-def "main rm" [--tags (-t): string]: string -> nothing {
+def "main rm" [--tags (-t): string]: string -> list<string> {
   $in
   | lines
-  | each {|it| untag $it $tags}
+  | each {|path| untag $path $tags}
+}
+
+# Untags a file and removes it.
+def "main fs-rm" []: string -> list<string> {
+  $in
+  | lines
+  | each {|path| untag $path; rm $path; $path}
 }
 
 # Sets a tag indicating image's aspect ratio.
-def "main set-aspect-tag" []: string -> nothing {
+def "main set-aspect" []: string -> list<string> {
   $in
   | lines
-  | par-each -t 2 {|it| tag $it ($it | image-aspect-tag)}
+  | par-each -t 2 {|path| tag $path ($path | image-aspect-tag)}
 }
 
 # Sets a quality=<int> tag. Quality is based on image's megapixels.
-def "main set-quality-tag" []: string -> nothing {
+def "main set-quality" []: string -> list<string> {
   $in
   | lines
-  | par-each -t 2 {|it| tag $it ($it | image-quality-tag)}
+  | par-each -t 2 {|path| tag $path ($path | image-quality-tag)}
 }
 
 # TMSU helper functions, see --help for more.

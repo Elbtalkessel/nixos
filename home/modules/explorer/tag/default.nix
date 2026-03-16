@@ -18,6 +18,7 @@ in
       text = builtins.readFile ./tag.nu;
       runtimeInputs = [
         pkgs.imagemagick
+        pkgs.ffmpeg
         tmsu
       ];
     })
