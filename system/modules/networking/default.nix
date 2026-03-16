@@ -36,6 +36,7 @@ in
   imports = [
     ./tailscale.nix
     ./hosts.nix
+    ./localsend.nix
   ];
 
   boot.kernel.sysctl = {
