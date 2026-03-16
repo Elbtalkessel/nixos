@@ -1,7 +1,6 @@
 { config, ... }:
 {
   services.flatpak.packages = [
-    "app.zen_browser.zen"
     "com.github.tchx84.Flatseal"
     "com.usebottles.bottles"
     "io.github.astralvixen.geforce-infinity"

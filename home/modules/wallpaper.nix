@@ -93,6 +93,8 @@ let
 
     if ! $DRY_RUN; then
       ${config.my.wallpaper.cmd.set} "$f"
+    else
+      echo "$f"
     fi
   '';
 in

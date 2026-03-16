@@ -3,6 +3,7 @@
   imports = [
     ./environment.nix
     ./modules/bar
+    ./modules/browser
     ./modules/hypr
     ./modules/imv
     ./modules/launcher
@@ -14,8 +15,6 @@
     ./modules/apps.nix
     ./modules/git.nix
     ./modules/mako.nix
-    ./modules/qutebrowser.nix
-    ./modules/browser.nix
     ./modules/gpg.nix
     ./modules/passman.nix
     ./modules/ide.nix
