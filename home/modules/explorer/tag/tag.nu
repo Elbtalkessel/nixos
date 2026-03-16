@@ -15,8 +15,15 @@ def get-image-resolution []: string -> list<number> {
   | each {|i| $i | into int}
 }
 
+# Image quality estimation based on megapixels and rounded to the
+# nearest whole number.
+def image-quality-tag []: string -> string {
+  let v = $in | get-image-resolution
+  $"quality=(($v.0 * $v.1 / 1_000_000) | math round | into string)"
+}
+
 # Returns aspect ratio name based on an image resolution.
-def aspect-name []: string -> string {
+def image-aspect-tag []: string -> string {
   let v = $in | get-image-resolution
   if ($v.0 < $v.1) {
     "portrait"
@@ -34,18 +41,19 @@ def get-unique-tags [...paths: string]: nothing -> list<string> {
   | uniq
 }
 
-def tag [path: string, tags: string] {
+def tag [path: string, tags: string]: nothing -> string {
   if (is-dir $path) {
     tmsu_ tag $path --recursive --tags $tags
   } else {
     tmsu_ tag $path --tags $tags
   }
+  return $path
 }
 
 def untag [
   tags: string,
   path: string,
-] {
+]: nothing -> string {
   if (is-dir $path) {
     if ($tags == null) {
       tmsu_ untag --recursive --all $path
@@ -59,6 +67,7 @@ def untag [
       tmsu_ untag --tags $tags $path
     }
   }
+  return $path
 }
 
 # All unique tags of a file(s).
@@ -71,7 +80,6 @@ def "main add" [tags: string]: string -> nothing {
   $in
   | lines
   | each {|it| tag $it $tags}
-  | ignore
 }
 
 # Remove a tag or all tags if -t omitted.
@@ -79,15 +87,20 @@ def "main rm" [--tags (-t): string]: string -> nothing {
   $in
   | lines
   | each {|it| untag $it $tags}
-  | ignore
 }
 
 # Sets a tag indicating image's aspect ratio.
-def "main set-aspect-ratio" []: string -> nothing {
+def "main set-aspect-tag" []: string -> nothing {
   $in
   | lines
-  |  {|it| tag $it ($it | aspect-name)}
-  | ignore
+  | par-each -t 2 {|it| tag $it ($it | image-aspect-tag)}
+}
+
+# Sets a quality=<int> tag. Quality is based on image's megapixels.
+def "main set-quality-tag" []: string -> nothing {
+  $in
+  | lines
+  | par-each -t 2 {|it| tag $it ($it | image-quality-tag)}
 }
 
 # TMSU helper functions, see --help for more.

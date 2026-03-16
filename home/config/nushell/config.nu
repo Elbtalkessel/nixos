@@ -97,3 +97,14 @@ def symmetric-difference [ other: list ]: list -> list {
   let this = $in
   ($this | union $other) | difference ($this | intersection $other)
 }
+
+# Takes a table as input and outputs a new line separated text.
+# Useful for passing the result as stdin to a custom command.
+@example "List of files" {ls | to input name} --result "1.jpg
+2.jpg
+"
+def "to input" [
+  field: string  # Name of a field, should have value of type string.
+]: table -> string {
+  $in | get $field | str join "\n"
+}
