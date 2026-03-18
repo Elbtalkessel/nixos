@@ -161,30 +161,45 @@ in
               type = float;
               description = "Opacity value between 1 (no opacity) and 0.0 (opaque) applied where it can (terminal, launcher).";
             };
-            # TODO(conf): make system/modules/{samba,webdav,sops}.nix toggable and
-            # put here common configuration options.
-            net-mount = opt {
+            filesystem = opt {
               type = submodule {
                 options = {
-                  device = opt {
-                    type = str;
-                    description = "The hostname or IP address of the NAS server.";
-                  };
-                  shares = opt {
-                    type = listOf str;
-                    default = [ ];
-                    description = "List of shares to mount from the NAS server (only if type is set to samba).";
-                  };
-                  mountTo = opt {
-                    type = str;
-                    description = "The mount point for the shares.";
-                  };
-                  fsType = opt {
-                    type = enum [
-                      "cifs"
-                      "nfs"
-                    ];
-                    description = "The type of the share.";
+                  network = opt {
+                    description = "Unified interface for declaring network mounts.";
+                    type = submodule {
+                      options = {
+                        enable = opt {
+                          type = bool;
+                          description = "Enable network mount.";
+                          default = false;
+                        };
+                        device = opt {
+                          type = str;
+                          description = "The hostname or IP address of a server.";
+                          example = "192.168.1.1: for NFS or //192.168.1.1 for SMB";
+                        };
+                        shares = opt {
+                          type = listOf str;
+                          default = [ ];
+                          description = "List of shares to mount.";
+                          example = lib.literalExpression ''
+                            [ "/volume1/documents" ]
+                          '';
+                        };
+                        mount = opt {
+                          type = str;
+                          description = "The mount point for the shares.";
+                          example = "/mnt";
+                        };
+                        fsType = opt {
+                          type = enum [
+                            "cifs"
+                            "nfs"
+                          ];
+                          description = "The type of the share.";
+                        };
+                      };
+                    };
                   };
                 };
               };

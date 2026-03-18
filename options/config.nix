@@ -42,13 +42,11 @@ in
         };
       };
       opacity = 0.80;
-      net-mount = {
-        # samba shares should start with `//` !
-        # nfs should end with `:` !
+      filesystem.network = {
+        enable = false;
         device = "192.168.8.90:";
-        mountTo = "/mnt/share";
+        mount = "/mnt/share";
         fsType = "nfs";
-        # full path to each share
         shares = [ "/volume1/xyz" ];
       };
       tailscale = false;

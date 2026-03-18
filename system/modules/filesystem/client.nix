@@ -5,9 +5,10 @@
   ...
 }:
 let
-  isSmb = config.my.net-mount.fsType == "cifs";
-  # Function to generate mount points
-  creds = config.sops.secrets."moon/${config.my.username}".path;
+  opt = config.my.filesystem.network;
+  shares = if opt.enable then opt.shares else [ ];
+  isSmb = if opt.enable then opt.fsType == "cifs" else false;
+  creds = if isSmb then config.sops.secrets."moon/${config.my.username}".path else "";
   options = [
     "nofail"
     "x-systemd.automount"
@@ -23,10 +24,10 @@ let
   ];
 
   mkMount = share: {
-    "${config.my.net-mount.mountTo}/${share}" = {
-      inherit (config.my.net-mount) fsType;
+    "${opt.mount}/${share}" = {
+      inherit (opt) fsType;
       inherit options;
-      device = "${config.my.net-mount.device}${share}";
+      device = "${opt.device}${share}";
     };
   };
   # Generate all mount configurations
@@ -34,5 +35,5 @@ let
 in
 {
   environment.systemPackages = lib.mkIf isSmb [ pkgs.cifs-utils ];
-  fileSystems = mkMounts config.my.net-mount.shares;
+  fileSystems = mkMounts shares;
 }
