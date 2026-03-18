@@ -176,7 +176,7 @@ in
                         device = opt {
                           type = str;
                           description = "The hostname or IP address of a server.";
-                          example = "192.168.1.1: for NFS or //192.168.1.1 for SMB";
+                          example = "192.168.1.1";
                         };
                         shares = opt {
                           type = listOf str;

@@ -8,6 +8,7 @@ let
   opt = config.my.filesystem.network;
   shares = if opt.enable then opt.shares else [ ];
   isSmb = if opt.enable then opt.fsType == "cifs" else false;
+
   creds = if isSmb then config.sops.secrets."moon/${config.my.username}".path else "";
   options = [
     "nofail"
@@ -23,11 +24,18 @@ let
     "user,users,credentials=${creds}"
   ];
 
+  host = (
+    {
+      "cifs" = "//${opt.device}";
+      "nfs" = "${opt.device}:";
+    }
+    ."${opt.fsType}"
+  );
   mkMount = share: {
     "${opt.mount}/${share}" = {
       inherit (opt) fsType;
       inherit options;
-      device = "${opt.device}${share}";
+      device = "${host}${share}";
     };
   };
   # Generate all mount configurations
