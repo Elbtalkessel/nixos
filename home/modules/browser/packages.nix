@@ -5,11 +5,6 @@
   xdg.configFile = {
     "tampermonkey/userscripts".source = ./config/tampermonkey/userscripts;
   };
-
-  programs.chromium = {
-    enable = true;
-  };
-
   home.packages = with pkgs; [ tor-browser ];
   services.flatpak.packages = [
     "app.zen_browser.zen"
