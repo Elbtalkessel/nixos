@@ -50,20 +50,23 @@ in
                 options = {
                   path = opt {
                     type = str;
-                    description = "Absolute path to a wallpaper.";
+                    description = "Default path to read wallpaper from.";
+                  };
+                  source = opt {
+                    type = str;
+                    description = "A path to set wallpaper from. In case of directory, a random wallpaper will be selected.";
                   };
                   random = opt {
                     type = submodule {
                       options = {
-                        path = opt {
-                          type = str;
-                          description = "Path to a directory to select a random wallpaper from. Empty to disable.";
-                          default = "";
+                        enable = opt {
+                          type = bool;
+                          description = "Enable random wallpaper rotation.";
                         };
                         timer = opt {
                           type = str;
                           description = "Time between changing wallpaper using systemd notation (For example 5s.)";
-                          default = "";
+                          default = "3m";
                         };
                       };
                     };
@@ -75,16 +78,6 @@ in
                           type = str;
                           description = "Name of a wallpaper setter command.";
                           default = "set-wallpaper";
-                        };
-                        get = opt {
-                          type = str;
-                          description = "Name of a wallpaper get command.";
-                          default = "get-wallpaper";
-                        };
-                        rnd = opt {
-                          type = str;
-                          description = "Name of random wallpaper picker command.";
-                          default = "rnd-wallpaper";
                         };
                       };
                     };

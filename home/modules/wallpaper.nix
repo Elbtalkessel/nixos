@@ -19,27 +19,27 @@ let
     WantedBy = [ "hyprland-session.target" ];
   };
 
-  rnd-wallpaper = pkgs.writeShellScriptBin config.my.wallpaper.cmd.rnd ''
+  set-wallpaper = pkgs.writeShellScriptBin config.my.wallpaper.cmd.set ''
     #!/usr/bin/env bash
-    # Picks a random file from given path.
-    # Doesn't choose a file twice unless all files has been
-    # picked once.
+    # Copies a source to the wallpaper file triggering filewatcher to actually set wallpaper.
+    # In case of a directory, will select a random image file from it.
+    # Calling without arguments will select another wallpaper from the directory (if default source is directory.)
+    # Otherwise will do nothing.
+
     CLEANUP=false
-    SOURCE="${config.my.wallpaper.random.path}"
-    DRY_RUN=false
+    SOURCE="${config.my.wallpaper.source}"
+
     while [[ $# -gt 0 ]]; do
       case $1 in
+        # Only valid for directory source, cleanup current wallpaper list to select from.
         -c|--clean)
           CLEANUP=true
           shift
           ;;
+        # Path to a wallpaper or directory containing JPGs or PNGs.
         -s|--source)
           SOURCE="$2"
           shift
-          shift
-          ;;
-        -d|--dry-run)
-          DRY_RUN=true
           shift
           ;;
         *)
@@ -48,6 +48,16 @@ let
           ;;
       esac
     done
+
+    try-write-wallpaper() {
+      if test -f "$1"; then
+        cp -f "$1" "${config.my.wallpaper.path}"
+        exit 0
+      fi
+    }
+
+    # Function will exit if source is a file.
+    try-write-wallpaper "$SOURCE"
 
     CACHE_FILE=/tmp/random-wallpaper-list
     USE_FILE=/tmp/random-wallpaper-used
@@ -84,35 +94,15 @@ let
       pool=$(<$CACHE_FILE)
     fi
 
-    # Pick a random file, exit early if the file is missing.
     f=$(echo "$pool" | shuf | head -1)
     echo "$f" >> $USE_FILE
-    if ! test -f "$f"; then
-      exit 0
-    fi
 
-    if ! $DRY_RUN; then
-      ${config.my.wallpaper.cmd.set} "$f"
-    else
-      echo "$f"
-    fi
+    try-write-wallpaper "$f"
   '';
 in
 {
-  home.packages = with pkgs; [
-    (writeShellScriptBin config.my.wallpaper.cmd.get ''
-      #!/usr/bin/env sh
-      echo $(dconf dump /org/gnome/desktop/background/ | rg "picture-uri='file://([^']+)'$" -or '$1')
-    '')
-    (writeShellScriptBin config.my.wallpaper.cmd.set ''
-      #!/usr/bin/env sh
-      if test -z "$1"; then
-        echo "missing wallpaper path" >&2
-        exit 1
-      fi
-      cp -f "$1" $(get-wallpaper)
-    '')
-    rnd-wallpaper
+  home.packages = [
+    set-wallpaper
   ];
 
   systemd.user = {
@@ -142,21 +132,21 @@ in
           Type = "oneshot";
           ExecStart = pkgs.writeShellScript "apply-wallpaper" ''
             #!/usr/bin/env sh
-            hyprctl hyprpaper wallpaper ",`${config.my.wallpaper.cmd.get}`"
+            hyprctl hyprpaper wallpaper ",${config.my.wallpaper.path}"
           '';
           Restart = "on-failure";
           RestartSec = 2;
           TimeoutStopSec = 10;
         };
       };
-      rnd-wallpaper = lib.mkIf (config.my.wallpaper.random.path != "") {
+      random-wallpaper = lib.mkIf config.my.wallpaper.random.enable {
         inherit Install;
         Unit = Unit {
           Description = "sets a random wallpaper";
         };
         Service = {
           Type = "oneshot";
-          ExecStart = lib.getExe rnd-wallpaper;
+          ExecStart = lib.getExe set-wallpaper;
           Restart = "on-failure";
           RestartSec = 2;
           TimeoutStopSec = 10;
@@ -167,19 +157,21 @@ in
 
     # timers
     timers = {
-      rnd-wallpaper =
-        lib.mkIf (config.my.wallpaper.random.timer != "" && config.my.wallpaper.random.path != "")
-          {
-            inherit Install;
-            Unit = Unit {
-              Description = "Sets a random wallpaper periodically";
-            };
-            Timer = {
-              OnBootSec = "5s";
-              OnUnitActiveSec = config.my.wallpaper.random.timer;
-              Unit = "rnd-wallpaper";
-            };
-          };
+      # Doesn't set wallpaper by itself,
+      # triggers the `random-wallpaper` service, in turn it will write a
+      # random wallpaper into path the `get-wallpaper` command returns,
+      # this triggers file watcher that triggers the `wallpaper` service.
+      random-wallpaper = lib.mkIf config.my.wallpaper.random.enable {
+        inherit Install;
+        Unit = Unit {
+          Description = "Sets a random wallpaper periodically";
+        };
+        Timer = {
+          OnBootSec = "5s";
+          OnUnitActiveSec = config.my.wallpaper.random.timer;
+          Unit = "random-wallpaper";
+        };
+      };
     };
     # ---
 
