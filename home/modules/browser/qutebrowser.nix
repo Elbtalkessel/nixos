@@ -280,7 +280,7 @@ in
       };
 
       zoom.mouse_divider = 100000000;
-      zoom.default = 125;
+      zoom.default = 100;
       scrolling.smooth = false;
 
       qt.highdpi = true;
