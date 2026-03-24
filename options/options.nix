@@ -194,6 +194,38 @@ in
                       };
                     };
                   };
+                  tagged = opt {
+                    type = submodule {
+                      options = {
+                        mounts = opt {
+                          default = [ ];
+                          description = ''
+                            List of tagged filesystem mounts.
+
+                            Each entry specifies a source tag/label that gets mounted to a path.
+                            Example: source "bar" → path "/mnt/bar"
+                          '';
+                          example = literalExpression ''
+                            [
+                              { path = "/mnt/foo"; source = "bar"; }
+                            ]
+                          '';
+                          type = listOf (submodule {
+                            options = {
+                              dst = opt {
+                                type = str;
+                                description = "Mount to";
+                              };
+                              src = opt {
+                                type = str;
+                                description = "Mount from";
+                              };
+                            };
+                          });
+                        };
+                      };
+                    };
+                  };
                 };
               };
             };
