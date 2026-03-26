@@ -1,22 +1,23 @@
 { pkgs, ... }:
+# Scripts I don't want put into nixpkgs-custom yet.
 {
   home.packages = with pkgs; [
     # Shell scripts
     (nuenv.writeShellApplication {
       name = "lsd";
-      text = builtins.readFile ../../bin/lsd.nu;
+      text = builtins.readFile ./lsd.nu;
     })
     (nuenv.writeShellApplication {
       name = "hyprswitch";
-      text = builtins.readFile ../../bin/hyprswitch.nu;
+      text = builtins.readFile ./hyprswitch.nu;
     })
     (nuenv.writeShellApplication {
       name = "hhget";
-      text = builtins.readFile ../../bin/hhget.nu;
+      text = builtins.readFile ./hhget.nu;
     })
     (nuenv.writeShellApplication {
       name = "youtrack-cli";
-      text = builtins.readFile ../../bin/youtrack-cli.nu;
+      text = builtins.readFile ./youtrack-cli.nu;
     })
   ];
 }

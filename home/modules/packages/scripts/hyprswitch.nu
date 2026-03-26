@@ -2,10 +2,10 @@
 
 # Returns the main keyboard.
 def get-kb []: nothing -> record {
-  hyprctl devices -j 
-  | from json 
-  | get "keyboards" 
-  | where main == true 
+  hyprctl devices -j
+  | from json
+  | get "keyboards"
+  | where main == true
   | first
 }
 
