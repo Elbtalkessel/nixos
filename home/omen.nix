@@ -10,13 +10,13 @@
     ./modules/explorer
     ./modules/media
     ./modules/packages
+    ./modules/passman
     ./modules/term
     ./modules/android.nix
     ./modules/apps.nix
     ./modules/git.nix
     ./modules/mako.nix
     ./modules/gpg.nix
-    ./modules/passman.nix
     ./modules/ide.nix
     ./modules/theme.nix
     ./modules/wallpaper.nix

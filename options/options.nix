@@ -44,6 +44,7 @@ in
             avatar = opt {
               type = str;
               description = "User's avatar.";
+              default = "";
             };
             wallpaper = opt {
               type = submodule {
@@ -51,10 +52,12 @@ in
                   path = opt {
                     type = str;
                     description = "Default path to read wallpaper from.";
+                    default = "";
                   };
                   source = opt {
                     type = str;
                     description = "A path to set wallpaper from. In case of directory, a random wallpaper will be selected.";
+                    default = "";
                   };
                   random = opt {
                     type = submodule {
@@ -62,6 +65,7 @@ in
                         enable = opt {
                           type = bool;
                           description = "Enable random wallpaper rotation.";
+                          default = false;
                         };
                         timer = opt {
                           type = str;

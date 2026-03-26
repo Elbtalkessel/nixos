@@ -1,18 +1,16 @@
 {
   lib,
   config,
+  pkgs,
   ...
 }:
 let
   shellAliases =
     let
       Su = "systemctl --user";
+      S = "systemctl";
     in
     {
-      cp = "cp -iv";
-      ln = "ln -v";
-      mv = "mv -iv";
-      rm = "rm -v";
       inherit Su;
       usta = "${Su} start";
       usto = "${Su} stop";
@@ -22,11 +20,27 @@ let
       ucat = "${Su} cat";
       utimer = "${Su} list-timers";
       usvc = "${Su} --type=service";
-      S = "sudo systemctl";
-      g = "lazygit";
-      d = "lazydocker";
-      vi = "nvim";
-      n = "nvim";
+
+      inherit S;
+      ssta = "${S} start";
+      ssto = "${S} stop";
+      sres = "${S} restart";
+      sstat = "${S} status";
+      srel = "${S} daemon-reload";
+      scat = "${S} cat";
+      stimer = "${S} list-timers";
+      ssvc = "${S} --type=service";
+
+      cp = "cp -iv";
+      ln = "ln -v";
+      mv = "mv -iv";
+      rm = "rm -v";
+
+      sp = lib.getExe pkgs.nix-search-cli;
+      vi = lib.getExe pkgs.neovim;
+      n = lib.getExe pkgs.neovim;
+      g = lib.getExe pkgs.lazygit;
+      d = lib.getExe pkgs.lazydocker;
       # For monitoring cached data to permanent storage syncronization progress.
       # Example:
       #   cp a_large_file /run/media/risus/pendrive/

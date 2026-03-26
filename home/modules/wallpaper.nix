@@ -28,6 +28,7 @@ let
 
     CLEANUP=false
     SOURCE="${config.my.wallpaper.source}"
+    DEST="${config.my.wallpaper.path}"
 
     while [[ $# -gt 0 ]]; do
       case $1 in
@@ -42,6 +43,11 @@ let
           shift
           shift
           ;;
+        -d|--dest)
+          DEST="$2"
+          shift
+          shift
+          ;;
         *)
           echo "Unknown option $1"
           exit 1
@@ -49,9 +55,19 @@ let
       esac
     done
 
+    if test "$DEST" == ""; then
+      echo "--dest (-d) flag is required."
+      exit 1
+    fi
+
+    if test "$SOURCE" == ""; then
+      echo "--source (-s) flag is required."
+      exit 1
+    fi
+
     try-write-wallpaper() {
       if test -f "$1"; then
-        cp -f "$1" "${config.my.wallpaper.path}"
+        cp -f "$1" "$DEST"
         exit 0
       fi
     }
@@ -77,7 +93,7 @@ let
         exit 1
       fi
 
-      flist=$(find "$SOURCE" -type f -name '*.jpg' -or -name '*.png')
+      flist=$(find "$SOURCE" -name '*.jpg' -or -name '*.png')
       if test -z "$flist"; then
         echo "$SOURCE directory doesn't contain any *.jpg or *.png"
         exit 0

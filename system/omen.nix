@@ -22,6 +22,7 @@
 
     ./modules/filesystem
     ./modules/networking
+    ./modules/web
     ./modules/audio.nix
     ./modules/bluetooth.nix
     ./modules/boot.nix
