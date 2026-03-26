@@ -49,7 +49,7 @@
     yaegi # go.
 
     # Custom
-    waifu
+    gimd
     usbdrivetools
     bootdev
   ];
