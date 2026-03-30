@@ -106,7 +106,10 @@ def "main set-aspect" [
   let f = if ($override) {
     {|it| true}
   } else {
-    {|it| (get-unique-tags $it | where {|tag| not ($tag in [landscape portrait square]) | length) == 0}
+    {|it|
+      get-unique-tags $it
+      | where {|tag| not ($tag in [landscape portrait square])}
+    }
   }
 
   $in

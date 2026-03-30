@@ -5,12 +5,13 @@
 }:
 {
   # Enable GTK theme configuration
-  gtk = {
+  gtk = rec {
     enable = true;
     theme = {
       package = pkgs.flat-remix-gtk;
       name = "Flat-Remix-GTK-Orange-Dark-Solid";
     };
+    gtk4.theme = theme;
     iconTheme = {
       package = pkgs.adwaita-icon-theme;
       name = "Adwaita";

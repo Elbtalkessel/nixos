@@ -1,6 +1,7 @@
 _: {
   programs.git = {
     enable = true;
+    signing.format = "openpgp";
     settings = {
       alias = {
         m = "merge --no-ff";
