@@ -12,7 +12,6 @@
     ./modules/packages
     ./modules/passman
     ./modules/term
-    ./modules/android.nix
     ./modules/apps.nix
     ./modules/git.nix
     ./modules/mako.nix

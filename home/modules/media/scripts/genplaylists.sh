@@ -4,14 +4,16 @@ set -e
 # Strip trailing slash if present.
 MUSIC_DIR=${1%/}
 PLAYLIST_DIR=${2%/}
+PROG=$(basename "$0")
 
 if ! test -d "$MUSIC_DIR" || ! test -d "$PLAYLIST_DIR"; then
-  echo "@0: directory-wise m3u generator"
+  echo "$PROG directory-wise m3u generator"
+  echo
   echo "Usage: <music-directory> <playlist-directory>"
   echo
-  echo "Given 'Music/FooFighters/abc.mp3' directory"
-  echo "Running '@0 Music/ Playlists/'"
-  echo "Will create 'Playlists/FooFighters.m3u' with '<full-path-to>/abc.mp3' content."
+  echo "Given 'Music/FooFighters/abc.mp3' directory,"
+  echo "running '$PROG Music/ Playlists/'"
+  echo "will create 'Playlists/FooFighters.m3u' with '<full-path-to>/abc.mp3' content."
   exit 1
 fi
 
