@@ -100,16 +100,34 @@ def "main fs-rm" []: string -> list<string> {
 }
 
 # Sets a tag indicating image's aspect ratio.
-def "main set-aspect" []: string -> list<string> {
+def "main set-aspect" [
+  --override (-o) = false  # If set, will check if aspect ratio is set on a file before.
+]: string -> list<string> {
+  let f = if ($override) {
+    {|it| true}
+  } else {
+    {|it| (get-unique-tags $it | where {|tag| not ($tag in [landscape portrait square]) | length) == 0}
+  }
+
   $in
   | lines
+  | where $f
   | par-each -t 2 {|path| tag $path ($path | image-aspect-tag)}
 }
 
 # Sets a quality=<int> tag. Quality is based on image's megapixels.
-def "main set-quality" []: string -> list<string> {
+def "main set-quality" [
+  --override (-o) = false  # If set, will check if quality already set on an image.
+]: string -> list<string> {
+  let f = if ($override) {
+    {|it| true}
+  } else {
+    {|it| (get-unique-tags $it | where {|tag| not ($tag | str starts-with "quality")} | length) == 0}
+  }
+
   $in
   | lines
+  | where $f
   | par-each -t 2 {|path| tag $path ($path | image-quality-tag)}
 }
 
