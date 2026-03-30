@@ -14,7 +14,7 @@ in
         path = "${userhome}/.config/background";
         source = "${userhome}/Pictures/Wallpaper";
         random.timer = "3m";
-        random.enable = true;
+        random.enable = false;
         cmd.set = "set-wallpaper";
       };
       shell = {

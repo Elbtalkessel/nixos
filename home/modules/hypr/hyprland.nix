@@ -115,14 +115,13 @@ in
       ];
 
       # KEY BINDINGS, see https://wiki.hyprland.org/Configuring/Binds/ for more
-      # Two hand layout, left is holding modifier, right is presssing a key# Two hand layout, left is holding modifier, right is presssing a key
 
       # Special
       binde = [
-        ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"
-        ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-        ", XF86MonBrightnessUp, exec, brightnessctl -c backlight s +20"
-        ", XF86MonBrightnessDown, exec, brightnessctl -c backlight s 20-"
+        ", XF86AudioRaiseVolume, exec, set-volume 5%+"
+        ", XF86AudioLowerVolume, exec, set-volume 5%-"
+        ", XF86MonBrightnessUp, exec, set-brightness 20%+"
+        ", XF86MonBrightnessDown, exec, set-brightness 20%-"
         "${M} CONTROL, H, resizeactive, -25 0"
         "${M} CONTROL, L, resizeactive, 25 0"
         "${M} CONTROL, K, resizeactive, 0 -25"
@@ -145,13 +144,13 @@ in
         "${M} SHIFT, escape, movetoworkspace, special" # move to the special workspace
         "${M}, escape, togglespecialworkspace" # show/hide special workspace
 
-        # MOVE FOCUS with M + arrow keys
+        # MOVE FOCUS
         "${M}, H, movefocus, l"
         "${M}, L, movefocus, r"
         "${M}, K, movefocus, u"
         "${M}, J, movefocus, d"
 
-        # MOVE WINDOW with M SHIFT + arrow keys
+        # MOVE WINDOW
         "${M} SHIFT, H, movewindow, l"
         "${M} SHIFT, L, movewindow, r"
         "${M} SHIFT, K, movewindow, u"

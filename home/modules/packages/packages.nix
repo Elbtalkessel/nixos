@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   home.packages = with pkgs; [
     # Core
@@ -11,6 +11,13 @@
     slurp # returns selected on screen region, for taking screenshots.
     hyprpicker # get HEX color under pointer.
     brightnessctl # monitor brightness control.
+    (pkgs.writeShellApplication {
+      name = "set-brightness";
+      text = # bash
+        ''
+          ${lib.getExe pkgs.brightnessctl} s "$1"
+        '';
+    }) # Wrapper for unified way to control brightnes, in case if underlying tool change.
     ouch # archiving / unarchiving.
     gtrash # trash bin.
 

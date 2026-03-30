@@ -11,7 +11,6 @@ in
 {
   home.packages = lib.mkIf enable [
     pkgs.mpc-cli
-    (pkgs.writeShellScriptBin "genplaylists" (builtins.readFile ../bin/genplaylists.sh))
   ];
 
   services.mpd = {

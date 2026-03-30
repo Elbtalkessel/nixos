@@ -1,13 +1,5 @@
 { pkgs, ... }:
 rec {
-
-  packages = [
-    pkgs.nixfmt
-    # TODO(pipe): use https://github.com/molybdenumsoftware/statix to support pipes.
-    #pkgs.statix
-    pkgs.deadnix
-  ];
-
   languages.nix.enable = true;
 
   scripts = {
@@ -57,19 +49,6 @@ rec {
         '';
       description = "Home Manager news.";
     };
-    fix-nix = {
-      exec = # sh
-        ''
-          echo "Running statix fix..."
-          statix fix .
-          echo "Running deadnix..."
-          deadnix --edit .
-          echo "Running nixfmt..."
-          find . -type f -name '*.nix' | xargs -I{} nixfmt {}
-          echo "Nix files fixed!"
-        '';
-      description = "Automatically fix linting, dead code, and formatting in .nix files.";
-    };
     hm-squash = {
       exec = # nu
         ''
@@ -117,7 +96,6 @@ rec {
       🗑️ $(info 'cleanup') ${scripts.cleanup.description}
       🔥 $(info 'hm-squash') ${scripts.hm-squash.description}
       📰 $(info 'news') ${scripts.news.description}
-      🔧 $(info 'fix-nix') ${scripts.fix-nix.description}
       EOF
       )"
     '';
