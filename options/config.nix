@@ -37,7 +37,7 @@ in
       opacity = 0.80;
       filesystem = {
         network = {
-          enable = false;
+          enable = true;
           device = "192.168.8.90";
           mount = "/mnt/share";
           fsType = "nfs";

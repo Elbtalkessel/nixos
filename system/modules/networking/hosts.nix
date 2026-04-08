@@ -16,7 +16,6 @@ _: {
       bind-interfaces = true;
       domain-needed = true;
       bogus-priv = true;
-      local = "/home.arpa/";
       expand-hosts = true;
       server = [
         "9.9.9.9"

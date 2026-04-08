@@ -17,26 +17,4 @@
     # Sets filewatcher to patched one
     #"idea/pycharm.properties".text = "idea.filewatcher.executable.path = ${pkgs.fsnotifier}/bin/fsnotifier";
   };
-
-  programs.zed-editor = {
-    enable = true;
-
-    # Define extensions for Nix, shell, Docker Compose, etc.
-    extensions = [
-      "nix"
-      "bash"
-      "toml"
-      "docker-compose"
-      "nu"
-    ];
-
-    # Add LSPs or helpers for these languages/scripts.
-    extraPackages = with pkgs; [
-      nixd
-      shellcheck
-      shfmt
-      dockerfile-language-server
-      yaml-language-server
-    ];
-  };
 }
