@@ -6,16 +6,15 @@
 }:
 let
   # Add support for printing / scanning.
+  # At least for xbox one controller, latest kernel supports it
+  # without any additional drivers, (i.e. xone, xpadneo.)
   printing = true;
-  # Add support for game controllers.
-  controller = true;
 in
 {
   hardware = {
     cpu.amd.updateMicrocode = true;
     graphics.enable = true;
     logitech.wireless.enable = true;
-    xpadneo.enable = controller;
     sane = {
       enable = printing;
       # Probably a driver also required,
