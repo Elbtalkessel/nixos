@@ -48,7 +48,22 @@ let
       #   watch dirty
       # Or better use `usbcp` from `usbdrivetools` package.
       dirty = "grep -e Dirty: -e Writeback: /proc/meminfo";
-    };
+    }
+    // (
+      let
+        sc = lib.getExe pkgs.scrcpy;
+        adb = lib.getExe' pkgs.android-tools "adb";
+        browser-pkg = "com.duckduckgo.mobile.android";
+      in
+      {
+        inherit sc;
+        scv = "${sc} -w -M";
+        sca = "${sc} --no-window --audio-buffer=200";
+        scd = "${sc} -w --new-display=1920x1080";
+        scb = "${sc} -w -M --start-app=${browser-pkg} --power-off-on-close";
+        scbs = " ${adb} shell am force-stop ${browser-pkg}";
+      }
+    );
 in
 {
   programs = rec {

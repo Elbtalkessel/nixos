@@ -1,7 +1,7 @@
 _: {
   # https://man.archlinux.org/man/extra/waybar/waybar-clock.5.en
-  "format" = "{:%H:%M}";
-  "format-alt" = "{%R:%S}";
+  "format" = " {:%H:%M}";
+  "format-alt" = " {%R:%S}";
   "tooltip-format" = "<tt>{calendar}</tt>";
   "calendar" = {
     "mode" = "month";

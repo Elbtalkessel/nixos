@@ -1,4 +1,4 @@
 _: {
-  "format" = "{work_H}:{work_M}";
+  "format" = " {work_H}hr";
   "interval" = 60;
 }
