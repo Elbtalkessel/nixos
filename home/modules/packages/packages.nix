@@ -20,6 +20,8 @@
     }) # Wrapper for unified way to control brightnes, in case if underlying tool change.
     ouch # archiving / unarchiving.
     gtrash # trash bin.
+    scrcpy # android screen capture.
+    android-tools # mostly for android debug bridge.
 
     # Apps
     zathura # PDF viewer.
