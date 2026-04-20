@@ -57,9 +57,9 @@ let
       in
       {
         inherit sc;
-        scv = "${sc} -w -M";
+        scv = sc;
         sca = "${sc} --no-window --audio-buffer=200";
-        scd = "${sc} -w --new-display=1920x1080";
+        scd = "${sc} -M -K --new-display=2560x1440/300 --power-off-on-close";
         scb = "${sc} -w -M --start-app=${browser-pkg} --power-off-on-close";
         scbs = " ${adb} shell am force-stop ${browser-pkg}";
       }

@@ -86,11 +86,9 @@ in
           "modules-left" = [
             "hyprland/workspaces"
             "custom/sep"
-            "clock"
-            "custom/sep"
-            "user"
-            "custom/sep"
             "custom/youtrack"
+            "custom/sep"
+            "clock"
           ];
           "modules-center" = [
             "hyprland/window"
@@ -98,6 +96,8 @@ in
           ];
           "modules-right" = [
             "tray"
+            "custom/sep"
+            "custom/android"
             "custom/sep"
             "privacy"
             "custom/sep"

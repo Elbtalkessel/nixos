@@ -93,6 +93,9 @@ in
           };
         };
       };
+      android = {
+        enable = true;
+      };
     };
   };
 }

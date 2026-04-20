@@ -347,6 +347,18 @@ in
                 };
               };
             };
+            android = opt {
+              description = "Android integration.";
+              type = submodule {
+                options = {
+                  enable = opt {
+                    type = bool;
+                    description = "Enable android integration";
+                    default = false;
+                  };
+                };
+              };
+            };
             # add more into my/options here.
           }; # ./options
         }; # ./submodule

@@ -2,9 +2,10 @@ _:
 # Requires youtrack-cli script defined in home/bin and installend in
 # home/modules/packages/shellpkgs.nix
 {
-  exec = "printf ' %s' \"$(youtrack-cli spent-today 2>/dev/null || echo )\"";
+  exec = "youtrack-cli spent-today";
   tooltip = true;
-  tooltip-format = "Time spent today. Click to refresh.";
+  tooltip-format = "{text}";
+  format = "";
   interval = 360;
   signal = 10;
   on-click = "pkill -SIGRTMIN+10 waybar";
