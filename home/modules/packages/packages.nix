@@ -27,8 +27,7 @@
     zathura # PDF viewer.
     pavucontrol # UI for controlling audio input / output.
     telegram-desktop # comms.
-    slack # corpo comms.
-    mattermost-desktop # correct comms.
+    mattermost-desktop # comms.
     neovim
 
     # VM

@@ -51,8 +51,11 @@
   };
 
   xdg = {
-    userDirs.enable = true;
-    userDirs.createDirectories = true;
+    userDirs = {
+      enable = true;
+      createDirectories = true;
+      setSessionVariables = true;
+    };
     configFile = {
       "wget/wgetrc".source = ./config/wget/wgetrc;
       # TMPFS caching, https://github.com/direnv/direnv/wiki/Customizing-cache-location#direnv-cache-on-tmpfs

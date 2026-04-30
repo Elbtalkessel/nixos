@@ -58,7 +58,19 @@
       system = "x86_64-linux";
       pkgs = import nixpkgs {
         inherit system;
-        config.allowUnfree = true;
+        # List of unfree packages you're ok to have.
+        config.allowUnfreePredicate =
+          pkg:
+          builtins.elem (pkgs.lib.getName pkg) [
+            # From the home manager config.
+            "vagrant"
+            "jetbrains-toolbox"
+            # From the system config.
+            "nvidia-x11"
+            "nvidia-settings"
+            "steam"
+            "steam-unwrapped"
+          ];
         overlays = [
           nixpkgs-custom.overlays.default
           nuenv.overlays.default
