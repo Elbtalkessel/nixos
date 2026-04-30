@@ -52,9 +52,9 @@ def print-status []: record -> nothing {
 }
 
 
-def together [list: list<string>, stdin: string = ""] {
+def together [list: list<string>, stdin?: string = ""] {
   $list
-  | append ($stdin | lines)
+  | append (if ($stdin != null) { $stdin | lines } else { [] })
   | each {|it|
     if (($it | path type) == "file") {
       open --raw $it | lines
@@ -102,13 +102,13 @@ def main [
   --threads (-p): int = 4, # THe number of threads to use.
 ]: [nothing -> nothing, string -> nothing] {
   together $domain $in
-  | par-each --threads $threads {|in|
-    $in
+  | par-each --threads $threads {|it|
+    $it
     | get-status $timeout | tee { print-status }
   }
   | collect
   | tee {$in | if ($output != null) { save -f $output }}
-  | tee {|in|
+  | tee {
     if (($in | length) == 0) {
       return
     }

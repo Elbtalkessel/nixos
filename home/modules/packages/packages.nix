@@ -54,8 +54,6 @@
     devenv # dev envs management.
     # REPLs / Languages
     python313Packages.ipython # python.
-    deno # javascript.
-    yaegi # go.
 
     # Custom
     gimd

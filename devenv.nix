@@ -65,6 +65,13 @@ rec {
       binary = "nu";
       description = "Removes generations leaving 1 per day.";
     };
+    why-requires = {
+      exec = # bash
+        ''
+          nix why-depends --derivation --impure .#homeConfigurations.risus.activationPackage .#homeConfigurations.risus.pkgs.$1
+        '';
+      description = "Dependency tree for a given package name.";
+    };
   };
 
   enterShell = # sh

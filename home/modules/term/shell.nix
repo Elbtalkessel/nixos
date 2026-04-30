@@ -56,11 +56,10 @@ let
         browser-pkg = "com.duckduckgo.mobile.android";
       in
       {
-        inherit sc;
-        scv = sc;
         sca = "${sc} --no-window --audio-buffer=200";
         scd = "${sc} -M -K --new-display=2560x1440/300 --power-off-on-close";
-        scb = "${sc} -w -M --start-app=${browser-pkg} --power-off-on-close";
+        scr = "${sc} -w -M -K --power-off-on-close";
+        scb = "${sc} -w -M -K --power-off-on-close --start-app=${browser-pkg}";
         scbs = " ${adb} shell am force-stop ${browser-pkg}";
       }
     );

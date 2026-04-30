@@ -10,7 +10,6 @@
     ./modules/explorer
     ./modules/media
     ./modules/packages
-    ./modules/passman
     ./modules/term
     ./modules/apps.nix
     ./modules/git.nix

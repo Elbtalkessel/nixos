@@ -31,6 +31,12 @@ let
       key: prev: if _.isList key then lib.foldl (a: c: set c "on" a) prev key else (set key "on" prev);
     rule = {
       # Apply `param` when window `match` one of following `class` or `title`.
+      float = {
+        param = [ "float" ];
+        title = [
+          "Picture-in-Picture"
+        ];
+      };
       modal = {
         param = [
           "center"
@@ -81,6 +87,7 @@ in
       windowrule = [
         (wr.on "initial_class" wr.rule.modal.class |> wr.enable wr.rule.modal.param)
         (wr.on "initial_title" wr.rule.modal.title |> wr.enable wr.rule.modal.param)
+        (wr.on "initial_title" wr.rule.float.title |> wr.enable wr.rule.float.param)
         (wr.on "modal" true |> wr.enable wr.rule.modal.param)
         # Workaround: electron apps render popup as a floating window, applied blur effect to such windows looks bad.
         (wr.on "float" true |> wr.enable "no_blur")
