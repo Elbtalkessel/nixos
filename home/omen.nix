@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, ... }:
 {
   imports = [
     ./environment.nix
@@ -26,14 +26,6 @@
     inherit (config.my) username;
     homeDirectory = "/home/${config.my.username}";
 
-    activation = {
-      # https://github.com/philj56/tofi/issues/115#issuecomment-1701748297
-      regenerateTofiCache = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-        tofi_cache=${config.xdg.cacheHome}/tofi-drun
-        [[ -f "$tofi_cache" ]] && rm "$tofi_cache"
-      '';
-    };
-
     # This value determines the Home Manager release that your configuration is
     # compatible with. This helps avoid breakage when a new Home Manager release
     # introduces backwards incompatible changes.
@@ -58,12 +50,16 @@
     };
   };
 
-  xdg.configFile = {
-    "wget/wgetrc".source = ./config/wget/wgetrc;
-    # TMPFS caching, https://github.com/direnv/direnv/wiki/Customizing-cache-location#direnv-cache-on-tmpfs
-    "direnv/direnvrc".source = ./config/direnv/direnvrc;
-    "process-compose/settings.yaml".source = ./config/process-compose/settings.yaml;
-    "npm/npmrc".source = ./config/npm/npmrc;
+  xdg = {
+    userDirs.enable = true;
+    userDirs.createDirectories = true;
+    configFile = {
+      "wget/wgetrc".source = ./config/wget/wgetrc;
+      # TMPFS caching, https://github.com/direnv/direnv/wiki/Customizing-cache-location#direnv-cache-on-tmpfs
+      "direnv/direnvrc".source = ./config/direnv/direnvrc;
+      "process-compose/settings.yaml".source = ./config/process-compose/settings.yaml;
+      "npm/npmrc".source = ./config/npm/npmrc;
+    };
   };
 
   # quemu requiers it, but virtualisation settings are part of the
