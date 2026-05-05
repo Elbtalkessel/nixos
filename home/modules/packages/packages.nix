@@ -58,5 +58,6 @@
     gimd
     usbdrivetools
     bootdev
+    sshp
   ];
 }

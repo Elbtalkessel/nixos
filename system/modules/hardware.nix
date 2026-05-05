@@ -15,6 +15,7 @@ in
     cpu.amd.updateMicrocode = true;
     graphics.enable = true;
     logitech.wireless.enable = true;
+    steam-hardware.enable = config.programs.steam.enable;
     sane = {
       enable = printing;
       # Probably a driver also required,

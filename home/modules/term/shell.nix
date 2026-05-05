@@ -52,15 +52,13 @@ let
     // (
       let
         sc = lib.getExe pkgs.scrcpy;
-        adb = lib.getExe' pkgs.android-tools "adb";
         browser-pkg = "com.duckduckgo.mobile.android";
       in
       {
-        sca = "${sc} --no-window --audio-buffer=200";
-        scd = "${sc} -M -K --new-display=2560x1440/300 --power-off-on-close";
+        sca = "${sc} --power-off-on-close --no-window --audio-buffer=200";
         scr = "${sc} -w -M -K --power-off-on-close";
+        scd = "${sc} -w -M -K --power-off-on-close --new-display=2560x1440/300";
         scb = "${sc} -w -M -K --power-off-on-close --start-app=${browser-pkg}";
-        scbs = " ${adb} shell am force-stop ${browser-pkg}";
       }
     );
 in
