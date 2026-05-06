@@ -51,7 +51,7 @@ def "main l" [] {
     # screen is off, to run virtual display we need to turn it on termporary.
     adb shell input keyevent KEYCODE_WAKEUP
     # start virtual display and turn the display off.
-    scrcpy --new-display=2560x1440 --start-app=$"($app)" --turn-screen-off
+    scrcpy --new-display=2560x1440 --start-app=$"($app)" --turn-screen-off --power-off-on-close
   }
 }
 
