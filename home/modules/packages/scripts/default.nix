@@ -19,5 +19,14 @@
       name = "youtrack-cli";
       text = builtins.readFile ./youtrack-cli.nu;
     })
+    (nuenv.writeShellApplication {
+      name = "sc";
+      text = builtins.readFile ./sc.nu;
+      runtimeInputs = [
+        pkgs.scrcpy
+        pkgs.android-tools
+        pkgs.fzf
+      ];
+    })
   ];
 }
