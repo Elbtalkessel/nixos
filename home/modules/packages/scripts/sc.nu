@@ -67,7 +67,7 @@ def "main a" [
   --address (-a): string  # host:port
 ] {
   scrcpy ...(
-    [--power-off-on-close --no-window --audio-buffer=200]
+    [--no-window --audio-buffer=200]
     | append-address $address
   )
 }
@@ -82,7 +82,12 @@ def "main l" [
     adb ...([] | append-address $address "adb") shell input keyevent KEYCODE_WAKEUP
   }
   scrcpy ...(
-    [--new-display=2560x1440 $"--start-app=($app)"]
+    [
+      --new-display=2560x1440
+      --mouse=uhid
+      --keyboard=uhid
+      $"--start-app=($app)"
+    ]
     | append-address $address
     | append-if ($isOff) [--turn-screen-off --power-off-on-close]
   )
@@ -96,12 +101,7 @@ def "main c" [
   scrcpy ...(
     [--mouse=uhid --keyboard=uhid]
     | append-address $address
-    | append-if (not (is-screen-on $address)) [
-      --stay-awake
-      --mouse=uhid
-      --keyboard=uhid
-      --power-off-on-close
-    ]
+    | append-if (not (is-screen-on $address)) [--stay-awake --power-off-on-close]
   )
 }
 

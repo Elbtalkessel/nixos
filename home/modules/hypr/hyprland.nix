@@ -112,6 +112,11 @@ in
           |> wr.enable "no_shadow"
         )
         (wr.on "initial_class" "Removing Cookies and Site Data" |> wr.set "min_size" "579 234")
+        (wr.on "initial_class" "^app\.zen_browser\.zen$" |> wr.set "workspace" "1")
+        (wr.on "initial_class" "^jetbrains-pycharm$" |> wr.set "workspace" "2")
+        (wr.on "initial_class" "^steam$" |> wr.set "workspace" "6")
+        (wr.on "initial_class" "^com.usebottles.bottles$" |> wr.set "workspace" "6")
+        (wr.on "initial_class" "^Mattermost$" |> wr.set "workspace" "10")
       ];
 
       # See https://wiki.hyprland.org/Configuring/Keywords/ for more

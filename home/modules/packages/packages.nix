@@ -44,6 +44,7 @@
     btop # system usage visualizer.
     chafa # image preview in terminal.
     tldr # quick documentation on a utility.
+    jless
 
     # Development
     mockoon # API mocking.
