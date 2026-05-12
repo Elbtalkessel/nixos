@@ -84,8 +84,8 @@ def "main l" [
   scrcpy ...(
     [
       --new-display=2560x1440
-      --mouse=uhid
-      --keyboard=uhid
+      --mouse=sdk
+      --keyboard=sdk
       $"--start-app=($app)"
     ]
     | append-address $address
@@ -99,7 +99,10 @@ def "main c" [
   --address (-a): string  # host:port
 ] {
   scrcpy ...(
-    [--mouse=uhid --keyboard=uhid]
+    [
+      --mouse=sdk
+      --keyboard=sdk
+    ]
     | append-address $address
     | append-if (not (is-screen-on $address)) [--stay-awake --power-off-on-close]
   )
