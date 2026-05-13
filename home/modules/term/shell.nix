@@ -41,13 +41,6 @@ let
       n = lib.getExe pkgs.neovim;
       g = lib.getExe pkgs.lazygit;
       d = lib.getExe pkgs.lazydocker;
-      # For monitoring cached data to permanent storage syncronization progress.
-      # Example:
-      #   cp a_large_file /run/media/risus/pendrive/
-      #   sync
-      #   watch dirty
-      # Or better use `usbcp` from `usbdrivetools` package.
-      dirty = "grep -e Dirty: -e Writeback: /proc/meminfo";
     };
 in
 {

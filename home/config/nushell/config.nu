@@ -108,3 +108,20 @@ def "to input" [
 ]: table -> string {
   $in | get $field | str join "\n"
 }
+
+# Polls every N a key from /proc/meminfo, returning its value.
+# Useful in combination with, for example, ttyplot.
+def memory-watch [
+  --key (-k): string = "Dirty",     # /proc/meminfo key to watch
+  --refresh (-r): duration = 2sec,  # sample every N .
+]: nothing -> list<number> {
+  generate {|state|
+    let size = (
+      grep -e $"($key):" /proc/meminfo
+      | awk '{print $2}'
+      | into int
+    )
+    sleep $refresh;
+    {out: $size, next: ($state + 1)}
+  } 0
+}
