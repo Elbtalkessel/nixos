@@ -20,24 +20,24 @@
       "fs.inotify.max_user_instances" = "1024";
     };
 
+    # On kernel version 6.6.59 there was a bug with io_uring, zen is build from the latest stable kernel
+    # (I assume even on ustable branch of nixos?), it fixed my issue, so I left it, no other reason.
     # https://lore.kernel.org/io-uring/f4bfc61b-9fe6-466a-a943-7143ed1ec804@kernel.dk/T/
-    # Latest kernel 6.6.59 has an issue with the io_uring
-    # Two options, or use kernel 6.11.6 or zen kernel which is 6.11.5
-    # It seems switching to the zen kernel is the best solution as it forked from the stable kernel version
-    # Another option is to pin a specific kernel version:
     # https://nixos.wiki/wiki/Linux_kernel
     kernelPackages = pkgs.linuxKernel.packages.linux_zen;
 
-    initrd.availableKernelModules = [
-      "nvme"
-      "xhci_pci"
-      "uas"
-      "usbhid"
-      "usb_storage"
-      "sd_mod"
-      "sdhci_pci"
-    ];
-    initrd.kernelModules = [ "amdgpu" ];
+    initrd = {
+      availableKernelModules = [
+        "nvme"
+        "xhci_pci"
+        "uas"
+        "usbhid"
+        "usb_storage"
+        "sd_mod"
+        "sdhci_pci"
+      ];
+      kernelModules = [ "amdgpu" ];
+    };
     kernelModules = [
       "hp-wmi"
     ];

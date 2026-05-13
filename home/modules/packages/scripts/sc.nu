@@ -24,8 +24,8 @@ def interactive-app-select [address?: string]: nothing -> string {
     | grep -P '^ \(*|-\)'
     | lines
     | str trim
-    | parse --regex '(?<type>\*|-)\s(?<name>[^\s\s\s]+)\s+(?<app>[^$]+)'
-    | reduce --fold {} {|it, acc| $acc | upsert $it.name $it}
+    | parse --regex '(?!<type>\*|-)\s(?<name>[^\t]+)\s+(?<app>.*)'
+    | reduce --fold {} {|it, acc| $acc | upsert $it.name $it.app}
   )
   let sel = (
     $apps
@@ -33,7 +33,7 @@ def interactive-app-select [address?: string]: nothing -> string {
     | str join "\n"
     | fzf
   )
-  ($apps | get $sel).app
+  ($apps | get $sel)
 }
 
 def append-if [expr: bool, items: list]: list -> list {
@@ -84,8 +84,8 @@ def "main l" [
   scrcpy ...(
     [
       --new-display=2560x1440
-      --mouse=sdk
-      --keyboard=sdk
+      --mouse=uhid
+      --keyboard=uhid
       $"--start-app=($app)"
     ]
     | append-address $address
@@ -100,8 +100,8 @@ def "main c" [
 ] {
   scrcpy ...(
     [
-      --mouse=sdk
-      --keyboard=sdk
+      --mouse=uhid
+      --keyboard=uhid
     ]
     | append-address $address
     | append-if (not (is-screen-on $address)) [--stay-awake --power-off-on-close]
