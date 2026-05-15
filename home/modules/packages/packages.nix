@@ -28,7 +28,7 @@
     pavucontrol # UI for controlling audio input / output.
     telegram-desktop # comms.
     mattermost-desktop # comms.
-    neovim
+    neovim # terminal editor.
 
     # VM
     vagrant
@@ -44,10 +44,11 @@
     btop # system usage visualizer.
     chafa # image preview in terminal.
     tldr # quick documentation on a utility.
-    jless
+    jless # tui json/yaml viewer.
 
     # Development
     mockoon # API mocking.
+    bruno # API documentation.
     cloudflared # Tunneling local servers.
     lazydocker # docker tui.
     lazygit # git tui.
