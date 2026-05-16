@@ -71,6 +71,20 @@ in
       # https://wiki.hyprland.org/Nix/Hyprland-on-Home-Manager/#programs-dont-work-in-systemd-services-but-do-on-the-terminal
       variables = [ "--all" ];
     };
+    # Since Hyprland 0.55, hyprlang is deprecated in favor of lua.
+    #
+    # TODO: migration to lua.
+    # Generating lua config from nix doesn't look nice especially
+    # when raw lua code is mixed.
+    #
+    # I think or add hyprand.lua config to xdg.configFiles,
+    # or use extraConfig option here.
+    #
+    # In any case, examples and references:
+    # https://github.com/nix-community/home-manager/blob/master/modules/services/window-managers/hyprland.nix
+    # https://github.com/hyprwm/Hyprland/blob/main/example/hyprland.lua
+    # https://wiki.hypr.land/Configuring/Start/
+    configType = "hyprlang";
     settings = {
       monitor = [
         "eDP-1,highres,auto,1"

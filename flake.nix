@@ -106,6 +106,7 @@
       };
 
       # Home configuration.
+      # Reference: https://nix-community.github.io/home-manager/options.xhtml#opt-<dot.notated.path.to.option>
       homeConfigurations.risus = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
