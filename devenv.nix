@@ -72,6 +72,20 @@ rec {
         '';
       description = "Dependency tree for a given package name.";
     };
+    lsgen = {
+      exec = # bash
+        ''
+          nix-env --profile /nix/var/nix/profiles/system --list-generations
+        '';
+      description = "Lists system generations.";
+    };
+    degen = {
+      exec = # bash
+        ''
+          nix-env --profile /nix/var/nix/profiles/system --delete-generations $1
+        '';
+      description = "Delete specified generations. Cleanup after.";
+    };
   };
 
   enterShell = # sh
