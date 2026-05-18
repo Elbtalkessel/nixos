@@ -36,7 +36,7 @@
       enable = lib.mkDefault true;
       settings =
         let
-          cmd = if config.my.wm.uwsm.enable then "uwsm start hyprland-uwsm.desktop" else "Hyprland";
+          cmd = if config.my.wm.uwsm.enable then "uwsm start hyprland-uwsm.desktop" else "start-hyprland";
         in
         {
           initial_session = {
