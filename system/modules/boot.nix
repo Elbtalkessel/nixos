@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, ... }:
 {
   boot = {
     loader = {
@@ -20,11 +20,8 @@
       "fs.inotify.max_user_instances" = "1024";
     };
 
-    # On kernel version 6.6.59 there was a bug with io_uring, zen is build from the latest stable kernel
-    # (I assume even on ustable branch of nixos?), it fixed my issue, so I left it, no other reason.
-    # https://lore.kernel.org/io-uring/f4bfc61b-9fe6-466a-a943-7143ed1ec804@kernel.dk/T/
-    # https://nixos.wiki/wiki/Linux_kernel
-    kernelPackages = pkgs.linuxKernel.packages.linux_zen;
+    # Broken for me, blank screen after loading graphic drivers.
+    # kernelPackages = pkgs.linuxKernel.packages.linux_zen;
 
     initrd = {
       availableKernelModules = [
@@ -38,7 +35,8 @@
       ];
       kernelModules = [ "amdgpu" ];
     };
-    kernelModules = [
+
+    kernelModules = lib.mkDefault [
       "hp-wmi"
     ];
   };

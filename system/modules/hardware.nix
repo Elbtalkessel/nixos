@@ -13,10 +13,10 @@ in
 {
   hardware = {
     cpu.amd.updateMicrocode = true;
-    graphics.enable = true;
-    graphics.enable32Bit = true;
+    graphics.enable = lib.mkDefault true;
+    graphics.enable32Bit = lib.mkDefault true;
     logitech.wireless.enable = true;
-    steam-hardware.enable = config.programs.steam.enable;
+    steam-hardware.enable = lib.mkDefault config.programs.steam.enable;
     sane = {
       enable = printing;
       # Probably a driver also required,

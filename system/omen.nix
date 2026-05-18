@@ -22,6 +22,7 @@
 
     ./modules/filesystem
     ./modules/networking
+    ./modules/specialisation
     ./modules/web
     ./modules/audio.nix
     ./modules/bluetooth.nix

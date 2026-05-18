@@ -1,8 +1,8 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   programs = rec {
     steam = {
-      enable = true;
+      enable = lib.mkDefault true;
       # Open ports in the firewall for Steam Remote Play
       remotePlay.openFirewall = false;
       # Open ports in the firewall for Source Dedicated Server
