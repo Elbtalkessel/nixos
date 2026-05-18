@@ -36,6 +36,16 @@
       kernelModules = [ "amdgpu" ];
     };
 
+    kernelParams = lib.mkDefault [
+      "quiet"
+      "splash"
+      "udev.log_priority=3"
+      "rd.systemd.show_status=auto"
+      "boot.shell_on_fail"
+    ];
+
+    plymouth.enable = true;
+
     kernelModules = lib.mkDefault [
       "hp-wmi"
     ];

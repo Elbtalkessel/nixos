@@ -54,7 +54,7 @@ in
       };
       tailscale = false;
       wm = {
-        uwsm.enable = true;
+        uwsm.enable = false;
         performance = false;
         bar.provider = "waybar";
       };
