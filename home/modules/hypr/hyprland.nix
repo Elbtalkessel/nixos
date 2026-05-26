@@ -233,21 +233,11 @@ in
         # vicinae integration
         # https://docs.vicinae.com/quickstart/hyprland
         {
-          name = "vicinae-blur";
+          name = "vicinae";
           blur = "on";
           ignore_alpha = 0;
           no_anim = "on";
           "match:namespace" = "vicinae";
-        }
-        {
-          "match:namespace" = "notifications-window";
-          name = "notification-toast";
-          blur_popups = "on";
-        }
-        {
-          "match:namespace" = "^[a-z]+menu$";
-          name = "bottom-menu-slide-up";
-          animation = "slide bottom";
         }
         {
           name = "waybar-blur";
@@ -255,6 +245,12 @@ in
           ignore_alpha = 0;
           no_anim = "on";
           "match:namespace" = "waybar";
+        }
+        {
+          name = "wayle";
+          "match:namespace" = "^wayle-.*$";
+          blur = "on";
+          animation = "slide bottom";
         }
       ];
 
