@@ -249,7 +249,8 @@ in
         {
           name = "wayle";
           "match:namespace" = "^wayle-.*$";
-          blur = "on";
+          blur = "off"; # Broken
+          ignore_alpha = 0;
           animation = "slide bottom";
         }
       ];

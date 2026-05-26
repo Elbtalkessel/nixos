@@ -121,7 +121,7 @@ in
     set-wallpaper
   ];
 
-  systemd.user = {
+  systemd.user = lib.mkIf config.services.hyprpaper.enable {
     # paths
     paths = {
       wallpaper = {

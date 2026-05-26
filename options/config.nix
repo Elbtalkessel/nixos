@@ -23,9 +23,9 @@ in
       };
       editor = "nvim";
       terminal = {
-        pkg = pkgs.foot;
-        desktop = "foot.desktop";
-        exe = "foot";
+        pkg = pkgs.ghostty;
+        desktop = "ghostty.desktop";
+        exe = "ghostty";
       };
       font = {
         family = {

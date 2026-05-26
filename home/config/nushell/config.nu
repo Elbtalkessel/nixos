@@ -125,3 +125,7 @@ def memory-watch [
     {out: $size, next: ($state + 1)}
   } 0
 }
+
+def nix-run [app: string] {
+  nix run $"nixpkgs#($app)"
+}
