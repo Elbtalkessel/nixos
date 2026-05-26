@@ -61,7 +61,10 @@
         # List of unfree packages you're ok to have.
         config.allowUnfreePredicate =
           pkg:
-          builtins.elem (pkgs.lib.getName pkg) [
+          let
+            name = pkgs.lib.getName pkg;
+          in
+          (builtins.elem name [
             # From the home manager config.
             "vagrant"
             "jetbrains-toolbox"
@@ -71,7 +74,11 @@
             "nvidia-kernel-modules"
             "steam"
             "steam-unwrapped"
-          ];
+            # cuda | llm
+            "libcublas"
+            "open-webui"
+          ])
+          || pkgs.lib.hasPrefix "cuda" name;
         overlays = [
           nixpkgs-custom.overlays.default
           nuenv.overlays.default

@@ -1,4 +1,13 @@
-_: {
+{ lib, ... }:
+let
+  # Lock session.
+  lock = true;
+  # Turn off screen.
+  screen-off = true;
+  # Suspend.
+  suspend = false;
+in
+{
   # https://mynixos.com/home-manager/options/services.hypridle
   services.hypridle = {
     enable = true;
@@ -10,7 +19,6 @@ _: {
         ignore_dbus_inhibit = false;
         lock_cmd = "pidof hyprlock || hyprlock";
       };
-
       listener = [
         # Lower brightness after 5 minutes.
         {
@@ -18,22 +26,20 @@ _: {
           on-timeout = "brightnessctl -s set 10";
           on-resume = "brightnessctl -r";
         }
-        {
-          timeout = 450;
-          on-timeout = "hyprswitch 0 && loginctl lock-session";
-        }
-        # Turn off screen after 15min
-        {
-          timeout = 900;
-          on-timeout = "hyprctl dispatch dpms off";
-          on-resume = "hyprctl dispatch dpms on";
-        }
-        # Suspend after 60 min.
-        {
-          timeout = 3600;
-          on-timeout = "systemctl suspend";
-        }
-      ];
+      ]
+      ++ (lib.lists.optional lock {
+        timeout = 450;
+        on-timeout = "hyprswitch 0 && loginctl lock-session";
+      })
+      ++ (lib.lists.optional screen-off {
+        timeout = 900;
+        on-timeout = "hyprctl dispatch dpms off";
+        on-resume = "hyprctl dispatch dpms on && brightnessctl -r";
+      })
+      ++ (lib.lists.optional suspend {
+        timeout = 3600;
+        on-timeout = "systemctl suspend";
+      });
     };
   };
 }

@@ -56,7 +56,7 @@ in
       wm = {
         uwsm.enable = true;
         performance = false;
-        bar.provider = "waybar";
+        bar.provider = "wayle";
       };
       virt.docker.gpu.enable = false;
       theme = {

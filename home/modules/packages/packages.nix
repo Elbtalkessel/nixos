@@ -5,6 +5,7 @@
     wl-clipboard-rs # clipboard support.
     libnotify # desktop notifications.
     xdg-user-dirs # desktop directories support.
+    gnome-icon-theme
 
     # General / Support
     grim # screenshot.

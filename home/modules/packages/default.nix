@@ -1,7 +1,7 @@
 _: {
   imports = [
-    ./packages.nix
-    ./flatpak.nix
     ./scripts
+    ./flatpak.nix
+    ./packages.nix
   ];
 }

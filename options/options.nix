@@ -261,6 +261,7 @@ in
                             "hyprpanel"
                             "waybar"
                             "quickshell"
+                            "wayle"
                           ];
                           description = "Bar provider";
                         };

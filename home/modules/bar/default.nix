@@ -5,5 +5,6 @@ _: {
     ./ashell
     ./waybar
     ./quickshell
+    ./wayle
   ];
 }
