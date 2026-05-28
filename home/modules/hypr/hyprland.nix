@@ -287,7 +287,7 @@ in
         {
           border_size = 0;
           gaps_in = gap / 2;
-          gaps_out = gap;
+          gaps_out = 0;
           "col.active_border" = "rgba(${color-from}ee) rgba(${color-to}ee) 45deg";
           "col.inactive_border" = "rgba(${inactive-color}aa)";
           layout = "dwindle";

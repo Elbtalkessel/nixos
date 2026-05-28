@@ -9,6 +9,18 @@ in
   xdg.configFile = {
     "lf/icons".source = ./icons;
   };
+  home.packages = with pkgs; [
+    exiftool
+    atool
+    ffmpegthumbnailer
+    colordiff
+    elinks
+    chafa
+    jq
+    glow
+    imagemagick
+    bat
+  ];
   programs.lf = rec {
     enable = true;
 
@@ -38,11 +50,17 @@ in
     previewer = {
       # TODO: implement wrapper to let previewer only access
       #   what it needs to run, nix wrap, bubblewrap or something else.
-      source = pkgs.writeShellScript "previewer.sh" ''
-        # ctpv gives pixilated image preview.
-        ${preview} "''$1" "''$2" "''$3" "''$4" "''$5"
-      '';
+      # source = pkgs.writeShellScript "previewer.sh" ''
+      #   # ctpv gives pixilated image preview.
+      #   ${preview} "''$1" "''$2" "''$3" "''$4" "''$5"
+      # '';
+      source = "${pkgs.ctpv}/bin/ctpv";
     };
+    extraConfig = ''
+      &${pkgs.ctpv}/bin/ctpv -s $id
+      cmd on-quit %${pkgs.ctpv}/bin/ctpv -e $id
+      set cleaner ${pkgs.ctpv}/bin/ctpvclear
+    '';
 
     # % - run shell command inside UI.
     # & - run command asynchronously.
