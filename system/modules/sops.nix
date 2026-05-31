@@ -22,6 +22,7 @@
         path = "/etc/davfs2/secrets";
       };
       "tailscale/one-of-key" = { };
+      "searx" = { };
     };
   };
 }
