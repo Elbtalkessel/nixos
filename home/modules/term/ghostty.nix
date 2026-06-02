@@ -12,6 +12,7 @@
       # Annoying, setting it to false is what I want, but
       # it adds opening delay.
       gtk-single-instance = true;
+      quit-after-last-window-closed = false;
     };
   };
 }

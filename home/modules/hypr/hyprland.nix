@@ -5,7 +5,6 @@
   ...
 }:
 let
-  TERMINAL = config.my.terminal.exe;
   M = "SUPER";
   palette = config.my.theme.color.dark;
   _ = builtins;
@@ -161,7 +160,7 @@ in
       bind = [
         # Launcher
         "${M}, SPACE, exec, ${lib.getExe pkgs.vicinae} toggle"
-        "${M}, RETURN, exec, ${TERMINAL}"
+        "${M}, RETURN, exec, ${lib.getExe config.my.terminal.pkg}"
 
         # Window management
         "${M}, f, fullscreen,"
@@ -362,7 +361,7 @@ in
         # it is for a) debug b) integration testing, both cases need browser to not be swallowed by terminal.
         # Disabled until not resolved: https://github.com/hyprwm/Hyprland/issues/2203
         enable_swallow = true;
-        swallow_regex = "^(?i)${TERMINAL}$";
+        swallow_regex = "^(?i)${config.my.terminal.exe}$";
         swallow_exception_regex = "(?i)playwright.*";
         # Disable "Application not responding" dialog.
         enable_anr_dialog = false;
