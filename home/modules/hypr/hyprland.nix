@@ -59,6 +59,17 @@ let
   };
 in
 {
+  # Uncomment on version 0.55
+  #imports = [
+  #  ./hyprland/animation.nix
+  #  ./hyprland/bind.nix
+  #  ./hyprland/config.nix
+  #  ./hyprland/device.nix
+  #  ./hyprland/event.nix
+  #  ./hyprland/layer.nix
+  #  ./hyprland/monitor.nix
+  #  ./hyprland/window.nix
+  #];
   wayland.windowManager.hyprland = {
     enable = true;
     # https://wiki.hyprland.org/Nix/Hyprland-on-Home-Manager/#using-the-home-manager-module-with-nixos
@@ -83,7 +94,10 @@ in
     # https://github.com/nix-community/home-manager/blob/master/modules/services/window-managers/hyprland.nix
     # https://github.com/hyprwm/Hyprland/blob/main/example/hyprland.lua
     # https://wiki.hypr.land/Configuring/Start/
+    # Remove on version 0.55
     configType = "hyprlang";
+    # Uncomment on version 0.55
+    #configType = "lua";
     settings = {
       monitor = [
         "eDP-1,highres,auto,1"
@@ -92,7 +106,19 @@ in
         enabled = true;
         force_zero_scaling = true;
       };
-
+      # Uncomment on version 0.55
+      #extraConfig = # lua
+      #  ''
+      #    require("hyprland/animation")
+      #    require("hyprland/bind")
+      #    require("hyprland/config")
+      #    require("hyprland/device")
+      #    require("hyprland/event")
+      #    require("hyprland/layer")
+      #    require("hyprland/monitor")
+      #    require("hyprland/window")
+      #  '';
+      # Remove the reset on version 0.55
       # While v2 rules allow multiple rules to be applied, the `center` rule
       # or `move` rule is not available.
       # https://wiki.hyprland.org/Configuring/Window-Rules/
