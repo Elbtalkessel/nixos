@@ -17,7 +17,10 @@ _: {
       domain-needed = true;
       bogus-priv = true;
       expand-hosts = true;
+      no-resolv = true;
+      strict-order = true;
       server = [
+        "192.168.1.130"
         "9.9.9.9"
         "149.112.112.112"
       ];
