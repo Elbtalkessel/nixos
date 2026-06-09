@@ -52,7 +52,7 @@ in
           ];
         };
       };
-      tailscale = false;
+      tailscale = true;
       wm = {
         uwsm.enable = true;
         performance = false;
