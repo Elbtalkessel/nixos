@@ -86,39 +86,46 @@ rec {
         '';
       description = "Delete specified generations. Cleanup after.";
     };
+    halp = {
+      exec = # bash
+        ''
+          _w=$(tput cols)
+          hr() {
+            printf '%*s\n' "$_w"  | tr ' ' '-'
+          }
+          info() {
+            printf "\e[0;36;1m$1\e[0m"
+          }
+          bold() {
+            printf "\e[0;240;1m$1\e[0m"
+          }
+
+          hr
+          info '🏠 Home generations\n'
+          home-manager generations
+          hr
+          info '🌍 System generations\n'
+          nix profile history --profile /nix/var/nix/profiles/system
+          hr
+
+          echo -e "$(cat <<-EOF
+          🤫 $(info 'chsecret') ${scripts.chsecret.description}
+          🏠 $(info 'switch') Switch to the new home configuration.
+          🌍 $(info 'sudo switch') $(bold '[switch|boot|test|...]') Reconfigure NixOS.
+          ♻️ $(info 'rollback') ${scripts.rollback.description}
+          🗑️ $(info 'cleanup') ${scripts.cleanup.description}
+          🔥 $(info 'hm-squash') ${scripts.hm-squash.description}
+          📰 $(info 'news') ${scripts.news.description}
+          EOF
+          )"
+        '';
+      description = "Print help.";
+    };
   };
 
   enterShell = # sh
     ''
-      _w=$(tput cols)
-      hr() {
-        printf '%*s\n' "$_w"  | tr ' ' '-'
-      }
-      info() {
-        printf "\e[0;36;1m$1\e[0m"
-      }
-      bold() {
-        printf "\e[0;240;1m$1\e[0m"
-      }
-
-      hr
-      info '🏠 Home generations\n'
-      home-manager generations
-      hr
-      info '🌍 System generations\n'
-      nix profile history --profile /nix/var/nix/profiles/system
-      hr
-
-      echo -e "$(cat <<-EOF
-      🤫 $(info 'chsecret') ${scripts.chsecret.description}
-      🏠 $(info 'switch') Switch to the new home configuration.
-      🌍 $(info 'sudo switch') $(bold '[switch|boot|test|...]') Reconfigure NixOS.
-      ♻️ $(info 'rollback') ${scripts.rollback.description}
-      🗑️ $(info 'cleanup') ${scripts.cleanup.description}
-      🔥 $(info 'hm-squash') ${scripts.hm-squash.description}
-      📰 $(info 'news') ${scripts.news.description}
-      EOF
-      )"
+      halp
     '';
 
   git-hooks.hooks = {
