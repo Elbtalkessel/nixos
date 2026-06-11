@@ -61,6 +61,10 @@ let
     HISTFILE = "${XDG_STATE_HOME}/bash/history";
     GOPATH = "${XDG_DATA_HOME}/go";
     GOMODCACHE = "${XDG_CACHE_HOME}/go/mod";
+
+    # Colored man pages
+    MANPAGER = "sh -c 'col -bx | bat -l man -p'";
+    MANROFFOPT = "-c";
   };
 in
 {
