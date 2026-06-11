@@ -233,6 +233,7 @@ in
         "${M}, TAB, workspace, previous"
         "ALT, TAB, cyclenext"
         "ALT, TAB, bringactivetotop"
+        "CTRL, TAB, exec, ${lib.getExe pkgs.vicinae} vicinae://launch/wm/switch-windows?toggle=true"
       ];
 
       binds = {
