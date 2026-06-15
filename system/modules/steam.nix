@@ -1,4 +1,9 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 {
   programs = rec {
     steam = {
@@ -9,7 +14,7 @@
       dedicatedServer.openFirewall = false;
       # Open ports in the firewall for Steam Local Network Game Transfers
       localNetworkGameTransfers.openFirewall = false;
-      gamescopeSession.enable = false;
+      gamescopeSession.enable = config.my.steam.session;
       extraPackages = with pkgs; [
         steamtinkerlaunch
       ];
@@ -25,5 +30,37 @@
       capSysNice = true;
     };
     gamemode.enable = true;
+  };
+  environment = {
+    systemPackages = lib.mkIf config.my.steam.session [
+      pkgs.mangohud
+      (pkgs.writeShellScriptBin "launch-gs" ''
+        #!/usr/bin/env bash
+        set -xeuo pipefail
+        gamescopeArgs=(
+          --adaptive-sync # VRR support
+          --hdr-enabled
+          --mangoapp # performance overlay
+          --rt
+          --steam
+        )
+        steamArgs=(
+          -pipewire-dmabuf
+          -tenfoot
+        )
+        mangoConfig=(
+          cpu_temp
+          gpu_temp
+          ram
+          vram
+        )
+        mangoVars=(
+          MANGOHUD=1
+          MANGOHUD_CONFIG="$(IFS=,; echo "''${mangoConfig[*]}")"
+        )
+        export "''${mangoVars[@]}"
+        exec gamescope "''${gamescopeArgs[@]}" -- steam "''${steamArgs[@]}"
+      '')
+    ];
   };
 }

@@ -323,7 +323,6 @@ in
 
       # DWINDLE LAYOUT
       dwindle = {
-        pseudotile = false;
         force_split = 0;
         preserve_split = true;
         smart_split = false;
@@ -377,7 +376,6 @@ in
         disable_hyprland_logo = true;
         disable_splash_rendering = true;
         vrr = 0;
-        vfr = config.my.wm.performance;
         mouse_move_enables_dpms = false;
         key_press_enables_dpms = false;
         layers_hog_keyboard_focus = true;

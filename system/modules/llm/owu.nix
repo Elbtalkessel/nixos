@@ -2,7 +2,7 @@
 let
   domain = "ai.omen.home.arpa";
   port = 9080;
-  enable = true;
+  enable = false;
 in
 {
   services.open-webui = {

@@ -360,6 +360,19 @@ in
                 };
               };
             };
+            steam = opt {
+              description = "Steam related options.";
+              default = { };
+              type = submodule {
+                options = {
+                  session = opt {
+                    type = bool;
+                    description = "WIP: Create separate session for log-in into steamos-like interface.";
+                    default = false;
+                  };
+                };
+              };
+            };
             # add more into my/options here.
           }; # ./options
         }; # ./submodule

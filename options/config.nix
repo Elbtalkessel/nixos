@@ -37,22 +37,22 @@ in
       opacity = 0.80;
       filesystem = {
         network = {
-          enable = true;
-          device = "192.168.8.90";
+          enable = false;
+          device = "192.168.1.90";
           mount = "/mnt/share";
           fsType = "nfs";
           shares = [ "/volume1/xyz" ];
         };
         tagged = {
           mounts = [
-            {
-              src = "${userhome}/Pictures";
-              dst = "${userhome}/Pictures/bytag";
-            }
+            # {
+            #   src = "${userhome}/Pictures";
+            #   dst = "${userhome}/Pictures/bytag";
+            # }
           ];
         };
       };
-      tailscale = true;
+      tailscale = false;
       wm = {
         uwsm.enable = true;
         performance = false;
@@ -95,6 +95,9 @@ in
       };
       android = {
         enable = true;
+      };
+      steam = {
+        session = false;
       };
     };
   };
