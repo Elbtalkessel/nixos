@@ -18,7 +18,8 @@ in
   networking = {
     useDHCP = false;
     networkmanager = {
-      dns = "dnsmasq";
+      # Don't set `dns = "dnsmasq"` if services.dnsmasq.enable is true,
+      # this runs networkmanager's dnsmasq instance.
       enable = true;
       ensureProfiles = {
         environmentFiles = [ config.sops.secrets."wireless.env".path ];
