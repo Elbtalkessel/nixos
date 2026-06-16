@@ -16,7 +16,6 @@ in
     graphics.enable = lib.mkDefault true;
     graphics.enable32Bit = lib.mkDefault true;
     logitech.wireless.enable = true;
-    steam-hardware.enable = lib.mkDefault config.programs.steam.enable;
     sane = {
       enable = printing;
       # Probably a driver also required,

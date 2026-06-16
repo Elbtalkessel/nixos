@@ -14,15 +14,23 @@
       dedicatedServer.openFirewall = false;
       # Open ports in the firewall for Steam Local Network Game Transfers
       localNetworkGameTransfers.openFirewall = false;
-      gamescopeSession.enable = config.my.steam.session;
-      extraPackages = with pkgs; [
-        steamtinkerlaunch
+      extraPackages = [
+        pkgs.mangohud
       ];
-      extraCompatPackages = with pkgs; [
-        # steam -> game -> props -> force compat tool -> use steam tinker launch
-        # to install mods.
-        steamtinkerlaunch
-      ];
+      gamescopeSession = {
+        enable = config.my.steam.session;
+        args = [
+          "--adaptive-sync" # VRR support
+          "--hdr-enabled"
+          "--mangoapp" # performance overlay
+          "--rt"
+          "--steam"
+        ];
+        env = {
+          MANGOHUD = "1";
+          MANGOHUD_CONFIG = "cpu_temp,gpu_temp,ram,vram";
+        };
+      };
       protontricks.enable = true;
     };
     gamescope = {
@@ -31,36 +39,19 @@
     };
     gamemode.enable = true;
   };
-  environment = {
-    systemPackages = lib.mkIf config.my.steam.session [
-      pkgs.mangohud
-      (pkgs.writeShellScriptBin "launch-gs" ''
-        #!/usr/bin/env bash
-        set -xeuo pipefail
-        gamescopeArgs=(
-          --adaptive-sync # VRR support
-          --hdr-enabled
-          --mangoapp # performance overlay
-          --rt
-          --steam
-        )
-        steamArgs=(
-          -pipewire-dmabuf
-          -tenfoot
-        )
-        mangoConfig=(
-          cpu_temp
-          gpu_temp
-          ram
-          vram
-        )
-        mangoVars=(
-          MANGOHUD=1
-          MANGOHUD_CONFIG="$(IFS=,; echo "''${mangoConfig[*]}")"
-        )
-        export "''${mangoVars[@]}"
-        exec gamescope "''${gamescopeArgs[@]}" -- steam "''${steamArgs[@]}"
-      '')
-    ];
-  };
+
+  # This contain a bunch of udev rules for various usb/bluetooth controllers,
+  # mostly focused on giving access to hidraw interface and allowing non-root user
+  # to use a device.
+  # https://github.com/ValveSoftware/steam-devices/blob/master/60-steam-input.rules
+  # https://github.com/NixOS/nixpkgs/blob/nixpkgs-unstable/nixos/modules/hardware/steam-hardware.nix
+  # Removing doesn't change anything
+  hardware.steam-hardware.enable = lib.mkDefault config.programs.steam.enable;
+
+  # Among rules above there is a rule for a steam controller to wakeup computer from sleep.
+  # For "some" reason linux tries to change attribute of all attached devices.
+  services.udev.extraRules = ''
+    # Only enable wakeup when power/wakeup attribute exists
+    ACTION=="add", SUBSYSTEM=="usb", TEST=="power/wakeup", ATTR{power/wakeup}="enabled"
+  '';
 }

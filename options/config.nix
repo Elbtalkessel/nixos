@@ -97,7 +97,7 @@ in
         enable = true;
       };
       steam = {
-        session = false;
+        session = true;
       };
     };
   };
