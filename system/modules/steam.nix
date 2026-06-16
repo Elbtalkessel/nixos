@@ -15,12 +15,17 @@
       localNetworkGameTransfers.openFirewall = false;
       gamescopeSession = {
         enable = config.my.steam.session;
+        args = [
+          "--rt"
+          "--steam"
+        ];
       };
       protontricks.enable = true;
     };
     gamescope = {
       inherit (steam.gamescopeSession) enable;
-      capSysNice = true;
+      # https://github.com/NixOS/nixpkgs/issues/351516
+      capSysNice = false;
     };
     gamemode.enable = true;
   };
