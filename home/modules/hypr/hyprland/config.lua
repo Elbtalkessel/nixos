@@ -3,10 +3,10 @@
 hl.config({
 	-- https://wiki.hypr.land/Configuring/Basics/Variables/#general
 	general = {
-		border_size = 0,
+		border_size = M.border_size,
 		col = {
-			active_border = string.format("#%s", M.fg_primary),
-			inactive_border = string.format("#%s", M.fg_inactive),
+			active_border = M.active_border,
+			inactive_border = M.inactive_border,
 		},
 		extend_border_grab_area = true,
 		gaps_in = M.gap_size / 2,
@@ -22,7 +22,7 @@ hl.config({
 			passes = 2,
 			size = 10,
 		},
-		dim_inactive = true,
+		dim_inactive = M.border_size == 0,
 		dim_strength = 0.200000,
 		rounding = 5,
 	},
@@ -88,6 +88,9 @@ hl.config({
 		new_on_top = false,
 		orientation = "left",
 		special_scale_factor = 0.800000,
+	},
+	scrolling = {
+		fullscreen_on_one_column = true,
 	},
 	-- https://wiki.hypr.land/Configuring/Basics/Variables/#animations
 	animations = {

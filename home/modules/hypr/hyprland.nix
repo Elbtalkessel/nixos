@@ -28,16 +28,27 @@ in
       "hyprland.00-vars" = # lua
         ''
           M = {}
-          M.fg_primary = "${lib.strings.removePrefix "#" palette.fg-primary-container}"
-          M.fg_secondary = "${lib.strings.removePrefix "#" palette.fg-secondary}"
-          M.fg_inactive = "${lib.strings.removePrefix "#" palette.fg}"
+          M.active_border = {
+            colors = {
+              "${palette.bg-primary}",
+              "${palette.bg-primary-container}",
+            },
+            angle = 90,
+          }
+          M.inactive_border = {
+            colors = {
+              "${palette.bg-secondary}11",
+              "${palette.bg-secondary-container}11",
+            },
+            angle = 180,
+          }
+          M.border_size = 1
           -- it is slightly bigger than waybar has with the same number,
           -- +1 helps.
           M.gap_size = ${toString (config.my.theme.size.edge-gap + 1.0)}
           M.launcher = "${lib.getExe pkgs.vicinae}"
           M.terminal = "${config.my.terminal.exe}"
           M.eye_candy = ${toString (!config.my.wm.performance)}
-          return M
         '';
       "hyprland.01-bind" = {
         content = ./hyprland/bind.lua;
