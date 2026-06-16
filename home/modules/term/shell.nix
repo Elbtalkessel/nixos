@@ -49,9 +49,6 @@ in
     # usage example: `nix-locate 'bin/hello'`
     nix-index = {
       enable = true;
-      # doesn't work at version 0.9.1, fix will be released in version
-      # 0.1.10
-      # https://github.com/nix-community/nix-index/pull/293
     };
 
     nushell = {
