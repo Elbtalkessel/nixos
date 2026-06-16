@@ -1,5 +1,4 @@
 {
-  pkgs,
   lib,
   config,
   ...
@@ -14,22 +13,8 @@
       dedicatedServer.openFirewall = false;
       # Open ports in the firewall for Steam Local Network Game Transfers
       localNetworkGameTransfers.openFirewall = false;
-      extraPackages = [
-        pkgs.mangohud
-      ];
       gamescopeSession = {
         enable = config.my.steam.session;
-        args = [
-          "--adaptive-sync" # VRR support
-          "--hdr-enabled"
-          "--mangoapp" # performance overlay
-          "--rt"
-          "--steam"
-        ];
-        env = {
-          MANGOHUD = "1";
-          MANGOHUD_CONFIG = "cpu_temp,gpu_temp,ram,vram";
-        };
       };
       protontricks.enable = true;
     };
