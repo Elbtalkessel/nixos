@@ -1,16 +1,33 @@
 {
   pkgs,
   config,
+  lib,
   ...
 }:
 {
   # Enable GTK theme configuration
   gtk = rec {
     enable = true;
-    theme = {
-      package = pkgs.flat-remix-gtk;
-      name = "Flat-Remix-GTK-Orange-Dark-Solid";
-    };
+    theme =
+      let
+        # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ca/catppuccin-gtk/package.nix#L16
+        catover = {
+          accents = [ "pink" ];
+          size = "compact";
+          tweaks = [
+            "rimless"
+            "float"
+          ];
+          variant = "mocha";
+        };
+        _accent = lib.strings.join "," catover.accents;
+        _tweaks = lib.strings.join "," catover.tweaks;
+        name = "catppuccin-${catover.variant}-${_accent}-${catover.size}+${_tweaks}";
+      in
+      {
+        inherit name;
+        package = pkgs.catppuccin-gtk.override catover;
+      };
     gtk4.theme = theme;
     iconTheme = {
       package = pkgs.adwaita-icon-theme;
