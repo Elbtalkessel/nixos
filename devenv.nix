@@ -17,7 +17,7 @@ rec {
           then
             nixos-rebuild ''${1:-switch} --flake ./ --accept-flake-config
           else
-            home-manager switch --flake ./
+            home-manager switch --flake ./ "$@"
           fi
         '';
     };

@@ -1,75 +1,13 @@
 {
-  pkgs,
-  config,
   lib,
+  config,
+  pkgs,
   ...
 }:
 let
-  M = "SUPER";
   palette = config.my.theme.color.dark;
-  _ = builtins;
-  # A namespace for helpers related to window rule defs.
-  wr = rec {
-    toStr = val: if _.isBool val then if val then "true" else "false" else _.toString val;
-    # Turns a list into a regualar expression list.
-    toReg = items: "(" + (map toStr items |> _.concatStringsSep "|") + ")";
-    # Accepts both p as a string and list of any type, returns a string.
-    concat = p: if _.isList p then toReg p else toStr p;
-    on = props: params: "match:${props} ${concat params}";
-    and_on =
-      props: params: prev:
-      [
-        prev
-        (on props params)
-      ]
-      |> _.concatStringsSep ",";
-    set =
-      key: value: prev:
-      "${prev},${key} ${value}";
-    enable =
-      key: prev: if _.isList key then lib.foldl (a: c: set c "on" a) prev key else (set key "on" prev);
-    rule = {
-      # Apply `param` when window `match` one of following `class` or `title`.
-      float = {
-        param = [ "float" ];
-        title = [
-          "Picture-in-Picture"
-        ];
-      };
-      modal = {
-        param = [
-          "center"
-          "float"
-          "stay_focused"
-        ];
-        class = [
-          "org.gnome.Calculator"
-          "udiskie"
-          "polkit-gnome-authentication-agent-1"
-          "solaar"
-          "xdg-desktop-portal-gtk"
-        ];
-        title = [
-          "Open File"
-          "Open Files"
-          "Set Background"
-        ];
-      };
-    };
-  };
 in
 {
-  # Uncomment on version 0.55
-  #imports = [
-  #  ./hyprland/animation.nix
-  #  ./hyprland/bind.nix
-  #  ./hyprland/config.nix
-  #  ./hyprland/device.nix
-  #  ./hyprland/event.nix
-  #  ./hyprland/layer.nix
-  #  ./hyprland/monitor.nix
-  #  ./hyprland/window.nix
-  #];
   wayland.windowManager.hyprland = {
     enable = true;
     # https://wiki.hyprland.org/Nix/Hyprland-on-Home-Manager/#using-the-home-manager-module-with-nixos
@@ -81,328 +19,57 @@ in
       # https://wiki.hyprland.org/Nix/Hyprland-on-Home-Manager/#programs-dont-work-in-systemd-services-but-do-on-the-terminal
       variables = [ "--all" ];
     };
-    # Since Hyprland 0.55, hyprlang is deprecated in favor of lua.
-    #
-    # TODO: migration to lua.
-    # Generating lua config from nix doesn't look nice especially
-    # when raw lua code is mixed.
-    #
-    # I think or add hyprand.lua config to xdg.configFiles,
-    # or use extraConfig option here.
-    #
-    # In any case, examples and references:
+    # References:
     # https://github.com/nix-community/home-manager/blob/master/modules/services/window-managers/hyprland.nix
     # https://github.com/hyprwm/Hyprland/blob/main/example/hyprland.lua
     # https://wiki.hypr.land/Configuring/Start/
-    # Remove on version 0.55
-    configType = "hyprlang";
-    # Uncomment on version 0.55
-    #configType = "lua";
-    settings = {
-      monitor = [
-        "eDP-1,highres,auto,1"
-      ];
-      xwayland = {
-        enabled = true;
-        force_zero_scaling = true;
+    configType = "lua";
+    extraLuaFiles = {
+      "hyprland.00-vars" = # lua
+        ''
+          M = {}
+          M.fg_primary = "${lib.strings.removePrefix "#" palette.fg-primary-container}"
+          M.fg_secondary = "${lib.strings.removePrefix "#" palette.fg-secondary}"
+          M.fg_inactive = "${lib.strings.removePrefix "#" palette.fg}"
+          -- it is slightly bigger than waybar has with the same number,
+          -- +1 helps.
+          M.gap_size = ${toString (config.my.theme.size.edge-gap + 1.0)}
+          M.launcher = "${lib.getExe pkgs.vicinae}"
+          M.terminal = "${config.my.terminal.exe}"
+          M.eye_candy = ${toString (!config.my.wm.performance)}
+          return M
+        '';
+      "hyprland.01-bind" = {
+        content = ./hyprland/bind.lua;
+        autoLoad = true;
       };
-      # Uncomment on version 0.55
-      #extraConfig = # lua
-      #  ''
-      #    require("hyprland/animation")
-      #    require("hyprland/bind")
-      #    require("hyprland/config")
-      #    require("hyprland/device")
-      #    require("hyprland/event")
-      #    require("hyprland/layer")
-      #    require("hyprland/monitor")
-      #    require("hyprland/window")
-      #  '';
-      # Remove the reset on version 0.55
-      # While v2 rules allow multiple rules to be applied, the `center` rule
-      # or `move` rule is not available.
-      # https://wiki.hyprland.org/Configuring/Window-Rules/
-      # Evaluated from top to bottom.
-      windowrule = [
-        (wr.on "initial_class" wr.rule.modal.class |> wr.enable wr.rule.modal.param)
-        (wr.on "initial_title" wr.rule.modal.title |> wr.enable wr.rule.modal.param)
-        (wr.on "initial_title" wr.rule.float.title |> wr.enable wr.rule.float.param)
-        (wr.on "modal" true |> wr.enable wr.rule.modal.param)
-        # Workaround: electron apps render popup as a floating window, applied blur effect to such windows looks bad.
-        (wr.on "float" true |> wr.enable "no_blur")
-
-        # Less junky jetbrains floating windows on hyprland.
-        # Keep toolbox in focus to prevent the lauched app grab focus and
-        # prevent you from closing the toolbox window.
-        (wr.on "initial_class" "^jetbrains-toolbox$" |> wr.enable "stay_focused")
-        (
-          wr.on "float" true
-          |> wr.and_on "initial_class" "jetbrains-pycharm"
-          |> wr.and_on "initial_title" "^$"
-          # After typing the search window doesn't resize,
-          # the default height only enough to render the input excluding
-          # the result part.
-          |> wr.set "min_size" "1000 600"
-          # Isn't a "must" but feels less junky.
-          |> wr.enable "no_anim"
-          # When changing tab, the window will resize back to have tiny height
-          # but border and shadow would stay there creating an empty square.
-          |> wr.set "border_size" "0"
-          |> wr.enable "no_shadow"
-        )
-        (wr.on "initial_class" "Removing Cookies and Site Data" |> wr.set "min_size" "579 234")
-        (wr.on "initial_class" "^app\.zen_browser\.zen$" |> wr.set "workspace" "1")
-        (wr.on "initial_class" "^jetbrains-pycharm$" |> wr.set "workspace" "2")
-        (wr.on "initial_class" "^steam$" |> wr.set "workspace" "6")
-        (wr.on "initial_class" "^com.usebottles.bottles$" |> wr.set "workspace" "6")
-        (wr.on "initial_class" "^Mattermost$" |> wr.set "workspace" "10")
-      ];
-
-      # See https://wiki.hyprland.org/Configuring/Keywords/ for more
-
-      "exec-once" = [
-        "${lib.getExe pkgs.solaar} --window=hide --battery-icons=symbolic"
-        "systemctl --user start hyprland-session.service"
-      ];
-
-      # KEY BINDINGS, see https://wiki.hyprland.org/Configuring/Binds/ for more
-
-      # Special
-      binde = [
-        ", XF86AudioRaiseVolume, exec, set-volume 5%+"
-        ", XF86AudioLowerVolume, exec, set-volume 5%-"
-        ", XF86MonBrightnessUp, exec, set-brightness 20%+"
-        ", XF86MonBrightnessDown, exec, set-brightness 20%-"
-        "${M} CONTROL, H, resizeactive, -25 0"
-        "${M} CONTROL, L, resizeactive, 25 0"
-        "${M} CONTROL, K, resizeactive, 0 -25"
-        "${M} CONTROL, J, resizeactive, 0 25"
-      ];
-      # MOVE/RESIZE WINDOWS with M + LMB/RMB and dragging
-      bindm = [
-        "${M}, mouse:272, movewindow"
-        "${M}, mouse:273, resizewindow"
-      ];
-      bind = [
-        # Launcher
-        "${M}, SPACE, exec, ${lib.getExe pkgs.vicinae} toggle"
-        "${M}, RETURN, exec, ${lib.getExe config.my.terminal.pkg}"
-
-        # Window management
-        "${M}, f, fullscreen,"
-        "${M}, delete, killactive,"
-        "${M}, backspace, exec, hyprctl --batch 'dispatch togglefloating active; dispatch pin active'"
-        "${M} SHIFT, escape, movetoworkspace, special" # move to the special workspace
-        "${M}, escape, togglespecialworkspace" # show/hide special workspace
-
-        # MOVE FOCUS
-        "${M}, H, movefocus, l"
-        "${M}, L, movefocus, r"
-        "${M}, K, movefocus, u"
-        "${M}, J, movefocus, d"
-
-        # MOVE WINDOW
-        "${M} SHIFT, H, movewindow, l"
-        "${M} SHIFT, L, movewindow, r"
-        "${M} SHIFT, K, movewindow, u"
-        "${M} SHIFT, J, movewindow, d"
-
-        # SWITCH WORKSPACES with M + [0-9]
-        "${M}, 1, workspace, 1"
-        "${M}, 2, workspace, 2"
-        "${M}, 3, workspace, 3"
-        "${M}, 4, workspace, 4"
-        "${M}, 5, workspace, 5"
-        "${M}, 6, workspace, 6"
-        "${M}, 7, workspace, 7"
-        "${M}, 8, workspace, 8"
-        "${M}, 9, workspace, 9"
-        "${M}, 0, workspace, 10"
-
-        # MOVE ACTIVE WINDOW TO A WORKSPACE with M + SHIFT + [0-9]
-        "${M} SHIFT, 1, movetoworkspace, 1"
-        "${M} SHIFT, 2, movetoworkspace, 2"
-        "${M} SHIFT, 3, movetoworkspace, 3"
-        "${M} SHIFT, 4, movetoworkspace, 4"
-        "${M} SHIFT, 5, movetoworkspace, 5"
-        "${M} SHIFT, 6, movetoworkspace, 6"
-        "${M} SHIFT, 7, movetoworkspace, 7"
-        "${M} SHIFT, 8, movetoworkspace, 8"
-        "${M} SHIFT, 9, movetoworkspace, 9"
-        "${M} SHIFT, 0, movetoworkspace, 10"
-        "${M}, TAB, workspace, previous"
-        "ALT, TAB, cyclenext"
-        "ALT, TAB, bringactivetotop"
-        "CTRL, TAB, exec, ${lib.getExe pkgs.vicinae} vicinae://launch/wm/switch-windows?toggle=true"
-      ];
-
-      binds = {
-        allow_workspace_cycles = true;
+      "hyprland.02-device" = {
+        content = ./hyprland/device.lua;
+        autoLoad = true;
       };
-
-      decoration = {
-        # See https://wiki.hyprland.org/Configuring/Variables/ for more
-        rounding = 5;
-        dim_inactive = true;
-        dim_strength = 0.20;
-        blur = {
-          enabled = !config.my.wm.performance;
-          size = 10;
-          passes = 2;
-          new_optimizations = true;
-        };
+      "hyprland.03-config" = {
+        content = ./hyprland/config.lua;
+        autoLoad = true;
       };
-
-      layerrule = [
-        # Apply rule to a layer
-        # https://wiki.hypr.land/Configuring/Keywords/#blurring-layersurfaces
-        # vicinae integration
-        # https://docs.vicinae.com/quickstart/hyprland
-        {
-          name = "vicinae";
-          blur = "on";
-          ignore_alpha = 0;
-          no_anim = "on";
-          "match:namespace" = "vicinae";
-        }
-        {
-          name = "waybar-blur";
-          blur = "on";
-          ignore_alpha = 0;
-          no_anim = "on";
-          "match:namespace" = "waybar";
-        }
-        {
-          name = "wayle";
-          "match:namespace" = "^wayle-.*$";
-          blur = "off"; # Broken
-          ignore_alpha = 0;
-          animation = "slide bottom";
-        }
-      ];
-
-      # Global animation configuration, controls layer and window animation.
-      # NAME you can find here https://wiki.hypr.land/Configuring/Animations/#animation-tree
-      # Animation style can be overriden in the window or layer rule set.
-      animations = {
-        enabled = !config.my.wm.performance;
-        bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
-        # NAME, ON_OFF, SPEED, CURVE, [,STYLE]
-        animation = [
-          "windows, 1, 1, myBezier"
-          "windowsOut, 1, 1, default, popin 80%"
-          "border, 1, 2, default"
-          "borderangle, 1, 2, default"
-          "fade, 1, 1, default"
-          "workspaces, 1, 1, default"
-          "specialWorkspace, 1, 1, myBezier, slidevert"
-          "layers, 1, 1, myBezier, default"
-        ];
+      "hyprland.04-event" = {
+        content = ./hyprland/event.lua;
+        autoLoad = true;
       };
-
-      # GENERAL SETTINGS
-      general =
-        let
-          color-from = lib.strings.removePrefix "#" palette.fg-primary-container;
-          color-to = lib.strings.removePrefix "#" palette.fg-secondary;
-          inactive-color = lib.strings.removePrefix "#" palette.fg;
-          # it is slightly bigger than waybar has with the same number,
-          # +1 helps.
-          gap = config.my.theme.size.edge-gap + 1.0;
-        in
-        {
-          border_size = 0;
-          gaps_in = gap / 2;
-          gaps_out = 0;
-          "col.active_border" = "rgba(${color-from}ee) rgba(${color-to}ee) 45deg";
-          "col.inactive_border" = "rgba(${inactive-color}aa)";
-          layout = "dwindle";
-          extend_border_grab_area = true;
-          hover_icon_on_border = true;
-        };
-
-      # DWINDLE LAYOUT
-      dwindle = {
-        force_split = 0;
-        preserve_split = true;
-        smart_split = false;
-        smart_resizing = true;
-        special_scale_factor = 0.8;
-        split_width_multiplier = 1.0;
-        use_active_for_splits = true;
-        default_split_ratio = 1.0;
+      "hyprland.05-layer" = {
+        content = ./hyprland/layer_rule.lua;
+        autoLoad = true;
       };
-
-      # MASTER LAYOUT
-      master = {
-        allow_small_split = false;
-        special_scale_factor = 0.8;
-        mfact = 0.55;
-        new_on_top = false;
-        orientation = "left";
+      "hyprland.06-monitor" = {
+        content = ./hyprland/monitor.lua;
+        autoLoad = true;
       };
-
-      # INPUT DEVICES
-      # Layouts and Options you can find here:
-      # https://github.com/Webconverger/webc/blob/master/usr/share/X11/xkb/rules/base.lst
-      # https://wiki.hypr.land/Configuring/Variables/#input
-      input = {
-        kb_layout = "us,ua";
-        kb_options = "grp:alt_space_toggle";
-        repeat_rate = 75;
-        repeat_delay = 250;
-        # 0: cursor movement won't change focus.
-        # 1: cursor movement always change focus.
-        # 2: change focus only on click.
-        # 3: disable focusing using mouse.
-        follow_mouse = 1;
-        # A distance in pixels mouse needs to travel to activate focus change.
-        # A random value higher than default 0 to prevent accidential re-focuses.
-        follow_mouse_threshold = 10;
-        # Breaks changing focus from tiled to float window,
-        # when float window is opened using a shortcut. For
-        # example jetbrains ide shift+shift.
-        mouse_refocus = false;
-        float_switch_override_focus = 0;
-        touchpad = {
-          disable_while_typing = true;
-          scroll_factor = 1.0;
-          tap-to-click = true;
-        };
+      "hyprland.07-window" = {
+        content = ./hyprland/window_rule.lua;
+        autoLoad = true;
       };
-
-      # MISC SETTINGS
-      misc = {
-        disable_hyprland_logo = true;
-        disable_splash_rendering = true;
-        vrr = 0;
-        mouse_move_enables_dpms = false;
-        key_press_enables_dpms = false;
-        layers_hog_keyboard_focus = true;
-        focus_on_activate = true;
-        mouse_move_focuses_monitor = true;
-        # Swallow exclusion does not work for some reason
-        # I need to exclude chromium, usually if browser lauched from the terminal
-        # it is for a) debug b) integration testing, both cases need browser to not be swallowed by terminal.
-        # Disabled until not resolved: https://github.com/hyprwm/Hyprland/issues/2203
-        enable_swallow = true;
-        swallow_regex = "^(?i)${config.my.terminal.exe}$";
-        swallow_exception_regex = "(?i)playwright.*";
-        # Disable "Application not responding" dialog.
-        enable_anr_dialog = false;
-      };
-
-      cursor = {
-        hide_on_key_press = true;
-        hide_on_touch = true;
-        inactive_timeout = 3;
-      };
-
-      # DEVICE SPECIFIC
-      device = {
-        # Disable capslock on builtin keyboard.
-        name = "at-translated-set-2-keyboard";
-        kb_options = "caps:none,grp:alt_space_toggle";
+      "hyprland.08-animation" = {
+        content = ./hyprland/animation.lua;
+        autoLoad = true;
       };
     };
   };

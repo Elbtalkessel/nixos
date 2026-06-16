@@ -2,6 +2,7 @@
 # Scripts I don't want put into nixpkgs-custom yet.
 {
   home.packages = with pkgs; [
+    kitty
     # Shell scripts
     (nuenv.writeShellApplication {
       name = "lsd";
