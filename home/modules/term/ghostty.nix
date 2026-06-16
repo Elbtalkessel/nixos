@@ -9,9 +9,8 @@
       cursor-style-blink = true;
       background = "0D0D0D";
       background-opacity = config.my.opacity;
-      # Annoying, setting it to false is what I want, but
-      # it adds opening delay.
-      gtk-single-instance = true;
+      # Adds small delay, but opens new window at home.
+      gtk-single-instance = false;
       quit-after-last-window-closed = false;
     };
   };
