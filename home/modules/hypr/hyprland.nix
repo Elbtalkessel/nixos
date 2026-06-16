@@ -47,8 +47,9 @@ in
           -- +1 helps.
           M.gap_size = ${toString (config.my.theme.size.edge-gap + 1.0)}
           M.launcher = "${lib.getExe pkgs.vicinae}"
-          M.terminal = "${config.my.terminal.exe}"
+          M.terminal = "${lib.getExe config.my.terminal.pkg}"
           M.eye_candy = ${toString (!config.my.wm.performance)}
+          M.swallow = "${config.my.terminal.exe}";
         '';
       "hyprland.01-bind" = {
         content = ./hyprland/bind.lua;

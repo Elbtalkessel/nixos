@@ -53,7 +53,7 @@ hl.config({
 		mouse_move_enables_dpms = false,
 		mouse_move_focuses_monitor = true,
 		swallow_exception_regex = "(?i)playwright.*",
-		swallow_regex = string.format(".*%s", M.terminal),
+		swallow_regex = string.format(".*%s", M.swallow),
 		vrr = 0,
 	},
 	-- https://wiki.hypr.land/Configuring/Basics/Variables/#binds
