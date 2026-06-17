@@ -58,7 +58,36 @@ in
           M.launcher = "${run (lib.getExe pkgs.vicinae)}"
           M.terminal = "${run (lib.getExe config.my.terminal.pkg)}"
           M.eye_candy = ${toString (!config.my.wm.performance)}
-          M.swallow = "${config.my.terminal.exe}";
+          M.swallow = "${config.my.terminal.exe}"
+          M.ICON = {
+            INFO = 1,
+            HINT = 2,
+            ERROR = 3,
+            QUESTION = 4,
+            SUCCESS = 5,
+          }
+          M.COLOR = {
+            FG_PRIMARY = "${palette.fg-primary}",
+            BG_PRIMARY = "${palette.bg-primary}",
+            FG_PRIMARY_CONTAINER = "${palette.fg-primary-container}",
+            BG_PRIMARY_CONTAINER = "${palette.bg-primary-container}",
+            FG_SECONDARY = "${palette.fg-secondary}",
+            BG_SECONDARY = "${palette.bg-secondary}",
+            FG_SECONDARY_CONTAINER = "${palette.fg-secondary-container}",
+            BG_SECONDARY_CONTAINER = "${palette.bg-secondary-container}",
+            FG_TERTIARY = "${palette.fg-tertiary}",
+            BG_TERTIARY = "${palette.bg-tertiary}",
+            FG_TERTIARY_CONTAINER = "${palette.fg-tertiary-container}",
+            BG_TERTIARY_CONTAINER = "${palette.bg-tertiary-container}",
+            FG_ERROR = "${palette.fg-error}",
+            BG_ERROR = "${palette.bg-error}",
+            FG_ERROR_CONTAINER = "${palette.fg-error-container}",
+            BG_ERROR_CONTAINER = "${palette.bg-error-container}",
+            FG = "${palette.fg}",
+            BG = "${palette.bg}",
+            FG_SURFACE = "${palette.fg-surface}",
+            BG_SURFACE = "${palette.bg-surface}",
+          }
         '';
       "hyprland.01-bind" = {
         content = ./hyprland/bind.lua;
