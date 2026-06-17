@@ -153,7 +153,6 @@ in
           Restart = "on-failure";
           RestartSec = 2;
           TimeoutStopSec = 10;
-          StartLimitIntervalSec = 20;
           StartLimitBurst = 5;
         };
       };
