@@ -19,6 +19,14 @@ in
       # https://wiki.hyprland.org/Nix/Hyprland-on-Home-Manager/#programs-dont-work-in-systemd-services-but-do-on-the-terminal
       variables = [ "--all" ];
     };
+    plugins = [
+      (pkgs.callPackage (pkgs.fetchFromGitHub {
+        owner = "sandwichfarm";
+        repo = "hyprexpo";
+        rev = "v0.55.2+2";
+        sha256 = "sha256-E+yK/HwvUOrmrFwq/i9WuIpd/NC/qE2xYAwOV2RNp3o=";
+      }) { })
+    ];
     # References:
     # https://github.com/nix-community/home-manager/blob/master/modules/services/window-managers/hyprland.nix
     # https://github.com/hyprwm/Hyprland/blob/main/example/hyprland.lua
@@ -81,6 +89,10 @@ in
       };
       "hyprland.08-animation" = {
         content = ./hyprland/animation.lua;
+        autoLoad = true;
+      };
+      "hyprland.09-hyprexpo" = {
+        content = ./hyprland/hyprexpo.lua;
         autoLoad = true;
       };
     };
