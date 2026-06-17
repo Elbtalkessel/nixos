@@ -94,7 +94,7 @@ def _nixify_json(path: Path) -> str:
 
 
 def nixify(path: Path) -> str:
-    if path.suffix in ("json", "jsonc"):
+    if _norm_ext(path) == "json":
         return _nixify_json(path)
     return _nixify_any(path)
 
