@@ -10,14 +10,13 @@ import enum
 import logging
 import traceback
 import re
+from typing import Callable, Generator, Iterable
 
 
 logger = logging.getLogger(__name__)
-XDG_CONFIG_HOME = Path(os.environ["XDG_CONFIG_HOME"])
-FAIL = object()
 
 
-def deep_merge(src: dict, dst: dict):
+def _deep_merge(src: dict, dst: dict):
     """
     Exceedingly inefficient deep dict in-place merger.
     Only merges dicts, lists will shallow copied to the destionation.
@@ -28,12 +27,12 @@ def deep_merge(src: dict, dst: dict):
     for k, v in src.items():
         if isinstance(v, dict):
             node = dst.setdefault(k, {})
-            deep_merge(v, node)
+            _deep_merge(v, node)
         else:
             dst[k] = v
 
 
-def unflatten_dict(flat: dict) -> dict:
+def _unflatten_dict(flat: dict) -> dict:
     """
     Converts flat, dot separated dicts into nested one.
 
@@ -44,37 +43,63 @@ def unflatten_dict(flat: dict) -> dict:
     deep = {}
     for k, v in flat.items():
         keys = reversed(k.split("."))
-        deep_merge(functools.reduce(lambda x, y: {y: x}, keys, v), deep)
+        _deep_merge(functools.reduce(lambda x, y: {y: x}, keys, v), deep)
     return deep
 
 
-def read_json_config(path: Path) -> dict:
-    with open(path, "r") as f:
-        content = f.read()
-        return json.loads(re.sub(r"(?m)^//.*\n?", "", content))
+def _norm_json(path: Path) -> dict:
+    """
+    Turns JSONC to regular JSON removing comments.
+    """
+    return json.loads(re.sub(r"(?m)^//.*\n?", "", path.read_text()))
 
 
-def nixify_json(config: dict) -> str:
-    with tempfile.NamedTemporaryFile() as f:
-        content = json.dumps(config, sort_keys=True).encode("utf-8")
-        f.write(content)
-        f.flush()
-        r = subprocess.run(
-            [
-                "nix",
-                "eval",
-                "--expr",
-                f"builtins.fromJSON (builtins.readFile {f.name})",
-                "--impure",
-            ],
-            capture_output=True,
-        )
+def _norm_ext(path: Path) -> str:
+    """
+    Verifies that a path has extension.
+    Changes .jsonc to .json
+    """
+    ext = path.suffix.replace(".", "")
+    if not ext:
+        raise RuntimeError(f"cannot get file extensions from {path}")
+    if ext == "jsonc":
+        ext = "json"
+    return ext
+
+
+def _nixify_any(path: Path) -> str:
+    ext = _norm_ext(path)
+    r = subprocess.run(
+        [
+            "nix",
+            "eval",
+            "--expr",
+            f"builtins.from{ext.upper()} (builtins.readFile {path})",
+            "--impure",
+        ],
+        capture_output=True,
+    )
     if r.returncode != 0:
         raise RuntimeError(r.stderr.decode("utf-8"))
     return r.stdout.decode("utf-8")
 
 
-def unlink(path: Path) -> None:
+def _nixify_json(path: Path) -> str:
+    config = _unflatten_dict(_norm_json(path))
+    with tempfile.NamedTemporaryFile(suffix=".json") as f:
+        content = json.dumps(config, sort_keys=True).encode("utf-8")
+        f.write(content)
+        f.flush()
+        return _nixify_any(Path(f.name))
+
+
+def nixify(path: Path) -> str:
+    if path.suffix in ("json", "jsonc"):
+        return _nixify_json(path)
+    return _nixify_any(path)
+
+
+def unlink(path: Path) -> str:
     """
     Unlinks `path` replacing link with target's content.
     """
@@ -87,43 +112,67 @@ def unlink(path: Path) -> None:
     os.unlink(path)
     with open(path, "w") as f:
         f.write(content)
+    return path.name
 
 
 class PTopic(enum.StrEnum):
     UNLINK = "unlink"
     NIXIFY = "nixify"
+    JSON_NORM = "json-norm"
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description=f"{XDG_CONFIG_HOME} controller")
-    p_topic = parser.add_subparsers(dest="topic")
+    parser = argparse.ArgumentParser(description=f"NixOS config artificats management.")
+    _reg = parser.add_subparsers(dest="topic")
 
-    p_unlink = p_topic.add_parser(
+    p_unlink = _reg.add_parser(
         name=PTopic.UNLINK,
         help="Unlink a config file.",
     )
-    p_nixify = p_topic.add_parser(
+    p_nixify = _reg.add_parser(
         name=PTopic.NIXIFY,
         help="Turns a json file into nix attribute set.",
     )
+    p_json_norm = _reg.add_parser(
+        name=PTopic.JSON_NORM,
+        help="Prints normalized json content.",
+    )
 
-    p_unlink.add_argument("path", help="Path to unlink.")
-    p_nixify.add_argument("path", help="Path to nixify.")
+    p_unlink.add_argument("path", help="Path to unlink.", nargs="*")
+    p_nixify.add_argument("path", help="Path to nixify.", nargs="*")
+    p_json_norm.add_argument("path", help="Path to a json file", nargs="*")
 
     args = parser.parse_args()
     t = PTopic(args.topic)
 
-    def run() -> str:
-        path = Path(args.path)
-        if t == PTopic.UNLINK:
-            unlink(path)
-            return f"{args.path} is writable now"
-        if t == PTopic.NIXIFY:
-            return nixify_json(read_json_config(path))
-        raise RuntimeError("Wrong topic")
+    def every(paths: Iterable[str], cb: Callable[[Path], str]) -> Generator[str]:
+        """
+        Nargs support, calls `cb` for every path.
+        """
+        for str_path in paths:
+            path = Path(str_path)
+            pfx = f"{os.path.basename(path)}: "
+            try:
+                yield f"{pfx}{cb(path)}"
+            except Exception:
+                logger.exception(f"cannot parse {path}")
+
+    def run() -> Generator[str]:
+        if t not in PTopic:
+            raise RuntimeError("Wrong topic")
+        elif t == PTopic.UNLINK:
+            yield from every(args.path, unlink)
+        elif t == PTopic.NIXIFY:
+            yield from every(args.path, nixify)
+        elif t == PTopic.JSON_NORM:
+            yield from every(
+                (p for p in args.path if "json" in p),
+                lambda p: json.dumps(_norm_json(p)),
+            )
 
     try:
-        sys.stdout.write(run())
+        for r in run():
+            sys.stdout.write(r)
         sys.exit(0)
     except Exception:
         sys.stderr.write(traceback.format_exc())
