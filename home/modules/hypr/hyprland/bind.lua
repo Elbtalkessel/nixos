@@ -3,7 +3,6 @@
 
 -- launch
 hl.bind("SUPER + SPACE", hl.dsp.exec_cmd(M.launcher .. " toggle"))
-hl.bind("CTRL + TAB", hl.dsp.exec_cmd(M.launcher .. " vicinae://launch/wm/switch-windows?toggle=true"))
 hl.bind("SUPER + RETURN", hl.dsp.exec_cmd(M.terminal))
 hl.bind(" + XF86AudioRaiseVolume", hl.dsp.exec_cmd("set-volume 5%+"), { repeating = true })
 hl.bind(" + XF86AudioLowerVolume", hl.dsp.exec_cmd("set-volume 5%-"), { repeating = true })
