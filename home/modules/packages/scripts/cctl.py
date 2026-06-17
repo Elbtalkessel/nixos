@@ -122,7 +122,7 @@ class PTopic(enum.StrEnum):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description=f"NixOS config artificats management.")
+    parser = argparse.ArgumentParser(description="NixOS config artificats management.")
     _reg = parser.add_subparsers(dest="topic")
 
     p_unlink = _reg.add_parser(
