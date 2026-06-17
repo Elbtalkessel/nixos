@@ -6,6 +6,7 @@
 }:
 let
   palette = config.my.theme.color.dark;
+  run = cmd: if config.my.wm.uwsm.enable then "uwsm-app -- ${cmd}" else cmd;
 in
 {
   wayland.windowManager.hyprland = {
@@ -54,8 +55,8 @@ in
           -- it is slightly bigger than waybar has with the same number,
           -- +1 helps.
           M.gap_size = ${toString (config.my.theme.size.edge-gap + 1.0)}
-          M.launcher = "${lib.getExe pkgs.vicinae}"
-          M.terminal = "${lib.getExe config.my.terminal.pkg}"
+          M.launcher = "${run (lib.getExe pkgs.vicinae)}"
+          M.terminal = "${run (lib.getExe config.my.terminal.pkg)}"
           M.eye_candy = ${toString (!config.my.wm.performance)}
           M.swallow = "${config.my.terminal.exe}";
         '';
