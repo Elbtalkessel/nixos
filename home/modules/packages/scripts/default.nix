@@ -2,7 +2,6 @@
 # Scripts I don't want put into nixpkgs-custom yet.
 {
   home.packages = with pkgs; [
-    kitty
     # Shell scripts
     (nuenv.writeShellApplication {
       name = "lsd";
@@ -29,5 +28,8 @@
         pkgs.fzf
       ];
     })
+    (writers.writePython3Bin "cctl" {
+      flakeIgnore = [ "E501" ];
+    } (builtins.readFile ./cctl.py))
   ];
 }
