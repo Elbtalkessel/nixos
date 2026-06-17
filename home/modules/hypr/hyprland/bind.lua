@@ -28,8 +28,8 @@ end
 -- resize
 hl.bind("SUPER + CONTROL + H", hl.dsp.window.resize({ x = -25, y = 0, relative = true }), { repeating = true })
 hl.bind("SUPER + CONTROL + L", hl.dsp.window.resize({ x = 25, y = 0, relative = true }), { repeating = true })
-hl.bind("SUPER + CONTROL + K", hl.dsp.window.resize({ x = 0, y = -25 }), { repeating = true })
-hl.bind("SUPER + CONTROL + J", hl.dsp.window.resize({ x = 0, y = 25 }), { repeating = true })
+hl.bind("SUPER + CONTROL + K", hl.dsp.window.resize({ x = 0, y = -25, relative = true }), { repeating = true })
+hl.bind("SUPER + CONTROL + J", hl.dsp.window.resize({ x = 0, y = 25, relative = true }), { repeating = true })
 
 -- move/resize windows with mainMod + LMB/RMB and dragging
 hl.bind("SUPER + mouse:272", hl.dsp.window.drag(), { mouse = true })
