@@ -50,3 +50,5 @@ hl.bind("SUPER + TAB", hl.dsp.focus({ workspace = "previous" }))
 -- Scroll through existing workspaces with mainMod + scroll
 hl.bind("SUPER + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
 hl.bind("SUPER + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
+hl.bind("SUPER + ALT + L", hl.dsp.focus({ workspace = "e+1" }))
+hl.bind("SUPER + ALT + H", hl.dsp.focus({ workspace = "e-1" }))
