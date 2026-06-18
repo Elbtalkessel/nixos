@@ -21,8 +21,8 @@ hl.bind("SUPER + SHIFT + K", hl.dsp.window.move({ direction = "up" }))
 hl.bind("SUPER + SHIFT + J", hl.dsp.window.move({ direction = "down" }))
 for i = 1, 10 do
 	local key = tostring(i % 10)
-	hl.bind("SUPER + " .. key, hl.dsp.focus({ workspace = key }))
-	hl.bind("SUPER + SHIFT + " .. key, hl.dsp.window.move({ workspace = key }))
+	hl.bind("SUPER + " .. key, hl.dsp.focus({ workspace = i }))
+	hl.bind("SUPER + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
 end
 
 -- resize
