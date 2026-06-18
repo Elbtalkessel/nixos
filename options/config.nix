@@ -71,7 +71,7 @@ in
           # Alternating colors, ligh on dark - dark on light for each variant.
           dark = {
             fg-primary = "#C0B1E6";
-            bg-primary = "#30254C";
+            bg-primary = "#252526";
             fg-primary-container = "#403266";
             bg-primary-container = "#CBC0E6";
             fg-secondary = "#D8D2E6";
@@ -90,6 +90,8 @@ in
             bg = "#e4e4e6";
             fg-surface = "#e4e4e6";
             bg-surface = "#191919";
+            green-100 = "#8ec07c";
+            green-200 = "#26a269";
           };
         };
       };

@@ -339,6 +339,14 @@ in
                                 type = str;
                                 description = "Text on surface.";
                               };
+                              green-100 = opt {
+                                type = str;
+                                description = "For all green elements.";
+                              };
+                              green-200 = opt {
+                                type = str;
+                                description = "For even greener element.";
+                              };
                             };
                           };
                         };
