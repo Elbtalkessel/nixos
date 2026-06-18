@@ -2,8 +2,9 @@
 -- https://wiki.hypr.land/Configuring/Basics/Binds/
 
 -- launch
-hl.bind("SUPER + SPACE", hl.dsp.exec_cmd(M.launcher .. " toggle"))
-hl.bind("SUPER + RETURN", hl.dsp.exec_cmd(M.terminal))
+hl.bind("SUPER + SPACE", hl.dsp.exec_cmd(M.PROG.LAUNCHER .. " toggle"))
+hl.bind("SUPER + RETURN", hl.dsp.exec_cmd(M.PROG.TERMINAL))
+hl.bind("SUPER + SHIFT + P", hl.dsp.exec_cmd(M.PROG.COLOR_PICKER))
 hl.bind(" + XF86AudioRaiseVolume", hl.dsp.exec_cmd("set-volume 5%+"), { repeating = true })
 hl.bind(" + XF86AudioLowerVolume", hl.dsp.exec_cmd("set-volume 5%-"), { repeating = true })
 hl.bind(" + XF86MonBrightnessUp", hl.dsp.exec_cmd("set-brightness 20%+"), { repeating = true })
@@ -18,8 +19,8 @@ hl.bind("SUPER + SHIFT + H", hl.dsp.window.move({ direction = "left" }))
 hl.bind("SUPER + SHIFT + L", hl.dsp.window.move({ direction = "right" }))
 hl.bind("SUPER + SHIFT + K", hl.dsp.window.move({ direction = "up" }))
 hl.bind("SUPER + SHIFT + J", hl.dsp.window.move({ direction = "down" }))
-for i = 0, 9 do
-	local key = tostring(i)
+for i = 1, 10 do
+	local key = tostring(i % 10)
 	hl.bind("SUPER + " .. key, hl.dsp.focus({ workspace = key }))
 	hl.bind("SUPER + SHIFT + " .. key, hl.dsp.window.move({ workspace = key }))
 end

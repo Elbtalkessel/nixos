@@ -55,10 +55,13 @@ in
           -- it is slightly bigger than waybar has with the same number,
           -- +1 helps.
           M.gap_size = ${toString (config.my.theme.size.edge-gap + 1.0)}
-          M.launcher = "${run (lib.getExe pkgs.vicinae)}"
-          M.terminal = "${run (lib.getExe config.my.terminal.pkg)}"
           M.eye_candy = ${toString (!config.my.wm.performance)}
           M.swallow = "${config.my.terminal.exe}"
+          M.PROG = {
+            COLOR_PICKER = "${run (lib.getExe pkgs.hyprpicker)}",
+            LAUNCHER = "${run (lib.getExe pkgs.vicinae)}",
+            TERMINAL = "${run (lib.getExe config.my.terminal.pkg)}"
+          }
           M.ICON = {
             INFO = 1,
             HINT = 2,

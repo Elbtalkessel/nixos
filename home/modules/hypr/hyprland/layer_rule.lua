@@ -21,3 +21,10 @@ hl.layer_rule({
 	ignore_alpha = 0,
 	match = { namespace = "^wayle-.*$" },
 })
+hl.layer_rule({
+	name = "noctalia",
+	match = { namespace = "noctalia-.*$" },
+	ignore_alpha = 0.3,
+	blur = true,
+	blur_popups = true,
+})
