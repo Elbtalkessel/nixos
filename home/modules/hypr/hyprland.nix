@@ -125,6 +125,10 @@ in
         content = ./hyprland/hyprexpo.lua;
         autoLoad = true;
       };
+      "hyprland.10-workspace_rule" = {
+        content = ./hyprland/workspace_rule.lua;
+        autoLoad = true;
+      };
     };
   };
 }

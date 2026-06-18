@@ -56,7 +56,7 @@ in
       wm = {
         uwsm.enable = true;
         performance = false;
-        bar.provider = "wayle";
+        bar.provider = "noctalia";
       };
       virt.docker.gpu.enable = false;
       theme = {

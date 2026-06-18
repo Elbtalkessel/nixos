@@ -262,6 +262,7 @@ in
                             "waybar"
                             "quickshell"
                             "wayle"
+                            "noctalia"
                           ];
                           description = "Bar provider";
                         };

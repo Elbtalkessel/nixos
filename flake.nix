@@ -39,6 +39,10 @@
     nix-flatpak = {
       url = "github:gmodena/nix-flatpak/?ref=latest";
     };
+    noctalia = {
+      url = "github:noctalia-dev/noctalia";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -51,9 +55,8 @@
       disko,
       sops-nix,
       nuenv,
-      nix-flatpak,
       ...
-    }:
+    }@attrs:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -116,9 +119,9 @@
       # Reference: https://nix-community.github.io/home-manager/options.xhtml#opt-<dot.notated.path.to.option>
       homeConfigurations.risus = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
+        extraSpecialArgs = attrs;
         modules = [
           ./options
-          nix-flatpak.homeManagerModules.nix-flatpak
           ./home/omen.nix
         ];
       };

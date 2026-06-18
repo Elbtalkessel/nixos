@@ -1,4 +1,8 @@
-_: {
+{ config, ... }:
+let
+  enable = config.my.wm.bar.provider == "wayle";
+in
+{
   imports = [
     ./settings/bar.nix
     ./settings/general.nix
@@ -8,6 +12,6 @@ _: {
     ./settings/wallpaper.nix
   ];
   services.wayle = {
-    enable = true;
+    inherit enable;
   };
 }

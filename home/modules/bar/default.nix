@@ -6,5 +6,6 @@ _: {
     ./waybar
     ./quickshell
     ./wayle
+    ./noctalia
   ];
 }

@@ -1,5 +1,9 @@
-{ config, ... }:
+{ config, nix-flatpak, ... }:
 {
+  imports = [
+    nix-flatpak.homeManagerModules.nix-flatpak
+  ];
+
   services.flatpak.packages = [
     "com.github.tchx84.Flatseal"
     "com.usebottles.bottles"
