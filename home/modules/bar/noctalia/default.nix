@@ -8,8 +8,5 @@ in
   ];
   programs.noctalia = {
     inherit enable;
-    systemd = {
-      inherit enable;
-    };
   };
 }
