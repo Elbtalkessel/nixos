@@ -12,11 +12,12 @@ in
   wayland.windowManager.hyprland = {
     enable = true;
     # https://wiki.hyprland.org/Nix/Hyprland-on-Home-Manager/#using-the-home-manager-module-with-nixos
+    # Package and portal is defined in NixOS configuration.
     package = null;
     portalPackage = null;
     systemd = {
-      # Conflicts with UWSM, see system/modules/session.nix
-      enable = false;
+      # https://wiki.hypr.land/Useful-Utilities/Systemd-start/#installation
+      enable = !config.my.wm.uwsm.enable;
       # https://wiki.hyprland.org/Nix/Hyprland-on-Home-Manager/#programs-dont-work-in-systemd-services-but-do-on-the-terminal
       variables = [ "--all" ];
     };
