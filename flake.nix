@@ -12,7 +12,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware = {
-      url = "github:NixOS/nixos-hardware/master";
+      url = "github:NixOS/nixos-hardware";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     nixvim = {
       # Remove the branch name to switch to unstable
@@ -51,7 +52,6 @@
       home-manager,
       nixvim,
       nixpkgs-custom,
-      nixos-hardware,
       disko,
       sops-nix,
       nuenv,
@@ -94,9 +94,7 @@
     {
       nixosConfigurations.omen = nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = {
-          inherit nixos-hardware;
-        };
+        specialArgs = attrs;
         modules = [
           { nixpkgs = { inherit pkgs; }; }
           ./options
