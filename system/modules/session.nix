@@ -64,7 +64,17 @@
         xdg-desktop-portal-hyprland
         xdg-desktop-portal-gtk
       ];
-      config.common.default = "*";
+      config = {
+        common = {
+          default = [ "hyprland" ];
+        };
+        hyprland = {
+          default = [
+            "hyprland"
+            "gtk"
+          ];
+        };
+      };
     };
   };
 }

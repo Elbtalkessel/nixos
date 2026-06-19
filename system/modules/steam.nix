@@ -35,13 +35,14 @@
   # to use a device.
   # https://github.com/ValveSoftware/steam-devices/blob/master/60-steam-input.rules
   # https://github.com/NixOS/nixpkgs/blob/nixpkgs-unstable/nixos/modules/hardware/steam-hardware.nix
-  # Removing doesn't change anything
+  # I don't care about these devices, but, probably, if steam is enabled, rules are installed anyway,
+  # this way it is more explicit to me.
   hardware.steam-hardware.enable = lib.mkDefault config.programs.steam.enable;
 
   # Among rules above there is a rule for a steam controller to wakeup computer from sleep.
-  # For "some" reason linux tries to change attribute of all attached devices.
+  # Kernel tests all devices and logs that power/wakeup not supported, this rule make log "cleaner".
   services.udev.extraRules = ''
     # Only enable wakeup when power/wakeup attribute exists
-    ACTION=="add", SUBSYSTEM=="usb", TEST=="power/wakeup", ATTR{power/wakeup}="enabled"
+    ACTION=="add", SUBSYSTEM=="usb[0-9]*", TEST=="power/wakeup", ATTR{power/wakeup}="enabled"
   '';
 }
