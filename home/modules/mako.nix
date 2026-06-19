@@ -5,7 +5,11 @@
   ...
 }:
 let
-  enable = config.my.wm.bar.provider != "hyprpanel";
+  enable =
+    !(lib.lists.any (x: config.my.wm.bar.provider == x) [
+      "hyprpanel"
+      "noctalia"
+    ]);
 in
 {
   home.packages = lib.mkIf enable (
