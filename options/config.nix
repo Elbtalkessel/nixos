@@ -69,6 +69,8 @@ in
         color = {
           # https://www.logicui.com/colorgenerator
           # Alternating colors, ligh on dark - dark on light for each variant.
+          # TODO: there is a separate palette for noctalia in ~/.config/noctalia/palettes/mine.json
+          # I like it more.
           dark = {
             fg-primary = "#C0B1E6";
             bg-primary = "#252526";

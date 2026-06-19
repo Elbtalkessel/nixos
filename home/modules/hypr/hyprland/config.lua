@@ -3,13 +3,25 @@
 hl.config({
 	-- https://wiki.hypr.land/Configuring/Basics/Variables/#general
 	general = {
-		border_size = M.border_size,
+		border_size = M.CONF.BORDER_SIZE,
 		col = {
-			active_border = M.active_border,
-			inactive_border = M.inactive_border,
+			active_border = {
+				colors = {
+					M.COLOR.BG_PRIMARY,
+					M.COLOR.BG_PRIMARY_CONTAINER,
+				},
+				angle = 90,
+			},
+			inactive_border = {
+				colors = {
+					M.COLOR.BG_SECONDARY .. "11",
+					M.COLOR.BG_SECONDARY_CONTAINER .. "11",
+				},
+				angle = 180,
+			},
 		},
 		extend_border_grab_area = true,
-		gaps_in = M.gap_size / 2,
+		gaps_in = M.CONF.GAP_SIZE / 2,
 		gaps_out = 0,
 		hover_icon_on_border = true,
 		layout = "dwindle",
@@ -17,12 +29,12 @@ hl.config({
 	-- https://wiki.hypr.land/Configuring/Basics/Variables/#decoration
 	decoration = {
 		blur = {
-			enabled = M.eye_candy,
+			enabled = M.CONF.EYE_CANDY,
 			new_optimizations = true,
 			passes = 2,
 			size = 10,
 		},
-		dim_inactive = M.border_size == 0,
+		dim_inactive = M.CONF.BORDER_SIZE == 0,
 		dim_strength = 0.200000,
 		rounding = 5,
 	},
@@ -53,7 +65,7 @@ hl.config({
 		mouse_move_enables_dpms = false,
 		mouse_move_focuses_monitor = true,
 		swallow_exception_regex = "(?i)playwright.*",
-		swallow_regex = string.format(".*%s", M.swallow),
+		swallow_regex = string.format(".*%s", M.CONF.SWALLOW),
 		vrr = 0,
 	},
 	-- https://wiki.hypr.land/Configuring/Basics/Variables/#binds
@@ -94,6 +106,6 @@ hl.config({
 	},
 	-- https://wiki.hypr.land/Configuring/Basics/Variables/#animations
 	animations = {
-		enabled = M.eye_candy,
+		enabled = M.CONF.EYE_CANDY,
 	},
 })

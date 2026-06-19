@@ -30,38 +30,38 @@ in
       "hyprland.00-vars" = # lua
         ''
           M = {}
-          M.active_border = {
-            colors = {
-              "${palette.bg-primary}",
-              "${palette.bg-primary-container}",
-            },
-            angle = 90,
+          -- Helps define config in nix and pass it to lua from here.
+          M.CONF = {
+            BORDER_SIZE = 1,
+            -- it is slightly bigger than waybar has with the same number,
+            -- +1 helps.
+            GAP_SIZE = ${toString (config.my.theme.size.edge-gap + 1.0)},
+            EYE_CANDY = ${toString (!config.my.wm.performance)},
+            SWALLOW = "${config.my.terminal.exe}",
           }
-          M.inactive_border = {
-            colors = {
-              "${palette.bg-secondary}11",
-              "${palette.bg-secondary-container}11",
-            },
-            angle = 180,
-          }
-          M.border_size = 1
-          -- it is slightly bigger than waybar has with the same number,
-          -- +1 helps.
-          M.gap_size = ${toString (config.my.theme.size.edge-gap + 1.0)}
-          M.eye_candy = ${toString (!config.my.wm.performance)}
-          M.swallow = "${config.my.terminal.exe}"
+
+          -- Programs launched using keybinds, UWSM aware.
           M.PROG = {
             COLOR_PICKER = "${run (lib.getExe pkgs.hyprpicker)}",
             LAUNCHER = "${run (lib.getExe pkgs.vicinae)}",
             TERMINAL = "${run (lib.getExe config.my.terminal.pkg)}"
           }
+
+          -- For use in hl.notification.create, icon attr.
           M.ICON = {
+            -- `i` icon
             INFO = 1,
+            -- lightbulb icon
             HINT = 2,
+            -- cross sign
             ERROR = 3,
+            -- question sign
             QUESTION = 4,
+            -- checkmark sign
             SUCCESS = 5,
           }
+
+          -- Palette to use for coloring notifications anything that can be colored.
           M.COLOR = {
             FG_PRIMARY = "${palette.fg-primary}",
             BG_PRIMARY = "${palette.bg-primary}",

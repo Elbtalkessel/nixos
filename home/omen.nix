@@ -10,6 +10,7 @@
     ./modules/explorer
     ./modules/media
     ./modules/packages
+    ./modules/shell
     ./modules/term
     ./modules/apps.nix
     ./modules/git.nix
