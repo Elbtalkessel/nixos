@@ -1,7 +1,7 @@
-_: {
-
+{ config, ... }:
+{
   services.hyprsunset = {
-    enable = true;
+    enable = config.my.wm.bar.provider != "noctalia";
     settings = {
       profile = [
         {
