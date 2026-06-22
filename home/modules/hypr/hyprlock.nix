@@ -1,7 +1,7 @@
 { config, ... }:
 {
   programs.hyprlock = {
-    enable = true;
+    enable = config.my.wm.bar.provider != "noctalia";
     settings = {
       general = {
         hide_cursor = true;

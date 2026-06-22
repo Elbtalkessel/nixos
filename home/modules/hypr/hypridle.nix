@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, config, ... }:
 let
   # Lock session.
   lock = true;
@@ -10,7 +10,7 @@ in
 {
   # https://mynixos.com/home-manager/options/services.hypridle
   services.hypridle = {
-    enable = true;
+    enable = config.my.wm.bar.provider != "noctalia";
     # https://wiki.hyprland.org/Hypr-Ecosystem/hypridle/
     settings = {
       general = {

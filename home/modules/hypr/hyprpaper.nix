@@ -1,7 +1,7 @@
 { config, ... }:
 {
   services.hyprpaper = {
-    enable = true;
+    enable = config.my.wm.bar.provider != "noctalia";
     settings = {
       ipc = true;
       splash = false;
