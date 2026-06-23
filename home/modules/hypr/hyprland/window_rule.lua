@@ -31,7 +31,9 @@ hl.window_rule({
 	stay_focused = true,
 })
 hl.window_rule({ match = { initial_title = "(Picture-in-Picture)" }, float = true })
-hl.window_rule({ match = { initial_class = _or({ "zenity" }) }, float = true })
+-- float limo popup icons, but keep the main icon (just Limo in title) tiled.
+hl.window_rule({ match = { initial_class = _or({ "zenity", "limo" }) }, float = true })
+hl.window_rule({ match = { initial_title = "^Limo$" }, float = false })
 hl.window_rule({ match = { modal = true }, center = true, float = true, stay_focused = true })
 hl.window_rule({ match = { float = true }, no_blur = true })
 hl.window_rule({ match = { initial_class = "^jetbrains-toolbox$" }, stay_focused = true })

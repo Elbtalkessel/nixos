@@ -34,9 +34,11 @@ in
       };
     gtk4.theme = theme;
     gtk3.theme = theme;
+    # Papirus dark includes icons missing in Adwaita,
+    # https://github.com/NixOS/nixpkgs/issues/365287
     iconTheme = {
-      package = pkgs.adwaita-icon-theme;
-      name = "Adwaita";
+      package = pkgs.papirus-icon-theme;
+      name = "Papirus-Dark";
     };
     font = {
       name = config.my.font.family.default;

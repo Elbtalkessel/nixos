@@ -58,6 +58,8 @@
     python313Packages.ipython # python.
 
     # Games
+    # Without unrar support, to install *.rar mods, download
+    # it manually and repack to something sensible.
     limo
 
     # Custom
