@@ -14,10 +14,10 @@ hl.config({
 			},
 			inactive_border = {
 				colors = {
-					M.COLOR.BG_SECONDARY .. "11",
-					M.COLOR.BG_SECONDARY_CONTAINER .. "11",
+					M.COLOR.BG_SECONDARY .. "85",
+					M.COLOR.BG_SECONDARY_CONTAINER .. "85",
 				},
-				angle = 180,
+				angle = 120,
 			},
 		},
 		extend_border_grab_area = true,

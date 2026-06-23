@@ -66,11 +66,6 @@ in
       GOPATH = "${XDG_DATA_HOME}/go";
       GOMODCACHE = "${XDG_CACHE_HOME}/go/mod";
 
-      # Qt fixup
-      QT_AUTO_SCREEN_SCALE_FACTOR = "0";
-      QT_SCALE_FACTOR = "1";
-      QT_ENABLE_HIGHDPI_SCALING = "1";
-
       # Colored man pages
       MANPAGER = "sh -c 'col -bx | bat -l man -p'";
       MANROFFOPT = "-c";

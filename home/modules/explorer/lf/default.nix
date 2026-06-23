@@ -1,6 +1,25 @@
-{ pkgs, config, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 let
-  preview = pkgs.lib.getExe pkgs.lf-tools.preview;
+  # fallback for ghostty, it doesn't support sixel, lf doesn't support
+  # not-sixel, ctpv works but gives pixelated output.
+  is-ctpv = config.my.terminal.exe == "ghostty";
+
+  preview-script =
+    if is-ctpv then
+      "${pkgs.ctpv}/bin/ctpv"
+    else
+      (pkgs.writeShellScript "previewerr.sh"
+        # bash
+        ''
+          ${pkgs.lib.getExe pkgs.lf-tools.preview} "''$1" "''$2" "''$3" "''$4" "''$5"
+        ''
+      );
+
   mimeo = pkgs.lib.getExe pkgs.mimeo;
   ouch = pkgs.lib.getExe pkgs.ouch;
   tmsu = pkgs.lib.getExe pkgs.tmsu;
@@ -9,18 +28,20 @@ in
   xdg.configFile = {
     "lf/icons".source = ./icons;
   };
-  home.packages = with pkgs; [
-    exiftool
-    atool
-    ffmpegthumbnailer
-    colordiff
-    elinks
-    chafa
-    jq
-    glow
-    imagemagick
-    bat
-  ];
+  home.packages =
+    with pkgs;
+    lib.mkIf is-ctpv [
+      exiftool
+      atool
+      ffmpegthumbnailer
+      colordiff
+      elinks
+      chafa
+      jq
+      glow
+      imagemagick
+      bat
+    ];
   programs.lf = rec {
     enable = true;
 
@@ -48,13 +69,7 @@ in
     };
 
     previewer = {
-      # TODO: implement wrapper to let previewer only access
-      #   what it needs to run, nix wrap, bubblewrap or something else.
-      # source = pkgs.writeShellScript "previewer.sh" ''
-      #   # ctpv gives pixilated image preview.
-      #   ${preview} "''$1" "''$2" "''$3" "''$4" "''$5"
-      # '';
-      source = "${pkgs.ctpv}/bin/ctpv";
+      source = "${preview-script}";
     };
     extraConfig = ''
       &${pkgs.ctpv}/bin/ctpv -s $id
@@ -274,7 +289,7 @@ in
         ''
           ''${{
             set -f
-            if test $(${preview} mime $f major) == "x-archive"; then
+            if test $(${preview-script} mime $f major) == "x-archive"; then
               ${ouch} d $f
             fi
           }}

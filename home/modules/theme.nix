@@ -47,11 +47,12 @@ in
   };
 
   # https://mynixos.com/home-manager/options/qt
-  qt = {
+  qt = rec {
     enable = true;
     platformTheme.name = "gtk3";
-    style.name = "kvantum";
-    kvantum = {
+    style.name = "adwaita-dark";
+    # Looks bad, while adwaita doesn't match catppuccin, it looks ok.
+    kvantum = lib.mkIf (style.name == "kvantum") {
       enable = true;
       themes = with pkgs; [
         (catppuccin-kvantum.override { inherit accent variant; })
@@ -60,6 +61,12 @@ in
         General.theme = "catppuccin-${variant}-${accent}";
       };
     };
+  };
+
+  home.sessionVariables = {
+    QT_AUTO_SCREEN_SCALE_FACTOR = "0";
+    QT_SCALE_FACTOR = "1";
+    QT_ENABLE_HIGHDPI_SCALING = "1";
   };
 
   # Configure GNOME settings for dark mode
