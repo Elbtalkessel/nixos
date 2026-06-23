@@ -1,4 +1,9 @@
-{ config, nix-flatpak, ... }:
+{
+  config,
+  nix-flatpak,
+  pkgs,
+  ...
+}:
 {
   imports = [
     nix-flatpak.homeManagerModules.nix-flatpak
@@ -10,6 +15,7 @@
     "io.github.astralvixen.geforce-infinity"
     "com.plexamp.Plexamp"
     "org.onlyoffice.desktopeditors"
+    "io.github.flattool.Warehouse"
   ];
 
   xdg.desktopEntries = {
@@ -25,4 +31,8 @@
       icon = "${config.my.theme.icon.path}/apps/geforcenow.svg";
     };
   };
+
+  home.packages = with pkgs; [
+    gnome-software
+  ];
 }

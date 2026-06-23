@@ -9,10 +9,10 @@ let
   hyprshutdown = lib.getExe pkgs.hyprshutdown;
 in
 {
-  programs.vicinae = {
-    enable = true;
+  programs.vicinae = rec {
+    enable = config.my.wm.bar.provider != "noctalia";
     systemd = {
-      enable = true;
+      inherit enable;
     };
     settings = {
       font = {

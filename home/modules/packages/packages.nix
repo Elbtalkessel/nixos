@@ -57,6 +57,9 @@
     # REPLs / Languages
     python313Packages.ipython # python.
 
+    # Games
+    limo
+
     # Custom
     gimd
     usbdrivetools

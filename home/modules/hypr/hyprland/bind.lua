@@ -2,7 +2,7 @@
 -- https://wiki.hypr.land/Configuring/Basics/Binds/
 
 -- launch
-hl.bind("SUPER + SPACE", hl.dsp.exec_cmd(M.PROG.LAUNCHER .. " toggle"))
+hl.bind("SUPER + SPACE", hl.dsp.exec_cmd(M.PROG.LAUNCHER_TOGGLE))
 hl.bind("SUPER + RETURN", hl.dsp.exec_cmd(M.PROG.TERMINAL))
 hl.bind("SUPER + SHIFT + P", hl.dsp.exec_cmd(M.PROG.COLOR_PICKER))
 hl.bind(" + XF86AudioRaiseVolume", hl.dsp.exec_cmd("set-volume 5%+"), { repeating = true })

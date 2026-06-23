@@ -7,6 +7,8 @@
 let
   palette = config.my.theme.color.dark;
   run = cmd: if config.my.wm.uwsm.enable then "uwsm-app -- ${cmd}" else cmd;
+  ltoggle =
+    if config.programs.vicinae.enable then "vicinae toggle" else "noctalia msg panel-toggle launcher";
 in
 {
   wayland.windowManager.hyprland = {
@@ -43,7 +45,7 @@ in
           -- Programs launched using keybinds, UWSM aware.
           M.PROG = {
             COLOR_PICKER = "${run (lib.getExe pkgs.hyprpicker)}",
-            LAUNCHER = "${run (lib.getExe pkgs.vicinae)}",
+            LAUNCHER_TOGGLE = "${ltoggle}",
             TERMINAL = "${run (lib.getExe config.my.terminal.pkg)}"
           }
 

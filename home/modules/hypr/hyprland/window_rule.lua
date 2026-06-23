@@ -1,20 +1,37 @@
+local function _or(list)
+	return ("(%s)"):format(table.concat(list, "|"))
+end
+
 -- Window Rule
 -- https://wiki.hypr.land/Configuring/Basics/Window-Rules/
 hl.window_rule({
 	match = {
-		initial_class = "(org.gnome.Calculator|udiskie|polkit-gnome-authentication-agent-1|solaar|xdg-desktop-portal-gtk)",
+		initial_class = _or({
+			"org.gnome.Calculator",
+			"udiskie",
+			"polkit-gnome-authentication-agent-1",
+			"solaar",
+			"xdg-desktop-portal-gtk",
+		}),
 	},
 	center = true,
 	float = true,
 	stay_focused = true,
 })
 hl.window_rule({
-	match = { initial_title = "(Open File|Open Files|Set Background)" },
+	match = {
+		initial_title = _or({
+			"Open File",
+			"Open Files",
+			"Set Background",
+		}),
+	},
 	center = true,
 	float = true,
 	stay_focused = true,
 })
 hl.window_rule({ match = { initial_title = "(Picture-in-Picture)" }, float = true })
+hl.window_rule({ match = { initial_class = _or({ "zenity" }) }, float = true })
 hl.window_rule({ match = { modal = true }, center = true, float = true, stay_focused = true })
 hl.window_rule({ match = { float = true }, no_blur = true })
 hl.window_rule({ match = { initial_class = "^jetbrains-toolbox$" }, stay_focused = true })

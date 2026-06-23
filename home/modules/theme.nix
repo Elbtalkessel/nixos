@@ -4,6 +4,10 @@
   lib,
   ...
 }:
+let
+  accent = "pink";
+  variant = "mocha";
+in
 {
   # Enable GTK theme configuration
   gtk = rec {
@@ -12,13 +16,13 @@
       let
         # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ca/catppuccin-gtk/package.nix#L16
         catover = {
-          accents = [ "pink" ];
+          accents = [ accent ];
           size = "compact";
           tweaks = [
             "rimless"
             "float"
           ];
-          variant = "mocha";
+          inherit variant;
         };
         _accent = lib.strings.join "," catover.accents;
         _tweaks = lib.strings.join "," catover.tweaks;
@@ -29,6 +33,7 @@
         package = pkgs.catppuccin-gtk.override catover;
       };
     gtk4.theme = theme;
+    gtk3.theme = theme;
     iconTheme = {
       package = pkgs.adwaita-icon-theme;
       name = "Adwaita";
@@ -39,9 +44,20 @@
     };
   };
 
+  # https://mynixos.com/home-manager/options/qt
   qt = {
     enable = true;
-    platformTheme.name = "gtk";
+    platformTheme.name = "gtk3";
+    style.name = "kvantum";
+    kvantum = {
+      enable = true;
+      themes = with pkgs; [
+        (catppuccin-kvantum.override { inherit accent variant; })
+      ];
+      settings = {
+        General.theme = "catppuccin-${variant}-${accent}";
+      };
+    };
   };
 
   # Configure GNOME settings for dark mode
