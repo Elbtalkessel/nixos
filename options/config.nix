@@ -103,6 +103,9 @@ in
       steam = {
         session = true;
       };
+      hardware = {
+        dgpu.enable = false;
+      };
     };
   };
 }

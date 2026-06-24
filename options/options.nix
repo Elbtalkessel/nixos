@@ -382,6 +382,27 @@ in
                 };
               };
             };
+            hardware = opt {
+              description = "Hardware toggles.";
+              default = { };
+              type = submodule {
+                options = {
+                  dgpu = opt {
+                    description = "Descreet GPU toggles.";
+                    default = { };
+                    type = submodule {
+                      options = {
+                        enable = opt {
+                          type = bool;
+                          description = "Completely disable.";
+                          default = false;
+                        };
+                      };
+                    };
+                  };
+                };
+              };
+            };
             # add more into my/options here.
           }; # ./options
         }; # ./submodule
