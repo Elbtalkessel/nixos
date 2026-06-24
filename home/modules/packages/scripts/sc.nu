@@ -108,5 +108,50 @@ def "main c" [
   )
 }
 
+# Reverse ssh, maps 2222 on android to 22 on host
+# allowing access host device from android device.
+# Function by itself is simply, here only for documentation.
+def "main revssh" [
+  --help (-h): bool  # print help for subsommand
+] {
+  if ($help) {
+    let _TERM_HOME = "/data/data/com.termux/files/home"
+    print $"
+    Requires sshd service to run on host and ssh client on device.
+    Requires root debugging enabled temporary, to copy pub key from device
+    and write ssh config to device. For normal operation it can be disabled.
+
+    Termux:(ansi bg_k)
+    pkg install openssh
+    cd ~/.ssh
+    ssh-keygen -t ed25519 -C 'user@device'(ansi rst)
+
+    Host:(ansi bg_k)
+    adb root
+    adb shell cat ($_TERM_HOME)/.ssh/id_ed25519.pub
+    | save --append ~/.ssh/authorized_keys
+    [
+      'Host name',
+      '  User name',
+      '  IdentityFile ($_TERM_HOME)/.ssh/id_ed25519'
+      '  Port 2222'
+    ] | str join \"\\n\" | adb shell tee >> ($_TERM_HOME)/.ssh/config
+    adb kill-server
+    adb reverse tcp:2222 tcp:22(ansi rst)
+
+    Termux:(ansi bg_k)
+    ssh omen(ansi rst)
+    "
+  }
+
+  try {
+    systemctl is-enabled sshd
+  } catch {|e|
+    error make {msg: "It seems sshd is not running on host."}
+  }
+  print "Mapping 22(host) -> 2222(android)"
+  adb reverse tcp:2222 tcp:22 | ignore
+}
+
 # Scrcpy aliases / combos. See subcommands for more.
 def main [] {}
