@@ -2,6 +2,10 @@ local function _or(list)
 	return ("(%s)"):format(table.concat(list, "|"))
 end
 
+local SIZE_RG = { 1000, 600 }
+local SIZE_SM = { 600, 300 }
+local SIZE_XS = { 500, 200 }
+
 -- Window Rule
 -- https://wiki.hypr.land/Configuring/Basics/Window-Rules/
 
@@ -9,10 +13,8 @@ end
 hl.window_rule({
 	match = {
 		initial_class = _or({
-			"org.gnome.Calculator",
 			"udiskie",
 			"polkit-gnome-authentication-agent-1",
-			"solaar",
 			"xdg-desktop-portal-gtk",
 		}),
 	},
@@ -31,6 +33,7 @@ hl.window_rule({
 	center = true,
 	float = true,
 	stay_focused = true,
+	size = SIZE_RG,
 })
 
 -- These do make more sense when floating.
@@ -43,6 +46,7 @@ hl.window_rule({
 hl.window_rule({
 	match = {
 		initial_class = _or({
+			"^org\\.gnome\\.Calculator$",
 			"zenity",
 			-- Float limo popup windows (limo in class)
 			"limo",
@@ -93,17 +97,42 @@ hl.window_rule({
 	no_shadow = true,
 })
 
-local SIZE_RG = "1000 600"
-local SIZE_SM = "500 200"
-
 hl.window_rule({
 	match = { float = true, initial_title = "^Virtual Machine Manager$" },
-	min_size = SIZE_RG,
+	size = SIZE_RG,
 })
 
 hl.window_rule({
 	match = { float = true, initial_class = "^org\\.pulseaudio\\.pavucontrol$" },
-	min_size = SIZE_RG,
+	size = SIZE_RG,
+})
+
+hl.window_rule({
+	match = {
+		float = true,
+		initial_class = "^limo$",
+		initial_title = _or({
+			"^Settings$",
+			"^New .*$",
+			"^Add .*$",
+			"^Edit .*$",
+		}),
+	},
+	size = SIZE_RG,
+})
+
+hl.window_rule({
+	match = {
+		float = true,
+		initial_class = "^limo$",
+		-- there is also `Edit .*`, but overlaps with Edit <tool name>,
+		-- we need a bigger window for that.
+		initial_title = _or({
+			"^Confirm .*$",
+			"^New Profile$",
+		}),
+	},
+	size = SIZE_SM,
 })
 
 -- This floating prompt sometimes rendered too small.
@@ -111,7 +140,7 @@ hl.window_rule({
 	match = {
 		initial_class = "Removing Cookies and Site Data",
 	},
-	min_size = SIZE_SM,
+	size = SIZE_XS,
 })
 
 -- Bind apps to workspaces, by class.
