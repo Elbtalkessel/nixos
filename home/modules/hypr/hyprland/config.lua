@@ -34,7 +34,7 @@ hl.config({
 			passes = 2,
 			size = 10,
 		},
-		dim_inactive = M.CONF.BORDER_SIZE == 0,
+		dim_inactive = true,
 		dim_strength = 0.200000,
 		rounding = 5,
 	},
