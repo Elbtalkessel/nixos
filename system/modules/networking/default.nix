@@ -5,6 +5,7 @@ _: {
     ./security.nix
     ./tailscale.nix
     ./localsend.nix
+    ./ssh.nix
   ];
   networking.hostName = "omen";
 }
