@@ -11,17 +11,6 @@ let
   printing = true;
 in
 {
-  hardware = {
-    cpu.amd.updateMicrocode = true;
-    graphics.enable = lib.mkDefault true;
-    graphics.enable32Bit = lib.mkDefault true;
-    logitech.wireless.enable = true;
-    sane = {
-      enable = printing;
-      # Probably a driver also required,
-      # https://wiki.nixos.org/wiki/Scanners
-    };
-  };
   services.printing = {
     enable = printing;
     drivers = [
@@ -33,4 +22,9 @@ in
     "scanner"
     "lp"
   ];
+  hardware.sane = {
+    enable = printing;
+    # Probably a driver also required,
+    # https://wiki.nixos.org/wiki/Scanners
+  };
 }

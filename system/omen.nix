@@ -4,23 +4,17 @@
 {
   config,
   modulesPath,
-  nixos-hardware,
   lib,
   ...
 }:
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
-    # Mostly from https://github.com/NixOS/nixos-hardware/blob/master/omen/16-n0280nd/default.nix
-    # The rest (kernel modules and prime config is in the omen.nix)
-    nixos-hardware.nixosModules.common-cpu-amd
-    nixos-hardware.nixosModules.common-cpu-amd-pstate
-    nixos-hardware.nixosModules.common-pc-laptop
-    nixos-hardware.nixosModules.common-pc-laptop-ssd
 
     ./disko/omen.nix
 
     ./modules/filesystem
+    ./modules/hardware
     ./modules/llm
     ./modules/networking
     ./modules/specialisation
@@ -29,9 +23,7 @@
     ./modules/bluetooth.nix
     ./modules/boot.nix
     ./modules/fonts.nix
-    ./modules/hardware.nix
     ./modules/i18n.nix
-    ./modules/nvidia.nix
     ./modules/packages.nix
     ./modules/services.nix
     ./modules/session.nix
