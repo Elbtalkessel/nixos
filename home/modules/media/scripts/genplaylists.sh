@@ -24,7 +24,7 @@ while IFS= read -r -d $'\0' dir <&3; do
   echo "Processing $dir"
   name=$(basename "$dir")
   path="${PLAYLIST_DIR}/${name}.m3u"
-  find "$dir" -type f -name "*.mp3" -o -name "*.flac" 2>/dev/null > "$path"
+  find "$dir" -type f -name "*.mp3" -o -name "*.flac" -o -name "*.opus" 2>/dev/null > "$path"
   echo "Added $(wc -l "$path") songs to $name"
   echo ""
 done 3< <(find "$MUSIC_DIR" -maxdepth 1 -type d -not -path '*/.*' -not -path "$MUSIC_DIR" -print0)
