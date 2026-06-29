@@ -1,6 +1,6 @@
 #!/usr/bin/env -S nu --stdin
 
-let COOKIES = $"($env.XDG_STATE_HOME)/yt-mm/cookies.txt"
+let COOKIES = $"($env.XDG_STATE_HOME)/yt-mm/($env | get YT_USER? | default 'cookie').txt"
 let ARCHIVE = $"($env.XDG_STATE_HOME)/yt-mm/archive.txt"
 let MUSIC_DIR = $env.XDG_MUSIC_DIR
 let PLAYLISTS = $"($env.XDG_MUSIC_DIR)/.playlists"
