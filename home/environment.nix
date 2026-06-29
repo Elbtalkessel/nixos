@@ -1,4 +1,9 @@
-{ config, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   HOME = "/home/${config.my.username}";
 in
@@ -67,7 +72,7 @@ in
       GOMODCACHE = "${XDG_CACHE_HOME}/go/mod";
 
       # Colored man pages
-      MANPAGER = "sh -c 'col -bx | bat -l man -p'";
+      MANPAGER = "sh -c 'col -bx | ${lib.getExe pkgs.bat} -l man -p'";
       MANROFFOPT = "-c";
     };
   };

@@ -46,6 +46,7 @@
     chafa # image preview in terminal.
     tldr # quick documentation on a utility.
     jless # tui json/yaml viewer.
+    yt-dlp
 
     # Development
     mockoon # API mocking.

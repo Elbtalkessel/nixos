@@ -104,7 +104,7 @@ in
         session = true;
       };
       hardware = {
-        dgpu.enable = false;
+        dgpu.enable = true;
       };
     };
   };

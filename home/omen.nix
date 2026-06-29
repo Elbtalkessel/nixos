@@ -12,6 +12,7 @@
     ./modules/packages
     ./modules/shell
     ./modules/term
+    ./modules/services
     ./modules/apps.nix
     ./modules/git.nix
     ./modules/mako.nix
