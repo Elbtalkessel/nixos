@@ -31,5 +31,13 @@
     (writers.writePython3Bin "cctl" {
       flakeIgnore = [ "E501" ];
     } (builtins.readFile ./cctl.py))
+    (nuenv.writeShellApplication {
+      name = "yt-mm";
+      text = builtins.readFile ./yt-mm.nu;
+      runtimeInputs = [
+        pkgs.yt-dlp
+        pkgs.gtrash
+      ];
+    })
   ];
 }
