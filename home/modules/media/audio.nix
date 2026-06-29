@@ -5,17 +5,16 @@
   ...
 }:
 let
-  MUSIC = /mnt/share/Music;
-  enable = false;
+  enable = true;
 in
 {
   home.packages = lib.mkIf enable [
-    pkgs.mpc-cli
+    pkgs.mpc
   ];
 
   services.mpd = {
     inherit enable;
-    musicDirectory = MUSIC;
+    musicDirectory = config.home.sessionVariables.XDG_MUSIC_DIR;
     extraConfig = ''
       audio_output {
         type "pipewire"
@@ -30,7 +29,7 @@ in
       ncmpcpp_directory = "${config.home.sessionVariables.XDG_DATA_HOME}/ncmpcpp";
       lyrics_directory = "${config.home.sessionVariables.XDG_CACHE_HOME}/ncmpcpp-lyrics";
     };
-    mpdMusicDir = MUSIC;
+    mpdMusicDir = config.home.sessionVariables.XDG_MUSIC_DIR;
     bindings = [
       {
         key = "+";
