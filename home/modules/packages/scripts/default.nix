@@ -37,6 +37,7 @@
       runtimeInputs = [
         pkgs.yt-dlp
         pkgs.gtrash
+        pkgs.opustags
       ];
     })
   ];
