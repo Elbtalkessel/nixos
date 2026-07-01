@@ -11,7 +11,6 @@
     ./hyprlock.nix
     ./hyprpaper.nix
     ./hyprsunset.nix
-    ./hyprtoolkit.nix
   ];
 
   # https://wiki.hypr.land/Nix/Hyprland-on-Home-Manager/#nixos-uwsm
