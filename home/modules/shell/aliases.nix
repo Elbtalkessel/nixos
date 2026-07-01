@@ -36,5 +36,9 @@
       n = lib.getExe pkgs.neovim;
       g = lib.getExe pkgs.lazygit;
       d = lib.getExe pkgs.lazydocker;
+
+      poweroff = "${lib.getExe pkgs.hyprshutdown} -t 'Shutting down...' --post-cmd 'poweroff'";
+      reboot = "${lib.getExe pkgs.hyprshutdown} -t 'Rebooting...' --post-cmd 'reboot'";
+      logout = lib.getExe pkgs.hyprshutdown;
     };
 }
