@@ -6,11 +6,16 @@
 }:
 let
   enable = true;
+  frontend = "ncmpcpp";
 in
 {
   home.packages = lib.mkIf enable [
     pkgs.mpc
   ];
+
+  home.shellAliases = lib.mkIf enable {
+    music = frontend;
+  };
 
   services.mpd = {
     inherit enable;
@@ -23,8 +28,88 @@ in
     '';
   };
 
-  programs.ncmpcpp = {
+  services.mpd-mpris = {
     inherit enable;
+  };
+
+  programs.inori = {
+    enable = enable && frontend == "inori";
+    settings = {
+      qwerty_keybindings = true;
+      keybindings = {
+        up = "k";
+        down = "j";
+        left = "h";
+        right = "l";
+        top = "g";
+        bottom = "G";
+        screenful_up = "C-u";
+        screenful_down = "C-d";
+        select = "<enter>";
+        select_and_next = "C-j";
+        quit = "q";
+        toggle_screen = "<tab>";
+        clear_queue = "<space>";
+        local_search = "/";
+        global_search = "?";
+      };
+      theme = {
+        block_active = {
+          fg = "White";
+          bg = "#5e5e5e";
+        };
+
+        item_highlight_active = {
+          fg = "#f4f4f4";
+          bg = "#5e5e5e";
+          addmodifier = [ "BOLD" ];
+        };
+
+        item_highlight_inactive = {
+          fg = "#d0d0d0";
+        };
+
+        search_query_active = {
+          fg = "#f4f4f4";
+        };
+
+        search_query_inactive = {
+          fg = "#b0b0b0";
+        };
+
+        slash_span = {
+          fg = "#d787d7";
+        };
+
+        status_album = {
+          fg = "#d7af87";
+        };
+
+        status_artist = {
+          fg = "#d78787";
+        };
+
+        status_paused = {
+          fg = "#d7af5f";
+        };
+
+        status_playing = {
+          fg = "#87d7af";
+        };
+
+        status_stopped = {
+          fg = "#808080";
+        };
+
+        status_title = {
+          fg = "#f2f2f2";
+        };
+      };
+    };
+  };
+
+  programs.ncmpcpp = {
+    enable = enable && frontend == "ncmpcpp";
     settings = {
       ncmpcpp_directory = "${config.home.sessionVariables.XDG_DATA_HOME}/ncmpcpp";
       lyrics_directory = "${config.home.sessionVariables.XDG_CACHE_HOME}/ncmpcpp-lyrics";
