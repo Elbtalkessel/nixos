@@ -4,6 +4,8 @@
     enableDefaultPackages = true;
     packages = with pkgs; [
       nerd-fonts.overpass
+      nerd-fonts.roboto-mono
+      nerd-fonts.noto
       noto-fonts-color-emoji
     ];
     fontconfig = {
@@ -17,9 +19,15 @@
       # https://mynixos.com/nixpkgs/option/fonts.fontconfig.antialias
       antialias = true;
       defaultFonts = {
-        monospace = [ config.my.font.family.mono ];
-        sansSerif = [ config.my.font.family.default ];
-        serif = [ config.my.font.family.default ];
+        monospace = [
+          config.my.font.family.mono
+        ];
+        sansSerif = [
+          config.my.font.family.default
+        ];
+        serif = [
+          config.my.font.family.default
+        ];
         emoji = [ "Noto Color Emoji" ];
       };
     };

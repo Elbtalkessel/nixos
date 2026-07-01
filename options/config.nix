@@ -29,9 +29,9 @@ in
       };
       font = {
         family = {
-          mono = "OverpassM Nerd Font Mono";
-          default = "OverpassM Nerd Font";
-          propo = "OverpassM Nerd Propo";
+          mono = "RobotoMono Nerd Font Mono";
+          default = "RobotoMono Nerd Font";
+          propo = "RobotoMono Nerd Propo";
         };
       };
       opacity = 0.80;
