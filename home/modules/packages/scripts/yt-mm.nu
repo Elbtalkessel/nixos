@@ -6,22 +6,6 @@ let MUSIC_DIR = $env.XDG_MUSIC_DIR
 let PLAYLISTS = $"($env.XDG_MUSIC_DIR)/.playlists"
 
 
-# Downloads audio from Youtube, wrapper around `yt-dlp`.
-def --wrapped "main refresh" [...args] {
-  (yt-dlp
-    --download-archive $ARCHIVE
-    -P $MUSIC_DIR
-    -x -o "%(artist)s/%(album)s/%(track_number,playlist_index)s - %(title)s.%(ext)s"
-    --cookies $COOKIES
-    --continue
-    --add-metadata
-    --embed-thumbnail
-    --convert-thumbnails jpg
-    ...$args
-  )
-}
-
-
 # Organizes library by primary name,
 # Eg. Several directories contain a "name", all
 # will be merged under single "name" loosing original
@@ -119,4 +103,22 @@ def "main whereis" [target: string] {
 }
 
 
-def main [] {}
+# Downloads audio from Youtube, wrapper around `yt-dlp`.
+def --wrapped main [...args] {
+  (yt-dlp
+    --download-archive $ARCHIVE
+    -P $MUSIC_DIR
+    # default audio format is best, best quality (0).
+    -x --audio-quality 0
+    -o "%(artist)s/%(album)s/%(track_number,playlist_index)s - %(title)s.%(ext)s"
+    --cookies $COOKIES
+    --continue
+    --add-metadata
+    --embed-thumbnail
+    --convert-thumbnails jpg
+    --embed-chapters
+    --xattrs
+    --extractor-args "youtube:lang=en"
+    ...$args
+  )
+}
