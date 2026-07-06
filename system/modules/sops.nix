@@ -11,10 +11,6 @@
         # https://github.com/Mic92/sops-nix?tab=readme-ov-file#setting-a-users-password
         neededForUsers = true;
       };
-
-      "users/steamos/password" = {
-        neededForUsers = true;
-      };
       "wireless.env" = { };
       "optimizer/license" = {
         owner = config.users.users.${config.my.username}.name;

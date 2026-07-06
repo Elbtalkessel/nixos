@@ -45,4 +45,19 @@
     # Only enable wakeup when power/wakeup attribute exists
     ACTION=="add", SUBSYSTEM=="usb[0-9]*", TEST=="power/wakeup", ATTR{power/wakeup}="enabled"
   '';
+
+  # WIP: a separate user with more "lightweight" environment.
+  sops.secrets."users/steamos/password".neededForUsers = true;
+  users.users.steamos = {
+    isNormalUser = true;
+    hashedPasswordFile = config.sops.secrets."users/steamos/password".path;
+    description = "steamos";
+    extraGroups = [
+      "networkmanager"
+      "input"
+      "video"
+      "audio"
+    ];
+    useDefaultShell = true;
+  };
 }
