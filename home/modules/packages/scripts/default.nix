@@ -36,8 +36,9 @@
       text = builtins.readFile ./yt-mm.nu;
       runtimeInputs = [
         pkgs.yt-dlp
-        pkgs.gtrash
         pkgs.opustags
+        pkgs.mpc
+        pkgs.rsync
       ];
     })
   ];

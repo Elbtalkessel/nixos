@@ -3,28 +3,26 @@
 let COOKIES = $"($env.XDG_STATE_HOME)/yt-mm/($env | get YT_USER? | default 'cookie').txt"
 let ARCHIVE = $"($env.XDG_STATE_HOME)/yt-mm/archive.txt"
 let MUSIC_DIR = $env.XDG_MUSIC_DIR
-let PLAYLISTS = $"($env.XDG_MUSIC_DIR)/.playlists"
+let PLAYLISTS = $"($env.XDG_DATA_HOME)/mpd/playlists"
 
 
-# Organizes library by primary name,
-# Eg. Several directories contain a "name", all
-# will be merged under single "name" loosing original
+# Move content of directories having `name` in their name it a directory
+# named `name`.
+# Example:
+#   bob cool/alone/criminal.mp3
+#   joe smooth x bob cool/toaster games/divein.mp3
+# ->
+#   bob cool/alone/criminal.mp3
+#   bob cool/toaster games/divein.mp3
+# Note: command will remove all empty directories afterwards.
 def "main squash" [name: string] {
-  # locate primary directory, first case insensetive,
-  # then normalize to given.
-  let primaries = (
-    ls $MUSIC_DIR
-    | where type == dir
-    | where {|it| ($it.name | str downcase) == ($name | str downcase)}
-  )
-  let primary = if (($primaries | length) == 0) { mkdir $name; $name } else { $primaries | first | get name }
-
+  mkdir $name
+  let needle = $name | str downcase
   ls $MUSIC_DIR
-  | where type == dir and name =~ $"($name)" and name != $"($primary)"
-  | each {|it|
-    rsync -Prv --remove-source-files $"($it.name)/" $"($primary)/"
-    gtrash put -r -- $it.name
-  }
+  | insert iname {|it| $it | str downcase}
+  | where type == dir and iname =~ $"\b($needle)\b" and name != $name
+  | each {|it| rsync -Par --remove-source-files $"($it.name)/" $"($name)/"}
+  ^find $MUSIC_DIR -depth -type d -empty -delete
 }
 
 # Move files based on their tags,
@@ -87,9 +85,22 @@ def "main tag-by-path" [] {
 
 
 # Generate playlists for each artist - directory.
-def "main mkpls" [] {
+def "main pls" [] {
   mkdir $PLAYLISTS
-  genplaylists $MUSIC_DIR $PLAYLISTS
+  glob $"($PLAYLISTS)/*.m3u" | each {|it| rm $it}
+  glob $"($MUSIC_DIR)/**/*.{opus,mp3,flac}"
+  | each {|it| {
+    name: $it,
+    group: ($it | str replace $"($MUSIC_DIR)/" "" | path split | first)
+  }}
+  | group-by group --to-table
+  | each {|it|
+    $it.items
+    | get name
+    | str join "\n"
+    | save $"($PLAYLISTS)/($it.group).m3u"
+  }
+  mpc update
 }
 
 
