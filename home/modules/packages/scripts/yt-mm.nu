@@ -176,7 +176,7 @@ def --wrapped main [...args] {
     --embed-chapters
     --xattrs
     --extractor-args "youtube:lang=en"
-    --write-playlist-metafiles
+    --write-info-json
     ...$args
   )
 }

@@ -48,10 +48,10 @@ in
         };
         tagged = {
           mounts = [
-            # {
-            #   src = "${userhome}/Pictures";
-            #   dst = "${userhome}/Pictures/bytag";
-            # }
+            {
+              src = "${userhome}/Pictures";
+              dst = "${userhome}/Pictures/bytag";
+            }
           ];
         };
       };
