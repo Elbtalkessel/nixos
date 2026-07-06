@@ -8,8 +8,11 @@ let
   enable = true;
   frontend = "ncmpcpp";
   visualizer_data_source = "/tmp/mpd.fifo";
-  visualizer_output_name = "mpd_visualizer";
+  visualizer_output_name = "Audio Visualizer";
   visualizer_output_format = "44100:16:2";
+  # Doesn't work for some reason.
+  # Disabled, but config is kept for future.
+  visualizer_enable = false;
 in
 {
   home.packages = lib.mkIf enable [
@@ -23,18 +26,24 @@ in
   services.mpd = {
     inherit enable;
     musicDirectory = config.home.sessionVariables.XDG_MUSIC_DIR;
-    extraConfig = ''
-      audio_output {
-        type "pipewire"
-        name "Pipewire Audio Output"
-      }
-      audio_output {
-        type "fifo"
-        name "${visualizer_output_name}"
-        path "${visualizer_data_source}"
-        format "${visualizer_output_format}"
-      }
-    '';
+    extraConfig =
+      [
+        ''
+          audio_output {
+            type "pipewire"
+            name "Pipewire Audio Output"
+          }
+        ''
+      ]
+      ++ (lib.optionals visualizer_enable ''
+        audio_output {
+          type "fifo"
+          name "${visualizer_output_name}"
+          path "${visualizer_data_source}"
+          format "${visualizer_output_format}"
+        }
+      '')
+      |> lib.strings.join "\n";
   };
 
   services.mpd-mpris = {
@@ -51,16 +60,6 @@ in
       ## MPD clients (eg. ncmpc) also use that location.
       lyrics_directory = "${config.home.sessionVariables.XDG_CACHE_HOME}/ncmpcpp-lyrics";
       mpd_crossfade_time = 2;
-
-      # Visualizer
-      inherit visualizer_data_source;
-      inherit visualizer_output_name;
-      visualizer_in_stereo = if visualizer_output_format == "44100:16:2" then "yes" else "no";
-      # spectrum,wave,wave_filled,ellipse
-      visualizer_type = "wave";
-      # ● ┃  ▗
-      visualizer_look = "▗";
-      visualizer_color = "47, 83, 119, 155, 191, 227, 221, 215, 209, 203, 197, 161";
 
       message_delay_time = 1;
       playlist_disable_highlight_delay = 2;
@@ -172,16 +171,16 @@ in
       alternative_ui_separator_color = "black:b";
       window_border_color = "black";
       active_window_border = "black";
+    }
+    // lib.attrsets.optionalAttrs visualizer_enable {
+      inherit visualizer_data_source;
+      inherit visualizer_output_name;
+      visualizer_in_stereo = if visualizer_output_format == "44100:16:2" then "yes" else "no";
+      visualizer_type = "wave";
+      visualizer_look = "▗";
+      visualizer_color = "47, 83, 119, 155, 191, 227, 221, 215, 209, 203, 197, 161";
     };
     bindings = [
-      {
-        key = "+";
-        command = "show_clock";
-      }
-      {
-        key = "=";
-        command = "volume_up";
-      }
       {
         key = "j";
         command = "scroll_down";
@@ -189,14 +188,6 @@ in
       {
         key = "k";
         command = "scroll_up";
-      }
-      {
-        key = "u";
-        command = "page_up";
-      }
-      {
-        key = "d";
-        command = "page_down";
       }
       {
         key = "h";
@@ -207,8 +198,28 @@ in
         command = "next_column";
       }
       {
-        key = ".";
-        command = "show_lyrics";
+        key = "ctrl-b";
+        command = "page_up";
+      }
+      {
+        key = "ctrl-u";
+        command = "page_up";
+      }
+      {
+        key = "ctrl-f";
+        command = "page_down";
+      }
+      {
+        key = "ctrl-d";
+        command = "page_down";
+      }
+      {
+        key = "g";
+        command = "move_home";
+      }
+      {
+        key = "G";
+        command = "move_end";
       }
       {
         key = "n";
