@@ -145,22 +145,23 @@ in
       song_status_format = "$7%t";
       song_list_format = " %b $R%t %l ";
       song_library_format = "{{%a - %t} (%b)}|{%f}";
-      browser_playlist_prefix = "$6[p]$9 ";
+      browser_playlist_prefix = "$6[p] $9 ";
 
-      current_item_prefix = "$(white)$r";
-      current_item_suffix = "$/r$(end)";
-      current_item_inactive_column_prefix = "$(white)$r";
+      current_item_prefix = "$b$r";
+      current_item_suffix = "$/r$/b";
+      current_item_inactive_column_prefix = "$(242)$r";
       current_item_inactive_column_suffix = "$/r$(end)";
       # (width of the column)[color of the column]{displayed tag}
       song_columns_list_format = "(20)[242]{a} (6f)[242]{NE} (50)[225]{t|f:Title} (20)[219]{b} (7f)[219]{l}";
 
       colors_enabled = "yes";
       empty_tag_color = "242";
+      empty_tag_marker = "...";
       header_window_color = "default";
       volume_color = "default";
       state_line_color = "default";
       state_flags_color = "default:b";
-      main_window_color = "225_transparent";
+      main_window_color = "250_transparent";
       color1 = "225";
       color2 = "219";
       progressbar_color = "black:b";
