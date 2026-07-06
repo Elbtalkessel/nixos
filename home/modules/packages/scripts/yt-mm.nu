@@ -87,7 +87,7 @@ def "main tag-by-path" [] {
 # Generate playlists for each artist - directory.
 def "main pls" [] {
   mkdir $PLAYLISTS
-  glob $"($PLAYLISTS)/*.m3u" | each {|it| rm $it}
+  glob $"($PLAYLISTS)/*.m3u" | where not ('[yt]' in $it) | each {|it| rm $it}
   glob $"($MUSIC_DIR)/**/*.{opus,mp3,flac}"
   | each {|it| {
     name: $it,
