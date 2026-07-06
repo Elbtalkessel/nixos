@@ -67,10 +67,6 @@ export def memory-watch [
   } 0
 }
 
-export def nix-run [app: string] {
-  nix run $"nixpkgs#($app)"
-}
-
 # Returns a record of changed env variables after running a non-nushell script's contents (passed via stdin), e.g. a bash script you want to "source"
 # Source: https://www.nushell.sh/cookbook/foreign_shell_scripts.html#capturing-the-environment-from-a-foreign-shell-script
 export def capture-foreign-env [
@@ -99,4 +95,18 @@ export def capture-foreign-env [
     | parse "{key}={value}"
     | transpose --header-row --as-record
     | if $in == [] { {} } else { $in }
+}
+
+# 256 color palette cheatsheet.
+export def colors [] {
+  for i in 0..255 {
+    # Use white for first 20 colors and black for the rest 16.
+    let fg = if $i mod 36 in 0..15 { 0 } else { 15 }
+    printf "\x1b[48;5;%s;38;5;%sm %3d \e[0m" $i $fg $i
+    # Ignoring first 15 break on every 6 element,
+    # this gives 6x6 color cubes.
+    if (($i - 15) mod 6 == 0) {
+      printf "\n"
+    }
+  }
 }
