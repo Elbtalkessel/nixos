@@ -23,6 +23,7 @@
     gtrash # trash bin.
     scrcpy # android screen capture.
     android-tools # mostly for android debug bridge.
+    bat
 
     # Apps
     zathura # PDF viewer.
@@ -47,6 +48,7 @@
     tldr # quick documentation on a utility.
     jless # tui json/yaml viewer.
     yt-dlp
+    cht-sh
 
     # Development
     mockoon # API mocking.
