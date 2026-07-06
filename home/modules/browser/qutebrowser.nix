@@ -26,7 +26,7 @@ let
 in
 {
   programs.qutebrowser = {
-    enable = true;
+    enable = false;
     settings = {
       colors = {
         completion = {
@@ -279,10 +279,6 @@ in
         };
       };
 
-      zoom.mouse_divider = 100000000;
-      zoom.default = 100;
-      scrolling.smooth = false;
-
       qt.highdpi = true;
 
       content = {
@@ -296,27 +292,10 @@ in
       downloads.remove_finished = 10000;
 
       tabs.position = "top";
-      editor.command = [
-        "nvim"
-        "-f"
-        "{file}"
-        "-c"
-        "normal {line}G{column0}l"
-      ];
       spellcheck.languages = [
         "en-US"
         "ru-RU"
       ];
-    };
-
-    keyBindings = {
-      normal = {
-        ",p" = "spawn --userscript qute-pass --dmenu-invocation dmenu";
-        ",P" = "spawn --userscript qute-pass --dmenu-invocation dmenu --password-only";
-        "D" = "tab-close";
-        "r" = "nop";
-        "d" = "nop";
-      };
     };
   };
 }
