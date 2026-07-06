@@ -17,10 +17,10 @@ let PLAYLISTS = $"($env.XDG_DATA_HOME)/mpd/playlists"
 # Note: command will remove all empty directories afterwards.
 def "main squash" [name: string] {
   mkdir $name
-  let needle = $name | str downcase
   ls $MUSIC_DIR
-  | insert iname {|it| $it | str downcase}
-  | where type == dir and iname =~ $"\b($needle)\b" and name != $name
+  | where type == dir
+  | insert base {|it| $it.name | path basename}
+  | where ($it.base | str downcase) =~ ($name | str downcase) and $it.base != $name
   | each {|it| rsync -Par --remove-source-files $"($it.name)/" $"($name)/"}
   ^find $MUSIC_DIR -depth -type d -empty -delete
 }
@@ -114,6 +114,52 @@ def "main whereis" [target: string] {
 }
 
 
+# Creates a local playlist based on a remote playlist content.
+# Requires files to be already downloaded.
+def --wrapped "main pls-from" [url: string, ...args] {
+  let playlist_id = ($url | parse -r '^.*playlist\?list=(?<id>.*)' | get id | first)
+  let work_dir = [$MUSIC_DIR .metafiles $playlist_id] | path join
+  print $"(ansi xpurplea)->(ansi rst) ($work_dir)"
+
+  if (not ($work_dir | path exists)) {
+    print $"(ansi xpurplea)->(ansi rst) ($work_dir)"
+    mkdir $work_dir
+    (yt-dlp
+      -P $work_dir
+      --no-download
+      --write-info-json
+      $url
+      ...$args
+    )
+  }
+
+  let playlist_name = $"[yt] (open (ls $work_dir | where name =~ $'($playlist_id)' | get name | first) | get title).m3u"
+  let playlist_path = [$PLAYLISTS $playlist_name] | path join
+
+  print $"(ansi xpurplea)<-(ansi rst) ($playlist_path)"
+  ls $work_dir
+  | where not ($playlist_id in ($it.name | path basename))
+  | each {|it|
+    {
+      query: (printf '((artist == "%s") AND (album == "%s") AND (title == "%s"))' ...(open $it.name | get -o artist album title))
+    }
+  }
+  | insert path {|it|
+    let o = mpc search $'($it.query)'
+    if (($o | str length) == 0) {
+      print -e $"(ansi red)!(ansi rst) ($it.query)"
+    }
+    $o
+  }
+  | where path != ""
+  | get path
+  | str join "\n"
+  | save -f $playlist_path
+
+  mpc update
+}
+
+
 # Downloads audio from Youtube, wrapper around `yt-dlp`.
 def --wrapped main [...args] {
   (yt-dlp
@@ -130,6 +176,7 @@ def --wrapped main [...args] {
     --embed-chapters
     --xattrs
     --extractor-args "youtube:lang=en"
+    --write-playlist-metafiles
     ...$args
   )
 }
