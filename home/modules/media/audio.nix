@@ -7,6 +7,9 @@
 let
   enable = true;
   frontend = "ncmpcpp";
+  visualizer_data_source = "/tmp/mpd.fifo";
+  visualizer_output_name = "mpd_visualizer";
+  visualizer_output_format = "44100:16:2";
 in
 {
   home.packages = lib.mkIf enable [
@@ -25,6 +28,12 @@ in
         type "pipewire"
         name "Pipewire Audio Output"
       }
+      audio_output {
+        type "fifo"
+        name "${visualizer_output_name}"
+        path "${visualizer_data_source}"
+        format "${visualizer_output_format}"
+      }
     '';
   };
 
@@ -32,89 +41,138 @@ in
     inherit enable;
   };
 
-  programs.inori = {
-    enable = enable && frontend == "inori";
-    settings = {
-      qwerty_keybindings = true;
-      keybindings = {
-        up = "k";
-        down = "j";
-        left = "h";
-        right = "l";
-        top = "g";
-        bottom = "G";
-        screenful_up = "C-u";
-        screenful_down = "C-d";
-        select = "<enter>";
-        select_and_next = "C-j";
-        quit = "q";
-        toggle_screen = "<tab>";
-        clear_queue = "<space>";
-        local_search = "/";
-        global_search = "?";
-      };
-      theme = {
-        block_active = {
-          fg = "White";
-          bg = "#5e5e5e";
-        };
-
-        item_highlight_active = {
-          fg = "#f4f4f4";
-          bg = "#5e5e5e";
-          addmodifier = [ "BOLD" ];
-        };
-
-        item_highlight_inactive = {
-          fg = "#d0d0d0";
-        };
-
-        search_query_active = {
-          fg = "#f4f4f4";
-        };
-
-        search_query_inactive = {
-          fg = "#b0b0b0";
-        };
-
-        slash_span = {
-          fg = "#d787d7";
-        };
-
-        status_album = {
-          fg = "#d7af87";
-        };
-
-        status_artist = {
-          fg = "#d78787";
-        };
-
-        status_paused = {
-          fg = "#d7af5f";
-        };
-
-        status_playing = {
-          fg = "#87d7af";
-        };
-
-        status_stopped = {
-          fg = "#808080";
-        };
-
-        status_title = {
-          fg = "#f2f2f2";
-        };
-      };
-    };
-  };
-
   programs.ncmpcpp = {
     enable = enable && frontend == "ncmpcpp";
-    settings = {
-      ncmpcpp_directory = "${config.home.sessionVariables.XDG_DATA_HOME}/ncmpcpp";
-      lyrics_directory = "${config.home.sessionVariables.XDG_CACHE_HOME}/ncmpcpp-lyrics";
-    };
     mpdMusicDir = config.home.sessionVariables.XDG_MUSIC_DIR;
+    # https://wiki.archlinux.org/title/Ncmpcpp
+    # https://github.com/ncmpcpp/ncmpcpp/blob/master/doc/config
+    settings = {
+      ## Directory for storing downloaded lyrics. It defaults to ~/.lyrics since other
+      ## MPD clients (eg. ncmpc) also use that location.
+      lyrics_directory = "${config.home.sessionVariables.XDG_CACHE_HOME}/ncmpcpp-lyrics";
+      mpd_crossfade_time = 2;
+
+      # Visualizer
+      inherit visualizer_data_source;
+      inherit visualizer_output_name;
+      visualizer_in_stereo = if visualizer_output_format == "44100:16:2" then "yes" else "no";
+      # spectrum,wave,wave_filled,ellipse
+      visualizer_type = "wave";
+      # ● ┃  ▗
+      visualizer_look = "▗";
+      visualizer_color = "47, 83, 119, 155, 191, 227, 221, 215, 209, 203, 197, 161";
+
+      message_delay_time = 1;
+      playlist_disable_highlight_delay = 2;
+      ignore_leading_the = "yes";
+      allow_for_physical_item_deletion = "no";
+      follow_now_playing_lyrics = "yes";
+      user_interface = "alternative";
+      statusbar_visibility = "no";
+      header_visibility = "no";
+      titles_visibility = "no";
+
+      ##### song format #####
+      ##
+      ## For a song format you can use:
+      ##
+      ## %l - length
+      ## %f - filename
+      ## %F - full filepath
+      ## %D - directory
+      ## %a - artist
+      ## %A - album artist
+      ## %t - title
+      ## %b - album
+      ## %y - date
+      ## %n - track number (01/12 -> 01)
+      ## %N - full track info (01/12 -> 01/12)
+      ## %g - genre
+      ## %c - composer
+      ## %p - performer
+      ## %d - disc
+      ## %C - comment
+      ## %P - priority
+      ## $R - begin right alignment
+      ##
+      ## If you want to make sure that a part of the format is displayed only when
+      ## certain tags are present, you can archieve it by grouping them with brackets,
+      ## e.g. '{%a - %t}' will be evaluated to 'ARTIST - TITLE' if both tags are
+      ## present or '' otherwise.  It is also possible to define a list of
+      ## alternatives by providing several groups and separating them with '|',
+      ## e.g. '{%t}|{%f}' will be evaluated to 'TITLE' or 'FILENAME' if the former is
+      ## not present.
+      ##
+      ## Note: If you want to set limit on maximal length of a tag, just put the
+      ## appropriate number between % and character that defines tag type, e.g. to
+      ## make album take max. 20 terminal cells, use '%20b'.
+      ##
+      ## In addition, formats support markers used for text attributes.  They are
+      ## followed by character '$'. After that you can put:
+      ##
+      ## - 0 - default window color (discards all other colors)
+      ## - 1 - black
+      ## - 2 - red
+      ## - 3 - green
+      ## - 4 - yellow
+      ## - 5 - blue
+      ## - 6 - magenta
+      ## - 7 - cyan
+      ## - 8 - white
+      ## - 9 - end of current color
+      ## - b - bold text
+      ## - u - underline text
+      ## - i - italic text
+      ## - r - reverse colors
+      ## - a - use alternative character set
+      ##
+      ## If you don't want to use a non-color attribute anymore, just put it again,
+      ## but this time insert character '/' between '$' and attribute character,
+      ## e.g. {$b%t$/b}|{$r%f$/r} will display bolded title tag or filename with
+      ## reversed colors.
+      ##
+      ## If you want to use 256 colors and/or background colors in formats (the naming
+      ## scheme is described below in section about color definitions), it can be done
+      ## with the syntax $(COLOR), e.g. to set the artist tag to one of the
+      ## non-standard colors and make it have yellow background, you need to write
+      ## $(197_yellow)%a$(end). Note that for standard colors this is interchangable
+      ## with attributes listed above.
+      ##
+      ## Note: colors can be nested.
+
+      progressbar_look = "▂▂▂";
+      alternative_header_first_line_format = "$(225){%t}|{%f}$(end)";
+      alternative_header_second_line_format = "$(219){%D}$(end)";
+      song_status_format = "$7%t";
+      song_list_format = " %b $R%t %l ";
+      song_library_format = "{{%a - %t} (%b)}|{%f}";
+      browser_playlist_prefix = "$6[p]$9 ";
+
+      current_item_prefix = "$(white)$r";
+      current_item_suffix = "$/r$(end)";
+      current_item_inactive_column_prefix = "$(white)$r";
+      current_item_inactive_column_suffix = "$/r$(end)";
+      # (width of the column)[color of the column]{displayed tag}
+      song_columns_list_format = "(20)[242]{a} (6f)[242]{NE} (50)[225]{t|f:Title} (20)[219]{b} (7f)[219]{l}";
+
+      colors_enabled = "yes";
+      empty_tag_color = "242";
+      header_window_color = "default";
+      volume_color = "default";
+      state_line_color = "default";
+      state_flags_color = "default:b";
+      main_window_color = "225_transparent";
+      color1 = "225";
+      color2 = "219";
+      progressbar_color = "black:b";
+      progressbar_elapsed_color = "225:b";
+      statusbar_color = "default";
+      statusbar_time_color = "default:b";
+      player_state_color = "default:b";
+      alternative_ui_separator_color = "black:b";
+      window_border_color = "black";
+      active_window_border = "black";
+    };
     bindings = [
       {
         key = "+";
@@ -161,81 +219,5 @@ in
         command = "previous_found_item";
       }
     ];
-    # Stolen from https://github.com/owl4ce/dotfiles/blob/ng/.config/ncmpcpp/main.config
-    settings = {
-      # MPD
-      # ---
-      mpd_crossfade_time = "2";
-
-      # VISUALIZER
-      # ---
-      visualizer_data_source = "/tmp/mpd.fifo";
-      visualizer_output_name = "Visualizer";
-      visualizer_in_stereo = "no";
-      visualizer_fps = "60";
-      visualizer_type = "wave";
-      visualizer_look = "∗▐";
-      visualizer_color = "199,200,201,202,166,130,94,58,22";
-      visualizer_spectrum_smooth_look = "yes";
-
-      # GENERAL
-      # ---
-      connected_message_on_startup = "yes";
-      cyclic_scrolling = "yes";
-      mouse_support = "yes";
-      mouse_list_scroll_whole_page = "yes";
-      lines_scrolled = "1";
-      message_delay_time = "1";
-      playlist_shorten_total_times = "yes";
-      playlist_display_mode = "columns";
-      browser_display_mode = "columns";
-      search_engine_display_mode = "columns";
-      playlist_editor_display_mode = "columns";
-      autocenter_mode = "yes";
-      centered_cursor = "yes";
-      user_interface = "classic";
-      follow_now_playing_lyrics = "yes";
-      locked_screen_width_part = "50";
-      ask_for_locked_screen_width_part = "yes";
-      display_bitrate = "no";
-      external_editor = "nano";
-      main_window_color = "default";
-      startup_screen = "playlist";
-
-      # PROGRESS BAR
-      # ---
-      progressbar_look = "━━━";
-      #progressbar_look = "▃▃▃";
-      progressbar_elapsed_color = "5";
-      progressbar_color = "black";
-
-      # UI VISIBILITY
-      # ---
-      header_visibility = "no";
-      statusbar_visibility = "yes";
-      titles_visibility = "yes";
-      enable_window_title = "yes";
-
-      # COLORS
-      # ---
-      statusbar_color = "white";
-      color1 = "white";
-      color2 = "blue";
-
-      # UI APPEARANCE
-      # ---
-      now_playing_prefix = "$b$2$7 ";
-      now_playing_suffix = "  $/b$8";
-      current_item_prefix = "$b$7$/b$3 ";
-      current_item_suffix = "  $8";
-
-      song_columns_list_format = "(50)[]{t|fr:Title} (0)[magenta]{a}";
-
-      song_list_format = " {%t $R   $8%a$8}|{%f $R   $8%l$8} $8";
-
-      song_status_format = "$b$6$7[$8      $7]$6 $2 $7{$8 %b }|{$8 %t }|{$8 %f }$7 $8";
-
-      song_window_title_format = "Now Playing ..";
-    };
   };
 }
