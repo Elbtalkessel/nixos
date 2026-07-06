@@ -21,7 +21,7 @@ def "main squash" [name: string] {
   | where type == dir
   | insert base {|it| $it.name | path basename}
   | where ($it.base | str downcase) =~ ($name | str downcase) and $it.base != $name
-  | each {|it| rsync -Par --remove-source-files $"($it.name)/" $"($name)/"}
+  | each {|it| rsync -Par --remove-source-files $"($it.name)/" $"($MUSIC_DIR)/($name)/"}
   ^find $MUSIC_DIR -depth -type d -empty -delete
 }
 
