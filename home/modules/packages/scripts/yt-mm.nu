@@ -181,15 +181,15 @@ def "main whereis" [target: string] {
 @example "Re-download only metafiles." { yt-mm --skip-download --no-download-archive --write-info-json https://www.youtube.com/playlist?list=... }
 @example "Download audio and metafiles." { yt-mm --write-info-json https://www.youtube.com/playlist?list=... }
 def --wrapped main [
-  --help (-h)
-  ...args                 # flags to pass to yt-dlp call
+  --help (-h) # Show this help.
+  ...args     # Flags to pass to yt-dlp call.
 ] {
   (yt-dlp
     --download-archive $ARCHIVE
     -P $MUSIC_DIR
     # default audio format is best, best quality (0).
     -x --audio-quality 0
-    -o "%(artist)s/%(album)s/%(track_number,playlist_index)s - %(title)s.%(ext)s"
+    -o "%(artist,channel)s/%(album,playlist_title)s/%(track_number,playlist_index)s - %(title)s.%(ext)s"
     --cookies $COOKIES
     --continue
     --convert-thumbnails jpg
