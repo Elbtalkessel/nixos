@@ -10,9 +10,7 @@ let
   visualizer_data_source = "/tmp/mpd.fifo";
   visualizer_output_name = "Audio Visualizer";
   visualizer_output_format = "44100:16:2";
-  # Doesn't work for some reason.
-  # Disabled, but config is kept for future.
-  visualizer_enable = false;
+  visualizerSupport = true;
 in
 {
   home.packages = lib.mkIf enable [
@@ -35,7 +33,7 @@ in
           }
         ''
       ]
-      ++ (lib.optionals visualizer_enable ''
+      ++ (lib.optional visualizerSupport ''
         audio_output {
           type "fifo"
           name "${visualizer_output_name}"
@@ -55,6 +53,7 @@ in
     mpdMusicDir = config.home.sessionVariables.XDG_MUSIC_DIR;
     # https://wiki.archlinux.org/title/Ncmpcpp
     # https://github.com/ncmpcpp/ncmpcpp/blob/master/doc/config
+    package = pkgs.ncmpcpp.override { inherit visualizerSupport; };
     settings = {
       ## Directory for storing downloaded lyrics. It defaults to ~/.lyrics since other
       ## MPD clients (eg. ncmpc) also use that location.
@@ -70,6 +69,16 @@ in
       statusbar_visibility = "no";
       header_visibility = "no";
       titles_visibility = "no";
+
+      ## How shall screen switcher work?
+      ##
+      ## - "previous" - switch between the current and previous screen.
+      ## - "screen1,...,screenN" - switch between given sequence of screens.
+      ##
+      ## Screens available for use: help, playlist, browser, search_engine,
+      ## media_library, playlist_editor, tag_editor, outputs, visualizer, clock,
+      ## lyrics, last_fm.
+      screen_switcher_mode = "playlist, playlist_editor";
 
       ##### song format #####
       ##
@@ -173,7 +182,7 @@ in
       window_border_color = "black";
       active_window_border = "black";
     }
-    // lib.attrsets.optionalAttrs visualizer_enable {
+    // lib.attrsets.optionalAttrs visualizerSupport {
       inherit visualizer_data_source;
       inherit visualizer_output_name;
       visualizer_in_stereo = if visualizer_output_format == "44100:16:2" then "yes" else "no";
