@@ -1,21 +1,15 @@
 #!/usr/bin/env -S nu --stdin
 
+
 let COOKIES = $"($env.XDG_STATE_HOME)/yt-mm/($env | get YT_USER? | default 'cookie').txt"
 let ARCHIVE = $"($env.XDG_STATE_HOME)/yt-mm/archive.txt"
 let MUSIC_DIR = $env.XDG_MUSIC_DIR
 let PLAYLISTS = $"($env.XDG_DATA_HOME)/mpd/playlists"
 
 
-# Move content of directories having `name` in their name it a directory
-# named `name`.
-# Example:
-#   bob cool/alone/criminal.mp3
-#   joe smooth x bob cool/toaster games/divein.mp3
-# ->
-#   bob cool/alone/criminal.mp3
-#   bob cool/toaster games/divein.mp3
-# Note: command will remove all empty directories afterwards.
-def "main squash" [name: string] {
+# Merge directories with LIKE matching into a directory with EXACT match.
+@example "Move content of `~/Music/joe smooth x bob cool` to the `~/Music/bob cool` directory" { yt-mm fs-sqash `bob cool` }
+def "main fs-squash" [name: string] {
   mkdir $name
   ls $MUSIC_DIR
   | where type == dir
@@ -25,10 +19,10 @@ def "main squash" [name: string] {
   ^find $MUSIC_DIR -depth -type d -empty -delete
 }
 
-# Move files based on their tags,
-# MUSIC_DIR/[ARTIST]/[ALBUM]/[TITLE].opus
-# Takes first found tag.
-def "main mv-by-tag" [] {
+
+# Organize audio files by their tags.
+@example "Move audio files to [artist]/[album]/[title].<ext>" { yt-mm fs-tagmv }
+def "main fs-tagmv" [] {
   glob $'($MUSIC_DIR)/**/*.opus'
   | each {|it|
     let t = (opustags $it | lines | parse "{key}={value}")
@@ -46,8 +40,10 @@ def "main mv-by-tag" [] {
 }
 
 
-def tagit [] {
-  $in
+# Tags audio files based on path directly under the MUSIC_DIR, [artist]/[album]/[title].opus
+def "main tag-by-path" [] {
+  glob $'($MUSIC_DIR)/**/*.opus'
+  | parse -r ('(?P<path>' + $MUSIC_DIR + '/(?P<artist>[^/]+)/(?P<album>[^/]+)/(?P<title>[^/]+)\.opus)')
   | update artist {|it|
     $it.artist
     | split column ','
@@ -68,15 +64,6 @@ def tagit [] {
       )
     }
   }
-}
-
-
-# Tags an audio file based on path directly under MUSIC_DIR,
-# [artist]/[album]/title.opus
-def "main tag-by-path" [] {
-  glob $'($MUSIC_DIR)/**/*.opus'
-  | parse -r ('(?P<path>' + $MUSIC_DIR + '/(?P<artist>[^/]+)/(?P<album>[^/]+)/(?P<title>[^/]+)\.opus)')
-  | tagit
   | each {|it|
     $it.tags
     | opustags -i $it.path --set-all --in-place
@@ -84,10 +71,8 @@ def "main tag-by-path" [] {
 }
 
 
-# Generate playlists for each artist - directory.
-def "main pls" [] {
-  mkdir $PLAYLISTS
-  glob $"($PLAYLISTS)/*.m3u" | where not ('[yt]' in $it) | each {|it| rm $it}
+def pls-by-dir [] {
+  glob $"($PLAYLISTS)/\\[d\\]*.m3u" | each {|it| rm $it}
   glob $"($MUSIC_DIR)/**/*.{opus,mp3,flac}"
   | each {|it| {
     name: $it,
@@ -98,70 +83,107 @@ def "main pls" [] {
     $it.items
     | get name
     | str join "\n"
-    | save $"($PLAYLISTS)/($it.group).m3u"
+    | save $"($PLAYLISTS)/[d] ($it.group).m3u"
   }
-  mpc update
 }
 
 
-def "main whereis" [target: string] {
-  print (match $target {
-    "pl" | "playlist" => $PLAYLISTS
-    "dl" | "download" => $MUSIC_DIR
-    "ar" | "archive" => $ARCHIVE
-    "co" | "cookies" => $COOKIES
-  })
-}
-
-
-# Creates a local playlist based on a remote playlist content.
-# Requires files to be already downloaded.
-def --wrapped "main pls-from" [url: string, ...args] {
-  let playlist_id = ($url | parse -r '^.*playlist\?list=(?<id>.*)' | get id | first)
-  let work_dir = [$MUSIC_DIR .metafiles $playlist_id] | path join
-  print $"(ansi xpurplea)->(ansi rst) ($work_dir)"
-
-  if (not ($work_dir | path exists)) {
-    print $"(ansi xpurplea)->(ansi rst) ($work_dir)"
-    mkdir $work_dir
-    (yt-dlp
-      -P $work_dir
-      --no-download
-      --write-info-json
-      $url
-      ...$args
-    )
-  }
-
-  let playlist_name = $"[yt] (open (ls $work_dir | where name =~ $'($playlist_id)' | get name | first) | get title).m3u"
-  let playlist_path = [$PLAYLISTS $playlist_name] | path join
-
-  print $"(ansi xpurplea)<-(ansi rst) ($playlist_path)"
-  ls $work_dir
-  | where not ($playlist_id in ($it.name | path basename))
+def pls-by-meta [include_albums: bool] {
+  glob $"($MUSIC_DIR)/**/*.info.json"
+  | each {|it| open $it }
+  | where _type != "playlist"
+  | group-by --to-table playlist
+  | where {|it| $include_albums or (not ($it.playlist | str starts-with "Album -"))}
   | each {|it|
     {
-      query: (printf '((artist == "%s") AND (album == "%s") AND (title == "%s"))' ...(open $it.name | get -o artist album title))
+      playlist: ($"($PLAYLISTS)/[yt] ($it.playlist).m3u"),
+      queries: (
+        $it.items
+        | each {|it|
+          ["artist" "album" "title"]
+          | each {|i| [$i ($it | get -o $i)]}
+          | where $it.1 != null
+          | reduce --fold [] {|c a| $a | append (printf '(%s == "%s")' ...$c)}
+          | str join " AND "
+        }
+      )
     }
   }
-  | insert path {|it|
-    let o = mpc search $'($it.query)'
-    if (($o | str length) == 0) {
-      print -e $"(ansi red)!(ansi rst) ($it.query)"
+  | insert paths {|it|
+    $it.queries
+    | each {|it|
+      let query = ("(" + $it + ")")
+      let result = try {
+        mpc search $query
+      } catch {|e|
+        error make {msg: $it inner: [$e]}
+      }
+      if ($result == "") {
+        print -e $"(ansi red)!(ansi rst) no result for: ($query)"
+      }
+      $result
     }
-    $o
+    | where $it != ""
   }
-  | where path != ""
-  | get path
-  | str join "\n"
-  | save -f $playlist_path
+  | each {|it|
+    if (($it.paths | length) == 0) {
+      print -e $"(ansi red)!(ansi rst) no items for: ($it.playlist)"
+    } else {
+      $it.paths
+      | str join "\n"
+      | save -f $it.playlist
+      print $"Wrote ($it.paths | length | into string) items to ($it.playlist)"
+    }
+  }
+}
 
+
+# Creates playlist files in PLAYLISTS directory.
+@example "Create playlists from all *.info.json files" {yt-mm pls -t "yt"}
+@example "Create playlists from all *.info.json files including the one for albums" {yt-mm pls -t "yt" --yt-album}
+@example "Create playlists for every top level directory" {yt-mm pls -t "dir"}
+def "main pls" [
+  --types (-t): list<string> = [ "dir" "yt" ] # Type of playlists to generate. All by default excludng album playlists.
+  --yt-album                                  # For "yt" type, include album playlists.
+] {
+  mkdir $PLAYLISTS
+  $types | each {|t|
+    match $t {
+      "dir" => (pls-by-dir)
+      "yt" => (pls-by-meta $yt_album)
+      _ => (error make --unspanned { msg: "Bad type."})
+    }
+  }
   mpc update
 }
 
 
-# Downloads audio from Youtube, wrapper around `yt-dlp`.
-def --wrapped main [...args] {
+# Where files are?
+@example "Where cookies are" { yt-mm whereis co } --result "~/.local/share/state/yt-mm/cookie.txt"
+def "main whereis" [target: string] {
+  try {
+    [
+      ["playlist" $PLAYLISTS]
+      ["music" $MUSIC_DIR]
+      ["archive" $ARCHIVE]
+      ["cookies" $COOKIES]
+    ]
+    | where $it.0 =~ $target
+    | first
+    | get 1
+  } catch {|e|
+    print -e $"($target) not found."
+  }
+}
+
+
+# Commands to download and manage music from YouTube.
+@example "Re-download only metafiles." { yt-mm --skip-download --no-download-archive --write-info-json https://www.youtube.com/playlist?list=... }
+@example "Download audio and metafiles." { yt-mm --write-info-json https://www.youtube.com/playlist?list=... }
+def --wrapped main [
+  --help (-h)
+  ...args                 # flags to pass to yt-dlp call
+] {
   (yt-dlp
     --download-archive $ARCHIVE
     -P $MUSIC_DIR
@@ -170,13 +192,13 @@ def --wrapped main [...args] {
     -o "%(artist)s/%(album)s/%(track_number,playlist_index)s - %(title)s.%(ext)s"
     --cookies $COOKIES
     --continue
-    --add-metadata
-    --embed-thumbnail
     --convert-thumbnails jpg
+    --embed-thumbnail
+    --embed-metadata
     --embed-chapters
     --xattrs
     --extractor-args "youtube:lang=en"
-    --write-info-json
+    --no-write-thumbnail
     ...$args
   )
 }
