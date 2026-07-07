@@ -149,12 +149,12 @@ def "main pls" [
   mkdir $PLAYLISTS
   $types | each {|t|
     match $t {
-      "dir" => (pls-by-dir)
-      "yt" => (pls-by-meta $yt_album)
+      # The dir type should execute first, it will populate mpd database, for yt playlists to query from.
+      "dir" => (pls-by-dir; mpc update)
+      "yt" => (pls-by-meta $yt_album; mpc update)
       _ => (error make --unspanned { msg: "Bad type."})
     }
   }
-  mpc update
 }
 
 
