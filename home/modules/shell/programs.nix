@@ -7,6 +7,10 @@
       enable = true;
     };
 
+    devenv = {
+      enable = true;
+    };
+
     # A POSIX complaint shell for testing things.
     zsh = {
       enable = true;
@@ -15,6 +19,7 @@
       shellAliases = config.home.shellAliases // {
         ls = "ls --color=auto";
       };
+      fastSyntaxHighlighting.enable = true;
     };
 
     # "Smarter" cd, tracks visited directories and allows to jump back by typing its name without full path

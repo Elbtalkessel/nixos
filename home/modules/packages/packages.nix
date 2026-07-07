@@ -56,7 +56,6 @@
     cloudflared # Tunneling local servers.
     lazydocker # docker tui.
     lazygit # git tui.
-    devenv # dev envs management.
     # REPLs / Languages
     python313Packages.ipython # python.
 
