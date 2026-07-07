@@ -6,3 +6,9 @@ for i = 1, 10 do
 		default_name = "—",
 	})
 end
+
+hl.workspace_rule({
+	workspace = "special:magic",
+	on_created_empty = "foot",
+	layout = "master",
+})

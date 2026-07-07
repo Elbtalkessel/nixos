@@ -36,10 +36,6 @@ hl.bind("SUPER + mouse:272", hl.dsp.window.drag(), { mouse = true })
 hl.bind("SUPER + mouse:273", hl.dsp.window.resize(), { mouse = true })
 hl.bind("ALT + TAB", hl.dsp.window.cycle_next())
 
--- special
-hl.bind("SUPER + escape", hl.dsp.workspace.toggle_special("magic"))
-hl.bind("SUPER + SHIFT + escape", hl.dsp.window.move({ workspace = "special:magic" }))
-
 -- focus
 hl.bind("SUPER + H", hl.dsp.focus({ direction = "l" }))
 hl.bind("SUPER + L", hl.dsp.focus({ direction = "r" }))
@@ -113,18 +109,20 @@ hl.bind("SUPER + ALT + TAB", function()
 	notify_success(string.format("Workspace switched to %s layout", next_layout))
 end)
 
-hl.bind("SUPER + ALT + N", function()
+-- Minimize to a special workspace.
+hl.bind("SUPER + escape", hl.dsp.workspace.toggle_special("magic"))
+hl.bind("SUPER + backspace", function()
+	-- Move a window to a special workspace and from special back to regular
+	-- using the same keybind.
 	local workspace = get_workspace()
 	if not workspace then
-		notify_error("Cannot determine layout")
 		return
 	end
 
-	local next_layout = get_next_layout(workspace)
-	hl.config({
-		general = {
-			layout = next_layout,
-		},
-	})
-	notify_success(string.format("Switched to %s layout", next_layout))
+	if workspace.special then
+		-- e-0 = put on current open, non-special workspace
+		hl.dispatch(hl.dsp.window.move({ workspace = "e-0", follow = workspace.windows == 1 }))
+	else
+		hl.dispatch(hl.dsp.window.move({ workspace = "special:magic", follow = false }))
+	end
 end)

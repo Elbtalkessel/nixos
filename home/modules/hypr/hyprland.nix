@@ -123,6 +123,13 @@ in
         content = ./hyprland/workspace_rule.lua;
         autoLoad = true;
       };
+      "hyprland.99-integration" = # lua
+        ''
+          -- Integration with noctalia templates and optional
+          -- override file for testing before switching.
+          pcall(require, "../noctalia")
+          pcall(require, "../override")
+        '';
     };
   };
 }
