@@ -4,5 +4,6 @@ _: {
     ./programs.nix
     ./theme.nix
     ./nushell
+    ./programs
   ];
 }

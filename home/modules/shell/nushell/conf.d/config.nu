@@ -22,9 +22,23 @@ let zoxide_completer = {|spans|
   | uniq
 }
 
+# FIXME: move to home/modules/shell/programs/chtsh/
+let chtsh_completer = {|spans|
+  let q = ($spans | last)
+  cht.sh :list
+  | lines
+  | where {|it| (($q | str length) == 0) or $it starts-with $q}
+  | each {|row|
+    let value = $row
+    let need_quote = ['\' ',' '[' ']' '(' ')' ' ' '\t' "'" '"' "`"] | any {$in in $value}
+    if ($need_quote) { $'"($value | str replace --all "\"" "\\\"")"' } else { $value }
+  }
+}
+
 let completers = {|spans|
   match $spans.0 {
     cd => $zoxide_completer
+    cht.sh => $chtsh_completer
     _ => $carapace_completer
   } | do $in $spans
 }
