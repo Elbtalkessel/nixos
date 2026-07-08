@@ -143,7 +143,7 @@ def pls-by-meta [include_albums: bool] {
 @example "Create playlists from all *.info.json files including the one for albums" {yt-mm pls -t "yt" --yt-album}
 @example "Create playlists for every top level directory" {yt-mm pls -t "dir"}
 def "main pls" [
-  --types (-t): list<string> = [ "dir" "yt" ] # Type of playlists to generate. All by default excludng album playlists.
+  --types (-t): string@[ "dir" "yt" ] # Type of playlists to generate. All by default excludng album playlists.
   --yt-album                                  # For "yt" type, include album playlists.
 ] {
   mkdir $PLAYLISTS

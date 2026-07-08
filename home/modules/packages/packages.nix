@@ -48,7 +48,6 @@
     tldr # quick documentation on a utility.
     jless # tui json/yaml viewer.
     yt-dlp
-    cht-sh
 
     # Development
     mockoon # API mocking.
