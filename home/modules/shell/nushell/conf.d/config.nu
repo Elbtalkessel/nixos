@@ -24,8 +24,8 @@ let zoxide_completer = {|spans|
 
 # FIXME: move to home/modules/shell/programs/chtsh/
 let chtsh_completer = {|spans|
-  let q = ($spans | last)
-  cht.sh :list
+  let q = $spans | last
+  cht.sh ...($spans | slice (1..-2) | append :list | reverse | uniq | reverse)
   | lines
   | where {|it| (($q | str length) == 0) or $it starts-with $q}
   | each {|row|
