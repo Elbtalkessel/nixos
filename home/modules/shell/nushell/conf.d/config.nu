@@ -25,8 +25,17 @@ let zoxide_completer = {|spans|
 # FIXME: move to home/modules/shell/programs/chtsh/
 let chtsh_completer = {|spans|
   let q = $spans | last
-  cht.sh ...($spans | slice (1..-2) | append :list | reverse | uniq | reverse)
-  | lines
+
+  let proxy = {|spns|
+    let args = ($spans | slice (1..-2) | append :list | reverse | uniq | reverse)
+    let cache = $"/tmp/chtsh-($args | str join "-").json"
+    if not ($cache | path exists) {
+      cht.sh ...$args | lines | save $cache
+    }
+    open $cache
+  }
+
+  do $proxy $spans
   | where {|it| (($q | str length) == 0) or $it starts-with $q}
   | each {|row|
     let value = $row
