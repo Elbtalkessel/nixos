@@ -151,6 +151,6 @@ export def squash-similar [path: string@squashable-directories] {
   | insert basename { $in.name | path basename }
   | insert ibasename { $in.basename | str downcase }
   | where type == dir and ibasename =~ $iterm and basename != $term
-  | each {|it| rsync -var --remove-source-files $"($it.name)/" $"($basename)/"}
+  | each {|it| rsync -var --remove-source-files $"($it.name)/" $"($path)/"}
   ^find -type d -empty -delete
 }
