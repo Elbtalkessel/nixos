@@ -1,8 +1,8 @@
 #!/usr/bin/env -S nu --stdin
 
 
-let COOKIES = $"($env.XDG_STATE_HOME)/yt-mm/($env | get YT_USER? | default 'cookie').txt"
-let ARCHIVE = $"($env.XDG_STATE_HOME)/yt-mm/archive.txt"
+let STATE_DIR = $"($env.XDG_STATE_HOME)/yt-mm"
+let ARCHIVE = $"($STATE_DIR)/archive.txt"
 let MUSIC_DIR = $env.XDG_MUSIC_DIR
 let PLAYLISTS = $"($env.XDG_DATA_HOME)/mpd/playlists"
 
@@ -137,17 +137,17 @@ def pls-by-meta [include_albums: bool] {
   }
 }
 
-
 # Creates playlist files in PLAYLISTS directory.
 @example "Create playlists from all *.info.json files" {yt-mm pls -t "yt"}
 @example "Create playlists from all *.info.json files including the one for albums" {yt-mm pls -t "yt" --yt-album}
 @example "Create playlists for every top level directory" {yt-mm pls -t "dir"}
 def "main pls" [
-  --types (-t): string@[ "dir" "yt" ] # Type of playlists to generate. All by default excludng album playlists.
+  --types (-t): string@[ "dir" "yt" ]         # Type of playlists to generate. All by default excludng album playlists.
   --yt-album                                  # For "yt" type, include album playlists.
 ] {
   mkdir $PLAYLISTS
-  $types | each {|t|
+  if ($types != null) { $types } else { ["dir" "yt"] }
+  | each {|t|
     match $t {
       # The dir type should execute first, it will populate mpd database, for yt playlists to query from.
       "dir" => (pls-by-dir; mpc update)
@@ -158,31 +158,13 @@ def "main pls" [
 }
 
 
-# Where files are?
-@example "Where cookies are" { yt-mm whereis co } --result "~/.local/share/state/yt-mm/cookie.txt"
-def "main whereis" [target: string] {
-  try {
-    [
-      ["playlist" $PLAYLISTS]
-      ["music" $MUSIC_DIR]
-      ["archive" $ARCHIVE]
-      ["cookies" $COOKIES]
-    ]
-    | where $it.0 =~ $target
-    | first
-    | get 1
-  } catch {|e|
-    print -e $"($target) not found."
-  }
-}
-
-
 # Commands to download and manage music from YouTube.
 @example "Re-download only metafiles." { yt-mm --skip-download --no-download-archive --write-info-json https://www.youtube.com/playlist?list=... }
 @example "Download audio and metafiles." { yt-mm --write-info-json https://www.youtube.com/playlist?list=... }
 def --wrapped main [
-  --help (-h) # Show this help.
-  ...args     # Flags to pass to yt-dlp call.
+  --cookies (-c): string  # Cookie file to use.
+  --help (-h)             # Show this help.
+  ...args                 # Flags to pass to yt-dlp call.
 ] {
   (yt-dlp
     --download-archive $ARCHIVE
@@ -190,7 +172,6 @@ def --wrapped main [
     # default audio format is best, best quality (0).
     -x --audio-quality 0
     -o "%(artist,channel)s/%(album,playlist_title)s/%(track_number,playlist_index)s - %(title)s.%(ext)s"
-    --cookies $COOKIES
     --continue
     --convert-thumbnails jpg
     --embed-thumbnail
@@ -199,6 +180,7 @@ def --wrapped main [
     --xattrs
     --extractor-args "youtube:lang=en"
     --no-write-thumbnail
+    ...(if ($cookies != null) {[--cookies $cookies]} else {[]})
     ...$args
   )
 }
