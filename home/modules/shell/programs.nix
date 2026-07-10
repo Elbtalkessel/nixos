@@ -4,7 +4,10 @@
     # file database for nixpkgs
     # usage example: `nix-locate 'bin/hello'`
     nix-index = {
-      enable = true;
+      # Disabled until I find how to disable nushell
+      # integration for searching a package when a command
+      # mistyped (annoying delay.)
+      enable = false;
     };
 
     devenv = {
