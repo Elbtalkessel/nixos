@@ -110,3 +110,47 @@ export def colors [] {
     }
   }
 }
+
+
+def squashable-directories [] {
+  let c = (
+    ls $env.PWD
+    | where type == "dir"
+    | insert tokens {|it|
+      $it.name
+      | path basename
+      | str downcase
+      | str replace --all -r " (x|and|feat) " ", "
+      | split row ","
+    }
+    | insert rank 0
+    | insert tlen {$in.tokens | length}
+  )
+  $c
+  | update rank {|lhs|
+    $c
+    | where name != $lhs.name
+    | get tokens
+    | par-each {|i| $i | intersection $lhs.tokens | length} | math sum}
+  | where rank > 0
+  | sort-by --reverse { $in.rank / $in.tlen }
+  | get name
+}
+
+# Mostly for managing artists in the music directory
+# for squashing dirctories with names like "bob", "bob x rob", "bob, bill", "Bob and Ben"
+# into a single directory most likely named "bob".
+# Its tab completer will pull directories from CWD, rank them by: how many times artist
+# name appear in other directory names and divide by total number of artists, so
+# "bob rob" > "bob rob x dick".
+# Note, word split by commas or common known separators such as "x", "and", "feat".
+export def squash-similar [path: string@squashable-directories] {
+  let term = $path | path basename
+  let iterm = $term | str downcase
+  ls $env.PWD
+  | insert basename { $in.name | path basename }
+  | insert ibasename { $in.basename | str downcase }
+  | where type == dir and ibasename =~ $iterm and basename != $term
+  | each {|it| rsync -var --remove-source-files $"($it.name)/" $"($basename)/"}
+  ^find -type d -empty -delete
+}

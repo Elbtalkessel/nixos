@@ -7,19 +7,6 @@ let MUSIC_DIR = $env.XDG_MUSIC_DIR
 let PLAYLISTS = $"($env.XDG_DATA_HOME)/mpd/playlists"
 
 
-# Merge directories with LIKE matching into a directory with EXACT match.
-@example "Move content of `~/Music/joe smooth x bob cool` to the `~/Music/bob cool` directory" { yt-mm fs-sqash `bob cool` }
-def "main fs-squash" [name: string] {
-  mkdir $name
-  ls $MUSIC_DIR
-  | where type == dir
-  | insert base {|it| $it.name | path basename}
-  | where ($it.base | str downcase) =~ ($name | str downcase) and $it.base != $name
-  | each {|it| rsync -Par --remove-source-files $"($it.name)/" $"($MUSIC_DIR)/($name)/"}
-  ^find $MUSIC_DIR -depth -type d -empty -delete
-}
-
-
 # Organize audio files by their tags.
 @example "Move audio files to [artist]/[album]/[title].<ext>" { yt-mm fs-tagmv }
 def "main fs-tagmv" [] {
