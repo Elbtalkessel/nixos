@@ -2,26 +2,6 @@ let carapace_completer = {|spans|
   carapace $spans.0 nushell ...$spans | from json
 }
 
-let zoxide_completer = {|spans|
-  # Spans is command array, likely ["cd", "<arg>"]
-  let q = ($spans | last)
-
-  # In current dir, list all nodes, pick only directories.
-  # filter-out by $q (if passed) and list names only.
-  # TODO: exclude symlinks to files.
-  # TODO: would be nicer to output paths relative to current directory.
-  "./" + ($env.PWD | path basename)
-  | ls -a
-  # It seems nushell can't filter if we swap params, ex:
-  # `where name =~ $q` vs. `$q in name` have different meaning.
-  # I prefer using `in` instead of regex `=~`.
-  | where {|x| $q in $x.name and $x.type in [dir, symlink]}
-  | get name
-  # Query zoxide, append result and filter-out non-unique records.
-  | append ( zoxide query -l $q --exclude $env.PWD | lines )
-  | uniq
-}
-
 # FIXME: move to home/modules/shell/programs/chtsh/
 let chtsh_completer = {|spans|
   let q = $spans | last
@@ -46,7 +26,6 @@ let chtsh_completer = {|spans|
 
 let completers = {|spans|
   match $spans.0 {
-    cd => $zoxide_completer
     cht.sh => $chtsh_completer
     _ => $carapace_completer
   } | do $in $spans
