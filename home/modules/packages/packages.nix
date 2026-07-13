@@ -70,4 +70,8 @@
     bootdev
     sshp
   ];
+
+  xdg.autostart.entries = [
+    "${pkgs.proton-vpn}/share/applications/proton.vpn.app.gtk.desktop"
+  ];
 }
