@@ -8,7 +8,7 @@
     :class "text-lg"
     :space-evenly false
     :spacing 8
-    (label 
+    (label
       :text {
         strength == "" ? ""
         : strength < 26 ? "󱛋"

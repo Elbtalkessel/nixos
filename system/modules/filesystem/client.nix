@@ -24,13 +24,12 @@ let
     "user,users,credentials=${creds}"
   ];
 
-  host = (
+  host =
     {
       "cifs" = "//${opt.device}";
       "nfs" = "${opt.device}:";
     }
-    ."${opt.fsType}"
-  );
+    ."${opt.fsType}";
   mkMount = share: {
     "${opt.mount}/${share}" = {
       inherit (opt) fsType;

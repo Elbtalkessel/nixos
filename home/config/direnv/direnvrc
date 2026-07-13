@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-: ${XDG_RUNTIME_DIR:=/run/user/$UID}
+: "${XDG_RUNTIME_DIR:=/run/user/$UID}"
 declare -A direnv_layout_dirs
 direnv_layout_dir() {
   local hash path

@@ -1,12 +1,11 @@
 { pkgs, config, ... }:
 let
-  steam-session-shutdown = (
+  steam-session-shutdown =
     pkgs.writeShellScript "steam-session-shutdown" # bash
       ''
         steam -shutdown
         loginctl terminate-user ${config.my.username}
-      ''
-  );
+      '';
 in
 {
   xdg.desktopEntries = {

@@ -5,7 +5,7 @@
     :spacing 8
     (label
       :text {
-        EWW_BATTERY.BAT0.status == 'Charging' ? 
+        EWW_BATTERY.BAT0.status == 'Charging' ?
           EWW_BATTERY.BAT0.capacity < 10 ? "󰢜"
           : EWW_BATTERY.BAT0.capacity < 20 ? "󰂆"
           : EWW_BATTERY.BAT0.capacity < 30 ? "󰂇"

@@ -1,5 +1,5 @@
 (defwidget powermenu []
-  (box 
+  (box
     :class "btns-box text-lg"
     :valign "end"
     :halign "start"

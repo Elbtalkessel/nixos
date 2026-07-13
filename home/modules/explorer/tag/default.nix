@@ -5,15 +5,13 @@
   ...
 }:
 let
-  tmsu = (
-    pkgs.tmsu.overrideAttrs (oldAttrs: {
-      postInstall = # bash
-        ''
-          ${oldAttrs.postInstall}
-          cp misc/bin/tmsu-fs-* $out/bin/
-        '';
-    })
-  );
+  tmsu = pkgs.tmsu.overrideAttrs (oldAttrs: {
+    postInstall = # bash
+      ''
+        ${oldAttrs.postInstall}
+        cp misc/bin/tmsu-fs-* $out/bin/
+      '';
+  });
 in
 {
   home.packages = [
@@ -34,7 +32,12 @@ in
       let
         name =
           "tmsu-"
-          + (mapping.src |> lib.removeSuffix "/" |> lib.removePrefix "/" |> lib.replaceString "/" "-");
+          + (
+            mapping.src
+            |> lib.removeSuffix "/"
+            |> lib.removePrefix "/"
+            |> lib.replaceString "/" "-"
+          );
         # Tmsu creates symlinks relative to location of the database,
         # so it has to reside on the src level.
         db = "${mapping.src}/.tmsu/db";
@@ -51,7 +54,6 @@ in
             ExecStart =
               pkgs.writeShellScript "${name}-mount" # bash
                 ''
-                  mkdir -p "${mapping.dst}"
                   ${lib.getExe tmsu} -D ${db} mount ${mapping.dst}
                 '';
             ExecStop =
@@ -66,6 +68,7 @@ in
             Description = "TMSU mount of ${mapping.src} to ${mapping.dst}";
             ConditionPathIsDirectory = [
               mapping.src
+              mapping.dst
             ];
           };
         };

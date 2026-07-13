@@ -3,8 +3,8 @@
   :stacking "fg"
   :windowtype "dialog"
   :wm-ignore true
-  :geometry (geometry 
-    :y "-15px" 
+  :geometry (geometry
+    :y "-15px"
     :x "5px"
     :height "30px"
     :width "30px"
@@ -27,8 +27,8 @@
   :stacking "fg"
   :windowtype "dialog"
   :wm-ignore true
-  :geometry (geometry 
-    :y "-38px" 
+  :geometry (geometry
+    :y "-38px"
     :x "10.7%"
     :height "30px"
     :width "30px"

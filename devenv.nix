@@ -133,7 +133,7 @@ rec {
     # Nix linting
     deadnix.enable = true;
     # TODO(pipe): use https://github.com/molybdenumsoftware/statix to support pipes.
-    # statix.enable = true;
+    statix.enable = true;
     # General hygiene
     shellcheck.enable = true;
     check-yaml.enable = true;

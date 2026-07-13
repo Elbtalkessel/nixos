@@ -490,4 +490,3 @@ let g:WhichKeyDesc_a = "<leader>a Action"
 
 nmap <leader>ay <Action>(CopyAbsolutePath)
 let g:WhichKeyDesc_ay = "<leader>ay Copy Absolute Path"
-
