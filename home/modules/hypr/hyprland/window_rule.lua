@@ -53,6 +53,7 @@ hl.window_rule({
 			"org\\.pulseaudio\\.pavucontrol",
 			"yad",
 			"^\\.virt-manager-wrapped$",
+			"^org.gnome.seahorse.Application$",
 		}),
 	},
 	float = true,
