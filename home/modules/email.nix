@@ -18,6 +18,10 @@
         default = "INBOX";
         from = "Yan Kim <rtfsc@pm.me>";
         cache-headers = true;
+        copy-to = "Sent";
+        default-trash = "Trash";
+        default-sent = "Sent";
+        default-drafts = "Drafts";
       };
     };
     extraConfig = {
