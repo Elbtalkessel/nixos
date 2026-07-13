@@ -8,7 +8,8 @@
     defaultSopsFormat = "yaml";
     age.keyFile = "/home/${config.my.username}/.config/sops/age/keys.txt";
     secrets = {
-      "protonmail/bridge" = { };
+      "protonmail.bridge.username" = { };
+      "protonmail.bridge.password" = { };
     };
   };
 }
