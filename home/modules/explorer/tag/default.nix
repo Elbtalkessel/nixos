@@ -32,7 +32,12 @@ in
     map (
       mapping:
       let
-        name = "tmsu-${lib.removeSuffix "/" (baseNameOf mapping.src)}";
+        name =
+          "tmsu-"
+          + (mapping.src |> lib.removeSuffix "/" |> lib.removePrefix "/" |> lib.replaceString "/" "-");
+        # Tmsu creates symlinks relative to location of the database,
+        # so it has to reside on the src level.
+        db = "${mapping.src}/.tmsu/db";
       in
       {
         inherit name;
@@ -43,16 +48,24 @@ in
           Service = {
             Type = "forking";
             RemainAfterExit = "yes";
-            ExecStart = "${lib.getExe tmsu} -D ${mapping.src}/.tmsu/db mount ${mapping.dst}";
-            ExecStop = "${lib.getExe tmsu} unmount ${mapping.dst}";
+            ExecStart =
+              pkgs.writeShellScript "${name}-mount" # bash
+                ''
+                  mkdir -p "${mapping.dst}"
+                  ${lib.getExe tmsu} -D ${db} mount ${mapping.dst}
+                '';
+            ExecStop =
+              pkgs.writeShellScript "${name}-unmount" # bash
+                ''
+                  "${lib.getExe tmsu} unmount ${mapping.dst}"
+                '';
             TimeoutStartSec = 10;
             TimeoutStopSec = 5;
           };
           Unit = {
-            Description = "TMSU ${mapping.src}:${mapping.dst}";
+            Description = "TMSU mount of ${mapping.src} to ${mapping.dst}";
             ConditionPathIsDirectory = [
               mapping.src
-              mapping.dst
             ];
           };
         };
