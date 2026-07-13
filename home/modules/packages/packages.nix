@@ -31,6 +31,7 @@
     telegram-desktop # comms.
     mattermost-desktop # comms.
     neovim # terminal editor.
+    proton-vpn # vpn client.
 
     # VM
     vagrant
