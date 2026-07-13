@@ -65,6 +65,7 @@
       "process-compose/settings.yaml".source = ./config/process-compose/settings.yaml;
       "npm/npmrc".source = ./config/npm/npmrc;
     };
+    autostart.enable = true;
   };
 
   # quemu requiers it, but virtualisation settings are part of the
