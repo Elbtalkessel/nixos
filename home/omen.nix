@@ -14,10 +14,12 @@
     ./modules/term
     ./modules/services
     ./modules/apps.nix
+    ./modules/email.nix
     ./modules/git.nix
     ./modules/mako.nix
     ./modules/gpg.nix
     ./modules/ide.nix
+    ./modules/sops.nix
     ./modules/theme.nix
     ./modules/wallpaper.nix
   ];

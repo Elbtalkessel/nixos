@@ -53,7 +53,6 @@
       nixvim,
       nixpkgs-custom,
       disko,
-      sops-nix,
       nuenv,
       ...
     }@attrs:
@@ -99,7 +98,6 @@
           { nixpkgs = { inherit pkgs; }; }
           ./options
           disko.nixosModules.disko
-          sops-nix.nixosModules.sops
           ./system/omen.nix
         ];
       };

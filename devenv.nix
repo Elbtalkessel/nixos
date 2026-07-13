@@ -6,7 +6,7 @@ rec {
     chsecret = {
       exec = # sh
         ''
-          nix-shell -p sops --run "sops system/secrets/secrets.yaml"
+          nix-shell -p sops --run "sops secrets/secrets.yaml"
         '';
       description = "Edit secrets using sops.";
     };

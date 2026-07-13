@@ -1,7 +1,10 @@
-{ config, ... }:
+{ config, sops-nix, ... }:
 {
+  import = [
+    sops-nix.nixosModules.sops
+  ];
   sops = {
-    defaultSopsFile = ../secrets/secrets.yaml;
+    defaultSopsFile = ../../secrets/secrets.yaml;
     defaultSopsFormat = "yaml";
     age = {
       keyFile = "/home/${config.my.username}/.config/sops/age/keys.txt";
