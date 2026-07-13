@@ -42,7 +42,7 @@ in
     };
     font = {
       name = config.my.font.family.default;
-      size = 14;
+      size = 17;
     };
   };
 
