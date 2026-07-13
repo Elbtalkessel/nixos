@@ -44,7 +44,7 @@
               password: $PASSWORD
               boxes:
                 - mailbox: INBOX
-                  onNewMail: "notify-send '%s' 'You've got mail!'"
+                  onNewMail: notify-send "%s" "You've got mail!"
           EOF
         '';
 
