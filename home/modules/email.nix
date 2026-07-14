@@ -97,8 +97,8 @@ in
     Near :default-local:
     Patterns *
     Sync Full
-    Create Near
-    Remove Near
+    Create Both
+    Remove Both
     Expunge Both
     SyncState *
   '';
