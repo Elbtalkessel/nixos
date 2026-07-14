@@ -4,19 +4,18 @@
   lib,
   ...
 }:
+let
+  MAILDIR = "${config.xdg.dataHome}/mail/${config.my.mail.address}";
+  INBOX = "${MAILDIR}/INBOX";
+in
 {
-  services.protonmail-bridge = {
-    enable = true;
-    extraPackages = with pkgs; [ gnome-keyring ];
-  };
-
   programs.aerc = {
     enable = true;
     extraAccounts = {
-      Personal = {
-        source = "maildir://~/.mail/protonmail";
+      Default = {
+        source = "maildir://${MAILDIR}";
         default = "INBOX";
-        from = "Yan Kim <rtfsc@pm.me>";
+        from = "${config.my.username} <${config.my.mail.address}>";
         cache-headers = true;
         copy-to = "Sent";
         default-trash = "Trash";
@@ -64,41 +63,67 @@
     };
   };
 
-  sops.templates."mbsyncrc".content = ''
-    IMAPAccount protonmail
-    Host 127.0.0.1
-    Port 1143
-    User ${config.sops.placeholder."protonmail.bridge.username"}
-    Pass ${config.sops.placeholder."protonmail.bridge.password"}
-    SSLType STARTTLS
+  services.protonmail-bridge = {
+    enable = true;
+  };
 
-    IMAPStore protonmail-remote
-    Account protonmail
+  services.mbsync = {
+    enable = true;
+    frequency = "*:0/5";
+    configFile = "${config.xdg.configHome}/mbsync/mbsyncrc";
+    preExec = "${lib.getExe' pkgs.coreutils "mkdir"} -p ${MAILDIR}";
+  };
 
-    MaildirStore protonmail-local
-    Path ~/.mail/protonmail/
-    Inbox ~/.mail/protonmail/INBOX
+  xdg.configFile."mbsync/mbsyncrc".text = ''
+    IMAPAccount default
+    Host ${config.my.mail.host}
+    Port ${config.my.mail.port}
+    User "${config.my.mail.address}"
+    PassCmd "${lib.getExe pkgs.libsecret} lookup ${config.my.mail.password}"
+    SSLType ${config.my.mail.sslType}
+
+    IMAPStore default-remote
+    Account default
+
+    MaildirStore default-local
+    # trailing slash is required
+    Path ${MAILDIR}/
+    Inbox ${INBOX}
     Subfolders Verbatim
+    MaxSize 100M
 
-    Channel protonmail
-    Far :protonmail-remote:
-    Near :protonmail-local:
+    Channel default
+    Far :default-remote:
+    Near :default-local:
     Patterns *
-    Create Both
+    Sync Full
+    Create Near
+    Remove Near
+    Expunge Both
     SyncState *
   '';
 
-  systemd.user.services = {
-    mbsync = {
-      Unit = {
-        Description = "Sync Proton Mail";
-        After = [ "protonmail-bridge.service" ];
-      };
-      Service = {
-        ExecStart = "${pkgs.isync}/bin/mbsync -c ${config.sops.templates."mbsyncrc".path} protonmail";
-      };
-    };
+  #systemd.user.timers.mbsync  = {
+  #  Unit.Description = "Periodic Proton mail sync";
+  #  Timer = {
+  #    OnBootSec = "2min";
+  #    OnUnitActiveSec = "5min";
+  #  };
+  #  Install.WantedBy = [
+  #    "timers.target"
+  #  ];
+  #};
+  #systemd.user.services.mbsync = {
+  #   Unit = {
+  #     Description = "Sync Proton Mail";
+  #     After = [ "protonmail-bridge.service" ];
+  #   };
+  #   Service = {
+  #     ExecStart = "${pkgs.isync}/bin/mbsync -c ${config.sops.templates."mbsyncrc".path} protonmail";
+  #   };
+  #};
 
+  systemd.user.services = {
     mail-notify = {
       Unit.Description = "Mail notifications";
       Service = {
@@ -106,34 +131,14 @@
           pkgs.writeShellScript "mail-notify" # bash
             ''
               #!/usr/bin/env bash
-              ${pkgs.inotify-tools}/bin/inotifywait \
-                -m \
-                -e create \
-                ~/.mail/protonmail/INBOX/new |
-              while read; do
-                ${pkgs.libnotify}/bin/notify-send \
-                  --app-name=aerc \
-                  "New mail" \
-                  "You have new mail"
+              ${pkgs.inotify-tools}/bin/inotifywait -m -e create ${INBOX}/new | while read; do
+                ${pkgs.libnotify}/bin/notify-send --app-name=aerc "New mail" "You have new mail"
               done
             '';
         Restart = "always";
       };
       Install.WantedBy = [
         "default.target"
-      ];
-    };
-  };
-
-  systemd.user.timers = {
-    mbsync = {
-      Unit.Description = "Periodic Proton mail sync";
-      Timer = {
-        OnBootSec = "2min";
-        OnUnitActiveSec = "5min";
-      };
-      Install.WantedBy = [
-        "timers.target"
       ];
     };
   };

@@ -41,6 +41,38 @@ in
               type = str;
               description = "Default user's username.";
             };
+            mail = opt {
+              description = "Mail settings.";
+              default = { };
+              type = submodule {
+                options = {
+                  address = opt {
+                    type = str;
+                    description = "Email address";
+                  };
+                  password = opt {
+                    type = str;
+                    description = "libsecret {attribue} {value}. To store a value you'll need gnome-keyring and libsecret, example: `echo 'password!' | secret-tool store --label='Protonmail Bridge' proton/bridge password`";
+                  };
+                  host = opt {
+                    type = str;
+                    description = "IMAP/SMTP host";
+                    default = "127.0.0.1";
+                  };
+                  port = opt {
+                    type = str;
+                    description = "IMAP/SMPT port";
+                    default = "1143";
+                  };
+                  sslType = opt {
+                    type = enum [
+                      "STARTTLS"
+                    ];
+                    default = "STARTTLS";
+                  };
+                };
+              };
+            };
             avatar = opt {
               type = str;
               description = "User's avatar.";

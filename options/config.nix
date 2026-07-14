@@ -7,6 +7,10 @@ in
   config = {
     my = {
       inherit username;
+      mail = {
+        address = "rtfsc@pm.me";
+        password = "proton/bridge password";
+      };
       # I don't need these paths in store and usually
       # modules using these confs don't need them too.
       avatar = "${userhome}/.cache/avatar";
