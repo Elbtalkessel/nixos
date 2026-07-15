@@ -9,6 +9,7 @@
           # Stolen from https://github.com/Lykos153/nixos/commit/b7f94990ab609a5bd2c2f609871c54d4d0bfbd27#diff-42b53d787a6bf3b5085510148bb366a388802be980474f607845ff3d6671bbfc
           source ${./conf.d/config.nu}
           source ${./conf.d/comp/sshp.nu}
+          source ${./conf.d/comp/notmuch.nu}
           ${if config.programs.zoxide.enable then "source ${./conf.d/comp/zoxide.nu}" else ""}
           use ${./conf.d/functions.nu} *
 

@@ -96,14 +96,33 @@ in
             # Remove inbox tag from everything outside INBOX
             notmuch tag -inbox -- not folder:INBOX
 
-            # Dynamic tags based on labels
+            # Dynamic tags based on directory structure,
+            # each level is a tag, e.g. emails in work/hh/* will be have
+            # tags "work", "hh".
+            # /Labels intentionally ignored, IMAP has only directories,
+            # adding labels will create duplicates.
             while read -r dir; do
-              label="''${dir##*/}"
-              parent="''${''${dir%/*}##*/}"
-              # lowercase, replace all punctuation and whitespace by single + sign.
-              tag=$(printf '%s' "$label" | tr '[:upper:]' '[:lower:]' | tr ',' ' ' | xargs | tr -s ' ' '+')
-              notmuch tag +"$tag" -- folder:"$parent/$label"
-            done < <(find "${MAILDIR}/Labels" "${MAILDIR}/Folders" -mindepth 1 -maxdepth 1 -type d -not -name "All")
+              printf 'Checking %s\n' "$dir"
+
+              base="''${dir%/*}"
+              path="''${base##${MAILDIR}/}"
+
+              # Strip "Folders/" prefix,
+              # lowercase, normalize commas/spaces, split by /
+              IFS='/' read -r -a tags <<< "$(
+                printf '%s' "''${path##Folders/}" \
+                | tr '[:upper:]' '[:lower:]' \
+                | tr ',' ' ' \
+                | tr -s ' ' '+' \
+                | xargs
+              )"
+
+              # Prefix each tag with +
+              tags=("''${tags[@]/#/+}")
+
+              printf "Tagging %s -- %s\n" "''${tags[*]}" "$path"
+              notmuch tag "''${tags[@]}" -- folder:"$path"
+            done < <(find "${MAILDIR}/Folders" -type d -name "cur")
           '';
       };
       maildir = {
@@ -151,7 +170,7 @@ in
         Near :default-local:
         # Don't sync virtual all mail directory
         # https://github.com/ProtonMail/gluon/issues/426
-        Patterns * !"All Mail" !"Starred"
+        Patterns * !"All Mail" !"Starred" !"Labels"
         Sync Full
         # Preserve original arrival timestamps across syncs
         CopyArrivalDate yes
