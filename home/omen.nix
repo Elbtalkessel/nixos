@@ -4,6 +4,7 @@
     ./environment.nix
     ./modules/bar
     ./modules/browser
+    ./modules/email
     ./modules/hypr
     ./modules/imv
     ./modules/launcher
@@ -14,7 +15,6 @@
     ./modules/term
     ./modules/services
     ./modules/apps.nix
-    ./modules/email.nix
     ./modules/git.nix
     ./modules/mako.nix
     ./modules/gpg.nix
