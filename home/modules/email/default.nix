@@ -2,6 +2,7 @@ _: {
   imports = [
     ./mbsync.nix
     ./notmuch.nix
+    ./mailmover.nix
     ./aerc.nix
   ];
   services = {
