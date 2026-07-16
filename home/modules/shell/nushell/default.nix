@@ -26,7 +26,7 @@
           lib.optional config.programs.notmuch.enable # nu
             ''
               source ${./conf.d/comp/notmuch.nu}
-              use ${./conf.d/lib/equery.nu} *
+              use ${./conf.d/lib/equery.mod.nu} *
             ''
         |> lib.strings.join "\n";
     };

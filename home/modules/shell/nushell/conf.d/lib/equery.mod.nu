@@ -31,6 +31,8 @@ export module equery {
     db-open
     | insert $query { $today: $count }
     | tee { db-save }
+    | get $query
+    | get $today
   }
 
   # Check email query counters.
@@ -39,13 +41,15 @@ export module equery {
     let today = (date now | format date "%Y-%m-%d")
     db-open
     | upsert $query {|it|
-      let ov = $it | get $query | get $today
-      {
-        $today: (if ($nv == $ov) { $ov } else {$nv + $ov})
+      let q = $it | get $query
+      let ov = $q | get -o $today
+      $q | merge {
+        $today: (if ($ov == null or $nv == $ov) { $nv } else {$nv + $ov})
       }
     }
     | tee { db-save }
     | get $query
+    | get $today
   }
 
   # Remove email query from the list.
@@ -60,7 +64,14 @@ export module equery {
   # Trash messages, useful after gathering statistics.
   export def trash [query: string@comp-query] {
     notmuch tag +trash $query
-    notmuch-mailmover
+  }
+
+  export def trash-all [] {
+    db-open
+    | columns
+    | each {|it|
+      trash $it
+    }
   }
 
   # Refresh email query database.
@@ -81,8 +92,15 @@ export module equery {
     | each {|it|
       {
         query: $it.query
-        today: ($it.daily | get $today)
+        today: ($it.daily | get -o $today)
         daily: ($it.daily | values | math avg)
+        trend: (
+          if (($it.daily | columns | length) < 2) {
+            0
+          } else {
+            $it.daily | values | slice (-2..) | $in.0 - $in.1
+          }
+        )
       }
     }
   }
