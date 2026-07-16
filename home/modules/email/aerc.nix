@@ -5,6 +5,8 @@
   ...
 }:
 let
+  # Incorrectly configured: maildir and maildir are two different things,
+  # maildir should point to parent of the store and store is an email account.
   MAILDIR = "${config.xdg.dataHome}/mail/${config.my.mail.address}";
   html2txt = "${lib.getExe pkgs.lynx} -dump -stdin -force_html -assume_local_charset=UTF-8 -display_charset=UTF-8";
   copyCmd = lib.getExe' pkgs.wl-clipboard "wl-copy";
@@ -14,7 +16,8 @@ in
     enable = true;
     extraAccounts = {
       Default = {
-        source = "maildir://${MAILDIR}";
+        source = "notmuch://${MAILDIR}";
+        maildir-store = MAILDIR;
         default = "INBOX";
         from = "${config.my.username} <${config.my.mail.address}>";
         cache-headers = true;
