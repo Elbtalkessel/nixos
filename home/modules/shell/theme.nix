@@ -20,20 +20,18 @@
         ];
         directory = {
           style = "white";
-          truncation_length = 8;
-          truncation_symbol = "../";
         };
         git_state = {
           format = ''(\([$state( $progress_current/$progress_total)]($style)\) )'';
-          style = "green";
+          style = "white";
         };
         git_branch = {
-          format = "(at [$branch]($style))";
+          format = "([$branch]($style))";
           style = "bright-black";
         };
         git_status = {
           format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218)($ahead_behind$stashed)]($style)";
-          style = "bright-black";
+          style = "white";
           conflicted = "​";
           untracked = "​";
           modified = "​";
@@ -48,7 +46,7 @@
         };
         # ---
         python = {
-          format = "([via $virtualenv]($style) )";
+          format = "([$virtualenv]($style) )";
           style = "bright-black";
         };
         shell = {
@@ -57,10 +55,10 @@
           zsh_indicator = "%";
           nu_indicator = "λ";
           unknown_indicator = "$";
-          style = "cyan";
+          style = "white";
         };
         character = {
-          success_symbol = "[_](cyan)";
+          success_symbol = "[_](white)";
           error_symbol = "[_](red)";
           vimcmd_symbol = "[_ >](cyan)";
         };
