@@ -1,6 +1,6 @@
 { config, sops-nix, ... }:
 {
-  import = [
+  imports = [
     sops-nix.nixosModules.sops
   ];
   sops = {
