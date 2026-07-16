@@ -63,6 +63,11 @@ in
                 '';
             TimeoutStartSec = 10;
             TimeoutStopSec = 5;
+            MemoryMax = "512M";
+            MemoryHigh = "400M";
+            CPUQuota = "50%";
+            TasksMax = "100";
+            IOWeight = "50";
           };
           Unit = {
             Description = "TMSU mount of ${mapping.src} to ${mapping.dst}";
