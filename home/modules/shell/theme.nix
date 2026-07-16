@@ -10,35 +10,37 @@
           "$username"
           "$hostname"
           "$directory"
+          "$python"
           "$git_state"
           "$git_branch"
           "$git_status"
           "$cmd_duration"
           "$line_break"
-          "$python"
           "$shell$character"
         ];
         directory = {
-          style = "blue";
+          style = "white";
+          truncation_length = 8;
+          truncation_symbol = "../";
         };
         git_state = {
           format = ''(\([$state( $progress_current/$progress_total)]($style)\) )'';
-          style = "bright-black";
+          style = "green";
         };
         git_branch = {
-          format = "[$branch]($style)";
+          format = "(at [$branch]($style))";
           style = "bright-black";
         };
         git_status = {
           format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218)($ahead_behind$stashed)]($style)";
-          style = "cyan";
+          style = "bright-black";
           conflicted = "​";
           untracked = "​";
           modified = "​";
           staged = "​";
           renamed = "​";
           deleted = "​";
-          stashed = "≡";
+          stashed = " ↨";
         };
         cmd_duration = {
           format = "( [$duration]($style))";
@@ -46,7 +48,7 @@
         };
         # ---
         python = {
-          format = "([$virtualenv]($style) )";
+          format = "([via $virtualenv]($style) )";
           style = "bright-black";
         };
         shell = {
@@ -55,12 +57,12 @@
           zsh_indicator = "%";
           nu_indicator = "λ";
           unknown_indicator = "$";
-          style = "purple";
+          style = "cyan";
         };
         character = {
-          success_symbol = "[_](purple)";
+          success_symbol = "[_](cyan)";
           error_symbol = "[_](red)";
-          vimcmd_symbol = "[_ >](purple)";
+          vimcmd_symbol = "[_ >](cyan)";
         };
       };
     };
