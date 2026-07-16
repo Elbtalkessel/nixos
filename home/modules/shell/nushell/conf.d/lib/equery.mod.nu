@@ -98,10 +98,11 @@ export module equery {
           if (($it.daily | columns | length) < 2) {
             0
           } else {
-            $it.daily | values | slice (-2..) | $in.0 - $in.1
+            $it.daily | values | slice (-2..) | $in.1 - $in.0
           }
         )
       }
     }
+    | sort-by trend
   }
 }
