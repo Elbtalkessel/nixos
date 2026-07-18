@@ -3,14 +3,6 @@
   # VIRTUALISATION
   # DOCKER / PODMAN
   virtualisation = {
-    docker = {
-      enable = true;
-      rootless = {
-        enable = true;
-        setSocketVariable = true;
-      };
-    };
-
     # QEMU
     libvirtd = {
       enable = true;
@@ -22,11 +14,12 @@
         vhostUserPackages = with pkgs; [ virtiofsd ];
       };
     };
+    spiceUSBRedirection.enable = true;
   };
 
+  users.groups.libvirtd.members = [ config.my.username ];
+  users.groups.kvm.members = [ config.my.username ];
+
   programs.virt-manager.enable = true;
-  users.users.${config.my.username}.extraGroups = [
-    "libvirtd"
-    "docker"
-  ];
+  environment.systemPackages = with pkgs; [ phodav ];
 }

@@ -18,6 +18,7 @@
     ./modules/llm
     ./modules/networking
     ./modules/specialisation
+    ./modules/vm
     ./modules/web
     ./modules/audio.nix
     ./modules/bluetooth.nix
@@ -30,7 +31,6 @@
     ./modules/sops.nix
     ./modules/steam.nix
     ./modules/users.nix
-    ./modules/virtualisation.nix
   ];
 
   nix = {
