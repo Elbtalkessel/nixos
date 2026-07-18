@@ -429,6 +429,11 @@ in
                           description = "Completely disable.";
                           default = false;
                         };
+                        passthrough = opt {
+                          type = bool;
+                          description = "Passthrough to virtual machine";
+                          default = false;
+                        };
                       };
                     };
                   };
