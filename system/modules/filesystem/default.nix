@@ -1,7 +1,6 @@
 _: {
   imports = [
-    ./server.nix
+    ./server
     ./client.nix
-    ./webdav.nix
   ];
 }

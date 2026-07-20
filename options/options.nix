@@ -205,7 +205,7 @@ in
                         device = opt {
                           type = str;
                           description = "The hostname or IP address of a server.";
-                          example = "192.168.1.1";
+                          example = "192.168.1.1 or http(s)://192.168.1.1[:<port>] for davfs";
                         };
                         shares = opt {
                           type = listOf str;
@@ -224,8 +224,9 @@ in
                           type = enum [
                             "cifs"
                             "nfs"
+                            "davfs"
                           ];
-                          description = "The type of the share.";
+                          description = "The type of the share. davfs is untested.";
                         };
                       };
                     };
@@ -261,6 +262,34 @@ in
                         };
                       };
                     };
+                  };
+                  exports = opt {
+                    default = [ ];
+                    description = "Local filesystem exports to network";
+                    type = listOf (submodule {
+                      options = {
+                        protocol = opt {
+                          type = enum [ "cifs" ];
+                          description = "Sharing protocol";
+                        };
+                        allow = opt {
+                          type = str;
+                          description = "IPs allowed to use the share.";
+                        };
+                        deny = opt {
+                          type = str;
+                          description = "IPs denied to use the share.";
+                        };
+                        path = opt {
+                          type = str;
+                          description = "Local path to share.";
+                        };
+                        auth = opt {
+                          type = str;
+                          description = "Require or not authentication";
+                        };
+                      };
+                    });
                   };
                 };
               };

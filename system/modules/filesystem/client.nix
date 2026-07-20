@@ -28,6 +28,7 @@ let
     {
       "cifs" = "//${opt.device}";
       "nfs" = "${opt.device}:";
+      "davfs" = opt.device;
     }
     ."${opt.fsType}";
   mkMount = share: {
