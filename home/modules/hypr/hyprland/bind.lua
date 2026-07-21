@@ -126,3 +126,7 @@ hl.bind("SUPER + backspace", function()
 		hl.dispatch(hl.dsp.window.move({ workspace = "special:magic", follow = false }))
 	end
 end)
+
+if M.PROG.WINDOW_SWITCHER ~= "" then
+	hl.bind("SUPER + G", hl.dsp.exec_cmd(M.PROG.WINDOW_SWITCHER))
+end
