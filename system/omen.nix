@@ -27,7 +27,6 @@
     ./modules/i18n.nix
     ./modules/packages.nix
     ./modules/services.nix
-    ./modules/session.nix
     ./modules/sops.nix
     ./modules/steam.nix
     ./modules/users.nix

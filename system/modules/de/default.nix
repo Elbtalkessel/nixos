@@ -1,6 +1,6 @@
 _: {
   imports = [
-    ./greetd.nix
+    ./dm.nix
     ./hyprland.nix
     ./pam.nix
     ./portal.nix
