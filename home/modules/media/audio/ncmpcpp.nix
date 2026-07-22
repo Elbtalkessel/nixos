@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   visualizer_data_source = "/tmp/mpd.fifo";
   visualizer_output_name = "Audio Visualizer";
