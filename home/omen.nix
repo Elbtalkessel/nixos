@@ -52,6 +52,9 @@
       notify = true;
       automount = true;
     };
+    hyprpolkitagent = {
+      enable = true;
+    };
   };
 
   xdg = {

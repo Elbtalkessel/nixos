@@ -14,7 +14,6 @@ hl.window_rule({
 	match = {
 		initial_class = _or({
 			"udiskie",
-			"polkit-gnome-authentication-agent-1",
 			"xdg-desktop-portal-gtk",
 		}),
 	},
