@@ -12,7 +12,7 @@
     (modulesPath + "/installer/scan/not-detected.nix")
 
     ./disko/omen.nix
-
+    ./modules/de
     ./modules/filesystem
     ./modules/hardware
     ./modules/llm
