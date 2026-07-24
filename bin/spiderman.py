@@ -8,7 +8,9 @@ import argparse
 import subprocess
 
 
-EXPORT_EXTERN_TMPL = """export extern "{name}" [
+EXPORT_EXTERN_TMPL = """
+{description}
+export extern "{name}" [
 {body}
 ]"""
 
@@ -181,6 +183,8 @@ class ManTuple(typing.NamedTuple):
     flags: list[FlagTuple]
     # Available command topics (subcommands.)
     topics: list[SubpageTuple]
+    # Content of DESCRIPTION section
+    description: str
 
 
 def get_manpage(
@@ -191,11 +195,15 @@ def get_manpage(
     :param command: A command to check manpages for.
     :returns: Manpage tuple object for further parsing.
     """
-    ignore_section = ("NAME", "SYNOPSIS", "DESCRIPTION", "OPTIONS")
+    ignore_section = ("NAME", "SYNOPSIS", "OPTIONS")
     flags: list[FlagTuple] = []
     topics: list[SubpageTuple] = []
+    description: str = ""
     for section, content in group_by_section(get_manual_lines(command)):
         if section in ignore_section:
+            continue
+        if section == "DESCRIPTION":
+            description = "\n".join(f"# {c.strip()}" for c in content)
             continue
         flags.extend(
             f
@@ -203,7 +211,9 @@ def get_manpage(
             if ignore is None or (f.long, f.short) not in ignore
         )
         topics.extend(get_subpages(command, content))
-    return ManTuple(flags=flags, topics=topics, command=command)
+    return ManTuple(
+        flags=flags, topics=topics, command=command, description=description
+    )
 
 
 def dump_to_extern(manpage: ManTuple) -> typing.Generator[str]:
@@ -214,6 +224,7 @@ def dump_to_extern(manpage: ManTuple) -> typing.Generator[str]:
     body_lines.extend(f" {i}" for i in manpage.flags)
     if body_lines:
         yield EXPORT_EXTERN_TMPL.format(
+            description=manpage.description,
             name=manpage.command.replace("-", " "),
             body="\n".join(body_lines),
         )
