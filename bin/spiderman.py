@@ -212,10 +212,11 @@ def dump_to_extern(manpage: ManTuple) -> typing.Generator[str]:
         yield dump_to_comfunc(manpage)
         body_lines.append(f'  topic: string@"nu-complete {manpage.command} topics"')
     body_lines.extend(f" {i}" for i in manpage.flags)
-    yield EXPORT_EXTERN_TMPL.format(
-        name=manpage.command.replace("-", " "),
-        body="\n".join(body_lines),
-    )
+    if body_lines:
+        yield EXPORT_EXTERN_TMPL.format(
+            name=manpage.command.replace("-", " "),
+            body="\n".join(body_lines),
+        )
 
 
 def dump_to_comfunc(manpage: ManTuple) -> str:
