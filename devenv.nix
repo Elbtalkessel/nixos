@@ -125,7 +125,6 @@ rec {
 
   enterShell = # sh
     ''
-      clear
       export PATH="${config.devenv.root}/bin:''${PATH}"
       halp
     '';
