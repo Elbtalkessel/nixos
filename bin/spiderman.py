@@ -183,18 +183,25 @@ class ManTuple(typing.NamedTuple):
     topics: list[SubpageTuple]
 
 
-def get_manpage(command: str) -> ManTuple:
+def get_manpage(
+    command: str,
+    ignore: set[tuple[str | None, str | None]] | None = None,
+) -> ManTuple:
     """
     :param command: A command to check manpages for.
     :returns: Manpage tuple object for further parsing.
     """
-    ignore = ("NAME", "SYNOPSIS", "DESCRIPTION", "OPTIONS")
+    ignore_section = ("NAME", "SYNOPSIS", "DESCRIPTION", "OPTIONS")
     flags: list[FlagTuple] = []
     topics: list[SubpageTuple] = []
     for section, content in group_by_section(get_manual_lines(command)):
-        if section in ignore:
+        if section in ignore_section:
             continue
-        flags.extend(get_flags(content))
+        flags.extend(
+            f
+            for f in get_flags(content)
+            if ignore is None or (f.long, f.short) not in ignore
+        )
         topics.extend(get_subpages(command, content))
     return ManTuple(flags=flags, topics=topics, command=command)
 
@@ -226,15 +233,23 @@ def dump_to_nuscript(manpages: list[ManTuple]) -> typing.Generator[str]:
         yield from dump_to_extern(page)
 
 
-def get_all_manpages(command: str) -> list[ManTuple]:
+def get_all_manpages(
+    command: str,
+    ignore: set[tuple[str | None, str | None]] | None = None,
+) -> list[ManTuple]:
     """
     Recursively collect the manpage for `command` and the manpages of
     all of its subcommands (topics), flattened into a single list.
     """
-    manpage = get_manpage(command)
+    manpage = get_manpage(command, ignore=ignore)
     pages = [manpage]
     for topic in manpage.topics:
-        pages.extend(get_all_manpages(topic.page))
+        pages.extend(
+            get_all_manpages(
+                topic.page,
+                ignore=set((f.long, f.short) for f in manpage.flags),
+            ),
+        )
     return pages
 
 
