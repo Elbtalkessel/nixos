@@ -8,7 +8,7 @@ import argparse
 import subprocess
 
 
-EXPORT_EXTERN_TMPL = """export extern {name} [
+EXPORT_EXTERN_TMPL = """export extern "{name}" [
 {body}
 ]"""
 
@@ -58,13 +58,18 @@ def group_by_section(
     """
     rgx = re.compile(r"^[A-Z][A-Z ]+$")
     content: list[str] = []
+    section = ""
     for line in lines:
         if not rgx.search(line):
-            content.append(line)
+            if section:
+                content.append(line)
             continue
-        if content:
-            yield line, content
+        if section and content:
+            yield section, content
+        section = line
         content = []
+    if section and content:
+        yield section, content
 
 
 class FlagTuple(typing.NamedTuple):
@@ -154,7 +159,8 @@ def get_subpages(
     subcommands for a `command` assuming that manpage for
     the subcommand will look: `<command>-<something>(<page>)`.
     """
-    rgx = re.compile(rf"     ({command}-([^(]+))\(\d+\)$")
+    pattern = rf"     ({command}-([^(]+))\(\d+\)$"
+    rgx = re.compile(pattern)
     subcommand = None
     page = None
     desc: list[str] = []
@@ -200,7 +206,7 @@ def dump_to_extern(manpage: ManTuple) -> typing.Generator[str]:
         body_lines.append(f'  topic: string@"nu-complete {manpage.command} topics"')
     body_lines.extend(f" {i}" for i in manpage.flags)
     yield EXPORT_EXTERN_TMPL.format(
-        name=manpage.command,
+        name=manpage.command.replace("-", " "),
         body="\n".join(body_lines),
     )
 
@@ -220,6 +226,18 @@ def dump_to_nuscript(manpages: list[ManTuple]) -> typing.Generator[str]:
         yield from dump_to_extern(page)
 
 
+def get_all_manpages(command: str) -> list[ManTuple]:
+    """
+    Recursively collect the manpage for `command` and the manpages of
+    all of its subcommands (topics), flattened into a single list.
+    """
+    manpage = get_manpage(command)
+    pages = [manpage]
+    for topic in manpage.topics:
+        pages.extend(get_all_manpages(topic.page))
+    return pages
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -227,9 +245,13 @@ def main():
         type=str,
         help="Command to check for manpages",
     )
+    parser.add_argument("--debug", action="store_true", default=False)
     args = parser.parse_args()
-    for script in dump_to_nuscript([get_manpage(args.command)]):
-        print(script)
+    manpages = get_all_manpages(args.command)
+    if args.debug:
+        print(manpages)
+    else:
+        print("\n".join(dump_to_nuscript(manpages)))
 
 
 if __name__ == "__main__":
