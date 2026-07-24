@@ -8,6 +8,26 @@ import argparse
 import subprocess
 
 
+EXPORT_EXTERN_TMPL = """export extern {name} [
+{body}
+]"""
+
+DEF_TMPL = """def "nu-complete {name}" [] {{
+  {{
+    options: {{
+      sort: false,
+      completion_algorithm: substring,
+      case_sensitive: false,
+    }},
+    completions: [
+{body}
+    ],
+  }}
+}}"""
+
+COMP_TMPL = """{{value: "{value}", description: "{description}"}}"""
+
+
 def get_manual_lines(command: str) -> typing.Generator[str]:
     """
     Manpage lines for `command`, newline charactes stripped,
@@ -173,13 +193,31 @@ def get_manpage(command: str) -> ManTuple:
     return ManTuple(flags=flags, topics=topics, command=command)
 
 
-def dump_to_nuscript(manpages: list[ManTuple]):
+def dump_to_extern(manpage: ManTuple) -> typing.Generator[str]:
+    body_lines = []
+    if manpage.topics:
+        yield dump_to_comfunc(manpage)
+        body_lines.append(f'  topic: string@"nu-complete {manpage.command} topics"')
+    body_lines.extend(f" {i}" for i in manpage.flags)
+    yield EXPORT_EXTERN_TMPL.format(
+        name=manpage.command,
+        body="\n".join(body_lines),
+    )
+
+
+def dump_to_comfunc(manpage: ManTuple) -> str:
+    return DEF_TMPL.format(
+        name=f"{manpage.command} topics",
+        body="\n".join(
+            f"      {COMP_TMPL.format(value=i.command, description=i.desc[0])}"
+            for i in manpage.topics
+        ),
+    )
+
+
+def dump_to_nuscript(manpages: list[ManTuple]) -> typing.Generator[str]:
     for page in manpages:
-        lines = [f'export extern "{page.command}" [']
-        lines.extend(f" {i}" for i in page.topics)
-        lines.extend(f" {i}" for i in page.flags)
-        lines.append("]")
-        yield "\n".join(lines)
+        yield from dump_to_extern(page)
 
 
 def main():
