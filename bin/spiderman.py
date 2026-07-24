@@ -8,8 +8,12 @@ import argparse
 import subprocess
 
 
-def read_manual(cmd: str) -> typing.Generator[str]:
-    v = subprocess.Popen(["man", cmd], stdout=subprocess.PIPE)
+def get_manual_lines(command: str) -> typing.Generator[str]:
+    """
+    Manpage lines for `command`, newline charactes stripped,
+    empty lines ignored.
+    """
+    v = subprocess.Popen(["man", command], stdout=subprocess.PIPE)
     if v.stderr:
         raise RuntimeError(b"".join(v.stderr.readlines()).decode("utf-8"))
     if out := v.stdout:
@@ -18,10 +22,20 @@ def read_manual(cmd: str) -> typing.Generator[str]:
             for l in (s.decode("utf-8").strip("\n") for s in out.readlines())
             if l.strip()
         )
-    raise RuntimeError(f"man {cmd} return nothing")
+    raise RuntimeError(f"man {command} return nothing")
 
 
-def sections(lines: typing.Generator[str]) -> typing.Generator[tuple[str, list[str]]]:
+def group_by_section(
+    lines: typing.Generator[str],
+) -> typing.Generator[tuple[str, list[str]]]:
+    """
+    Uppercase only lines consider as section title,
+    anything between such lines considered as the section content:
+        SECTION A
+            section `a` content.
+        SECTION B
+            section `b` content.
+    """
     rgx = re.compile(r"^[A-Z][A-Z ]+$")
     content: list[str] = []
     for line in lines:
@@ -34,9 +48,13 @@ def sections(lines: typing.Generator[str]) -> typing.Generator[tuple[str, list[s
 
 
 class FlagTuple(typing.NamedTuple):
+    # Short form, e.g. -f
     short: typing.Optional[str]
+    # Long form, e.g. --flag
     long: typing.Optional[str]
+    # Anything remaining, usually flag value hint.
     args: typing.Optional[str]
+    # All lines after the flag name up until the next flag name.
     desc: list[str]
 
     def __str__(self) -> str:
@@ -54,6 +72,25 @@ class FlagTuple(typing.NamedTuple):
 
 
 def get_flags(lines: typing.Sequence[str]) -> typing.Generator[FlagTuple]:
+    """
+    Parses each line, if it looks like a flag name, collects all lines
+    after up until a line looks like a flag again.
+    Example:
+        --between, -b <min> <max>
+            Random number between min max.
+
+            Example:
+                -b 0 100
+                --between 30 50
+    Output:
+        FlagTuple(
+            short="-b",
+            long="--between",
+            args="<min> <max>",
+            desc=["Random number between min max.", "Example:", "..you got the idea..."]
+        )
+    Note: Description and flags have any leading and trailing spaces stripped.
+    """
     rgx = re.compile(
         r"^(?:(?P<short>-[\w])(?:, )?)?(?P<long>--[^ ]+)?\s?(?P<args>.*)?$"
     )
@@ -71,48 +108,64 @@ def get_flags(lines: typing.Sequence[str]) -> typing.Generator[FlagTuple]:
 
 
 class SubpageTuple(typing.NamedTuple):
-    subcommand: str
-    man: str
+    # Last part of a subcommand, e.g. for `devenv processes up` it is `up`
+    command: str
+    # Manpage, for example `devenv-processes-up`.
+    page: str
+    # Manpage short description.
     desc: list[str]
 
     def __str__(self) -> str:
-        tok = [self.subcommand]
+        tok = [self.command]
         if self.desc:
             tok.append(f"# {self.desc[0]}")
         return " ".join(tok)
 
     def __hash__(self) -> int:
-        return hash((self.man,))
+        return hash(self.page)
 
 
 def get_subpages(
-    command: str, lines: typing.Sequence[str]
+    command: str,
+    lines: typing.Sequence[str],
 ) -> typing.Generator[SubpageTuple]:
+    """
+    Parses a manpage lines, locates and returns all
+    subcommands for a `command` assuming that manpage for
+    the subcommand will look: `<command>-<something>(<page>)`.
+    """
     rgx = re.compile(rf"     ({command}-([^(]+))\(\d+\)$")
     subcommand = None
-    man = None
+    page = None
     desc: list[str] = []
     for line in lines:
         if s := rgx.search(line):
-            if man and subcommand:
-                yield SubpageTuple(subcommand=subcommand, man=man, desc=desc)
+            if subcommand and page:
+                yield SubpageTuple(command=subcommand, page=page, desc=desc)
                 desc = []
-            man, subcommand = s.group(1), s.group(2)
+            page, subcommand = s.group(1), s.group(2)
             continue
         desc.append(line.strip())
 
 
 class ManTuple(typing.NamedTuple):
+    # Command manpage describes.
     command: str
+    # Available command --flags.
     flags: list[FlagTuple]
+    # Available command topics (subcommands.)
     topics: list[SubpageTuple]
 
 
-def extract(command: str) -> ManTuple:
+def get_manpage(command: str) -> ManTuple:
+    """
+    :param command: A command to check manpages for.
+    :returns: Manpage tuple object for further parsing.
+    """
     ignore = ("NAME", "SYNOPSIS", "DESCRIPTION", "OPTIONS")
     flags: list[FlagTuple] = []
     topics: list[SubpageTuple] = []
-    for section, content in sections(read_manual(command)):
+    for section, content in group_by_section(get_manual_lines(command)):
         if section in ignore:
             continue
         flags.extend(get_flags(content))
@@ -120,11 +173,13 @@ def extract(command: str) -> ManTuple:
     return ManTuple(flags=flags, topics=topics, command=command)
 
 
-def crawl(manpage: ManTuple) -> list[ManTuple]:
-    out = []
-    for topic in manpage.topics:
-        out.extend(crawl(extract(topic.man)))
-    return out
+def dump_to_nuscript(manpages: list[ManTuple]):
+    for page in manpages:
+        lines = [f'export extern "{page.command}" [']
+        lines.extend(f" {i}" for i in page.topics)
+        lines.extend(f" {i}" for i in page.flags)
+        lines.append("]")
+        yield "\n".join(lines)
 
 
 def main():
@@ -135,11 +190,8 @@ def main():
         help="Command to check for manpages",
     )
     args = parser.parse_args()
-    for page in crawl(extract(args.command)):
-        print(page.command)
-        for to in page.topics:
-            print(to)
-        print("*" * 30)
+    for script in dump_to_nuscript([get_manpage(args.command)]):
+        print(script)
 
 
 if __name__ == "__main__":
