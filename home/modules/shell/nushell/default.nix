@@ -28,6 +28,11 @@
               source ${./conf.d/comp/notmuch.nu}
               use ${./conf.d/lib/equery.mod.nu} *
             ''
+        ++
+          lib.optional config.programs.devenv.enable # nu
+            ''
+              source ${./conf.d/comp/devenv.nu}
+            ''
         |> lib.strings.join "\n";
     };
     # Nushell autocomplete
