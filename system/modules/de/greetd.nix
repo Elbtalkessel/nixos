@@ -5,9 +5,8 @@
   ...
 }:
 let
-  command = (
-    if config.programs.uwsm.enable then "uwsm start hyprland-uwsm.desktop" else "start-hyprland"
-  );
+  command =
+    if config.programs.uwsm.enable then "uwsm start hyprland-uwsm.desktop" else "start-hyprland";
   tui = false;
 in
 {

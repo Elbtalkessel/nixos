@@ -1,4 +1,10 @@
-{ noctalia, config, ... }:
+{
+  noctalia,
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   enable = config.my.wm.bar.provider == "noctalia";
 in
@@ -9,4 +15,10 @@ in
   programs.noctalia = {
     inherit enable;
   };
+  home.packages = lib.mkIf enable (
+    with pkgs;
+    [
+      ddcutil
+    ]
+  );
 }
