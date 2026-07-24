@@ -31,6 +31,7 @@ let completers = {|spans|
   } | do $in $spans
 }
 
+$env.CARAPACE_LENIENT = 1
 $env.config = {
   edit_mode: 'vi',
   show_banner: false,
