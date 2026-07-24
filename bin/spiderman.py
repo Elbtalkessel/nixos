@@ -8,10 +8,6 @@ import argparse
 import subprocess
 
 
-class Arguments(typing.NamedTuple):
-    command: str
-
-
 def read_manual(cmd: str) -> typing.Generator[str]:
     v = subprocess.Popen(["man", cmd], stdout=subprocess.PIPE)
     if v.stderr:
@@ -54,10 +50,10 @@ class FlagTuple(typing.NamedTuple):
         return " ".join(tok)
 
     def __hash__(self) -> int:
-        return hash((self.short, self.long))
+        return hash(self.short or self.long)
 
 
-def flags(lines: typing.Sequence[str]) -> typing.Generator[FlagTuple]:
+def get_flags(lines: typing.Sequence[str]) -> typing.Generator[FlagTuple]:
     rgx = re.compile(
         r"^(?:(?P<short>-[\w])(?:, )?)?(?P<long>--[^ ]+)?\s?(?P<args>.*)?$"
     )
@@ -89,7 +85,7 @@ class SubpageTuple(typing.NamedTuple):
         return hash((self.man,))
 
 
-def subpages(
+def get_subpages(
     command: str, lines: typing.Sequence[str]
 ) -> typing.Generator[SubpageTuple]:
     rgx = re.compile(rf"     ({command}-([^(]+))\(\d+\)$")
@@ -106,30 +102,29 @@ def subpages(
         desc.append(line.strip())
 
 
-def crawl(
-    args: Arguments,
-    seen_flags: set[FlagTuple] = set(),
-    seen_topic: set[SubpageTuple] = set(),
-) -> tuple[set[FlagTuple], set[SubpageTuple]]:
+class ManTuple(typing.NamedTuple):
+    command: str
+    flags: list[FlagTuple]
+    topics: list[SubpageTuple]
+
+
+def extract(command: str) -> ManTuple:
     ignore = ("NAME", "SYNOPSIS", "DESCRIPTION", "OPTIONS")
-    for section, content in sections(read_manual(args.command)):
+    flags: list[FlagTuple] = []
+    topics: list[SubpageTuple] = []
+    for section, content in sections(read_manual(command)):
         if section in ignore:
             continue
+        flags.extend(get_flags(content))
+        topics.extend(get_subpages(command, content))
+    return ManTuple(flags=flags, topics=topics, command=command)
 
-        for l in flags(content):
-            if l in seen_flags:
-                continue
-            seen_flags.add(l)
 
-        for l in subpages(args.command, content):
-            if l in seen_topic:
-                continue
-            seen_topic.add(l)
-            f, t = crawl(Arguments(l.man), seen_flags, seen_topic)
-            seen_flags = seen_flags | f
-            seen_topic = seen_topic | t
-
-    return seen_flags, seen_topic
+def crawl(manpage: ManTuple) -> list[ManTuple]:
+    out = []
+    for topic in manpage.topics:
+        out.extend(crawl(extract(topic.man)))
+    return out
 
 
 def main():
@@ -139,12 +134,12 @@ def main():
         type=str,
         help="Command to check for manpages",
     )
-    args = typing.cast(Arguments, parser.parse_args())
-    manflags, mantopics = crawl(args)
-    for flag in manflags:
-        print(flag)
-    for topic in mantopics:
-        print(topic)
+    args = parser.parse_args()
+    for page in crawl(extract(args.command)):
+        print(page.command)
+        for to in page.topics:
+            print(to)
+        print("*" * 30)
 
 
 if __name__ == "__main__":
