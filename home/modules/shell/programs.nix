@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 {
   programs = {
     # file database for nixpkgs
@@ -59,5 +59,21 @@
     ripgrep = {
       enable = true;
     };
+
+    bat = {
+      enable = true;
+      syntaxes = {
+        nushell = {
+          src = pkgs.fetchFromGitHub {
+            owner = "kurokirasama";
+            repo = "nushell_sublime_syntax";
+            rev = "main";
+            hash = "sha256-2A7c6/FOsOyzyGAshZJZvZ/m5w1cKj7uckB+pzdlr3M=";
+          };
+          file = "nushell.sublime-syntax";
+        };
+      };
+    };
   };
+  home.shellAliases.cat = "bat";
 }
