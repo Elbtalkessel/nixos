@@ -88,7 +88,18 @@ def pls-by-meta [include_albums: bool] {
         $it.items
         | each {|it|
           ["artist" "album" "title"]
-          | each {|i| [$i ($it | get -o $i)]}
+          | each {|i|
+            [
+              $i
+              (
+                $it
+                | get -o $i
+                | default ""
+                | str replace -a -r '([()"])' {|chr| '\' + $chr}
+                | if ($in != "") { $in } else { null }
+              )
+            ]
+          }
           | where $it.1 != null
           | reduce --fold [] {|c a| $a | append (printf '(%s == "%s")' ...$c)}
           | str join " AND "
