@@ -63,7 +63,7 @@ def pls-by-dir [] {
   glob $"($MUSIC_DIR)/**/*.{opus,mp3,flac}"
   | each {|it| {
     name: $it,
-    group: ($it | str replace $"($MUSIC_DIR)/" "" | path split | first)
+    group: ($it | path dirname --num-levels 2 | path basename)
   }}
   | group-by group --to-table
   | each {|it|
