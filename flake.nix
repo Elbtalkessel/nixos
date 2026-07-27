@@ -79,6 +79,10 @@
             # cuda | llm
             "libcublas"
             "open-webui"
+            # build with unrar support
+            "limo"
+            "ouch"
+            # ---
           ])
           || pkgs.lib.hasPrefix "cuda" name;
         overlays = [

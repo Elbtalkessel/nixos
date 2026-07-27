@@ -19,7 +19,9 @@
           ${lib.getExe pkgs.brightnessctl} s "$1"
         '';
     }) # Wrapper for unified way to control brightnes, in case if underlying tool change.
-    ouch # archiving / unarchiving.
+    (ouch.overrideAttrs {
+      enableUnfree = true;
+    }) # archiving / unarchiving.
     gtrash # trash bin.
     scrcpy # android screen capture.
     android-tools # mostly for android debug bridge.
@@ -34,6 +36,7 @@
 
     # VM
     vagrant
+    winboat
 
     # CLIs
     nix-search-cli # `nix search` alternative.
@@ -61,7 +64,9 @@
     # Games
     # Without unrar support, to install *.rar mods, download
     # it manually and repack to something sensible.
-    limo
+    (limo.overrideAttrs (_: {
+      withUnrar = true;
+    }))
 
     # Custom
     gimd
