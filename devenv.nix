@@ -13,11 +13,18 @@ rec {
     switch = {
       exec = # sh
         ''
+          common=(
+            --flake ./
+            --override-input nixvim git+file://$(dirname ${config.devenv.root})/nixvim
+            --override-input nixpkgs-custom git+file://$(dirname ${config.devenv.root})/nixpkgs
+          )
+          cmd="''${1:-switch}"
+          shift || true
           if [ $(whoami) = "root" ]
           then
-            nixos-rebuild ''${1:-switch} --flake ./ --accept-flake-config
+            nixos-rebuild "$cmd" --accept-flake-config "''${common[@]}" "$@"
           else
-            home-manager switch --flake ./ "$@"
+            home-manager "$cmd" "''${common[@]}" "$@"
           fi
         '';
     };
