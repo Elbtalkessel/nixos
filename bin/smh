@@ -1,0 +1,74 @@
+#!/usr/bin/env nu
+
+def base-dir [] {
+  $env.DEVENV_ROOT | path dirname
+}
+
+def get-overrides [] {
+  [
+    "--override-input" "nixvim" $"git+file://(base-dir)/nixvim"
+    "--override-input" "nixpkgs-custom" $"git+file://(base-dir)/nixpkgs"
+  ]
+}
+
+def is-root [] {
+  (whoami) == "root"
+}
+
+# Delete garbage, will remove inactive HM configurations.
+def "main cleanup" [] {
+  nix-collect-garbage -d
+}
+
+# Lists system generations.
+def "main lsgen" [] {
+  nix-env --profile /nix/var/nix/profiles/system --list-generations
+}
+
+# Delete a specified generations. Requires to run cleanup afterwards.
+def --wrapped "main degen" [...args] {
+  nix-env --profile /nix/var/nix/profiles/system --delete-generations ...$args
+}
+
+# Edit secrets.
+def "main chsecret" [] {
+  nix-shell -p sops --run "sops secrets/secrets.yaml"
+}
+
+# Removes generations leaving 1 per day.
+def "main squash" [] {
+  home-manager generations
+  | lines
+  | parse '{date} {time} : id {id} -> {path}'
+  | group-by date --to-table
+  | get items
+  | each {|g| $g | slice 1..}
+  | flatten
+  | each {|it| home-manager remove-generations $it.id}
+  | to nuon
+}
+
+def "main why-depends" [pkg: string] {
+  nix why-depends --derivation --impure .#homeConfigurations.risus.activationPackage $".#homeConfigurations.risus.pkgs.($pkg)"
+}
+
+def "main update" [] {
+  nix flake update ...(get-overrides)
+}
+
+# home-manager and nixos-rebuild wrapper.
+# For `root` user execute nixos-rebuild, otherwise home-manager command.
+@example "Apply new home configuration" {smh}
+@example "Rebuild and switch to new system configuration" {sudo smh}
+@example "Test a new system configuration (without adding boot option)" {sudo smh test}
+@example "Rollback home configuration" {smh --rollback}
+@example "Package news" {smh news}
+def --wrapped "main build" [topic: string = "switch", ...args] {
+  if (is-root) {
+    nixos-rebuild $topic --accept-flake-config --flake ./ ...($args ++ (get-overrides))
+  } else {
+    home-manager $topic --flake ./  ...(get-overrides) ...($args ++ (get-overrides))
+  }
+}
+
+def main [] {}
