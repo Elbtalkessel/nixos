@@ -111,7 +111,6 @@ export def colors [] {
   }
 }
 
-
 def squashable-directories [] {
   let c = (
     ls $env.PWD
@@ -153,4 +152,23 @@ export def squash-similar [path: string@squashable-directories] {
   | where type == dir and ibasename =~ $iterm and basename != $term
   | each {|it| rsync -var --remove-source-files $"($it.name)/" $"($path)/"}
   ^find -type d -empty -delete
+}
+
+# Searchable font list
+@example "Search regular noto font" {fonts | where name like Noto and style like Regular}
+@example "Full output" {fonts -l}
+export def fonts [
+  --long(-l)  # long output
+] {
+  fc-list
+  | lines
+  | parse (
+    if ($long) {
+      '{path}: {name}:style={style}'
+    } else {
+      '{_}: {name}:style={style}'
+    }
+  )
+  | insert iname {|it| $it.name | str downcase}
+  | insert istyle {|it| $it.style | str downcase}
 }
