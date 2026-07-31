@@ -65,9 +65,9 @@ def "main update" [] {
 @example "Package news" {smh news}
 def --wrapped "main build" [topic: string = "switch", ...args] {
   if (is-root) {
-    nixos-rebuild $topic --accept-flake-config --flake ./ ...($args ++ (get-overrides))
+    nixos-rebuild $topic --accept-flake-config --flake ./ ...(get-overrides) ...$args
   } else {
-    home-manager $topic --flake ./  ...(get-overrides) ...($args ++ (get-overrides))
+    home-manager $topic --flake ./  ...(get-overrides) ...$args
   }
 }
 
