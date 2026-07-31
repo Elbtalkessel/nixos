@@ -7,17 +7,17 @@ hl.config({
 		col = {
 			active_border = {
 				colors = {
-					M.COLOR.BG_PRIMARY,
+					--M.COLOR.BG_PRIMARY,
 					M.COLOR.BG_PRIMARY_CONTAINER,
 				},
-				angle = 90,
+				--angle = 270,
 			},
 			inactive_border = {
 				colors = {
-					M.COLOR.BG_SECONDARY .. "85",
-					M.COLOR.BG_SECONDARY_CONTAINER .. "85",
+					--M.COLOR.BG_SECONDARY .. "30",
+					M.COLOR.BG_SECONDARY_CONTAINER .. "30",
 				},
-				angle = 120,
+				--angle = 270,
 			},
 		},
 		extend_border_grab_area = true,
@@ -34,7 +34,7 @@ hl.config({
 			passes = 2,
 			size = 10,
 		},
-		dim_inactive = true,
+		dim_inactive = false,
 		dim_strength = 0.200000,
 		rounding = 5,
 	},

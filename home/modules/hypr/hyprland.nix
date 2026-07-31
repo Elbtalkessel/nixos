@@ -35,7 +35,7 @@ in
           M = {}
           -- Helps define config in nix and pass it to lua from here.
           M.CONF = {
-            BORDER_SIZE = 1,
+            BORDER_SIZE = 2,
             -- it is slightly bigger than waybar has with the same number,
             -- +1 helps.
             GAP_SIZE = ${toString (config.my.theme.size.edge-gap + 1.0)},
