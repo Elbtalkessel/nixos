@@ -17,7 +17,7 @@
     };
     nixvim = {
       # Remove the branch name to switch to unstable
-      url = "github:Elbtalkessel/nixvim";
+      url = "git+https://codeberg.org/outlast/nixvim?ref=main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     disko = {
