@@ -3,11 +3,11 @@ def "nu-complete local files" [] {
 }
 
 def "nu-complete ssh identity" [] {
-  ls ~/.ssh/id_*
-  | where {|f|
+    ls ~/.ssh/id_*
+    | where {|f|
       ($f.name | path parse | get extension) != "pub"
     }
-  | get name
+    | get name
 }
 
 export extern "sshp" [

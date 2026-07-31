@@ -1,12 +1,11 @@
 #!/usr/bin/env nu
 
-
 # Is device screen on?
 def is-screen-on [address?: string] {
-  if ($address != null) {
-    return true
-  }
-  (
+    if $address != null {
+        return true
+    }
+    (
     adb ...([] | append-address $address "adb") shell dumpsys input_method
     | grep mInteractive
     | str trim
@@ -19,7 +18,7 @@ def is-screen-on [address?: string] {
 # Interactive app select by apps's name, returns app's reverse domain notation
 # usable for launching it.
 def interactive-app-select [address?: string]: nothing -> string {
-  let apps = (
+    let apps = (
     scrcpy ...([--list-apps] | append-address $address)
     | grep -P '^ \(*|-\)'
     | lines
@@ -27,46 +26,47 @@ def interactive-app-select [address?: string]: nothing -> string {
     | parse --regex '(?!<type>\*|-)\s(?<name>[^\t]+)\s+(?<app>.*)'
     | reduce --fold {} {|it, acc| $acc | upsert $it.name $it.app}
   )
-  let sel = (
+    let sel = (
     $apps
     | columns
     | str join "\n"
     | fzf
   )
-  ($apps | get $sel)
+    ($apps | get $sel)
 }
 
-def append-if [expr: bool, items: list]: list -> list {
-  if ($expr) {
-    $in | append $items
-  } else {
-    $in
-  }
+def append-if [expr: bool, items: list<any>]: list<any> -> list<any> {
+    if $expr {
+        $in | append $items
+    } else {
+        $in
+    }
 }
 
-def append-address [address?: string, type: string = "scrcpy"]: list -> list {
-  if ($address == null) {
-    if ($type != "adb") {
-      # Force USB if address is not set.
-      $in ++ ["-d"]
+def append-address [address?: string, type: string = "scrcpy"]: list<any> -> list<any> {
+    if $address == null {
+        if $type != "adb" {
+
+            # Force USB if address is not set.
+            $in ++ ["-d"]
+        } else {
+            $in
+        }
     } else {
-      $in
+        if $type == "adb" {
+            let p = $address | parse "{host}:{port}" | first
+            $in ++ [$"-H($p.host)", $"-P($p.port)"]
+        } else {
+            $in ++ [$"--tcpip=($address)"]
+        }
     }
-  } else {
-    if ($type == "adb") {
-      let p = $address | parse "{host}:{port}" | first
-      $in ++ [$"-H($p.host)", $"-P($p.port)"]
-    } else {
-      $in ++ [$"--tcpip=($address)"]
-    }
-  }
 }
 
 # Audio only passthrough.
 def "main a" [
   --address (-a): string  # host:port
 ] {
-  scrcpy ...(
+    scrcpy ...(
     [--no-window --audio-buffer=200]
     | append-address $address
   )
@@ -76,12 +76,12 @@ def "main a" [
 def "main l" [
   --address (-a): string  # host:port
 ] {
-  let app = interactive-app-select $address
-  let isOff = (not (is-screen-on $address))
-  if ($isOff) {
-    adb ...([] | append-address $address "adb") shell input keyevent KEYCODE_WAKEUP
-  }
-  scrcpy ...(
+    let app = interactive-app-select $address
+    let isOff = (not (is-screen-on $address))
+    if $isOff {
+        adb ...([] | append-address $address "adb") shell input keyevent KEYCODE_WAKEUP
+    }
+    scrcpy ...(
     [
       --new-display=2560x1440
       --mouse=uhid
@@ -98,7 +98,7 @@ def "main l" [
 def "main c" [
   --address (-a): string  # host:port
 ] {
-  scrcpy ...(
+    scrcpy ...(
     [
       --mouse=uhid
       --keyboard=uhid
@@ -133,14 +133,12 @@ def "main c" [
 # Termux:
 #   ssh omen
 def "main revssh" [] {
-  try {
-    systemctl is-enabled sshd
-  } catch {|e|
-    error make {msg: "It seems sshd is not running on host."}
-  }
-  print "Mapping 22(host) -> 2222(android)"
-  adb reverse tcp:2222 tcp:22 | ignore
+    try {
+        systemctl is-enabled sshd
+    } catch {|e| error make {msg: "It seems sshd is not running on host."} }
+    print "Mapping 22(host) -> 2222(android)"
+    adb reverse tcp:2222 tcp:22 | ignore
 }
 
 # Scrcpy aliases / combos. See subcommands for more.
-def main [] {}
+def main [] { }

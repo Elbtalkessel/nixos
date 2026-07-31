@@ -22,12 +22,12 @@ def "main cleanup" [] {
 
 # Lists system generations.
 def "main lsgen" [] {
-  nix-env --profile /nix/var/nix/profiles/system --list-generations
+  sudo nix-env --profile /nix/var/nix/profiles/system --list-generations
 }
 
 # Delete a specified generations. Requires to run cleanup afterwards.
 def --wrapped "main degen" [...args] {
-  nix-env --profile /nix/var/nix/profiles/system --delete-generations ...$args
+  sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations ...$args
 }
 
 # Edit secrets.
@@ -45,15 +45,15 @@ def "main squash" [] {
   | each {|g| $g | slice 1..}
   | flatten
   | each {|it| home-manager remove-generations $it.id}
-  | to nuon
+  | str join "\n"
 }
 
 def "main why-depends" [pkg: string] {
   nix why-depends --derivation --impure .#homeConfigurations.risus.activationPackage $".#homeConfigurations.risus.pkgs.($pkg)"
 }
 
-def "main update" [] {
-  nix flake update ...(get-overrides)
+def --wrapped "main update" [...args] {
+  nix flake update ...(get-overrides) ...$args
 }
 
 # home-manager and nixos-rebuild wrapper.
@@ -63,7 +63,7 @@ def "main update" [] {
 @example "Test a new system configuration (without adding boot option)" {sudo smh test}
 @example "Rollback home configuration" {smh --rollback}
 @example "Package news" {smh news}
-def --wrapped "main build" [topic: string = "switch", ...args] {
+def --wrapped "main x" [topic: string = "switch", ...args] {
   if (is-root) {
     nixos-rebuild $topic --accept-flake-config --flake ./ ...(get-overrides) ...$args
   } else {

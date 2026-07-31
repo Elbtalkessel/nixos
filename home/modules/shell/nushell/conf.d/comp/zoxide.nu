@@ -1,6 +1,6 @@
 def "nu-complete zoxide path" [context: string] {
-  let parts = $context | str trim --left | split row " " | skip 1 | each { str downcase }
-  let completions = (
+    let parts = $context | str trim --left | split row " " | skip 1 | each { str downcase }
+    let completions = (
   ^zoxide query --list --exclude $env.PWD -- ...$parts
   | lines
   | each {|dir|
@@ -17,14 +17,10 @@ def "nu-complete zoxide path" [context: string] {
       }
     }
   })
-  {
-    options: {
-      sort: false,
-      completion_algorithm: substring,
-      case_sensitive: false,
-    },
-    completions: $completions,
-  }
+    {
+        options: {sort: false, completion_algorithm: substring, case_sensitive: false}
+        completions: $completions
+    }
 }
 
 # Semi-working, annoying, cd is alias to __zoxide_z, z calls
@@ -35,5 +31,5 @@ def "nu-complete zoxide path" [context: string] {
 # I saw somewhere that providing a completer to an alias in nushell is
 # broken, but, fuck it, maybe later.
 def --env z [path: string@"nu-complete zoxide path"] {
-  cd $path
+    cd $path
 }

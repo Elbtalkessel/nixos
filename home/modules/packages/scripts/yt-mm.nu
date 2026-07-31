@@ -1,18 +1,16 @@
 #!/usr/bin/env -S nu --stdin
 
-
 let STATE_DIR = $"($env.XDG_STATE_HOME)/yt-mm"
 let ARCHIVE = $"($STATE_DIR)/archive.txt"
 let MUSIC_DIR = $env.XDG_MUSIC_DIR
 let PLAYLISTS = $"($env.XDG_DATA_HOME)/mpd/playlists"
 
-
 # Organize audio files by their tags.
 @example "Move audio files to [artist]/[album]/[title].<ext>" { yt-mm fs-tagmv }
 def "main fs-tagmv" [] {
-  glob $'($MUSIC_DIR)/**/*.opus'
-  | each {|it|
-    let t = (opustags $it | lines | parse "{key}={value}")
+    glob $'($MUSIC_DIR)/**/*.opus'
+    | each {|it|
+    let t = opustags $it | lines | parse "{key}={value}"
     let dst = (([
       $MUSIC_DIR,
       ($t | where key == "ARTIST" | first).value,
@@ -26,12 +24,13 @@ def "main fs-tagmv" [] {
   }
 }
 
-
 # Tags audio files based on path directly under the MUSIC_DIR, [artist]/[album]/[title].opus
 def "main tag-by-path" [] {
-  glob $'($MUSIC_DIR)/**/*.opus'
-  | parse -r ('(?P<path>' + $MUSIC_DIR + '/(?P<artist>[^/]+)/(?P<album>[^/]+)/(?P<title>[^/]+)\.opus)')
-  | update artist {|it|
+    glob $'($MUSIC_DIR)/**/*.opus'
+    | parse -r (
+        '(?P<path>' + $MUSIC_DIR + '/(?P<artist>[^/]+)/(?P<album>[^/]+)/(?P<title>[^/]+)\.opus)'
+    )
+    | update artist {|it|
     $it.artist
     | split column ','
     | values
@@ -39,7 +38,7 @@ def "main tag-by-path" [] {
     | str trim
     | uniq
   }
-  | each {|it|
+    | each {|it|
     {
       path: ($it.path),
       tags: (
@@ -51,22 +50,21 @@ def "main tag-by-path" [] {
       )
     }
   }
-  | each {|it|
+    | each {|it|
     $it.tags
     | opustags -i $it.path --set-all --in-place
   }
 }
 
-
 def pls-by-dir [] {
-  glob $"($PLAYLISTS)/\\[d\\]*.m3u" | each {|it| rm $it}
-  glob $"($MUSIC_DIR)/**/*.{opus,mp3,flac}"
-  | each {|it| {
+    glob $"($PLAYLISTS)/\\[d\\]*.m3u" | each {|it| rm $it}
+    glob $"($MUSIC_DIR)/**/*.{opus,mp3,flac}"
+    | each {|it| {
     name: $it,
     group: ($it | path dirname --num-levels 2 | path basename)
   }}
-  | group-by group --to-table
-  | each {|it|
+    | group-by group --to-table
+    | each {|it|
     $it.items
     | get name
     | str join "\n"
@@ -74,14 +72,13 @@ def pls-by-dir [] {
   }
 }
 
-
 def pls-by-meta [include_albums: bool] {
-  glob $"($MUSIC_DIR)/**/*.info.json"
-  | each {|it| open $it }
-  | where _type != "playlist"
-  | group-by --to-table playlist
-  | where {|it| $include_albums or (not ($it.playlist | str starts-with "Album -"))}
-  | each {|it|
+    glob $"($MUSIC_DIR)/**/*.info.json"
+    | each {|it| open $it }
+    | where _type != "playlist"
+    | group-by --to-table playlist
+    | where {|it| $include_albums or (not ($it.playlist | str starts-with "Album -"))}
+    | each {|it|
     {
       playlist: ($"($PLAYLISTS)/[yt] ($it.playlist).m3u"),
       queries: (
@@ -107,7 +104,7 @@ def pls-by-meta [include_albums: bool] {
       )
     }
   }
-  | insert paths {|it|
+    | insert paths {|it|
     $it.queries
     | each {|it|
       let query = ("(" + $it + ")")
@@ -123,7 +120,7 @@ def pls-by-meta [include_albums: bool] {
     }
     | where $it != ""
   }
-  | each {|it|
+    | each {|it|
     if (($it.paths | length) == 0) {
       print -e $"(ansi red)!(ansi rst) no items for: ($it.playlist)"
     } else {
@@ -135,17 +132,13 @@ def pls-by-meta [include_albums: bool] {
   }
 }
 
-# Creates playlist files in PLAYLISTS directory.
 @example "Create playlists from all *.info.json files" {yt-mm pls -t "yt"}
 @example "Create playlists from all *.info.json files including the one for albums" {yt-mm pls -t "yt" --yt-album}
 @example "Create playlists for every top level directory" {yt-mm pls -t "dir"}
-def "main pls" [
-  --types (-t): string@[ "dir" "yt" ]         # Type of playlists to generate. All by default excludng album playlists.
-  --yt-album                                  # For "yt" type, include album playlists.
-] {
-  mkdir $PLAYLISTS
-  if ($types != null) { $types } else { ["dir" "yt"] }
-  | each {|t|
+def "main pls" [--types(-t): string@[dir yt], --yt-album] {
+    mkdir $PLAYLISTS
+    if $types != null { $types } else { ["dir" "yt"] }
+    | each {|t|
     match $t {
       # The dir type should execute first, it will populate mpd database, for yt playlists to query from.
       "dir" => (pls-by-dir; mpc update)
@@ -155,16 +148,10 @@ def "main pls" [
   }
 }
 
-
-# Commands to download and manage music from YouTube.
 @example "Re-download only metafiles." { yt-mm --skip-download --no-download-archive --write-info-json https://www.youtube.com/playlist?list=... }
 @example "Download audio and metafiles." { yt-mm --write-info-json https://www.youtube.com/playlist?list=... }
-def --wrapped main [
-  --cookies (-c): string  # Cookie file to use.
-  --help (-h)             # Show this help.
-  ...args                 # Flags to pass to yt-dlp call.
-] {
-  (yt-dlp
+def --wrapped main [--cookies(-c): string, ...args] {
+    (yt-dlp
     --download-archive $ARCHIVE
     -P $MUSIC_DIR
     # default audio format is best, best quality (0).
