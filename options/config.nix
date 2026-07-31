@@ -33,10 +33,14 @@ in
       };
       font = {
         family = {
-          mono = "RobotoMono Nerd Font Mono";
-          default = "RobotoMono Nerd Font";
-          propo = "RobotoMono Nerd Propo";
+          mono = "OverpassM Nerd Font Mono";
+          default = "OverpassM Nerd Font";
+          propo = "OverpassM Nerd Propo";
         };
+        packages = with pkgs; [
+          nerd-fonts.overpass
+          noto-fonts-color-emoji
+        ];
       };
       opacity = 0.80;
       filesystem = {

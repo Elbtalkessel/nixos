@@ -159,25 +159,34 @@ in
               };
             };
             font = opt {
+              default = { };
+              description = "Font related configuration shared between system and home.";
               type = submodule {
                 options = {
                   family = opt {
+                    default = { };
+                    description = "Default font familly for UI, terminal, etc. Note: should have related package installed in my.font.packages.";
                     type = submodule {
                       options = {
                         default = opt {
                           type = str;
-                          description = "Default font";
+                          description = "Default font.";
                         };
                         mono = opt {
                           type = str;
-                          description = "Default monospace font";
+                          description = "Default monospace font.";
                         };
                         propo = opt {
                           type = str;
-                          description = "Default prop font";
+                          description = "Default prop font.";
                         };
                       };
                     };
+                  };
+                  # Just to have these two in a single place.
+                  packages = opt {
+                    type = listOf package;
+                    description = "The same as fonts.packages.";
                   };
                 };
               };

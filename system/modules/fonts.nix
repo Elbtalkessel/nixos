@@ -1,12 +1,10 @@
-{ pkgs, config, ... }:
+{ config, pkgs, ... }:
 {
   fonts = {
     enableDefaultPackages = true;
-    packages = with pkgs; [
-      nerd-fonts.overpass
-      nerd-fonts.roboto-mono
-      nerd-fonts.noto
-      noto-fonts-color-emoji
+    packages = config.my.font.packages ++ [
+      pkgs.nerd-fonts.noto
+      pkgs.noto-fonts-color-emoji
     ];
     fontconfig = {
       enable = true;
@@ -21,12 +19,15 @@
       defaultFonts = {
         monospace = [
           config.my.font.family.mono
+          "NotoSansM Nerd Mono"
         ];
         sansSerif = [
           config.my.font.family.default
+          "NotoSansM Nerd Font"
         ];
         serif = [
           config.my.font.family.default
+          "NotoSansM Nerd Propo"
         ];
         emoji = [ "Noto Color Emoji" ];
       };
