@@ -5,7 +5,6 @@
     wl-clipboard-rs # clipboard support.
     libnotify # desktop notifications.
     xdg-user-dirs # desktop directories support.
-    gnome-icon-theme
 
     # General / Support
     grim # screenshot.
@@ -36,7 +35,6 @@
 
     # VM
     vagrant
-    winboat
 
     # CLIs
     nix-search-cli # `nix search` alternative.

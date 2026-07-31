@@ -79,6 +79,7 @@ in
   # https://discourse.nixos.org/t/virt-manager-cannot-create-vm/38894/2
   # virt-manager doesn't work without it
   home.pointerCursor = {
+    enable = true;
     gtk.enable = true;
     x11.enable = true;
     package = pkgs.vanilla-dmz;
