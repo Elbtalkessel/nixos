@@ -30,6 +30,7 @@
       ln = "ln -v";
       mv = "mv -iv";
       rm = "rm -v";
+      ps = "ps -l";
 
       sp = lib.getExe pkgs.nix-search-cli;
       vi = lib.getExe pkgs.neovim;
