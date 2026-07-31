@@ -85,8 +85,8 @@ export def capture-foreign-env [
     | split row '<ENV_CAPTURE_EVAL_FENCE>'
     | {
         # Filter out known changing variables
-        before: $in | first | str trim | lines
-        after: $in | last | str trim | split row (char --integer 0)
+        before: ($in | first | str trim | lines),
+        after: ($in | last | str trim | split row (char --integer 0)),
     }
 
     # Unfortunate Assumption:
@@ -121,7 +121,7 @@ def squashable-directories [] {
     | insert tokens {|it|
       $it.name
       | path basename
-      | str downcase
+      | str lowercase
       | str replace --all -r " (x|and|feat) " ", "
       | split row ","
     }
@@ -148,10 +148,10 @@ def squashable-directories [] {
 # Note, word split by commas or common known separators such as "x", "and", "feat".
 export def squash-similar [path: string@"squashable-directories"] {
     let term = $path | path basename
-    let iterm = $term | str downcase
+    let iterm = $term | str lowercase
     ls $env.PWD
     | insert basename { $in.name | path basename }
-    | insert ibasename { $in.basename | str downcase }
+    | insert ibasename { $in.basename | str lowercase }
     | where type == dir and ibasename =~ $iterm and basename != $term
     | each {|it| rsync -var --remove-source-files $"($it.name)/" $"($path)/"}
     ^find -type d -empty -delete
@@ -172,6 +172,6 @@ export def fonts [
       '{_}: {name}:style={style}'
     }
   )
-    | insert iname {|it| $it.name | str downcase}
-    | insert istyle {|it| $it.style | str downcase}
+    | insert iname {|it| $it.name | str lowercase}
+    | insert istyle {|it| $it.style | str lowercase}
 }

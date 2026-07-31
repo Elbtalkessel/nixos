@@ -46,7 +46,7 @@ def range-filter [start: datetime, endOffset: duration]: nothing -> record {
   let dfmt = "%Y-%m-%d"
   {
     startDate: ($start | format date $dfmt),
-    endDate: $start + $endOffset | format date $dfmt
+    endDate: (($start + $endOffset) | format date $dfmt)
   }
 }
 

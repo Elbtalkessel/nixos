@@ -4,7 +4,6 @@
   enterShell = # sh
     ''
       export PATH="${config.devenv.root}/bin:''${PATH}"
-      clear
     '';
 
   git-hooks.hooks = {

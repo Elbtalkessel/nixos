@@ -1,7 +1,7 @@
 #!/usr/bin/env nu
 
 def base-dir [] {
-  $env.DEVENV_ROOT | path dirname
+  $env.FILE_PWD | path dirname --num-levels 2
 }
 
 def get-overrides [] {
