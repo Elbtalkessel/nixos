@@ -66,7 +66,9 @@ in
       tailscale = false;
       wm = {
         uwsm.enable = true;
-        performance = false;
+        # disable animation on hyprland, it is broken
+        # for me since 0.56.1, previous config behaves differently on new version
+        performance = true;
         bar.provider = "noctalia";
       };
       virt.docker.gpu.enable = false;

@@ -39,7 +39,7 @@ in
             -- it is slightly bigger than waybar has with the same number,
             -- +1 helps.
             GAP_SIZE = ${toString (config.my.theme.size.edge-gap + 1.0)},
-            EYE_CANDY = ${toString (!config.my.wm.performance)},
+            EYE_CANDY = false,
             SWALLOW = "${config.my.terminal.exe}",
           }
 
