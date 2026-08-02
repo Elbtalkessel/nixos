@@ -42,7 +42,8 @@ in
           noto-fonts-color-emoji
         ];
       };
-      opacity = 0.80;
+      # broken on hyprland 0.56.1, no blur.
+      opacity = 1.0;
       filesystem = {
         network = {
           enable = false;
