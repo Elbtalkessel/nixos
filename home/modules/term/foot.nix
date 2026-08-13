@@ -17,6 +17,7 @@
       colors-dark = {
         alpha = config.my.opacity;
         background = "0D0D0D";
+        blur = true;
       };
     };
   };
