@@ -33,13 +33,14 @@ in
       "hyprland.00-vars" = # lua
         ''
           M = {}
+
           -- Helps define config in nix and pass it to lua from here.
           M.CONF = {
             BORDER_SIZE = 2,
             -- it is slightly bigger than waybar has with the same number,
             -- +1 helps.
             GAP_SIZE = ${toString (config.my.theme.size.edge-gap + 1.0)},
-            EYE_CANDY = false,
+            EYE_CANDY = ${if config.my.wm.performance then "false" else "true"},
             SWALLOW = "${config.my.terminal.exe}",
           }
 
