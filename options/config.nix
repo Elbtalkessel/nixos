@@ -42,8 +42,7 @@ in
           noto-fonts-color-emoji
         ];
       };
-      # broken on hyprland 0.56.1, no blur.
-      opacity = 1.0;
+      opacity = 0.85;
       filesystem = {
         network = {
           enable = false;
@@ -67,9 +66,7 @@ in
       tailscale = false;
       wm = {
         uwsm.enable = true;
-        # disable animation on hyprland, it is broken
-        # for me since 0.56.1, previous config behaves differently on new version
-        performance = true;
+        performance = false;
         bar.provider = "noctalia";
       };
       virt.docker.gpu.enable = false;
