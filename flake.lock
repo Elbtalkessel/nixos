@@ -164,11 +164,11 @@
         "snacks-nvim": "snacks-nvim"
       },
       "locked": {
-        "lastModified": 1785506996,
-        "narHash": "sha256-LyYF1yiD4EhIVp7PwcGWF5A0WH9KBdQAm52Qp1juo/4=",
+        "lastModified": 1785856129,
+        "narHash": "sha256-BOZKaXx4aYjxpBGy8L0+TbDkkQ5h21PoSXKweTnzRPo=",
         "ref": "refs/heads/main",
-        "rev": "970b20a3ff1c34048a8ceab405381c35446a4cb4",
-        "revCount": 45,
+        "rev": "c88b3044e094d426bac58a37f330c1d4d48bca68",
+        "revCount": 46,
         "type": "git",
         "url": "file:///home/risus/Projects/lang/nix/nixvim"
       },
