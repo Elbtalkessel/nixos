@@ -15,20 +15,28 @@ def _i [v: string] {
 
 def get-status [timeout: duration]: string -> record {
     let start = (date now)
-    let status = $in | try {
+    let result = $in | try {
         let m = if $timeout == -1sec {
             Infinity | into duration
-        } else { $timeout }
-        http get -e -f -m $m $in | get status
-    } catch {|err| $err.msg }
+        } else {
+            $timeout
+        }
+        http get -e -f -m $m $in
+    } catch {|err| {
+        status: $err.msg
+        headers: {
+            response: []
+        }
+    } }
     let elapsed = (date now) - $start
     {
         url: $in
         # TODO: only numerical status code,
         #   error message should go into a separate filed.
-        status: $status
+        status: $result.status
         time: $elapsed
-        ok: ((($status | describe) == "int") and ($status < 400))
+        ok: ((($result.status | describe) == "int") and ($result.status < 400))
+        headers: $result.headers.response
     }
 }
 
