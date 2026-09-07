@@ -49,6 +49,7 @@
     tldr # quick documentation on a utility.
     jless # tui json/yaml viewer.
     yt-dlp
+    difftastic # better diff tool
 
     # Development
     mockoon # API mocking.
