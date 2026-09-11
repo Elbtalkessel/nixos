@@ -53,6 +53,7 @@ hl.window_rule({
 			"yad",
 			"^\\.virt-manager-wrapped$",
 			"^org.gnome.seahorse.Application$",
+			"^solaar$",
 		}),
 	},
 	float = true,
