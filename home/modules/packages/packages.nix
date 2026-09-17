@@ -27,6 +27,7 @@
 
     # Apps
     zathura # PDF viewer.
+    xournalpp # Note taking / PDF signing.
     pavucontrol # UI for controlling audio input / output.
     telegram-desktop # comms.
     mattermost-desktop # comms.
