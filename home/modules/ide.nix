@@ -12,6 +12,12 @@
 
       # junie requirement
       unzip
+
+      (zed-editor.fhsWithPackages (
+        pkgs: with pkgs; [
+          php
+        ]
+      ))
     ];
   };
 
