@@ -114,8 +114,32 @@ in
         content = ./hyprland/monitor.lua;
         autoLoad = true;
       };
-      "hyprland.07-window" = {
-        content = ./hyprland/window_rule.lua;
+      "hyprland.07-0-window_rule" = {
+        content = ./hyprland/window/rules.lua;
+        autoLoad = true;
+      };
+      "hyprland.07-1-window_gaps" = {
+        content = ./hyprland/window/gaps.lua;
+        autoLoad = true;
+      };
+      "hyprland.07-2-window_jetbrains" = {
+        content = ./hyprland/window/jetbrains.lua;
+        autoLoad = true;
+      };
+      "hyprland.07-3-window_limo" = {
+        content = ./hyprland/window/limo.lua;
+        autoLoad = true;
+      };
+      "hyprland.07-4-window_virtmanager" = {
+        content = ./hyprland/window/virtmanager.lua;
+        autoLoad = true;
+      };
+      "hyprland.07-5-window_winapps" = {
+        content = ./hyprland/window/winapps.lua;
+        autoLoad = true;
+      };
+      "hyprland.07-6-window_workspace" = {
+        content = ./hyprland/window/workspace.lua;
         autoLoad = true;
       };
       "hyprland.08-animation" = {
