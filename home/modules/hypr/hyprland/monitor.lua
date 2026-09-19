@@ -8,14 +8,14 @@ hl.monitor({
 	output = MAIN,
 	position = "auto",
 	mode = "highres",
-	scale = 1,
+	scale = 1.25,
 	disabled = false,
 })
 
 hl.monitor({
 	output = EXTR,
 	position = "0x0",
-	mode = "preffered",
+	mode = "2560x1080@74.99Hz",
 	scale = 1,
 	disabled = false,
 })
