@@ -5,8 +5,8 @@
     package = config.my.terminal.pkg;
     settings = {
       main = {
-        font = "${config.my.font.family.mono}:size=17";
-        line-height = 30;
+        font = "${config.my.font.family.mono}:size=14";
+        line-height = 25;
       };
       cursor = {
         style = "beam";
