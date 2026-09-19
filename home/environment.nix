@@ -30,7 +30,13 @@ in
       XDG_TEMPLATES_DIR = "${HOME}/Templates";
       XDG_VIDEOS_DIR = "${HOME}/Videos";
       # TODO: shouldn't it work automagically?
-      XDG_DATA_DIRS = "${HOME}/.local/share/flatpak/exports/share:/run/current-system/sw/share:${HOME}/.local/state/nix/profiles/home-manager/home-path/share:${HOME}/.local/share";
+      XDG_DATA_DIRS = lib.strings.join ":" [
+        "/run/current-system/sw/share"
+        "${HOME}/.local/share/flatpak/exports/share"
+        "${HOME}/.local/state/nix/profiles/home-manager/home-path/share"
+        "${HOME}/.local/share"
+        "${HOME}/.nix-profile/share"
+      ];
 
       # Configuration variables
       EDITOR = config.my.editor;

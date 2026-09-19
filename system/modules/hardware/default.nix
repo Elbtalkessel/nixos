@@ -8,5 +8,6 @@
     ./igpu.nix
     ./peripherals.nix
     ./printing.nix
+    ./tablet.nix
   ];
 }

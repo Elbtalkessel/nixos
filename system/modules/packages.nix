@@ -151,9 +151,12 @@
   # Allows executing *.AppImage by directly invoking it,
   # without using `appimage-run` package, e.g. ./Something.AppImage.
   # https://nixos.wiki/wiki/Appimage
-  programs.appimage = {
-    enable = true;
-    binfmt = true;
+  programs = {
+    appimage = {
+      enable = true;
+      binfmt = true;
+    };
+    firejail.enable = true;
   };
 
   # List packages installed in system profile. To search, run:

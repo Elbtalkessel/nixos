@@ -51,6 +51,7 @@
     jless # tui json/yaml viewer.
     yt-dlp
     difftastic # better diff tool
+    codex
 
     # Development
     mockoon # API mocking.
