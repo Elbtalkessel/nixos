@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 {
   home.packages = with pkgs; [
     # Core
@@ -11,13 +11,6 @@
     slurp # returns selected on screen region, for taking screenshots.
     hyprpicker # get HEX color under pointer.
     brightnessctl # monitor brightness control.
-    (pkgs.writeShellApplication {
-      name = "set-brightness";
-      text = # bash
-        ''
-          ${lib.getExe pkgs.brightnessctl} s "$1"
-        '';
-    }) # Wrapper for unified way to control brightnes, in case if underlying tool change.
     (ouch.overrideAttrs {
       enableUnfree = true;
     }) # archiving / unarchiving.
@@ -63,8 +56,6 @@
     python313Packages.ipython # python.
 
     # Games
-    # Without unrar support, to install *.rar mods, download
-    # it manually and repack to something sensible.
     (limo.overrideAttrs (_: {
       withUnrar = true;
     }))

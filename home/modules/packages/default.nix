@@ -1,8 +1,7 @@
 _: {
   imports = [
     ./scripts
-    ./flatpak.nix
+    ./flatpak
     ./packages.nix
-    ./desktop.nix
   ];
 }

@@ -155,6 +155,11 @@ in
                     type = str;
                     description = "Name of executable";
                   };
+                  font-size = opt {
+                    type = int;
+                    description = "Terminal font size";
+                    default = 14;
+                  };
                 };
               };
             };

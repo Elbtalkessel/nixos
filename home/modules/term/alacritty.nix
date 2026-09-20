@@ -9,7 +9,7 @@
           family = config.my.font.family.mono;
           style = "Regular";
         };
-        size = 17;
+        size = config.my.terminal.font-size;
         offset = {
           x = 0;
           y = 10;

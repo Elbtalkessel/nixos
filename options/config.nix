@@ -30,6 +30,7 @@ in
         pkg = pkgs.foot;
         desktop = "foot.desktop";
         exe = "foot";
+        font-size = 14;
       };
       font = {
         family = {
