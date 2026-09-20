@@ -34,6 +34,7 @@
         open = true;
         # Dynamic Boost balances power between the CPU and the GPU for improved performance on supported laptops using the nvidia-powerd daemon
         dynamicBoost.enable = true;
+        powerManagement.enable = true;
         prime = {
           amdgpuBusId = "PCI:7:0:0";
           nvidiaBusId = "PCI:1:0:0";
