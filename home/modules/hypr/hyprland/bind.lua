@@ -48,6 +48,11 @@ hl.bind("SUPER + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
 hl.bind("SUPER + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
 
 -- layouts
+
+hl.bind("SUPER + S", function()
+	hl.dispatch(hl.dsp.window.float({ action = "toggle" }))
+end)
+
 local layouts = { "scrolling", "dwindle", "master", "monocle" }
 local function get_workspace()
 	local workspace = hl.get_active_workspace()
