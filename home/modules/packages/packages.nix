@@ -26,6 +26,7 @@
     mattermost-desktop # comms.
     neovim # terminal editor.
     proton-vpn # vpn client.
+    plexamp
 
     # VM
     vagrant

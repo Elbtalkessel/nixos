@@ -82,6 +82,7 @@
             # build with unrar support
             "limo"
             "ouch"
+            "plexamp"
             # ---
           ])
           || pkgs.lib.hasPrefix "cuda" name;
