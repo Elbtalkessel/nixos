@@ -26,5 +26,7 @@
 
   home.packages = [
     pkgs.lmstudio
+    llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.skills
+    llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.oh-my-opencode
   ];
 }
