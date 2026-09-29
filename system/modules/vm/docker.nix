@@ -3,6 +3,9 @@
   # VIRTUALISATION
   # DOCKER / PODMAN
   virtualisation = {
+    podman = {
+      enable = true;
+    };
     docker = {
       enable = true;
       rootless = {

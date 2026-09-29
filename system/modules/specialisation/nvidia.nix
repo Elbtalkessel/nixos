@@ -41,6 +41,5 @@
         };
       };
     };
-    config.cudaSupport = true;
   };
 }

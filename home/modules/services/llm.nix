@@ -1,4 +1,9 @@
-{ pkgs, nix-skills, ... }:
+{
+  pkgs,
+  nix-skills,
+  llm-agents,
+  ...
+}:
 {
   imports = [
     nix-skills.homeManagerModules.default
@@ -11,6 +16,7 @@
 
   programs.opencode = {
     enable = true;
+    package = llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode;
   };
 
   programs.nix-skills = {
@@ -18,7 +24,7 @@
     agents = [ "opencode" ];
   };
 
-  home.packages = with pkgs; [
-    lmstudio
+  home.packages = [
+    pkgs.lmstudio
   ];
 }
