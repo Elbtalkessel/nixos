@@ -46,7 +46,7 @@ in
       opacity = 0.85;
       filesystem = {
         network = {
-          enable = false;
+          enable = true;
           device = "192.168.1.90";
           mount = "/mnt/share";
           fsType = "nfs";
@@ -70,7 +70,7 @@ in
         performance = false;
         bar.provider = "noctalia";
       };
-      virt.docker.gpu.enable = false;
+      virt.docker.gpu.enable = true;
       theme = {
         size = {
           edge-gap = 4.0;

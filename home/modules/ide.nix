@@ -16,6 +16,8 @@
       (zed-editor.fhsWithPackages (
         pkgs: with pkgs; [
           php
+          nil
+          nixd
         ]
       ))
     ];

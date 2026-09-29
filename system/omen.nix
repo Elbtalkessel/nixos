@@ -15,7 +15,6 @@
     ./modules/de
     ./modules/filesystem
     ./modules/hardware
-    ./modules/llm
     ./modules/networking
     ./modules/specialisation
     ./modules/vm

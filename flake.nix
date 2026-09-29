@@ -44,6 +44,10 @@
       url = "github:noctalia-dev/noctalia";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-skills = {
+      url = "github:olafkfreund/nix-skills";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -83,6 +87,7 @@
             "limo"
             "ouch"
             "plexamp"
+            "lmstudio"
             # ---
           ])
           || pkgs.lib.hasPrefix "cuda" name;

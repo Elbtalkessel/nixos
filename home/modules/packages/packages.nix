@@ -46,6 +46,8 @@
     yt-dlp
     difftastic # better diff tool
     codex
+    bootdev-cli
+    sshp
 
     # Development
     mockoon # API mocking.
@@ -64,8 +66,6 @@
     # Custom
     gimd
     usbdrivetools
-    bootdev
-    sshp
   ];
 
   xdg.autostart.entries = [
