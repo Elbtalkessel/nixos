@@ -91,7 +91,7 @@ hl.config({
 		smart_resizing = true,
 		smart_split = false,
 		special_scale_factor = 0.95,
-		split_width_multiplier = 1.000000,
+		split_width_multiplier = 1.5,
 		use_active_for_splits = true,
 	},
 	master = {
