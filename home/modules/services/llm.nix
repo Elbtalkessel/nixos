@@ -40,6 +40,8 @@
     # drive gh, and the lsp MCP probes these binaries by name on PATH.
     pkgs.gh
 
+    pkgs.tmux
+
     # the lsp MCP launches packages/lsp-daemon/dist/cli.js with node or bun
     # resolved from PATH; with neither present it registers as disabled.
     pkgs.nodejs
@@ -48,5 +50,8 @@
     pkgs.lua-language-server
     pkgs.pyright
     pkgs.yaml-language-server
+
+    # tools MCP
+    pkgs.gitea-mcp-server
   ];
 }
