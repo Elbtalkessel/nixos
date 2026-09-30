@@ -33,6 +33,9 @@
     pkgs.lmstudio
     llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.skills
     llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.oh-my-opencode
+    # pkgs.vllm is intentionally absent: it is built without CUDA and would
+    # also collide with the container-backed `vllm` script from
+    # ../packages/scripts/vllm.nu.
 
     # oh-my-openagent runtime dependencies: the git-master skill and team-mode
     # drive gh, and the lsp MCP probes these binaries by name on PATH.

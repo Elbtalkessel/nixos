@@ -41,5 +41,15 @@
         pkgs.rsync
       ];
     })
+    # nixpkgs ships vllm without CUDA (and marks the CUDA build broken),
+    # so `vllm serve` runs the official CUDA image through the NVIDIA
+    # container toolkit instead. See ./vllm.nu.
+    (nuenv.writeShellApplication {
+      name = "vllm";
+      text = builtins.readFile ./vllm.nu;
+      runtimeInputs = [
+        pkgs.docker
+      ];
+    })
   ];
 }
