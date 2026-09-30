@@ -90,7 +90,6 @@
             "limo"
             "ouch"
             "plexamp"
-            "lmstudio"
             # ---
           ])
           || pkgs.lib.hasPrefix "cuda" name;
