@@ -51,5 +51,16 @@
         pkgs.docker
       ];
     })
+    # nixpkgs has no CUDA-enabled llama.cpp server build, so the script runs
+    # the official server-cuda13 image and picks up the host NVIDIA driver
+    # through the container toolkit CDI spec. See ./llamacpp.nu.
+    (nuenv.writeShellApplication {
+      name = "llamacpp";
+      text = builtins.readFile ./llamacpp.nu;
+      runtimeInputs = [
+        pkgs.docker
+        pkgs.fzf
+      ];
+    })
   ];
 }
