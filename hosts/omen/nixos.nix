@@ -15,7 +15,7 @@
     ../../system/modules/core/audio.nix
     ../../system/modules/core/bluetooth.nix
     ../../system/modules/core/boot.nix
-    ../../system/modules/core/dbus.nix
+    ../../system/modules/core/dbus
     ../../system/modules/core/fonts.nix
     ../../system/modules/core/hardware
     ../../system/modules/core/locale.nix
@@ -29,7 +29,7 @@
     ../../system/modules/core/steam.nix
     ../../system/modules/core/storage
     ../../system/modules/core/system-services.nix
-    ../../system/modules/core/users.nix
+    ../../system/modules/core/users
     ../../system/modules/core/virtualisation
     ../../system/modules/core/web
 

@@ -7,7 +7,7 @@
 {
   services.dbus.brokerPackage = pkgs.dbus-broker.overrideAttrs (old: {
     patches = (old.patches or [ ]) ++ [
-      ./patches/dbus-broker-logging.patch
+      ./dbus-broker-logging.patch
     ];
   });
 }
