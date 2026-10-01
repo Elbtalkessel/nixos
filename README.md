@@ -11,7 +11,7 @@ Personal NixOS and Home Manager configuration, wired for reproducible installs, 
 - Flake-based NixOS and Home Manager configs for multiple hosts and users.
 - Disk layout and filesystem provisioning via `disko` (including encrypted root setups).
 - Secret management using `sops` and age keys for machine and user secrets.
-- Disk layout for the `omen` host, plus a standalone `hosts/virt/disko.nix` layout for provisioning virtual machines.
+- Two hosts: `omen` (a laptop) and `virt`, a deliberately barebones example host that shares no modules with `omen`.
 
 ## Repository layout 🗂️
 
@@ -63,15 +63,28 @@ sudo nix --experimental-features "nix-command flakes" run github:nix-community/d
 sudo nixos-install -v --root /mnt --flake github:Elbtalkessel/nixos/main#omen --impure --no-write-lock-file
 ```
 
-> **Note:** this installs the `omen` profile, whose disk layout targets `/dev/nvme0n1`. The
-> `hosts/virt/disko.nix` layout (`/dev/vda`) is kept for provisioning virtual machines, but
-> there is no `virt` flake output to install.
+> **Note:** this installs the `omen` profile, whose disk layout targets `/dev/nvme0n1`.
+> For a virtual machine, use the `virt` profile instead — its layout targets `/dev/vda`:
+>
+> ```bash
+> curl https://raw.githubusercontent.com/Elbtalkessel/nixos/refs/heads/main/hosts/virt/disko.nix -o virt-disko.nix
+> echo -n "<password>" | sudo tee /tmp/secret.key
+> sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko virt-disko.nix
+> sudo nixos-install -v --root /mnt --flake github:Elbtalkessel/nixos/main#virt --impure --no-write-lock-file
+> ```
+>
+> `virt` exists as a worked example of how a host entrypoint composes a
+> configuration. It imports nothing from `system/modules/`, because those modules
+> are written against `omen`'s hardware — see `hosts/virt/nixos.nix`.
 
 After reboot, log into the system and activate the Home Manager configuration:
 
 ```bash
 home-manager switch --flake github:Elbtalkessel/nixos/main#risus --no-write-lock-file
 ```
+
+Use `home-manager switch --flake github:Elbtalkessel/nixos/main#virt` on the VM;
+`homeConfigurations.virt` carries only the shell, git and file-manager slice.
 
 ## Secrets setup 🔐
 

@@ -121,6 +121,30 @@
         ];
       };
 
+      # A second host, kept deliberately minimal: it shares no modules with
+      # omen, because the shared ones are written against omen's hardware.
+      # There is no sopsModule here on purpose -- this host reads no secrets.
+      nixosConfigurations.virt = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = attrs;
+        modules = [
+          { nixpkgs = { inherit pkgs; }; }
+          disko.nixosModules.disko
+          ./options
+          ./hosts/virt/nixos.nix
+        ];
+      };
+
+      # Home configuration for the virt example host.
+      homeConfigurations.virt = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        extraSpecialArgs = attrs;
+        modules = [
+          ./options
+          ./hosts/virt/home.nix
+        ];
+      };
+
       # Home configuration.
       # Reference: https://nix-community.github.io/home-manager/options.xhtml#opt-<dot.notated.path.to.option>
       homeConfigurations.risus = home-manager.lib.homeManagerConfiguration {
