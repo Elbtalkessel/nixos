@@ -1,5 +1,6 @@
 { config, ... }:
 {
+  sops.secrets."users/steamos/password".neededForUsers = true;
   users.users.steamos = {
     isNormalUser = true;
     hashedPasswordFile = config.sops.secrets."users/steamos/password".path;

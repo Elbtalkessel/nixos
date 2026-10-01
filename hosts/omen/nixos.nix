@@ -12,26 +12,27 @@
 
     ./disko.nix
 
-    ../../system/modules/core/audio.nix
-    ../../system/modules/core/bluetooth.nix
-    ../../system/modules/core/boot.nix
+    ../../system/modules/core/audio
+    ../../system/modules/core/bluetooth
+    ../../system/modules/core/boot
     ../../system/modules/core/dbus
-    ../../system/modules/core/fonts.nix
+    ../../system/modules/core/fonts
     ../../system/modules/core/hardware
-    ../../system/modules/core/locale.nix
+    ../../system/modules/core/locale
     ../../system/modules/core/networking
-    ../../system/modules/core/nix-settings.nix
+    ../../system/modules/core/nix-settings
     ../../system/modules/core/packages
-    ../../system/modules/core/power.nix
-    ../../system/modules/core/secrets.nix
-    ../../system/modules/core/security.nix
+    ../../system/modules/core/power
+    ../../system/modules/core/secrets
+    ../../system/modules/core/security
     ../../system/modules/core/specialisation
-    ../../system/modules/core/steam.nix
     ../../system/modules/core/storage
-    ../../system/modules/core/system-services.nix
+    ../../system/modules/core/system-services
     ../../system/modules/core/users
     ../../system/modules/core/virtualisation
     ../../system/modules/core/web
+
+    ../../system/modules/apps/steam
 
     ../../system/modules/desktop/session
   ];
