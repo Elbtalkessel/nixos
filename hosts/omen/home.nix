@@ -1,30 +1,29 @@
 { config, ... }:
 {
   imports = [
-    ../../home/environment.nix
-
-    ../../home/modules/core/diagnostics.nix
-    ../../home/modules/core/identity/git.nix
-    ../../home/modules/core/identity/gpg.nix
-    ../../home/modules/core/mime-apps.nix
-    ../../home/modules/core/removable-media.nix
-    ../../home/modules/core/secrets.nix
+    ../../home/modules/core/environment
+    ../../home/modules/core/diagnostics
+    ../../home/modules/core/identity
+    ../../home/modules/core/identity
+    ../../home/modules/core/mime-apps
+    ../../home/modules/core/removable-media
+    ../../home/modules/core/secrets
     ../../home/modules/core/shell
-    ../../home/modules/core/theme.nix
+    ../../home/modules/core/theme
     ../../home/modules/core/tools
-    ../../home/modules/core/xdg-config.nix
+    ../../home/modules/core/xdg
 
     ../../home/modules/desktop/launchers
-    ../../home/modules/desktop/notifications.nix
+    ../../home/modules/desktop/notifications
     ../../home/modules/desktop/panel
     ../../home/modules/desktop/session
-    ../../home/modules/desktop/wallpaper.nix
+    ../../home/modules/desktop/wallpaper
 
     ../../home/modules/apps/browser
     ../../home/modules/apps/files
     ../../home/modules/apps/ide
     ../../home/modules/apps/image-viewer
-    ../../home/modules/apps/llm.nix
+    ../../home/modules/apps/llm
     ../../home/modules/apps/mail
     ../../home/modules/apps/media
     ../../home/modules/apps/terminals

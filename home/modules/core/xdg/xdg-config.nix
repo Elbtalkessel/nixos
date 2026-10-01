@@ -10,11 +10,11 @@ _:
       setSessionVariables = true;
     };
     configFile = {
-      "wget/wgetrc".source = ./xdg/wget/wgetrc;
+      "wget/wgetrc".source = ./wget/wgetrc;
       # TMPFS caching, https://github.com/direnv/direnv/wiki/Customizing-cache-location#direnv-cache-on-tmpfs
-      "direnv/direnvrc".source = ./xdg/direnv/direnvrc;
-      "process-compose/settings.yaml".source = ./xdg/process-compose/settings.yaml;
-      "npm/npmrc".source = ./xdg/npm/npmrc;
+      "direnv/direnvrc".source = ./direnv/direnvrc;
+      "process-compose/settings.yaml".source = ./process-compose/settings.yaml;
+      "npm/npmrc".source = ./npm/npmrc;
     };
     autostart.enable = true;
   };
