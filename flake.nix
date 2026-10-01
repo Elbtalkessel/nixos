@@ -59,7 +59,6 @@
       home-manager,
       nixvim,
       nixpkgs-custom,
-      disko,
       nuenv,
       ...
     }@attrs:
@@ -116,7 +115,6 @@
           { nixpkgs = { inherit pkgs; }; }
           sopsModule
           ./options
-          disko.nixosModules.disko
           ./hosts/omen/nixos.nix
         ];
       };
@@ -129,7 +127,6 @@
         specialArgs = attrs;
         modules = [
           { nixpkgs = { inherit pkgs; }; }
-          disko.nixosModules.disko
           ./options
           ./hosts/virt/nixos.nix
         ];
