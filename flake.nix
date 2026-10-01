@@ -101,6 +101,12 @@
           })
         ];
       };
+      # Shared by both trees, so that no module has to reach outside its own
+      # directory to name a path. The flake root is the only stable anchor.
+      sopsModule = {
+        sops.defaultSopsFile = ./secrets/secrets.yaml;
+        sops.defaultSopsFormat = "yaml";
+      };
     in
     {
       nixosConfigurations.omen = nixpkgs.lib.nixosSystem {
@@ -108,9 +114,10 @@
         specialArgs = attrs;
         modules = [
           { nixpkgs = { inherit pkgs; }; }
+          sopsModule
           ./options
           disko.nixosModules.disko
-          ./system/omen.nix
+          ./hosts/omen/nixos.nix
         ];
       };
 
@@ -120,8 +127,9 @@
         inherit pkgs;
         extraSpecialArgs = attrs;
         modules = [
+          sopsModule
           ./options
-          ./home/omen.nix
+          ./hosts/omen/home.nix
         ];
       };
     };

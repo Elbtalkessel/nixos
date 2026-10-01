@@ -333,7 +333,6 @@ in
                         provider = opt {
                           type = enum [
                             "ashell"
-                            "hyprpanel"
                             "waybar"
                             "quickshell"
                             "wayle"
