@@ -12,29 +12,29 @@
 
     ./disko.nix
 
-    ../../system/modules/core/audio
-    ../../system/modules/core/bluetooth
-    ../../system/modules/core/boot
-    ../../system/modules/core/dbus
-    ../../system/modules/core/fonts
-    ../../system/modules/core/hardware
-    ../../system/modules/core/locale
-    ../../system/modules/core/networking
-    ../../system/modules/core/nix-settings
-    ../../system/modules/core/packages
-    ../../system/modules/core/power
-    ../../system/modules/core/secrets
-    ../../system/modules/core/security
-    ../../system/modules/core/specialisation
-    ../../system/modules/core/storage
-    ../../system/modules/core/system-services
-    ../../system/modules/core/users
-    ../../system/modules/core/virtualisation
-    ../../system/modules/core/web
+    ../../modules/system/core/audio
+    ../../modules/system/core/bluetooth
+    ../../modules/system/core/boot
+    ../../modules/system/core/dbus
+    ../../modules/system/core/fonts
+    ../../modules/system/core/hardware
+    ../../modules/system/core/locale
+    ../../modules/system/core/networking
+    ../../modules/system/core/nix-settings
+    ../../modules/system/core/packages
+    ../../modules/system/core/power
+    ../../modules/system/core/secrets
+    ../../modules/system/core/security
+    ../../modules/system/core/specialisation
+    ../../modules/system/core/storage
+    ../../modules/system/core/system-services
+    ../../modules/system/core/users
+    ../../modules/system/core/virtualisation
+    ../../modules/system/core/web
 
-    ../../system/modules/apps/steam
+    ../../modules/system/apps/steam
 
-    ../../system/modules/desktop/session
+    ../../modules/system/desktop/session
   ];
 
   networking.hostName = "omen";

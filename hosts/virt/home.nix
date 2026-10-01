@@ -11,9 +11,9 @@
 }:
 {
   imports = [
-    ../../home/modules/core/identity/git.nix
-    ../../home/modules/core/shell
-    ../../home/modules/apps/files/lf
+    ../../modules/home/core/identity/git.nix
+    ../../modules/home/core/shell
+    ../../modules/home/apps/files/lf
   ];
 
   home = {

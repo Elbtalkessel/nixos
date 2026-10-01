@@ -1,32 +1,32 @@
 { config, ... }:
 {
   imports = [
-    ../../home/modules/core/environment
-    ../../home/modules/core/diagnostics
-    ../../home/modules/core/identity
-    ../../home/modules/core/identity
-    ../../home/modules/core/mime-apps
-    ../../home/modules/core/removable-media
-    ../../home/modules/core/secrets
-    ../../home/modules/core/shell
-    ../../home/modules/core/theme
-    ../../home/modules/core/tools
-    ../../home/modules/core/xdg
+    ../../modules/home/core/environment
+    ../../modules/home/core/diagnostics
+    ../../modules/home/core/identity
+    ../../modules/home/core/identity
+    ../../modules/home/core/mime-apps
+    ../../modules/home/core/removable-media
+    ../../modules/home/core/secrets
+    ../../modules/home/core/shell
+    ../../modules/home/core/theme
+    ../../modules/home/core/tools
+    ../../modules/home/core/xdg
 
-    ../../home/modules/desktop/launchers
-    ../../home/modules/desktop/notifications
-    ../../home/modules/desktop/panel
-    ../../home/modules/desktop/session
-    ../../home/modules/desktop/wallpaper
+    ../../modules/home/desktop/launchers
+    ../../modules/home/desktop/notifications
+    ../../modules/home/desktop/panel
+    ../../modules/home/desktop/session
+    ../../modules/home/desktop/wallpaper
 
-    ../../home/modules/apps/browser
-    ../../home/modules/apps/files
-    ../../home/modules/apps/ide
-    ../../home/modules/apps/image-viewer
-    ../../home/modules/apps/llm
-    ../../home/modules/apps/mail
-    ../../home/modules/apps/media
-    ../../home/modules/apps/terminals
+    ../../modules/home/apps/browser
+    ../../modules/home/apps/files
+    ../../modules/home/apps/ide
+    ../../modules/home/apps/image-viewer
+    ../../modules/home/apps/llm
+    ../../modules/home/apps/mail
+    ../../modules/home/apps/media
+    ../../modules/home/apps/terminals
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
