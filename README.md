@@ -77,7 +77,7 @@ echo -n "<password>" | sudo tee /tmp/secret.key
 sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko omen-disko.nix
 
 # Install NixOS from this flake
-sudo nixos-install -v --root /mnt --flake github:Elbtalkessel/nixos/main#omen --impure --no-write-lock-file
+sudo nixos-install --extra-experimental-features pipe-operators -v --root /mnt --flake github:Elbtalkessel/nixos/main#omen --impure --no-write-lock-file
 ```
 
 > **Note:** this installs the `omen` profile, whose disk layout targets `/dev/nvme0n1`.

@@ -140,7 +140,11 @@
           inherit system;
           specialArgs = attrs;
           modules = [
-            { nixpkgs = { inherit pkgs; }; }
+            {
+              nixpkgs = {
+                pkgs = import nixpkgs { inherit system; };
+              };
+            }
             sopsModule
             ./options
             ./hosts/atlas/nixos.nix
