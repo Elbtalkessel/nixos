@@ -1,6 +1,6 @@
 _:
-# Requires youtrack-cli script defined in home/bin and installend in
-# home/modules/packages/shellpkgs.nix
+# Requires the youtrack-cli script defined in
+# modules/home/core/tools/scripts/default.nix
 {
   exec = "youtrack-cli spent-today";
   tooltip = true;

@@ -1,6 +1,6 @@
 # A deliberately minimal example host.
 #
-# It imports nothing from `system/modules/`: those modules are written against
+# It imports nothing from `modules/system/`: those modules are written against
 # omen's hardware, so sharing them would drag that hardware along. This host
 # stays self-contained until the hardware-agnostic parts are split out.
 #
