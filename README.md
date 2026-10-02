@@ -17,13 +17,13 @@ Personal NixOS and Home Manager configuration, wired for reproducible installs, 
 
 Modules are organised in three buckets. The buckets are **purely organisational** — they carry no behaviour and no configuration of their own. Custom options stay under `my.*` in `options/`.
 
-`options/` is split by **role first, then by domain**, rather than by bucket. Buckets describe *behaviour* and are selected per host; `my.*` settings are consumed by both trees at once, so every configuration imports the whole namespace and bucketing it would buy no selectivity. Roles are kept apart because they change for different reasons and are read by different people: `options/options/` is the reference you consult when using a setting and changes rarely, `options/config/` is the profile you edit when changing the machine. The same filename appears on both sides — `my.mail` is declared in `options/options/mail.nix` and set in `options/config/mail.nix`.
+`options/` is split by **role first, then by domain**, rather than by bucket. Buckets describe _behaviour_ and are selected per host; `my.*` settings are consumed by both trees at once, so every configuration imports the whole namespace and bucketing it would buy no selectivity. Roles are kept apart because they change for different reasons and are read by different people: `options/options/` is the reference you consult when using a setting and changes rarely, `options/config/` is the profile you edit when changing the machine. The same filename appears on both sides — `my.mail` is declared in `options/options/mail.nix` and set in `options/config/mail.nix`.
 
-| Bucket | Holds |
-| --- | --- |
-| `core` | Host- and user-agnostic infrastructure: identity, secrets, shell, tools, packages, networking, storage, locale, diagnostics. |
-| `desktop` | The desktop experience: session, panel, launchers, notifications, wallpaper. |
-| `apps` | End-user applications: browser, mail, media, terminals, files, IDE, image viewer, LLM clients. |
+| Bucket    | Holds                                                                                                                        |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `core`    | Host- and user-agnostic infrastructure: identity, secrets, shell, tools, packages, networking, storage, locale, diagnostics. |
+| `desktop` | The desktop experience: session, panel, launchers, notifications, wallpaper.                                                 |
+| `apps`    | End-user applications: browser, mail, media, terminals, files, IDE, image viewer, LLM clients.                               |
 
 ```
 flake.nix              # inputs, shared sops defaults, host entrypoint wiring
@@ -60,7 +60,7 @@ secrets/               # sops-encrypted files
 4. **Host-specific settings live in `hosts/`.** `hostName`, `stateVersion`, `hostPlatform`, disk layouts and anything that differs per machine (a provider address, a login shell) belong to a host entrypoint or a host-local module, never to a shared `core` module. A host-local module is a directory under `hosts/<host>/` whose `default.nix` is imported by that host's `home.nix` or `nixos.nix`, with its assets colocated — see `hosts/atlas/opencode/`.
 5. **A setting's declaration and its value share a filename.** `my.<domain>` is declared in `options/options/<domain>.nix` and set in `options/config/<domain>.nix`. Adding a setting means touching both sides; the matching name is how you find them.
 6. **`options/my.nix` declares `my` once, empty.** Domain files extend it as `options.my = { ... };`. Never give it a populated `submodule { options = ...; }` — that form is closed and would reject the domain files' declarations.
-7. **A `submodule` option needs no `default`.** It is populated from its children's defaults, transitively. Writing `default = { };` on one is a no-op: it does not cascade, and a child with no `default` and no `config` value still throws. Give the *leaf* a `default`, or set it in `options/config/`.
+7. **A `submodule` option needs no `default`.** It is populated from its children's defaults, transitively. Writing `default = { };` on one is a no-op: it does not cascade, and a child with no `default` and no `config` value still throws. Give the _leaf_ a `default`, or set it in `options/config/`.
 8. **`bin/` is unmanaged.** Scripts there are not part of the module tree.
 
 ## Quick start (live ISO) 🚀
@@ -144,8 +144,8 @@ This configuration expects secrets to be managed with `sops` and age keys:
 
 ```bash
 mkdir -p ~/.config/sops/age
-nix shell "nixpkgs#age" -c age-keygen -o ~/.config/sops/age/keys.txt
-nix run "nixpkgs#ssh-to-age" -- -private-key -i ~/.ssh/id_ed25519 >! ~/.config/sops/age/keys.txt
+nix --experimental-features "nix-command flakes" shell "nixpkgs#age" -c age-keygen -o ~/.config/sops/age/keys.txt
+nix --experimental-features "nix-command flakes" run "nixpkgs#ssh-to-age" -- -private-key -i ~/.ssh/id_ed25519 >! ~/.config/sops/age/keys.txt
 ```
 
 Then update `.sops.yaml` at the repo root to wire hosts, files, and key references.
