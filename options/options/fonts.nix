@@ -7,12 +7,10 @@
 {
   options.my = {
     font = lib.mkOption {
-      default = { };
       description = "Font related configuration shared between system and home.";
       type = lib.types.submodule {
         options = {
           family = lib.mkOption {
-            default = { };
             description = "Default font familly for UI, terminal, etc. Note: should have related package installed in my.font.packages.";
             type = lib.types.submodule {
               options = {

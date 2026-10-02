@@ -7,7 +7,6 @@
   options.my = {
     mail = lib.mkOption {
       description = "Mail settings.";
-      default = { };
       type = lib.types.submodule {
         options = {
           address = lib.mkOption {

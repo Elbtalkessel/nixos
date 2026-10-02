@@ -146,7 +146,6 @@
 
     steam = lib.mkOption {
       description = "Steam related options.";
-      default = { };
       type = lib.types.submodule {
         options = {
           session = lib.mkOption {
@@ -160,12 +159,10 @@
 
     hardware = lib.mkOption {
       description = "Hardware toggles.";
-      default = { };
       type = lib.types.submodule {
         options = {
           dgpu = lib.mkOption {
             description = "Descreet GPU toggles.";
-            default = { };
             type = lib.types.submodule {
               options = {
                 enable = lib.mkOption {

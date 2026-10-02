@@ -54,7 +54,8 @@ secrets/               # sops-encrypted files
 4. **Host-specific settings live in `hosts/`.** `hostName`, `stateVersion`, `hostPlatform` and disk layouts belong to a host entrypoint, never to a shared `core` module.
 5. **A setting's declaration and its value share a filename.** `my.<domain>` is declared in `options/options/<domain>.nix` and set in `options/config/<domain>.nix`. Adding a setting means touching both sides; the matching name is how you find them.
 6. **`options/my.nix` declares `my` once, empty.** Domain files extend it as `options.my = { ... };`. Never give it a populated `submodule { options = ...; }` — that form is closed and would reject the domain files' declarations.
-7. **`bin/` is unmanaged.** Scripts there are not part of the module tree.
+7. **A `submodule` option needs no `default`.** It is populated from its children's defaults, transitively. Writing `default = { };` on one is a no-op: it does not cascade, and a child with no `default` and no `config` value still throws. Give the *leaf* a `default`, or set it in `options/config/`.
+8. **`bin/` is unmanaged.** Scripts there are not part of the module tree.
 
 ## Quick start (live ISO) 🚀
 
