@@ -27,8 +27,6 @@ in
 
     virt.docker.gpu.enable = true;
 
-    android.enable = true;
-
     steam.session = true;
 
     hardware.dgpu.enable = true;

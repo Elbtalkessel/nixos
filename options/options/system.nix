@@ -144,19 +144,6 @@
       };
     };
 
-    android = lib.mkOption {
-      description = "Android integration.";
-      type = lib.types.submodule {
-        options = {
-          enable = lib.mkOption {
-            type = lib.types.bool;
-            description = "Enable android integration";
-            default = false;
-          };
-        };
-      };
-    };
-
     steam = lib.mkOption {
       description = "Steam related options.";
       default = { };
