@@ -1,0 +1,52 @@
+{
+  "plugin": [
+    "oh-my-openagent@beta"
+  ],
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "bazzite.lan": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Desktop RX 5700 XT",
+      "options": {
+        "baseURL": "http://192.168.1.177:8080/v1"
+      },
+      "models": {
+        "qwen3-8b-amd": {
+          "name": "Qwen3 8B Q4 (AMD)",
+          "limit": {
+            "context": 32768,
+            "output": 16384
+          }
+        }
+      }
+    },
+    "omen.lan": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Laptop RTX 3070",
+      "options": {
+        "baseURL": "http://196.168.1.227:8080/v1"
+      },
+      "models": {
+        "qwen3-8b-nvidia": {
+          "name": "Qwen3 8B Q4 (NVIDIA)",
+          "limit": {
+            "context": 32768,
+            "output": 16384
+          }
+        }
+      }
+    }
+  },
+  "mcp": {
+    "gitea": {
+      "type": "local",
+      "command": ["gitea-mcp", "-t", "stdio"],
+      "environment": {
+        "GITEA_HOST": "https://gitea.x.home.arpa",
+        "GITEA_ACCESS_TOKEN": "@GITEA_TOKEN@",
+        "GITEA_INSECURE": "false"
+      },
+      "enabled": true
+    }
+  }
+}

@@ -108,50 +108,80 @@
       };
     in
     {
-      nixosConfigurations.omen = nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = attrs;
-        modules = [
-          { nixpkgs = { inherit pkgs; }; }
-          sopsModule
-          ./options
-          ./hosts/omen/nixos.nix
-        ];
+      nixosConfigurations = {
+        omen = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = attrs;
+          modules = [
+            { nixpkgs = { inherit pkgs; }; }
+            sopsModule
+            ./options
+            ./hosts/omen/nixos.nix
+          ];
+        };
+
+        # A second host, kept deliberately minimal: it shares no modules with
+        # omen, because the shared ones are written against omen's hardware.
+        # There is no sopsModule here on purpose -- this host reads no secrets.
+        virt = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = attrs;
+          modules = [
+            { nixpkgs = { inherit pkgs; }; }
+            ./options
+            ./hosts/virt/nixos.nix
+          ];
+        };
+
+        # atlas: a headless VM that runs opencode. Unlike virt it reads secrets --
+        # the shared login password on the system side, the Gitea MCP token on
+        # the home side -- so both trees get sopsModule.
+        atlas = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = attrs;
+          modules = [
+            { nixpkgs = { inherit pkgs; }; }
+            sopsModule
+            ./options
+            ./hosts/atlas/nixos.nix
+          ];
+        };
       };
 
-      # A second host, kept deliberately minimal: it shares no modules with
-      # omen, because the shared ones are written against omen's hardware.
-      # There is no sopsModule here on purpose -- this host reads no secrets.
-      nixosConfigurations.virt = nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = attrs;
-        modules = [
-          { nixpkgs = { inherit pkgs; }; }
-          ./options
-          ./hosts/virt/nixos.nix
-        ];
-      };
+      homeConfigurations = {
+        # Reference: https://nix-community.github.io/home-manager/options.xhtml#opt-<dot.notated.path.to.option>
+        risus = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          extraSpecialArgs = attrs;
+          modules = [
+            sopsModule
+            ./options
+            ./hosts/omen/home.nix
+          ];
+        };
 
-      # Home configuration for the virt example host.
-      homeConfigurations.virt = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        extraSpecialArgs = attrs;
-        modules = [
-          ./options
-          ./hosts/virt/home.nix
-        ];
-      };
+        # Home configuration for the virt example host.
+        virt = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          extraSpecialArgs = attrs;
+          modules = [
+            ./options
+            ./hosts/virt/home.nix
+          ];
+        };
 
-      # Home configuration.
-      # Reference: https://nix-community.github.io/home-manager/options.xhtml#opt-<dot.notated.path.to.option>
-      homeConfigurations.risus = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        extraSpecialArgs = attrs;
-        modules = [
-          sopsModule
-          ./options
-          ./hosts/omen/home.nix
-        ];
+        # home-manager has to decrypt the Gitea MCP token for
+        # `hosts/atlas/opencode`, which is why sopsModule is needed here even
+        # though the module itself lives under the host.
+        atlas = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          extraSpecialArgs = attrs;
+          modules = [
+            sopsModule
+            ./options
+            ./hosts/atlas/home.nix
+          ];
+        };
       };
     };
 }

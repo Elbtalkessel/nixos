@@ -11,7 +11,7 @@ Personal NixOS and Home Manager configuration, wired for reproducible installs, 
 - Flake-based NixOS and Home Manager configs for multiple hosts and users.
 - Disk layout and filesystem provisioning via `disko` (including encrypted root setups).
 - Secret management using `sops` and age keys for machine and user secrets.
-- Two hosts: `omen` (a laptop) and `virt`, a deliberately barebones example host that shares no modules with `omen`.
+- Three hosts: `omen` (a laptop), `atlas` (a headless VM that runs opencode with the oh-my-openagent plugin), and `virt`, a deliberately barebones example host that shares no modules with `omen`.
 
 ## Repository layout 🗂️
 
@@ -38,6 +38,8 @@ hosts/<host>/
   nixos.nix            # host entrypoint: hostName, platform, stateVersion, imports
   home.nix             # home entrypoint for that host
   disko.nix            # disk layout for that host
+  <feature>/           # host-local module, with its assets next to it
+                        # (atlas/opencode/ holds opencode.jsonc and omo.jsonc)
 modules/               # the module tree, split by tree then bucket
   home/                # home-manager modules
     core/              #   identity, secrets, shell, tools, xdg, environment, ...
@@ -55,7 +57,7 @@ secrets/               # sops-encrypted files
 1. **No upward references.** A module may only reference files inside its own directory or explicit shared roots (`modules/home`, `modules/system`). It must never reach up to the repo root or sideways into another host.
 2. **Assets are colocated.** Non-Nix files a module needs (`.vimrc`, `.conf`, patches, assets) live next to the module that uses them.
 3. **`default.nix` is a barrel when siblings exist.** A directory that aggregates sibling modules keeps its `default.nix` limited to `imports`. A directory holding a single module may use `default.nix` as that module.
-4. **Host-specific settings live in `hosts/`.** `hostName`, `stateVersion`, `hostPlatform` and disk layouts belong to a host entrypoint, never to a shared `core` module.
+4. **Host-specific settings live in `hosts/`.** `hostName`, `stateVersion`, `hostPlatform`, disk layouts and anything that differs per machine (a provider address, a login shell) belong to a host entrypoint or a host-local module, never to a shared `core` module. A host-local module is a directory under `hosts/<host>/` whose `default.nix` is imported by that host's `home.nix` or `nixos.nix`, with its assets colocated — see `hosts/atlas/opencode/`.
 5. **A setting's declaration and its value share a filename.** `my.<domain>` is declared in `options/options/<domain>.nix` and set in `options/config/<domain>.nix`. Adding a setting means touching both sides; the matching name is how you find them.
 6. **`options/my.nix` declares `my` once, empty.** Domain files extend it as `options.my = { ... };`. Never give it a populated `submodule { options = ...; }` — that form is closed and would reject the domain files' declarations.
 7. **A `submodule` option needs no `default`.** It is populated from its children's defaults, transitively. Writing `default = { };` on one is a no-op: it does not cascade, and a child with no `default` and no `config` value still throws. Give the *leaf* a `default`, or set it in `options/config/`.
@@ -92,14 +94,49 @@ sudo nixos-install -v --root /mnt --flake github:Elbtalkessel/nixos/main#omen --
 > configuration. It imports nothing from `modules/system/`, because those modules
 > are written against `omen`'s hardware — see `hosts/virt/nixos.nix`.
 
-After reboot, log into the system and activate the Home Manager configuration:
+For `atlas`, the opencode VM, there is one extra step: the host reads sops
+secrets, so the age key has to be inside the target before the first boot. It is
+not optional — without it `sops-install-secrets` fails and the password never
+lands:
+
+```bash
+curl https://raw.githubusercontent.com/Elbtalkessel/nixos/refs/heads/main/hosts/atlas/disko.nix -o atlas-disko.nix
+sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko --keep-mounted atlas-disko.nix
+
+# atlas's own disk is unencrypted, but its login password and the Gitea MCP
+# token are sops-encrypted, so the age key has to be in the target too.
+sudo mkdir -p /mnt/etc/nixos
+sudo cp ~/.config/sops/age/keys.txt /mnt/etc/nixos/age.key
+
+sudo nixos-install -v --root /mnt --flake github:Elbtalkessel/nixos/main#atlas --impure --no-write-lock-file
+```
+
+After reboot, log into the system and activate the Home Manager configuration,
+substituting the host you installed:
 
 ```bash
 home-manager switch --flake github:Elbtalkessel/nixos/main#risus --no-write-lock-file
 ```
 
-Use `home-manager switch --flake github:Elbtalkessel/nixos/main#virt` on the VM;
-`homeConfigurations.virt` carries only the shell, git and file-manager slice.
+Use `#atlas` on the opencode VM — that one installs opencode, the
+oh-my-openagent plugin, devenv and a zsh — and `#virt` on the virt example host,
+whose `homeConfigurations.virt` carries only the shell, git and file-manager
+slice. `hosts/atlas/nixos.nix` copies the age key from `/etc/nixos/age.key` into
+`$HOME/.config/sops/age/keys.txt` on first activation, so home-manager can
+decrypt the Gitea MCP token without a second manual step.
+
+### atlas and the model providers
+
+`hosts/atlas/opencode/opencode.jsonc` declares two OpenAI-compatible providers:
+`bazzite.lan` at `192.168.1.177` and `omen.lan` at `196.168.1.227` — the
+workstation's LAN address rather than the `127.0.0.1` the laptop itself uses,
+because the VM is not the laptop. Both must be reachable from the VM and serving
+on port 8080.
+
+The Gitea MCP token is not in that file. It lives in `secrets/secrets.yaml` as
+`gitea.mcp-token`, is decrypted to `~/.config/sops-nix/secrets/gitea/mcp-token`,
+and the config refers to it by path — so the token is in neither the Nix store
+nor git.
 
 ## Secrets setup 🔐
 
