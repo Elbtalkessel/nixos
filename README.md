@@ -17,6 +17,8 @@ Personal NixOS and Home Manager configuration, wired for reproducible installs, 
 
 Modules are organised in three buckets. The buckets are **purely organisational** — they carry no behaviour and no configuration of their own. Custom options stay under `my.*` in `options/`.
 
+`options/` is split by **role first, then by domain**, rather than by bucket. Buckets describe *behaviour* and are selected per host; `my.*` settings are consumed by both trees at once, so every configuration imports the whole namespace and bucketing it would buy no selectivity. Roles are kept apart because they change for different reasons and are read by different people: `options/options/` is the reference you consult when using a setting and changes rarely, `options/config/` is the profile you edit when changing the machine. The same filename appears on both sides — `my.mail` is declared in `options/options/mail.nix` and set in `options/config/mail.nix`.
+
 | Bucket | Holds |
 | --- | --- |
 | `core` | Host- and user-agnostic infrastructure: identity, secrets, shell, tools, packages, networking, storage, locale, diagnostics. |
@@ -25,7 +27,13 @@ Modules are organised in three buckets. The buckets are **purely organisational*
 
 ```
 flake.nix              # inputs, shared sops defaults, host entrypoint wiring
-options/               # my.* option definitions (shared by both trees)
+options/               # my.* settings (shared by both trees)
+  options/             #   mkOption declarations -- the reference
+    my.nix             #   the single `my` namespace declaration
+    <domain>.nix       #   one file per domain: identity, mail, theme, ...
+  config/              #   config.my.* values -- this machine's profile
+    common.nix         #   shared values (not a module)
+    <domain>.nix       #   matching filename on both sides
 hosts/<host>/
   nixos.nix            # host entrypoint: hostName, platform, stateVersion, imports
   home.nix             # home entrypoint for that host
@@ -44,7 +52,9 @@ secrets/               # sops-encrypted files
 2. **Assets are colocated.** Non-Nix files a module needs (`.vimrc`, `.conf`, patches, assets) live next to the module that uses them.
 3. **`default.nix` is a barrel when siblings exist.** A directory that aggregates sibling modules keeps its `default.nix` limited to `imports`. A directory holding a single module may use `default.nix` as that module.
 4. **Host-specific settings live in `hosts/`.** `hostName`, `stateVersion`, `hostPlatform` and disk layouts belong to a host entrypoint, never to a shared `core` module.
-5. **`bin/` is unmanaged.** Scripts there are not part of the module tree.
+5. **A setting's declaration and its value share a filename.** `my.<domain>` is declared in `options/options/<domain>.nix` and set in `options/config/<domain>.nix`. Adding a setting means touching both sides; the matching name is how you find them.
+6. **`options/my.nix` declares `my` once, empty.** Domain files extend it as `options.my = { ... };`. Never give it a populated `submodule { options = ...; }` — that form is closed and would reject the domain files' declarations.
+7. **`bin/` is unmanaged.** Scripts there are not part of the module tree.
 
 ## Quick start (live ISO) 🚀
 
