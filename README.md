@@ -38,17 +38,21 @@ hosts/<host>/
   nixos.nix            # host entrypoint: hostName, platform, stateVersion, imports
   home.nix             # home entrypoint for that host
   disko.nix            # disk layout for that host
-home/
-  environment.nix      # session-wide environment
-  modules/{core,desktop,apps}/
-system/
-  modules/{core,desktop}/
+modules/               # the module tree, split by tree then bucket
+  home/                # home-manager modules
+    core/              #   identity, secrets, shell, tools, xdg, environment, ...
+    desktop/           #   session, panel, launchers, notifications, wallpaper
+    apps/              #   browser, mail, media, terminals, files, IDE, ...
+  system/              # NixOS modules
+    core/              #   networking, storage, users, fonts, audio, boot, ...
+    desktop/           #   session
+    apps/              #   steam
 secrets/               # sops-encrypted files
 ```
 
 ### Placement rules
 
-1. **No upward references.** A module may only reference files inside its own directory or explicit shared roots (`home/modules`, `system/modules`). It must never reach up to the repo root or sideways into another host.
+1. **No upward references.** A module may only reference files inside its own directory or explicit shared roots (`modules/home`, `modules/system`). It must never reach up to the repo root or sideways into another host.
 2. **Assets are colocated.** Non-Nix files a module needs (`.vimrc`, `.conf`, patches, assets) live next to the module that uses them.
 3. **`default.nix` is a barrel when siblings exist.** A directory that aggregates sibling modules keeps its `default.nix` limited to `imports`. A directory holding a single module may use `default.nix` as that module.
 4. **Host-specific settings live in `hosts/`.** `hostName`, `stateVersion`, `hostPlatform` and disk layouts belong to a host entrypoint, never to a shared `core` module.
@@ -85,7 +89,7 @@ sudo nixos-install -v --root /mnt --flake github:Elbtalkessel/nixos/main#omen --
 > ```
 >
 > `virt` exists as a worked example of how a host entrypoint composes a
-> configuration. It imports nothing from `system/modules/`, because those modules
+> configuration. It imports nothing from `modules/system/`, because those modules
 > are written against `omen`'s hardware — see `hosts/virt/nixos.nix`.
 
 After reboot, log into the system and activate the Home Manager configuration:
