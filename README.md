@@ -11,7 +11,6 @@ Personal NixOS and Home Manager configuration, wired for reproducible installs, 
 - Flake-based NixOS and Home Manager configs for multiple hosts and users.
 - Disk layout and filesystem provisioning via `disko` (including encrypted root setups).
 - Secret management using `sops` and age keys for machine and user secrets.
-- Three hosts: `omen` (a laptop), `atlas` (a headless VM that runs opencode with the oh-my-openagent plugin), and `virt`, a deliberately barebones example host that shares no modules with `omen`.
 
 ## Repository layout 🗂️
 
@@ -63,80 +62,26 @@ secrets/               # sops-encrypted files
 7. **A `submodule` option needs no `default`.** It is populated from its children's defaults, transitively. Writing `default = { };` on one is a no-op: it does not cascade, and a child with no `default` and no `config` value still throws. Give the _leaf_ a `default`, or set it in `options/config/`.
 8. **`bin/` is unmanaged.** Scripts there are not part of the module tree.
 
-## Quick start (live ISO) 🚀
+## Quick start 🚀
 
-From a NixOS live ISO, set a password and connect via SSH, then prepare the disk and install:
+From a NixOS live ISO, set a password and connect via SSH, then prepare the disk and install.
 
-```bash
-# Set a temporary password
-passwd
-
-# Prepare disk layout (will format the omen root disk)
-curl https://raw.githubusercontent.com/Elbtalkessel/nixos/refs/heads/main/hosts/omen/disko.nix -o omen-disko.nix
-echo -n "<password>" | sudo tee /tmp/secret.key
-sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko omen-disko.nix
-
-# Install NixOS from this flake
-sudo nixos-install --extra-experimental-features pipe-operators -v --root /mnt --flake github:Elbtalkessel/nixos/main#omen --impure --no-write-lock-file
-```
-
-> **Note:** this installs the `omen` profile, whose disk layout targets `/dev/nvme0n1`.
-> For a virtual machine, use the `virt` profile instead — its layout targets `/dev/vda`:
->
-> ```bash
-> curl https://raw.githubusercontent.com/Elbtalkessel/nixos/refs/heads/main/hosts/virt/disko.nix -o virt-disko.nix
-> echo -n "<password>" | sudo tee /tmp/secret.key
-> sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko virt-disko.nix
-> sudo nixos-install -v --root /mnt --flake github:Elbtalkessel/nixos/main#virt --impure --no-write-lock-file
-> ```
->
-> `virt` exists as a worked example of how a host entrypoint composes a
-> configuration. It imports nothing from `modules/system/`, because those modules
-> are written against `omen`'s hardware — see `hosts/virt/nixos.nix`.
-
-For `atlas`, the opencode VM, there is one extra step: the host reads sops
-secrets, so the age key has to be inside the target before the first boot. It is
-not optional — without it `sops-install-secrets` fails and the password never
-lands:
+> **Note:** Running flakes requires enabling experimental features. The commands below include `--experimental-features "nix-command flakes"` as needed.
 
 ```bash
-curl https://raw.githubusercontent.com/Elbtalkessel/nixos/refs/heads/main/hosts/atlas/disko.nix -o atlas-disko.nix
-sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko --keep-mounted atlas-disko.nix
-
-# atlas's own disk is unencrypted, but its login password and the Gitea MCP
-# token are sops-encrypted, so the age key has to be in the target too.
-sudo mkdir -p /mnt/etc/nixos
-sudo cp ~/.config/sops/age/keys.txt /mnt/etc/nixos/age.key
-
-sudo nixos-install -v --root /mnt --flake github:Elbtalkessel/nixos/main#atlas --impure --no-write-lock-file
+git clone https://codeberg.org/outlast/nixos
+cd nixos
+alias nix='nix --experimental-features "nix-command flakes"'
+sudo nix run github:nix-community/disko/latest -- --mode disko ./hosts/${host}/disko.nix
+sudo nix nixos-install --extra-experimental-features pipe-operators -v --root /mnt --flake .#${host} --impure --no-write-lock-file
 ```
 
 After reboot, log into the system and activate the Home Manager configuration,
 substituting the host you installed:
 
 ```bash
-home-manager switch --flake github:Elbtalkessel/nixos/main#risus --no-write-lock-file
+nix --experimental-features "nix-command flakes" run home-manager/master -- switch --flake git+https://codeberg.org/outlast/nixos#risus --no-write-lock-file
 ```
-
-Use `#atlas` on the opencode VM — that one installs opencode, the
-oh-my-openagent plugin, devenv and a zsh — and `#virt` on the virt example host,
-whose `homeConfigurations.virt` carries only the shell, git and file-manager
-slice. `hosts/atlas/nixos.nix` copies the age key from `/etc/nixos/age.key` into
-`$HOME/.config/sops/age/keys.txt` on first activation, so home-manager can
-decrypt the Gitea MCP token without a second manual step.
-
-### atlas and the model providers
-
-`hosts/atlas/opencode/opencode.jsonc` declares two OpenAI-compatible providers:
-`bazzite.lan` at `192.168.1.177` and `omen.lan` at `196.168.1.227` — the
-workstation's LAN address rather than the `127.0.0.1` the laptop itself uses,
-because the VM is not the laptop. Both must be reachable from the VM and serving
-on port 8080.
-
-The Gitea MCP token is not in that file. It lives in `secrets/secrets.yaml` as
-`gitea.mcp-token`, is decrypted to `~/.config/sops-nix/secrets/gitea/mcp-token`,
-and the config refers to it by path — so the token is in neither the Nix store
-nor git.
 
 ## Secrets setup 🔐
 
@@ -144,8 +89,9 @@ This configuration expects secrets to be managed with `sops` and age keys:
 
 ```bash
 mkdir -p ~/.config/sops/age
-nix --experimental-features "nix-command flakes" shell "nixpkgs#age" -c age-keygen -o ~/.config/sops/age/keys.txt
-nix --experimental-features "nix-command flakes" run "nixpkgs#ssh-to-age" -- -private-key -i ~/.ssh/id_ed25519 >! ~/.config/sops/age/keys.txt
+alias nix='nix --experimental-features "nix-command flakes"'
+nix shell "nixpkgs#age" -c age-keygen -o ~/.config/sops/age/keys.txt
+nix run "nixpkgs#ssh-to-age" -- -private-key -i ~/.ssh/id_ed25519 >! ~/.config/sops/age/keys.txt
 ```
 
 Then update `.sops.yaml` at the repo root to wire hosts, files, and key references.
