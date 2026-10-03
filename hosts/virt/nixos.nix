@@ -12,8 +12,6 @@
   ...
 }:
 {
-  imports = [ ./disko.nix ];
-
   networking.hostName = "virt";
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 

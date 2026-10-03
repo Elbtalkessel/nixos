@@ -25,8 +25,6 @@
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
 
-    ./disko.nix
-
     ../../modules/system/core/locale
     ../../modules/system/core/nix-settings
 

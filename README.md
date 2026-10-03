@@ -68,12 +68,28 @@ From a NixOS live ISO, set a password and connect via SSH, then prepare the disk
 
 > **Note:** Running flakes requires enabling experimental features. The commands below include `--experimental-features "nix-command flakes"` as needed.
 
+### Optional ssh connection
+
+Using public key:
+
+```bash
+mkdir .ssh/
+curl --follow codeberg.org/outlast.keys > .ssh/authorized_keys
+chmod 700 -R .ssh
+```
+
+Using password:
+
+```bash
+passwd
+```
+
 ```bash
 git clone https://codeberg.org/outlast/nixos
+host="..."
 cd nixos
-alias nix='nix --experimental-features "nix-command flakes"'
-sudo nix run github:nix-community/disko/latest -- --mode disko ./hosts/${host}/disko.nix
-sudo nix nixos-install --extra-experimental-features pipe-operators -v --root /mnt --flake .#${host} --impure --no-write-lock-file
+sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko ./hosts/${host}/disko.nix
+sudo nixos-install -v --root /mnt --flake .#${host} --impure --no-write-lock-file
 ```
 
 After reboot, log into the system and activate the Home Manager configuration,
