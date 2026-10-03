@@ -45,7 +45,7 @@
   boot.loader.grub = {
     enable = true;
     efiSupport = true;
-    device = "/dev/vda";
+    device = "/dev/sda";
   };
 
   networking.networkmanager.enable = true;

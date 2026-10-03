@@ -11,17 +11,13 @@
 # There is no swap partition. Nix builds are the only thing on this host that
 # can outgrow RAM, and the VM's disk is cheap -- grow the `main` partition or
 # add zramSwap in `nixos.nix` if a build starts getting OOM-killed.
-{ disko, ... }:
 {
-  imports = [
-    disko.nixosModules.disko
-  ];
 
   disko.devices = {
     disk = {
-      vda = {
+      sda = {
         type = "disk";
-        device = "/dev/vda";
+        device = "/dev/sda";
         content = {
           type = "gpt";
           partitions = {

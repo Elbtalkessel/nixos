@@ -1,11 +1,7 @@
-{ disko, ... }: {
+{
   # You can also use `fileSystems."/tmp".fsType = "tmpfs";`,
   # but since we do have this option...
   boot.tmp.useTmpfs = true;
-
-  imports = [
-    disko.nixosModules.disko
-  ];
 
   fileSystems = {
     "/mnt/storage" = {
