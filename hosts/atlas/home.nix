@@ -22,7 +22,7 @@
 
     # opencode itself, the plugin, the skills, and the language servers the
     # lsp MCP probes on PATH.
-    ../../modules/home/apps/llm
+    ../../modules/home/apps/llm/agent.nix
 
     # The opencode and omo configuration, which is host-specific because the
     # provider points at the workstation by LAN address.
