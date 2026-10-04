@@ -29,7 +29,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs-custom = {
-      url = "github:Elbtalkessel/nixpkgs-custom/master";
+      url = "git+https://codeberg.org/outlast/nixpkgs?ref=master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # https://determinate.systems/blog/nuenv/
