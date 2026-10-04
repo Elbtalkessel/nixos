@@ -1,5 +1,12 @@
 { pkgs, ... }:
 {
+  nixpkgs.config.allowUnfreePackages = [
+    # "limo"
+    "ouch"
+    "plexamp"
+    "vagrant"
+  ];
+
   home.packages = with pkgs; [
     # Core
     wl-clipboard-rs # clipboard support.
@@ -47,6 +54,7 @@
     difftastic # better diff tool
     bootdev-cli
     sshp
+    wf-recorder
 
     # Development
     mockoon # API mocking.
@@ -58,9 +66,10 @@
     python313Packages.ipython # python.
 
     # Games
-    (limo.overrideAttrs (_: {
-      withUnrar = true;
-    }))
+    # can't build.
+    #(limo.overrideAttrs (_: {
+    #  withUnrar = true;
+    #}))
 
     # Custom
     gimd

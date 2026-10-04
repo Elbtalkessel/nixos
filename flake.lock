@@ -145,7 +145,9 @@
       "inputs": {
         "bun2nix": "bun2nix",
         "flake-parts": "flake-parts",
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
         "systems": "systems",
         "treefmt-nix": "treefmt-nix"
       },
@@ -222,16 +224,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1790600678,
-        "narHash": "sha256-6k3n7X2UsZ6tAlWTz99RimiZab+17tMUrw9sRUcELiA=",
-        "owner": "NixOS",
+        "lastModified": 1790822859,
+        "narHash": "sha256-69xHQhAeMAD2wDXO7T2pcOZIF9Sga2W+JkmY2a11Ops=",
+        "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "f45c6f04c2f013f004bf94e284e95d72898d9393",
+        "rev": "c59305bab2065cfecc4944690d9eedbb56f3a9fa",
         "type": "github"
       },
       "original": {
-        "owner": "NixOS",
-        "ref": "nixpkgs-unstable",
+        "owner": "nixos",
+        "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -259,22 +261,6 @@
       }
     },
     "nixpkgs_2": {
-      "locked": {
-        "lastModified": 1790822859,
-        "narHash": "sha256-69xHQhAeMAD2wDXO7T2pcOZIF9Sga2W+JkmY2a11Ops=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "c59305bab2065cfecc4944690d9eedbb56f3a9fa",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_3": {
       "locked": {
         "lastModified": 1789724158,
         "narHash": "sha256-nlKgrm0dsVhOSopKheVBCcOpiIticufPPVLdVOI0euA=",
@@ -316,7 +302,7 @@
     "nixvim_2": {
       "inputs": {
         "flake-parts": "flake-parts_2",
-        "nixpkgs": "nixpkgs_3",
+        "nixpkgs": "nixpkgs_2",
         "systems": "systems_3"
       },
       "locked": {
@@ -402,7 +388,7 @@
         "nix-flatpak": "nix-flatpak",
         "nix-skills": "nix-skills",
         "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs_2",
+        "nixpkgs": "nixpkgs",
         "nixpkgs-custom": "nixpkgs-custom",
         "nixvim": "nixvim",
         "noctalia": "noctalia",

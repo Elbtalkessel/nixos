@@ -1,5 +1,7 @@
 { pkgs, ... }:
 {
+  nixpkgs.config.allowUnfreePackages = [ "jetbrains-toolbox" ];
+
   home = {
     packages = with pkgs; [
       jetbrains-toolbox

@@ -9,9 +9,15 @@
 {
   lib,
   config,
+  disko,
   ...
 }:
 {
+  imports = [
+    disko.nixosModules.disko
+    ./disko.nix
+  ];
+
   networking.hostName = "virt";
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 

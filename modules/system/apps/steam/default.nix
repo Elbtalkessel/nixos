@@ -4,6 +4,14 @@
   ...
 }:
 {
+  # Steam and the runtime `programs.steam` builds it on are unfree. Importing
+  # this module is what allows them; there is no central allowlist to keep in
+  # step with it.
+  nixpkgs.config.allowUnfreePackages = [
+    "steam"
+    "steam-unwrapped"
+  ];
+
   programs = rec {
     steam = {
       enable = lib.mkDefault true;

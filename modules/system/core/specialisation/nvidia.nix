@@ -5,6 +5,17 @@
   ...
 }:
 {
+  # Top level, deliberately: a specialisation is evaluated with `extendModules`,
+  # which carries over the parent's module *definitions* but nothing an
+  # evaluation already happened to compute. An allowlist nested inside
+  # `specialisation.nvidia.configuration` below would apply to the nested tree
+  # and never reach the drivers it is meant to cover.
+  nixpkgs.config.allowUnfreePackages = [
+    "nvidia-kernel-modules"
+    "nvidia-settings"
+    "nvidia-x11"
+  ];
+
   specialisation.nvidia.configuration = (lib.mkIf config.my.hardware.dgpu.enable) {
     virtualisation = {
       docker = {

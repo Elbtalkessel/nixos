@@ -18,12 +18,15 @@
   lib,
   modulesPath,
   config,
+  disko,
   sops-nix,
   ...
 }:
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
+    disko.nixosModules.disko
+    ./disko.nix
 
     ../../modules/system/core/locale
     ../../modules/system/core/nix-settings

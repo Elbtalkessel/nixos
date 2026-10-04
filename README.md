@@ -40,6 +40,8 @@ hosts/<host>/
   <feature>/           # host-local module, with its assets next to it
                         # (atlas/opencode/ holds opencode.jsonc and omo.jsonc)
 modules/               # the module tree, split by tree then bucket
+  common/              #   imported by *both* trees -- overlays only
+    nixpkgs.nix        #     nixpkgs-custom, nuenv, nixvim overlays
   home/                # home-manager modules
     core/              #   identity, secrets, shell, tools, xdg, environment, ...
     desktop/           #   session, panel, launchers, notifications, wallpaper
@@ -53,7 +55,7 @@ secrets/               # sops-encrypted files
 
 ### Placement rules
 
-1. **No upward references.** A module may only reference files inside its own directory or explicit shared roots (`modules/home`, `modules/system`). It must never reach up to the repo root or sideways into another host.
+1. **No upward references.** A module may only reference files inside its own directory or explicit shared roots (`modules/common`, `modules/home`, `modules/system`). It must never reach up to the repo root or sideways into another host.
 2. **Assets are colocated.** Non-Nix files a module needs (`.vimrc`, `.conf`, patches, assets) live next to the module that uses them.
 3. **`default.nix` is a barrel when siblings exist.** A directory that aggregates sibling modules keeps its `default.nix` limited to `imports`. A directory holding a single module may use `default.nix` as that module.
 4. **Host-specific settings live in `hosts/`.** `hostName`, `stateVersion`, `hostPlatform`, disk layouts and anything that differs per machine (a provider address, a login shell) belong to a host entrypoint or a host-local module, never to a shared `core` module. A host-local module is a directory under `hosts/<host>/` whose `default.nix` is imported by that host's `home.nix` or `nixos.nix`, with its assets colocated — see `hosts/atlas/opencode/`.
@@ -61,6 +63,8 @@ secrets/               # sops-encrypted files
 6. **`options/my.nix` declares `my` once, empty.** Domain files extend it as `options.my = { ... };`. Never give it a populated `submodule { options = ...; }` — that form is closed and would reject the domain files' declarations.
 7. **A `submodule` option needs no `default`.** It is populated from its children's defaults, transitively. Writing `default = { };` on one is a no-op: it does not cascade, and a child with no `default` and no `config` value still throws. Give the _leaf_ a `default`, or set it in `options/config/`.
 8. **`bin/` is unmanaged.** Scripts there are not part of the module tree.
+9. **`modules/common/` is for `nixpkgs` wiring only, and `modules/common/nixpkgs.nix` is the only module in it.** Anything both trees need from the package set — an overlay — is declared there as `nixpkgs.overlays`, because both `nixosSystem` and `homeManagerConfiguration` read that option. Anything *not* shared stays in the tree that uses it.
+10. **Unfree permission is declared by the module that wants the package.** Set `nixpkgs.config.allowUnfreePackages = [ ... ];` locally in the importing module rather than collecting names centrally: the option merges additively down the tree, so a module that installs an unfree package is the only place that has to know its name. Do not pass a pre-built package set to `nixpkgs.pkgs` to achieve it — a tree given `nixpkgs.pkgs` ignores `nixpkgs.overlays` and `nixpkgs.config` entirely.
 
 ## Quick start 🚀
 

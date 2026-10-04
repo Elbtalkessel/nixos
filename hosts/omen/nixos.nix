@@ -4,11 +4,15 @@
 {
   modulesPath,
   lib,
+  disko,
   ...
 }:
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
+    disko.nixosModules.disko
+    ./disko.nix
+    ./filesystem.nix
 
     ../../modules/system/core/audio
     ../../modules/system/core/bluetooth

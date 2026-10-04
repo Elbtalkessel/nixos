@@ -5,16 +5,31 @@ in
 {
   programs.notmuch = {
     enable = true;
-    new = {
-      tags = [
-        "unread"
-        "inbox"
-      ];
-      ignore = [
-        ".mbsyncstate"
-        ".uidvalidity"
-        ".mbsyncstate.journal"
-      ];
+    settings = {
+      user = {
+        name = config.my.username;
+        primary_email = config.my.mail.address;
+      };
+      new = {
+        tags = [
+          "unread"
+          "inbox"
+        ];
+        ignore = [
+          ".mbsyncstate"
+          ".uidvalidity"
+          ".mbsyncstate.journal"
+        ];
+      };
+      maildir = {
+        synchronizeFlags = true;
+      };
+      database = {
+        path = MAILDIR;
+      };
+      search = {
+        exclude_tags = "deleted;spam;trash;";
+      };
     };
     hooks = {
       preNew = "";
@@ -64,25 +79,6 @@ in
             notmuch tag "''${tags[@]}" -- folder:"$path"
           done < <(find "${MAILDIR}/Folders" -type d -name "cur")
         '';
-    };
-    maildir = {
-      synchronizeFlags = true;
-    };
-    extraConfig = {
-      database = {
-        path = MAILDIR;
-      };
-      user = {
-        name = config.my.username;
-        primary_email = config.my.mail.address;
-      };
-      new = {
-        tags = "unread;inbox";
-        ignore = ".mbsyncstate;.uidvalidity";
-      };
-      search = {
-        exclude_tags = "deleted;spam;trash;";
-      };
     };
   };
 
