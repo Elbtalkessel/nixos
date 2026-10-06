@@ -35,6 +35,8 @@ in
         5555
         # AI server (see code/devops)
         9998
+        # opencode
+        4096
       ];
       allowedUDPPorts = lib.lists.optionals config.my.tailscale [
         config.services.tailscale.port

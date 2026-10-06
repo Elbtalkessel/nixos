@@ -41,6 +41,11 @@
 
   networking.hostName = "omen";
 
+  # Join the tailnet. The module lives in core/networking/tailscale.nix and
+  # reads the auth key from the tailscale/one-of-key sops secret declared in
+  # core/secrets; how to rotate that key is documented in the README.
+  my.tailscale = true;
+
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

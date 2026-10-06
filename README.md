@@ -11,6 +11,7 @@ Personal NixOS and Home Manager configuration, wired for reproducible installs, 
 - Flake-based NixOS and Home Manager configs for multiple hosts and users.
 - Disk layout and filesystem provisioning via `disko` (including encrypted root setups).
 - Secret management using `sops` and age keys for machine and user secrets.
+- Optional Tailscale mesh VPN, enabled per host and keyed through `sops`.
 
 ## Repository layout 🗂️
 
@@ -115,6 +116,61 @@ nix run "nixpkgs#ssh-to-age" -- -private-key -i ~/.ssh/id_ed25519 >! ~/.config/s
 ```
 
 Then update `.sops.yaml` at the repo root to wire hosts, files, and key references.
+
+## Tailscale 🌐
+
+A host joins the tailnet only when its profile opts in with `my.tailscale`:
+
+- declared in `options/options/system.nix`,
+- defaulted to `false` in `options/config/system.nix` (as `mkDefault`, so a host can override),
+- flipped on in a host entrypoint — currently only `hosts/omen/nixos.nix`.
+
+When enabled, `modules/system/core/networking/tailscale.nix` runs
+`tailscale up -authkey …` on boot via the `tailscale-autoconnect` unit, reading
+the key from the `tailscale/one-of-key` sops secret, so the machine never needs
+an interactive login. Firewall holes (the `tailscale0` interface and the
+WireGuard UDP port) are opened by `modules/system/core/networking/security.nix`
+on the same condition.
+
+No Tailscale **API access token** is required — only an **auth key**
+(`tskey-auth-…`), which is a device pre-authentication key.
+
+### Generating an auth key
+
+1. Open the [Keys page of the admin console](https://login.tailscale.com/admin/settings/keys)
+   (requires Owner, Admin, or Network admin).
+2. Select **Generate auth key**.
+3. Fill the form:
+   - **Reusable**: recommended for an unattended machine. A one-off key is
+     spent by the first authentication, so a later re-auth (for example after
+     the node key expires) would fail.
+   - **Expiry**: 1–90 days, defaults to 90. An expired key cannot
+     authenticate new sessions; already-authorized devices keep working until
+     their own node key expires.
+   - **Tags** / **Pre-approved**: optional, depending on your tailnet policy.
+4. Select **Generate key** and copy the `tskey-auth-…` value. It is shown only
+   once.
+
+### Storing the key
+
+The key lives encrypted in `secrets/secrets.yaml` under `tailscale.one-of-key`,
+encrypted for the age recipient listed in `.sops.yaml`:
+
+```bash
+nix-shell -p sops --run "sops secrets/secrets.yaml"
+```
+
+Edit `tailscale.one-of-key`, save, and sops re-encrypts the file on exit.
+Never store the key in plaintext — it is as sensitive as a password.
+
+### Rotating or troubleshooting
+
+- **Rotate**: generate a fresh key on the same Keys page, revoke the old one
+  there, update `tailscale.one-of-key`, and rebuild the host.
+- **Check state on the host**: `tailscale status` (should report `Running`)
+  and `systemctl status tailscale-autoconnect`.
+- A failed autoconnect with the backend stopped usually means the key
+  expired or was revoked — rotate it as above.
 
 ## Roadmap 🧭
 

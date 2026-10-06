@@ -1,10 +1,13 @@
 # Values for my.system -- see ../options/system.nix for the declarations.
+{ lib, ... }:
 let
   inherit (import ./common.nix) userhome;
 in
 {
   config.my = {
-    tailscale = false;
+    # Whether the machine joins the tailnet is a host decision, so this is
+    # only the default. A host flips it in its nixos.nix -- see hosts/omen.
+    tailscale = lib.mkDefault false;
 
     filesystem = {
       network = {

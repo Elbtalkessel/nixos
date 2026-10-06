@@ -16,7 +16,7 @@ let
       (pkgs.writeShellScript "previewerr.sh"
         # bash
         ''
-          ${pkgs.lib.getExe pkgs.lf-tools.preview} "''$1" "''$2" "''$3" "''$4" "''$5"
+          ${pkgs.lib.getExe pkgs.lf-tools} "''$1" "''$2" "''$3" "''$4" "''$5"
         ''
       );
 

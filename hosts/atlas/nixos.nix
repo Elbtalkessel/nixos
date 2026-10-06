@@ -45,8 +45,8 @@
   # the result to be bootable.
   boot.loader.grub = {
     enable = true;
-    efiSupport = true;
-    device = "/dev/sda";
+    efiSupport = false;
+    device = "/dev/vda";
   };
 
   networking.networkmanager.enable = true;

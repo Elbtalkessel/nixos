@@ -246,11 +246,11 @@
         "nuenv": "nuenv"
       },
       "locked": {
-        "lastModified": 1791120399,
-        "narHash": "sha256-4BKFTcMPLcatI6d/SabvEjZ3lyWBaA8VzJyW4Ul7mmA=",
+        "lastModified": 1791205243,
+        "narHash": "sha256-zmlXWJ5m5fqunR6NzXX+4e4tA5vZe1/U2grVVdoWkrU=",
         "ref": "master",
-        "rev": "56ac05d9519d3b9f3120dc69eff1d9a6db6d9042",
-        "revCount": 96,
+        "rev": "f6d5bce36167a1a8f1a64b59aad572834d47bf72",
+        "revCount": 97,
         "type": "git",
         "url": "https://codeberg.org/outlast/nixpkgs"
       },

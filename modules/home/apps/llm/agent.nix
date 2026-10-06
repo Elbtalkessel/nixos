@@ -2,16 +2,30 @@
   pkgs,
   nix-skills,
   llm-agents,
+  sops-nix,
+  config,
   ...
 }:
 {
   imports = [
     nix-skills.homeManagerModules.default
+    sops-nix.homeManagerModules.sops
   ];
-
+  sops.secrets."opencode/env" = { };
   programs.opencode = {
     enable = true;
     package = llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode;
+    web = {
+      enable = true;
+      environmentFile = toString config.sops.secrets."opencode/env".path;
+      extraArgs = [
+        "--hostname"
+        "0.0.0.0"
+        "--port"
+        "4096"
+        "--mdns"
+      ];
+    };
   };
 
   programs.nix-skills = {
@@ -45,6 +59,8 @@
     pkgs.lua-language-server
     pkgs.pyright
     pkgs.yaml-language-server
+    pkgs.nixd
+    pkgs.nil
 
     # tools MCP
     pkgs.gitea-mcp-server
