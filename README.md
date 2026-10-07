@@ -49,7 +49,7 @@ modules/               # the module tree, split by tree then bucket
     core/              #   networking, storage, users, fonts, audio, boot, ...
     desktop/           #   session
     apps/              #   steam
-secrets/               # sops-encrypted files
+hosts/<host>/secrets.yaml    # sops-encrypted file for that host (one per host)
 ```
 
 ### Placement rules
@@ -67,107 +67,224 @@ secrets/               # sops-encrypted files
 
 ## Quick start 🚀
 
-From a NixOS live ISO, set a password and connect via SSH, then prepare the disk and install.
+From a NixOS live ISO, install any host in the repo (`omen`, `atlas`, `virt`,
+...). The install steps are identical regardless of which host; what differs
+is the substitution of `${host}` and the user assigned in
+`hosts/<host>/config.nix`.
 
-> **Note:** Running flakes requires enabling experimental features. The commands below include `--experimental-features "nix-command flakes"` as needed.
+> **Run every `nix` invocation on the live ISO with `--experimental-features
+> "nix-command flakes"`. The commands below include this flag.
 
-### Optional ssh connection
+### 1. Optional SSH into the live ISO
 
-Using public key:
+Public key:
 
 ```bash
-mkdir .ssh/
+mkdir -p .ssh
 curl --follow codeberg.org/outlast.keys > .ssh/authorized_keys
 chmod 700 -R .ssh
 ```
 
-Using password:
+Password:
 
 ```bash
 passwd
 ```
 
+### 2. Clone the repo
+
 ```bash
 git clone https://codeberg.org/outlast/nixos
-host="..."
 cd nixos
-sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko ./hosts/${host}/disko.nix
-sudo nixos-install -v --root /mnt --flake .#${host} --impure --no-write-lock-file
 ```
 
-After reboot, log into the system and activate the Home Manager configuration,
-substituting the host you installed:
+### 3. Partition and install
+
+Replace `<host>` with one of the host names from `flake.nix` (`hosts.<host>`),
+and the `user` with the value `flake.nix` assigns to that host (currently
+`risus`, `atlas`, `virt`).
 
 ```bash
-nix --experimental-features "nix-command flakes" run home-manager/master -- switch --flake git+https://codeberg.org/outlast/nixos#risus --no-write-lock-file
+host="<host>"
+sudo nix --experimental-features "nix-command flakes" \
+    run github:nix-community/disko/latest -- --mode disko \
+    ./hosts/${host}/disko.nix
+sudo nixos-install --root /mnt --flake .#${host} --impure --no-write-lock-file
 ```
+
+### 4. Drop the host's age key (only when `flake.nix` lists `host.sops = true`)
+
+If the host chooses sops in the flake, drop a pre-minted per-host age key at
+`/mnt/etc/sops-nix/key.txt` before exiting the live ISO. The system tmpfiles
+rule (`F /etc/sops-nix/key.txt 0640 root sops - - -`) re-applies the perms on
+every boot, but the file must already be on disk for the first
+`sops-install-secrets` to decrypt anything:
+
+```bash
+sudo install -d -m 0750 /mnt/etc/sops-nix
+sudo install -m 0640 -o root -g sops \
+    /path/to/<host>.age.key /mnt/etc/sops-nix/key.txt
+```
+
+### 5. Reboot and activate
+
+```bash
+reboot
+# log in as the user from `flake.nix`'s hosts.<host>.user -- root password
+# was set during `nixos-install` only if the host's disko or installer did so.
+sudo nixos-rebuild switch --flake /path/to/nixos#<host>
+# Then activate home-manager as the user:
+home-manager switch --flake /path/to/nixos#<user>
+```
+
+Note: the home-manager image needs `home-manager` or `nix run
+github:nix-community/home-manager/master` once, depending on how it was
+installed. The first activation reads `/etc/sops-nix/key.txt` (the user is in
+the `users` group, so the 0640 perms are readable without sudo).
 
 ## Secrets setup 🔐
 
-This configuration expects secrets to be managed with `sops` and age keys:
+Each host owns its encrypted set in `hosts/<host>/secrets.yaml`. The file is
+encrypted to two age recipients: a **master** key (the admin machine, used to
+edit), and a **host** key (used by the host itself for activation).
+
+`.sops.yaml` at the repo root wires a `path_regex` for each host: any secret
+under `hosts/<host>/secrets.yaml` is re-encrypted to that host's anchor.
+
+### Admin machine: minting a per-host key and wiring it in
 
 ```bash
-mkdir -p ~/.config/sops/age
-alias nix='nix --experimental-features "nix-command flakes"'
-nix shell "nixpkgs#age" -c age-keygen -o ~/.config/sops/age/keys.txt
-nix run "nixpkgs#ssh-to-age" -- -private-key -i ~/.ssh/id_ed25519 >! ~/.config/sops/age/keys.txt
+# On your admin machine, in the cloned repo:
+host="<host>"
+
+# Generate a fresh age keypair for the host. The private half never leaves
+# the host's disk; only the public half lands in `.sops.yaml`.
+nix shell nixpkgs#age -c age-keygen -o /tmp/${host}.age.key
+pub=$(nix shell nixpkgs#age -c age-keygen -y /tmp/${host}.age.key)
+
+# Add the public half under a new `<host>` anchor in `.sops.yaml`, plus a
+# creation_rules entry that re-encrypts `hosts/<host>/secrets.yaml` to it.
+# See `.sops.yaml` for the existing omen / atlas entries -- the same shape
+# applies to any new host, with `&<host>` being the new anchor and `*master`
+# being the admin's anchor so you can still edit the file later.
 ```
 
-Then update `.sops.yaml` at the repo root to wire hosts, files, and key references.
+### Admin machine: editing a host's encrypted file
+
+```bash
+host="<host>"
+nix shell nixpkgs#sops -c sops hosts/${host}/secrets.yaml
+```
+
+`*.yaml` decrypts to plaintext, you edit, on save sops re-encrypts to the
+recipients listed in the matching `.sops.yaml` rule. Never commit plaintext
+copies; `.sops.yaml`-aware editors (`sops` CLI, VS Code plugin) take care of
+this.
+
+If you need a `sops.secrets.<name>.neededForUsers = true` (or other
+NixOS-system-only fields like `owner` / `uid`) on a password-style secret,
+**gate the declaration behind a tree check**. `hosts/<host>/config.nix` gets
+imported by both the NixOS system and the Home Manager entrypoint, and the
+home-manager sops secret type rejects those options. See
+`hosts/omen/config.nix` for the `isSystem = !(config ? home && config.home ?
+homeDirectory)` pattern.
+
+### Host install: dropping the key into `/etc/sops-nix/key.txt`
+
+The host needs its private age key on disk before the first
+`sops-install-secrets` runs. `flake.nix`'s `sopsShared` makes `sops` a
+system group on each sops-enabled host and adds the host's user
+(`hosts.<host>.user` in `flake.nix`) to it. The key lives at
+`/etc/sops-nix/key.txt` with mode `0640`, owned by `root:sops`. The user's
+membership in `sops` is what lets `home-manager switch` read it without
+sudo. Out-of-band copy from the admin is the preferred bootstrap; see step
+4 of the Quick start.
+
+```bash
+sudo install -d -m 0750 /etc/sops-nix
+sudo install -m 0640 -o root -g sops /tmp/${host}.age.key /etc/sops-nix/key.txt
+sudo reboot
+```
+
+The `F /etc/sops-nix/key.txt 0640 root sops - - -` rule baked into
+`flake.nix`'s `sopsShared` re-applies these on every boot, so a manual `cp`
+that landed 0600 gets corrected at the next activation. `sops.environment`
+also exports `SOPS_AGE_KEY_FILE=/etc/sops-nix/key.txt` to the activation
+script and to the systemd user service, so shell-driven `sops` reads work
+without an additional `--age-key-file` flag.
+
+Why a dedicated group and not `users`: `users` is the primary group of
+every normal-user account, which means any future service running under a
+non-sops account could read the key. The `sops` group is opt-in — only
+the user we explicitly add (via `users.users.<name>.extraGroups`) gets
+access.
+
+### Hosts without secrets
+
+`flake.nix` lists `host.sops = false` for hosts that read no encrypted
+values. These skip the path_regex block in `.sops.yaml` and skip the
+`/etc/sops-nix/key.txt` rule in the flake. Nothing module-side looks for the
+file, so install a key or skip it on those hosts as you prefer.
+
+### Hosts without secrets
+
+`flake.nix` lists `host.sops = false` for hosts that read no encrypted
+values. These skip the path_regex block in `.sops.yaml` and skip the
+`/etc/sops-nix/key.txt` rule in the flake. Nothing module-side looks for the
+file, so install a key or skip it on those hosts as you prefer.
 
 ## Tailscale 🌐
 
 A host joins the tailnet only when its profile opts in with `my.tailscale`:
 
 - declared in `options/system.nix` with `default = false`,
-- flipped on in the relevant `hosts/<host>/config.nix` — currently only `hosts/omen/config.nix`.
+- flipped on in `hosts/<host>/config.nix`: `my.tailscale = true;`.
 
 When enabled, `modules/system/core/networking/tailscale.nix` runs
 `tailscale up -authkey …` on boot via the `tailscale-autoconnect` unit, reading
-the key from the `tailscale/one-of-key` sops secret, so the machine never needs
-an interactive login. Firewall holes (the `tailscale0` interface and the
-WireGuard UDP port) are opened by `modules/system/core/networking/security.nix`
-on the same condition.
+the key from the host's own `secrets.yaml` under `tailscale.one-of-key`. No
+interactive login needed.
 
 No Tailscale **API access token** is required — only an **auth key**
-(`tskey-auth-…`), which is a device pre-authentication key.
+(`tskey-auth-…`), a device pre-authentication key.
 
-### Generating an auth key
+### Generate, store, and rotate
 
 1. Open the [Keys page of the admin console](https://login.tailscale.com/admin/settings/keys)
    (requires Owner, Admin, or Network admin).
-2. Select **Generate auth key**.
-3. Fill the form:
+2. **Generate auth key** with:
    - **Reusable**: recommended for an unattended machine. A one-off key is
-     spent by the first authentication, so a later re-auth (for example after
-     the node key expires) would fail.
+     spent by the first authentication, so any re-auth (e.g. after node-key
+     expiry) would fail.
    - **Expiry**: 1–90 days, defaults to 90. An expired key cannot
-     authenticate new sessions; already-authorized devices keep working until
-     their own node key expires.
-   - **Tags** / **Pre-approved**: optional, depending on your tailnet policy.
-4. Select **Generate key** and copy the `tskey-auth-…` value. It is shown only
-   once.
+     authenticate new sessions; already-authorised devices keep working
+     until their own node key expires.
+   - **Tags** / **Pre-approved**: per your tailnet policy.
+3. Copy the `tskey-auth-…` value (shown only once — it is as sensitive as a
+   password).
+4. **Store** on the admin machine:
 
-### Storing the key
+   ```bash
+   host="<host>"
+   nix shell nixpkgs#sops -c sops hosts/${host}/secrets.yaml
+   # Edit `tailscale.one-of-key` in the decrypted file; on save sops
+   # re-encrypts to the host's recipients.
+   ```
 
-The key lives encrypted in `secrets/secrets.yaml` under `tailscale.one-of-key`,
-encrypted for the age recipient listed in `.sops.yaml`:
+5. **Rotate**: generate a new key on the same Keys page, revoke the old one
+   there, edit `tailscale.one-of-key` as above, rebuild the host.
+
+### State check
+
+On the host:
 
 ```bash
-nix-shell -p sops --run "sops secrets/secrets.yaml"
+tailscale status                       # should report "Running"
+systemctl status tailscale-autoconnect # last status of the boot-time auth
 ```
 
-Edit `tailscale.one-of-key`, save, and sops re-encrypts the file on exit.
-Never store the key in plaintext — it is as sensitive as a password.
-
-### Rotating or troubleshooting
-
-- **Rotate**: generate a fresh key on the same Keys page, revoke the old one
-  there, update `tailscale.one-of-key`, and rebuild the host.
-- **Check state on the host**: `tailscale status` (should report `Running`)
-  and `systemctl status tailscale-autoconnect`.
-- A failed autoconnect with the backend stopped usually means the key
-  expired or was revoked — rotate it as above.
+A failed `tailscale-autoconnect` with the backend stopped almost always means
+the key expired or was revoked — rotate it.
 
 ## Roadmap 🧭
 

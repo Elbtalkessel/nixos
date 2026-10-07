@@ -9,7 +9,6 @@
     ../../modules/home/core/identity
     ../../modules/home/core/mime-apps
     ../../modules/home/core/removable-media
-    ../../modules/home/core/secrets
     ../../modules/home/core/shell
     ../../modules/home/core/theme
     ../../modules/home/core/tools

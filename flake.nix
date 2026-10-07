@@ -66,13 +66,6 @@
       # configurations rather than widening this string if that ever changes.
       system = "x86_64-linux";
 
-      # Shared by both trees, so that no module has to reach outside its own
-      # directory to name a path. The flake root is the only stable anchor.
-      sopsModule = {
-        sops.defaultSopsFile = ./secrets/secrets.yaml;
-        sops.defaultSopsFormat = "yaml";
-      };
-
       # Overlays both trees need. A module, not a package set built here: a
       # tree handed a pre-built `pkgs` ignores `nixpkgs.overlays` and
       # `nixpkgs.config` entirely, which is also what forced the unfree
@@ -80,36 +73,20 @@
       nixpkgsModule = ./modules/common/nixpkgs.nix;
 
       # One entry per host. `dir` is the host directory holding `nixos.nix`,
-      # `home.nix` and `disko.nix`; `user` names the home-manager configuration,
-      # so it is the key under `homeConfigurations`, not the host name.
-      #
-      #   sops  whether this host reads secrets. It gates `sopsModule` in both
-      #        trees; a host that decrypts nothing opts out, which is what
-      #        keeps the virt example self-contained.
-      #
-      # Nothing else belongs here. Hardware, disk layout, state version and
-      # module selection are host concerns and live in `dir/nixos.nix` and
-      # `dir/home.nix`.
+      # `home.nix` and `disko.nix`.
       hosts = {
-        # The workstation. Shares no modules with atlas or virt: the shared
-        # ones are written against its hardware.
         omen = {
           dir = ./hosts/omen;
           user = "risus";
           sops = true;
         };
 
-        # atlas: a headless VM that runs opencode. Unlike virt it reads secrets
-        # -- the shared login password on the system side, the Gitea MCP token
-        # on the home side -- so both trees get sopsModule.
         atlas = {
           dir = ./hosts/atlas;
           user = "atlas";
           sops = true;
         };
 
-        # A second host, kept deliberately minimal, and the only one that reads
-        # no secrets at all.
         virt = {
           dir = ./hosts/virt;
           user = "virt";
@@ -117,27 +94,91 @@
         };
       };
 
-      # Both trees get the same two shared roots -- `nixpkgsModule` and the
-      # `my.*` namespace -- so a setting added to either is available to both
-      # without the flake having to know what it is.
-      sharedModules =
-        host:
+      # Per-host sops settings shared by both trees: a per-tree module that
+      # pulls in the matching `sops.*Modules.sops` and points the tree at
+      # `./hosts/<name>/secrets.yaml` plus the single keyfile path
+      # `/etc/sops-nix/key.txt`.
+      #
+      # The keyfile is read by two different processes on the same host: the
+      # systemd `sops-install-secrets` activation unit (root) on the system
+      # tree, and the user's `sops-nix.service` (running as the user) on the
+      # home tree. `home-manager switch` invokes the latter without sudo. So
+      # the file's perms have to be readable by the user account, not just by
+      # root.
+      #
+      # Two conditions make this reliable:
+      #   1. A dedicated `sops` system group is created and the host's user
+      #      (`flake.nix`'s `hosts.<name>.user`) is added to it. The keyfile
+      #      is then `root:sops 0640` and only the user account (and root)
+      #      can read it.
+      #   2. The `F` tmpfiles rule (capital F) re-applies mode + owner on
+      #      every boot, so even a manual `cp` or `install` that landed 0600
+      #      gets corrected at the next activation. `F` is safe on an existing
+      #      non-empty file: it sets ownership and mode without truncating.
+      #
+      # `sops.environment.SOPS_AGE_KEY_FILE = "/etc/sops-nix/key.txt"` makes
+      # the key path visible to subprocesses the activation spawns (notably
+      # the `sops` binary itself). The system's manifest-based mechanism
+      # already passes the key via `-ignore-passwd ${manifest}` to the home
+      # side; this export is mostly for shell-driven `sops` use after first
+      # boot.
+      getSopsConfig =
+        name: host:
+        let
+          # "/etc/sops-nix/key.txt"
+          keyFile = "/home/${host.user}/.config/sops/age/keys.txt";
+        in
+        {
+          defaultSopsFile = ./hosts/${name}/secrets.yaml;
+          defaultSopsFormat = "yaml";
+          age.keyFile = keyFile;
+          environment.SOPS_AGE_KEY_FILE = keyFile;
+        };
+      sopsSharedSystem =
+        name: host:
+        lib.optional host.sops {
+          imports = [ inputs.sops-nix.nixosModules.sops ];
+          sops = getSopsConfig name host;
+          systemd.tmpfiles.rules = [
+            "F /etc/sops-nix/key.txt 0640 root sops - - -"
+          ];
+          users.groups.sops = { };
+          users.users.${host.user}.extraGroups = [ "sops" ];
+        };
+
+      sopsSharedHome =
+        name: host:
+        lib.optional host.sops {
+          imports = [ inputs.sops-nix.homeManagerModules.sops ];
+          sops = getSopsConfig name host;
+        };
+
+      nixosSharedModules =
+        name: host:
         [
           nixpkgsModule
           ./options
         ]
-        ++ lib.optional host.sops sopsModule;
+        ++ sopsSharedSystem name host;
+
+      homeSharedModules =
+        name: host:
+        [
+          nixpkgsModule
+          ./options
+        ]
+        ++ sopsSharedHome name host;
 
       nixosFor =
-        host:
+        name: host:
         nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = inputs;
-          modules = sharedModules host ++ [ (host.dir + "/nixos.nix") ];
+          modules = nixosSharedModules name host ++ [ (host.dir + "/nixos.nix") ];
         };
 
       homeFor =
-        host:
+        name: host:
         home-manager.lib.homeManagerConfiguration {
           # `pkgs` is a required argument, but home-manager only reads `config`
           # and `overlays` off it and then re-imports nixpkgs from
@@ -147,17 +188,14 @@
           # inside this tree.
           pkgs = nixpkgs.legacyPackages.${system};
           extraSpecialArgs = inputs;
-          modules = sharedModules host ++ [ (host.dir + "/home.nix") ];
+          modules = homeSharedModules name host ++ [ (host.dir + "/home.nix") ];
         };
     in
     {
-      # The callback needs *two* parameters: `lib.mapAttrs` passes name and value,
-      # and a one-parameter `name: nixosFor (...)` would leave Nix applying the
-      # value to the returned configuration. `lib.mapAttrs'` is the opposite
-      # contract -- it wants `nameValuePair`s -- which is what re-keying the hosts
-      # by user name below needs.
-      nixosConfigurations = lib.mapAttrs (_name: _: nixosFor hosts.${_name}) hosts;
+      nixosConfigurations = lib.mapAttrs (name: host: nixosFor name host) hosts;
 
-      homeConfigurations = lib.mapAttrs' (_name: host: lib.nameValuePair host.user (homeFor host)) hosts;
+      homeConfigurations = lib.mapAttrs' (
+        name: host: lib.nameValuePair host.user (homeFor name host)
+      ) hosts;
     };
 }

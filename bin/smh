@@ -4,13 +4,6 @@ def base-dir [] {
   $env.FILE_PWD | path dirname --num-levels 2
 }
 
-def get-overrides [] {
-  [
-    "--override-input" "nixvim" $"git+file://(base-dir)/nixvim"
-    "--override-input" "nixpkgs-custom" $"git+file://(base-dir)/nixpkgs"
-  ]
-}
-
 def is-root [] {
   (whoami) == "root"
 }
@@ -53,7 +46,7 @@ def "main why-depends" [pkg: string] {
 }
 
 def --wrapped "main update" [...args] {
-  nix flake update ...(get-overrides) ...$args
+  nix flake update ...$args
 }
 
 # home-manager and nixos-rebuild wrapper.
@@ -65,9 +58,9 @@ def --wrapped "main update" [...args] {
 @example "Package news" {smh news}
 def --wrapped "main x" [topic: string = "switch", ...args] {
   if (is-root) {
-    nixos-rebuild $topic --accept-flake-config --flake ./ ...(get-overrides) ...$args
+    nixos-rebuild $topic --accept-flake-config --flake ./ ...$args
   } else {
-    home-manager $topic --flake ./  ...(get-overrides) ...$args
+    home-manager $topic --flake ./ ...$args
   }
 }
 

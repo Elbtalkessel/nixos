@@ -26,7 +26,6 @@
     ../../modules/system/core/nix-settings
     ../../modules/system/core/packages
     ../../modules/system/core/power
-    ../../modules/system/core/secrets
     ../../modules/system/core/security
     ../../modules/system/core/specialisation
     ../../modules/system/core/storage

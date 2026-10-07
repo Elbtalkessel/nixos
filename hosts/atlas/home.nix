@@ -5,6 +5,8 @@
 }:
 {
   imports = [
+    ./config.nix
+
     # The zsh slice of the shell bucket: zsh, starship, devenv, direnv,
     # zoxide, fd, fzf, ripgrep, bat.
     ../../modules/home/core/shell/programs.nix

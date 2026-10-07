@@ -15,5 +15,4 @@
     ];
     useDefaultShell = true;
   };
-  users.groups.sops.members = [ config.my.username ];
 }

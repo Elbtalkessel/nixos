@@ -1,9 +1,49 @@
 {
   pkgs,
+  lib,
   config,
   ...
 }:
+let
+  isSystem = !(config ? home && config.home ? homeDirectory);
+in
 {
+  sops.secrets = lib.mkMerge [
+    # Tree-agnostic declarations -- both NixOS-system and Home Manager
+    # trees accept these option names.
+    {
+      "wireless.env" = { };
+      "wireguard/wg0" = { };
+      "moon/${config.my.username}" = { };
+      "moon/webdav" = {
+        mode = "0600";
+        path = "/etc/davfs2/secrets";
+      };
+      "tailscale/one-of-key" = { };
+      "vaultwarden.env" = { };
+      # Per-host runtime env for opencode. `nix-skills`'s home-manager
+      # module reads this through `programs.opencode.web.environmentFile`;
+      # both omen and atlas run opencode, so both hosts decrypt it.
+      "opencode/env" = { };
+      # Protonmail bridge credentials -- consumed by the protonmail-bridge
+      # application in the home tree. The system tree also materialises
+      # them (under `/run/secrets/`) but no service reads from there.
+      "protonmail.bridge.username" = { };
+      "protonmail.bridge.password" = { };
+    }
+
+    # System-tree-only secrets. Passwords must exist before user creation
+    # on first activation, so we mark them `neededForUsers`.
+    (lib.mkIf isSystem {
+      "users/${config.my.username}/password" = {
+        neededForUsers = true;
+      };
+      "users/steamos/password" = {
+        neededForUsers = true;
+      };
+    })
+  ];
+
   my = {
     # identity -- username + login shell, both required and required-but-no-default.
     username = "risus";
