@@ -1,18 +1,4 @@
 # atlas -- a headless VM that runs opencode with the oh-my-openagent plugin.
-#
-# It borrows only the system modules that have no hardware behind them:
-#
-#   locale         UTF-8 locale and the timezone, so command output is not
-#                  mangled by the POSIX default
-#   nix-settings   trusted-users, which is what lets devenv manage its own
-#                  caches, plus the numtide substituter that serves the
-#                  llm-agents packages opencode is installed from
-#
-# The rest of `modules/system/core/` is written against omen's hardware and is
-# deliberately left behind. The user account is declared here rather than
-# imported from `core/users`, because those modules put nushell in
-# `users.defaultUserShell` and add desktop groups (`video`, `audio`, `input`)
-# that do not exist without the desktop modules.
 {
   pkgs,
   lib,
@@ -57,12 +43,6 @@
     settings.PermitRootLogin = "no";
   };
 
-  # zsh, not the nushell that `my.shell` names: this is a remote shell host, and
-  # the opencode TUI is drawn in it.
-  #
-  # Home Manager owns the zsh configuration, but the login shell still has to
-  # come from the system closure, and `programs.zsh.enable` is what puts the nix
-  # directories in its PATH.
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
 
