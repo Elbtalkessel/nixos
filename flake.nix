@@ -111,10 +111,14 @@
       #      (`flake.nix`'s `hosts.<name>.user`) is added to it. The keyfile
       #      is then `root:sops 0640` and only the user account (and root)
       #      can read it.
-      #   2. The `F` tmpfiles rule (capital F) re-applies mode + owner on
-      #      every boot, so even a manual `cp` or `install` that landed 0600
-      #      gets corrected at the next activation. `F` is safe on an existing
-      #      non-empty file: it sets ownership and mode without truncating.
+      #   2. The `z` tmpfiles rule re-applies mode + owner on every boot
+      #      **without modifying content**. Earlier we used `F`, which in
+      #      systemd 261 silently truncates the file on every invocation
+      #      (verified by direct test): each reboot wiped the keyfile and
+      #      broke decryption. `z` is "set perms if the file exists, do not
+      #      touch the data" -- which is the actual semantics we want. Note
+      #      that `z` does not take a content argument, hence no trailing
+      #      field after `- - -`.
       #
       # `sops.environment.SOPS_AGE_KEY_FILE = "/etc/sops-nix/key.txt"` makes
       # the key path visible to subprocesses the activation spawns (notably
@@ -123,10 +127,9 @@
       # side; this export is mostly for shell-driven `sops` use after first
       # boot.
       getSopsConfig =
-        name: host:
+        name:
         let
-          # "/etc/sops-nix/key.txt"
-          keyFile = "/home/${host.user}/.config/sops/age/keys.txt";
+          keyFile = "/etc/sops-nix/key.txt";
         in
         {
           defaultSopsFile = ./hosts/${name}/secrets.yaml;
@@ -138,9 +141,9 @@
         name: host:
         lib.optional host.sops {
           imports = [ inputs.sops-nix.nixosModules.sops ];
-          sops = getSopsConfig name host;
+          sops = getSopsConfig name;
           systemd.tmpfiles.rules = [
-            "F /etc/sops-nix/key.txt 0640 root sops - - -"
+            "z /etc/sops-nix/key.txt 0640 root sops - - -"
           ];
           users.groups.sops = { };
           users.users.${host.user}.extraGroups = [ "sops" ];
@@ -150,7 +153,7 @@
         name: host:
         lib.optional host.sops {
           imports = [ inputs.sops-nix.homeManagerModules.sops ];
-          sops = getSopsConfig name host;
+          sops = getSopsConfig name;
         };
 
       nixosSharedModules =
