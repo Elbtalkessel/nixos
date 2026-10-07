@@ -1,6 +1,8 @@
 { config, ... }:
 {
   imports = [
+    ./config.nix
+
     ../../modules/home/core/environment
     ../../modules/home/core/diagnostics
     ../../modules/home/core/identity

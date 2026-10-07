@@ -12,12 +12,10 @@
           path = lib.mkOption {
             type = lib.types.str;
             description = "Default path to read wallpaper from.";
-            default = "";
           };
           source = lib.mkOption {
             type = lib.types.str;
             description = "A path to set wallpaper from. In case of directory, a random wallpaper will be selected.";
-            default = "";
           };
           random = lib.mkOption {
             type = lib.types.submodule {
@@ -25,12 +23,10 @@
                 enable = lib.mkOption {
                   type = lib.types.bool;
                   description = "Enable random wallpaper rotation.";
-                  default = false;
                 };
                 timer = lib.mkOption {
                   type = lib.types.str;
                   description = "Time between changing wallpaper using systemd notation (For example 5s.)";
-                  default = "3m";
                 };
               };
             };
@@ -41,34 +37,9 @@
                 set = lib.mkOption {
                   type = lib.types.str;
                   description = "Name of a wallpaper setter command.";
-                  default = "set-wallpaper";
                 };
               };
             };
-          };
-        };
-      };
-    };
-
-    terminal = lib.mkOption {
-      type = lib.types.submodule {
-        options = {
-          pkg = lib.mkOption {
-            type = lib.types.package;
-            description = "The default terminal emulator for the user.";
-          };
-          desktop = lib.mkOption {
-            type = lib.types.str;
-            description = "Name of .desktop file";
-          };
-          exe = lib.mkOption {
-            type = lib.types.str;
-            description = "Name of executable";
-          };
-          font-size = lib.mkOption {
-            type = lib.types.int;
-            description = "Terminal font size";
-            default = 14;
           };
         };
       };
@@ -84,7 +55,6 @@
         options = {
           performance = lib.mkOption {
             type = lib.types.bool;
-            default = false;
             description = "Enable performance mode.";
           };
           uwsm = lib.mkOption {
@@ -93,7 +63,6 @@
                 enable = lib.mkOption {
                   type = lib.types.bool;
                   description = "Enable UWSM support.";
-                  default = true;
                 };
               };
             };

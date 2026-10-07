@@ -140,7 +140,7 @@
   ];
 
   # https://wiki.nixos.org/wiki/Nushell
-  programs.bash = lib.mkIf (config.my.shell == "nu") {
+  programs.bash = lib.mkIf (config.my.shell.name == "nu") {
     interactiveShellInit = ''
       if ! [ "$TERM" = "dumb" ] && [ -z "$BASH_EXECUTION_STRING" ]; then
         exec nu

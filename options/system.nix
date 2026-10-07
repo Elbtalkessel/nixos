@@ -31,7 +31,7 @@
                 shares = lib.mkOption {
                   type = lib.types.listOf lib.types.str;
                   default = [ ];
-                  description = "List of shares to mount.";
+                  description = "List of shares to mount. Default is empty -- set this to opt in.";
                   example = lib.literalExpression ''
                     [ "/volume1/documents" ]
                   '';

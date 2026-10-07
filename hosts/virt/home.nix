@@ -11,10 +11,17 @@
 }:
 {
   imports = [
+    # The per-host `my.*` profile -- imported here and by nixos.nix so both
+    # trees see the same values.
+    ./config.nix
+
     ../../modules/home/core/identity/git.nix
     ../../modules/home/core/shell
     ../../modules/home/apps/files/lf
   ];
+
+  # All `my.*` values for this host live in ./config.nix (imported above)
+  # together with nixos.nix. Readers on either side find the same values.
 
   home = {
     inherit (config.my) username;

@@ -5,9 +5,8 @@
   ...
 }:
 let
-  # fallback for ghostty, it doesn't support sixel, lf doesn't support
-  # not-sixel, ctpv works but gives pixelated output.
-  is-ctpv = config.my.terminal.exe == "ghostty";
+  # ctpv for ghostty, which doesn't support sixel; otherwise lf itself.
+  is-ctpv = (config.my.terminal.exe or null) == "ghostty";
 
   preview-script =
     if is-ctpv then

@@ -1,11 +1,3 @@
-# A deliberately minimal example host.
-#
-# It imports nothing from `modules/system/`: those modules are written against
-# omen's hardware, so sharing them would drag that hardware along. This host
-# stays self-contained until the hardware-agnostic parts are split out.
-#
-# What it is for: showing the shape of a host entrypoint -- an import list,
-# host identity, a state version -- and nothing more.
 {
   lib,
   config,
@@ -16,6 +8,7 @@
   imports = [
     disko.nixosModules.disko
     ./disko.nix
+    ./config.nix
   ];
 
   networking.hostName = "virt";

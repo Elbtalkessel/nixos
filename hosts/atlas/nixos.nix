@@ -13,6 +13,7 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     disko.nixosModules.disko
     ./disko.nix
+    ./config.nix
 
     ../../modules/system/core/locale
     ../../modules/system/core/nix-settings

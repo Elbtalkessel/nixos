@@ -1,13 +1,3 @@
-# The home side of atlas: opencode with the oh-my-openagent plugin, devenv,
-# and a zsh to run both in. Nothing from the desktop buckets.
-#
-# `modules/home/core/shell` is taken file by file instead of through its
-# `default.nix`, because that barrel imports `./nushell` and would install the
-# one shell this host is not meant to have. `aliases.nix` is left out for the
-# same kind of reason: its poweroff/reboot/logout aliases call `hyprshutdown`,
-# which needs a display, and its `sp`/`g`/`d` aliases point at packages that
-# come with the desktop tool list. The systemd shorthands it also carries are
-# worth having, so they are restated below rather than inherited and patched.
 {
   pkgs,
   config,

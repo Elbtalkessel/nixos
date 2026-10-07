@@ -15,9 +15,9 @@ Personal NixOS and Home Manager configuration, wired for reproducible installs, 
 
 ## Repository layout 🗂️
 
-Modules are organised in three buckets. The buckets are **purely organisational** — they carry no behaviour and no configuration of their own. Custom options stay under `my.*` in `options/`.
+Modules are organised in three buckets. The buckets are **purely organisational** — they carry no behaviour and no configuration of their own. Custom options live under `my.*` in `options/`, declarations only; per-host values go in `hosts/<host>/config.nix`.
 
-`options/` is split by **role first, then by domain**, rather than by bucket. Buckets describe _behaviour_ and are selected per host; `my.*` settings are consumed by both trees at once, so every configuration imports the whole namespace and bucketing it would buy no selectivity. Roles are kept apart because they change for different reasons and are read by different people: `options/options/` is the reference you consult when using a setting and changes rarely, `options/config/` is the profile you edit when changing the machine. The same filename appears on both sides — `my.mail` is declared in `options/options/mail.nix` and set in `options/config/mail.nix`.
+The `my.*` namespace is split **by domain**, not by tree: every option is declared once and is available to both trees at once. Adding a setting means touching `options/<domain>.nix`. Each host then opts in to the slice it needs from its own `config.nix` — `my.username` and `my.shell` are required; everything else is opt-in and a host that doesn't import a reader module never has to set the option.
 
 | Bucket    | Holds                                                                                                                        |
 | --------- | ---------------------------------------------------------------------------------------------------------------------------- |
@@ -27,16 +27,14 @@ Modules are organised in three buckets. The buckets are **purely organisational*
 
 ```
 flake.nix              # inputs, shared sops defaults, host entrypoint wiring
-options/               # my.* settings (shared by both trees)
-  options/             #   mkOption declarations -- the reference
-    my.nix             #   the single `my` namespace declaration
-    <domain>.nix       #   one file per domain: identity, mail, theme, ...
-  config/              #   config.my.* values -- this machine's profile
-    common.nix         #   shared values (not a module)
-    <domain>.nix       #   matching filename on both sides
+options/               # my.* declarations (shared by both trees)
+  my.nix               #   the single `my` namespace declaration
+  default.nix          #   barrel: imports below
+  <domain>.nix         #   one file per domain: identity, mail, theme, ...
 hosts/<host>/
-  nixos.nix            # host entrypoint: hostName, platform, stateVersion, imports
-  home.nix             # home entrypoint for that host
+  nixos.nix            # NixOS entrypoint: hostName, platform, stateVersion, imports
+  home.nix             # Home Manager entrypoint
+  config.nix           # this host's `my.*` values, imported by both entrypoints
   disko.nix            # disk layout for that host
   <feature>/           # host-local module, with its assets next to it
                         # (atlas/opencode/ holds opencode.jsonc and omo.jsonc)
@@ -59,10 +57,10 @@ secrets/               # sops-encrypted files
 1. **No upward references.** A module may only reference files inside its own directory or explicit shared roots (`modules/common`, `modules/home`, `modules/system`). It must never reach up to the repo root or sideways into another host.
 2. **Assets are colocated.** Non-Nix files a module needs (`.vimrc`, `.conf`, patches, assets) live next to the module that uses them.
 3. **`default.nix` is a barrel when siblings exist.** A directory that aggregates sibling modules keeps its `default.nix` limited to `imports`. A directory holding a single module may use `default.nix` as that module.
-4. **Host-specific settings live in `hosts/`.** `hostName`, `stateVersion`, `hostPlatform`, disk layouts and anything that differs per machine (a provider address, a login shell) belong to a host entrypoint or a host-local module, never to a shared `core` module. A host-local module is a directory under `hosts/<host>/` whose `default.nix` is imported by that host's `home.nix` or `nixos.nix`, with its assets colocated — see `hosts/atlas/opencode/`.
-5. **A setting's declaration and its value share a filename.** `my.<domain>` is declared in `options/options/<domain>.nix` and set in `options/config/<domain>.nix`. Adding a setting means touching both sides; the matching name is how you find them.
+4. **Host-specific settings live in `hosts/`.** `hostName`, `stateVersion`, `hostPlatform`, disk layouts and anything that differs per machine (a provider address, a login shell) belong to a host entrypoint or a host-local module, never to a shared `core` module. A per-host `my.*` profile lives in `hosts/<host>/config.nix` and is imported from both `nixos.nix` and `home.nix` — see `hosts/atlas/opencode/` for a host-local module example.
+5. **`options/<domain>.nix` declares the whole `my.<domain>` slice.** Adding a setting is a one-file change: declare the leaf in the domain file, set its value in the relevant `hosts/<host>/config.nix`.
 6. **`options/my.nix` declares `my` once, empty.** Domain files extend it as `options.my = { ... };`. Never give it a populated `submodule { options = ...; }` — that form is closed and would reject the domain files' declarations.
-7. **A `submodule` option needs no `default`.** It is populated from its children's defaults, transitively. Writing `default = { };` on one is a no-op: it does not cascade, and a child with no `default` and no `config` value still throws. Give the _leaf_ a `default`, or set it in `options/config/`.
+7. **A `submodule` option needs no `default`.** It is populated from its children's defaults, transitively. Writing `default = { };` on one is a no-op: it does not cascade, and a child with no `default` and no `config` value still throws. Give the _leaf_ a `default`, or set it in the relevant `hosts/<host>/config.nix`.
 8. **`bin/` is unmanaged.** Scripts there are not part of the module tree.
 9. **`modules/common/` is for `nixpkgs` wiring only, and `modules/common/nixpkgs.nix` is the only module in it.** Anything both trees need from the package set — an overlay — is declared there as `nixpkgs.overlays`, because both `nixosSystem` and `homeManagerConfiguration` read that option. Anything *not* shared stays in the tree that uses it.
 10. **Unfree permission is declared by the module that wants the package.** Set `nixpkgs.config.allowUnfreePackages = [ ... ];` locally in the importing module rather than collecting names centrally: the option merges additively down the tree, so a module that installs an unfree package is the only place that has to know its name. Do not pass a pre-built package set to `nixpkgs.pkgs` to achieve it — a tree given `nixpkgs.pkgs` ignores `nixpkgs.overlays` and `nixpkgs.config` entirely.
@@ -121,9 +119,8 @@ Then update `.sops.yaml` at the repo root to wire hosts, files, and key referenc
 
 A host joins the tailnet only when its profile opts in with `my.tailscale`:
 
-- declared in `options/options/system.nix`,
-- defaulted to `false` in `options/config/system.nix` (as `mkDefault`, so a host can override),
-- flipped on in a host entrypoint — currently only `hosts/omen/nixos.nix`.
+- declared in `options/system.nix` with `default = false`,
+- flipped on in the relevant `hosts/<host>/config.nix` — currently only `hosts/omen/config.nix`.
 
 When enabled, `modules/system/core/networking/tailscale.nix` runs
 `tailscale up -authkey …` on boot via the `tailscale-autoconnect` unit, reading
