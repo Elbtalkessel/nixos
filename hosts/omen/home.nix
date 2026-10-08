@@ -6,7 +6,6 @@
     ../../modules/home/core/environment
     ../../modules/home/core/diagnostics
     ../../modules/home/core/identity
-    ../../modules/home/core/identity
     ../../modules/home/core/mime-apps
     ../../modules/home/core/removable-media
     ../../modules/home/core/shell
