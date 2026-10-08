@@ -154,6 +154,12 @@
         lib.optional host.sops {
           imports = [ inputs.sops-nix.homeManagerModules.sops ];
           sops = getSopsConfig name;
+          # Export the key file path to the user's interactive shell so shell-
+          # driven `sops` reads (e.g. `sops -d hosts/<host>/secrets.yaml`)
+          # find the key without `-age-key-file` overrides. `sops.environment`
+          # above only writes into the systemd user service's environment,
+          # not login shells; `home.sessionVariables` covers the shell.
+          home.sessionVariables.SOPS_AGE_KEY_FILE = "/etc/sops-nix/key.txt";
         };
 
       nixosSharedModules =
