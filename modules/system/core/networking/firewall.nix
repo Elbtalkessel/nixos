@@ -1,13 +1,4 @@
-{ config, lib, ... }:
-let
-  _ = builtins;
-  ls = root: (_.map (f: root + "/${f}") (_.attrNames (_.readDir root)));
-in
-{
-  boot.kernel.sysctl = {
-    # Allow starting unpriv services @ 80 and higher.
-    "net.ipv4.ip_unprivileged_port_start" = 80;
-  };
+{ config, lib, ... }: {
   networking = {
     nftables.enable = true;
     # networking.firewall.allowedUDPPorts = [ ... ];
@@ -43,5 +34,4 @@ in
       ];
     };
   };
-  security.pki.certificateFiles = ls ./certificates;
 }

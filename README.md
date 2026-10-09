@@ -79,35 +79,29 @@ nix shell github:NixOS/nixpkgs/nixos-unstable#sops -c sops updatekeys hosts/<nam
 A new machine starts at the NixOS live ISO. The whole install happens at the console; SSH is left for after the first boot.
 
 ```bash
-# 1. Boot the ISO. Set a root password for the live session.
+# 1. Target console: Boot the ISO. Set a root password for the live session.
 passwd
-```
+hostname -I
 
-```bash
-# 2. Clone the repo.
+# 2. Main machine: copy pre-minted key.
+scp /tmp/<name>.age.key nixos@<ip>:/tmp/
+
+# 3. Target console: prepare sops for installation.
+# Key should exist before installation, however we'll use
+# `users` group for now, `sops` group unavailable at the moment.
+sudo mkdir -p /mnt/etc/sops-nix
+sudo install -m 0640 -o root -g users /tmp/<name>.age.key /mnt/etc/sops-nix/key.txt
+
+# 4. Clone the repo.
 git clone https://codeberg.org/outlast/nixos
 cd nixos
-```
-
-```bash
-# 3. Partition and install. Replace <name> with the host's attrset key in flake.nix.
+# 5. Partition and install. Replace <name> with the host's attrset key in flake.nix.
 host="<name>"
 sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko ./hosts/${host}/disko.nix
 sudo nixos-install --flake .#${host}
 ```
 
-> `nixos-install` lays down the system to the target disk and writes the first user; it does not start any services. SSH is not yet enabled on the target unless the host's `nixos.nix` requests it explicitly.
-
-```bash
-# 4. Drop the host's pre-minted age key.
-sudo mkdir -p /mnt/etc/sops-nix
-hostname -I
-# Open terminal where host.age.key was generated.
-scp /tmp/<host>.age.key nixos@<host>:/tmp/age.key
-# Switching back.
-sudo install -m 0640 -o root -g sops /tmp/age.key /mnt/etc/sops-nix/key.txt
-```
-
+> `nixos-install` lays down the system to the target disk and writes the first user.
 > The `z` tmpfiles rule in `flake.nix`'s `sopsShared` keeps the perms at `0640 root:sops` after every boot, without modifying content. Manual copy with the right group on first install is enough; reboots will not need it.
 
 ```bash
