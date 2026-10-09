@@ -64,28 +64,18 @@ in
 
     # filesystem mounts -- read by `modules/system/core/storage` and
     # `modules/home/apps/files/tag`.
-    filesystem =
-      let
-        userhome = "/home/${config.my.username}";
-      in
-      {
-        network = {
-          enable = true;
-          device = "192.168.1.90";
-          mount = "/mnt/share";
-          fsType = "nfs";
-          shares = [
-            "/volume1/xyz"
-            "/volume1/Video"
-          ];
-        };
-        tagged.mounts = [
-          {
-            src = userhome;
-            dst = "${userhome}/Tag";
-          }
+    filesystem = {
+      network = {
+        enable = true;
+        device = "192.168.1.90";
+        mount = "/mnt/share";
+        fsType = "nfs";
+        shares = [
+          "/volume1/xyz"
+          "/volume1/Video"
         ];
       };
+    };
 
     # fonts -- read by `core/fonts` (system) and the panel / launchers / theme
     # modules (home).
