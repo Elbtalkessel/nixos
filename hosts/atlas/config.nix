@@ -20,6 +20,7 @@ in
     # Manager trees.
     {
       "opencode/env" = { };
+      "ai-gateway/api-key" = { };
     }
 
     # System tree only -- the home-manager sops secret type rejects
