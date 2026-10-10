@@ -12,7 +12,15 @@
       main = {
         font = "${config.my.font.family.mono}:size=${lib.toString config.my.terminal.font-size}";
         line-height = 25;
-      };
+      }
+      // (
+        if config.my.wm.bar.provider == "noctalia" then
+          {
+            include = "~/.config/foot/themes/noctalia";
+          }
+        else
+          { }
+      );
       cursor = {
         style = "beam";
         unfocused-style = "hollow";
