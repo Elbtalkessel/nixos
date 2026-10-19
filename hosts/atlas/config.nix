@@ -35,7 +35,7 @@ in
 
   # `my.username` -- read by `core/nix-settings` (`trusted-users`),
   # `home.homeDirectory`, and the zsh module via `home.homeDirectory`.
-  my.username = "atlas";
+  my.username = "risus";
 
   # `my.editor` -- assigned here so both trees seed `home.sessionVariables.EDITOR`.
   my.editor = "nvim";

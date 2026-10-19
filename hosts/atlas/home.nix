@@ -37,39 +37,4 @@
     # git.nix sets signing.format = "openpgp", and signing needs a gpg.
     pkgs.gnupg
   ];
-
-  home.shellAliases =
-    let
-      Su = "systemctl --user";
-      S = "systemctl";
-    in
-    {
-      inherit Su S;
-
-      usta = "${Su} start";
-      usto = "${Su} stop";
-      ures = "${Su} restart";
-      ustat = "${Su} status";
-      urel = "${Su} daemon-reload";
-      ucat = "${Su} cat";
-      utimer = "${Su} list-timers";
-      usvc = "${Su} --type=service";
-
-      ssta = "${S} start";
-      ssto = "${S} stop";
-      sres = "${S} restart";
-      sstat = "${S} status";
-      srel = "${S} daemon-reload";
-      scat = "${S} cat";
-      stimer = "${S} list-timers";
-      ssvc = "${S} --type=service";
-
-      cp = "cp -iv";
-      ln = "ln -v";
-      mv = "mv -iv";
-      rm = "rm -v";
-
-      poweroff = "${S} poweroff";
-      reboot = "${S} reboot";
-    };
 }
