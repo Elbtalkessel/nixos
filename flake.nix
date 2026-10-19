@@ -51,12 +51,18 @@
       url = "github:numtide/llm-agents.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    microvm = {
+      url = "github:microvm-nix/microvm.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
     {
       nixpkgs,
       home-manager,
+      self,
+      microvm,
       ...
     }@inputs:
     let
@@ -79,12 +85,14 @@
           dir = ./hosts/omen;
           user = "risus";
           sops = true;
+          microvmHost = [ "atlas" ];
         };
 
         atlas = {
           dir = ./hosts/atlas;
           user = "atlas";
           sops = true;
+          microvm = true;
         };
 
         virt = {
@@ -180,10 +188,33 @@
 
       nixosFor =
         name: host:
+        let
+          microvmGuestModule = lib.optional (host.microvm or false) microvm.nixosModules.microvm;
+          microvmHostModule = lib.optional (host ? microvmHost) microvm.nixosModules.host;
+          vmRefs =
+            if host ? microvmHost then
+              [
+                {
+                  microvm.vms = lib.genAttrs host.microvmHost (_: {
+                    flake = self;
+                    updateFlake = "git+https://codeberg.org/outlast/nixos";
+                  });
+                }
+              ]
+            else
+              [ ];
+        in
         nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = inputs;
-          modules = nixosSharedModules name host ++ [ (host.dir + "/nixos.nix") ];
+          specialArgs = inputs // {
+            inherit (inputs) self;
+          };
+          modules =
+            nixosSharedModules name host
+            ++ microvmGuestModule
+            ++ microvmHostModule
+            ++ vmRefs
+            ++ [ (host.dir + "/nixos.nix") ];
         };
 
       homeFor =

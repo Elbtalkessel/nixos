@@ -44,6 +44,9 @@ in
     })
   ];
 
+  # Start the atlas microvm on boot.
+  microvm.autostart = [ "atlas" ];
+
   my = {
     # identity -- username + login shell, both required and required-but-no-default.
     username = "risus";
