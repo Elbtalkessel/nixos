@@ -45,8 +45,6 @@ in
   ];
 
   my = {
-    # identity -- username + login shell, both required and required-but-no-default.
-    username = "risus";
     shell = {
       name = "nu";
       package = pkgs.nushell;

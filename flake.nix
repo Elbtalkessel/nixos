@@ -191,6 +191,7 @@
           modules = [
             nixpkgsModule
             ./options
+            { my.username = host.user; }
           ]
           ++ (lib.optional host.sops (
             { config, ... }:
@@ -218,6 +219,7 @@
                 users.${config.my.username} = {
                   imports = [
                     ./options
+                    { my.username = host.user; }
                   ]
                   ++ (lib.optional host.sops {
                     imports = [ inputs.sops-nix.homeManagerModules.sops ];
@@ -266,6 +268,7 @@
           modules = [
             nixpkgsModule
             ./options
+            { my.username = host.user; }
           ]
           ++ (lib.optional host.sops {
             imports = [ inputs.sops-nix.homeManagerModules.sops ];

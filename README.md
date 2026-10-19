@@ -38,7 +38,7 @@ mkdir hosts/<name>
 cp hosts/omen/{nixos,home,config,disko}.nix hosts/<name>/
 ```
 
-> Edit `nixos.nix`'s `networking.hostName`, `stateVersion`, and module imports; `disko.nix`'s layout; `home.nix`'s `stateVersion` and module imports; `config.nix`'s `my.username`, `my.*` values, and `sops.secrets` list.
+> Edit `nixos.nix`'s `networking.hostName`, `stateVersion`, and module imports; `disko.nix`'s layout; `home.nix`'s `stateVersion` and module imports; `config.nix`'s `my.*` values (other than `my.username`, which flake.nix owns) and `sops.secrets` list.
 
 ```bash
 # 3. Mint a per-host age key on the admin workstation. <name> is hostname!
