@@ -75,27 +75,25 @@
       # `nixpkgs.config` survive a pre-built `pkgs` argument.
       nixpkgsModule = ./modules/common/nixpkgs.nix;
 
-      # Per-host descriptor: `dir` points at hosts/<name>/, `user` is the
-      # `homeConfigurations.<key>`, `sops` enables secrets, `microvm` makes
-      # this host a microvm guest, `microvmHost` makes it a microvm host
-      # running the named guests.
+      # Per-host descriptor: `user` is the `homeConfigurations.<key>` and
+      # the `users.users.<name>` account, `sops` enables secrets, `microvm`
+      # makes this host a microvm guest, `microvmHost` makes it a microvm
+      # host running the named guests. `dir` is the flake itself: hosts live
+      # at ./hosts/<attrset-key>/.
       hosts = {
         omen = {
-          dir = ./hosts/omen;
           user = "risus";
           sops = true;
           microvmHost = [ "atlas" ];
         };
 
         atlas = {
-          dir = ./hosts/atlas;
           user = "atlas";
           sops = true;
           microvm = true;
         };
 
         virt = {
-          dir = ./hosts/virt;
           user = "virt";
           sops = false;
         };
@@ -226,12 +224,12 @@
                     sops = getSopsConfig name;
                     home.sessionVariables.SOPS_AGE_KEY_FILE = "/etc/sops-nix/key.txt";
                   })
-                  ++ [ (host.dir + "/home.nix") ];
+                  ++ [ ./hosts/${name}/home.nix ];
                 };
               };
             }
           ))
-          ++ [ (host.dir + "/nixos.nix") ];
+          ++ [ ./hosts/${name}/nixos.nix ];
         };
 
       /**
@@ -251,7 +249,8 @@
         : Host name; passed to sops.
 
         host
-        : Host descriptor; `host.dir` resolves hosts/<name>/home.nix.
+        : Host descriptor; `host.user` is the `homeConfigurations.<key>`
+          and `users.users.<name>` account.
 
         # Example
 
@@ -275,7 +274,7 @@
             sops = getSopsConfig name;
             home.sessionVariables.SOPS_AGE_KEY_FILE = "/etc/sops-nix/key.txt";
           })
-          ++ [ (host.dir + "/home.nix") ];
+          ++ [ ./hosts/${name}/home.nix ];
         };
     in
     {
