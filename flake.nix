@@ -17,7 +17,7 @@
     };
     nixvim = {
       # Remove the branch name to switch to unstable
-      url = "git+https://codeberg.org/outlast/nixvim?ref=main";
+      url = "git+https://gitea.x.home.arpa/nix/nixvim.git?ref=main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     disko = {
@@ -29,7 +29,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs-custom = {
-      url = "git+https://codeberg.org/outlast/nixpkgs?ref=master";
+      url = "git+https://gitea.x.home.arpa/nix/nixpkgs.git?ref=master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # https://determinate.systems/blog/nuenv/
@@ -197,7 +197,7 @@
                 {
                   microvm.vms = lib.genAttrs host.microvmHost (_: {
                     flake = self;
-                    updateFlake = "git+https://codeberg.org/outlast/nixos";
+                    updateFlake = "git+https://gitea.x.home.arpa/nix/nixos.git";
                   });
                 }
               ]
