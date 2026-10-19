@@ -68,18 +68,17 @@
     let
       inherit (nixpkgs) lib;
 
-      # Every host here is Linux on Intel. Add an attrset of per-system
-      # configurations rather than widening this string if that ever changes.
+      # System string; widen to an attrset if any host leaves x86_64-linux.
       system = "x86_64-linux";
 
-      # Overlays both trees need. A module, not a package set built here: a
-      # tree handed a pre-built `pkgs` ignores `nixpkgs.overlays` and
-      # `nixpkgs.config` entirely, which is also what forced the unfree
-      # allowlist into a central predicate before. See the module for details.
+      # Module applied to both trees so `nixpkgs.overlays` and
+      # `nixpkgs.config` survive a pre-built `pkgs` argument.
       nixpkgsModule = ./modules/common/nixpkgs.nix;
 
-      # One entry per host. `dir` is the host directory holding `nixos.nix`,
-      # `home.nix` and `disko.nix`.
+      # Per-host descriptor: `dir` points at hosts/<name>/, `user` is the
+      # `homeConfigurations.<key>`, `sops` enables secrets, `microvm` makes
+      # this host a microvm guest, `microvmHost` makes it a microvm host
+      # running the named guests.
       hosts = {
         omen = {
           dir = ./hosts/omen;
@@ -102,38 +101,32 @@
         };
       };
 
-      # Per-host sops settings shared by both trees: a per-tree module that
-      # pulls in the matching `sops.*Modules.sops` and points the tree at
-      # `./hosts/<name>/secrets.yaml` plus the single keyfile path
-      # `/etc/sops-nix/key.txt`.
-      #
-      # The keyfile is read by two different processes on the same host: the
-      # systemd `sops-install-secrets` activation unit (root) on the system
-      # tree, and the user's `sops-nix.service` (running as the user) on the
-      # home tree. `home-manager switch` invokes the latter without sudo. So
-      # the file's perms have to be readable by the user account, not just by
-      # root.
-      #
-      # Two conditions make this reliable:
-      #   1. A dedicated `sops` system group is created and the host's user
-      #      (`flake.nix`'s `hosts.<name>.user`) is added to it. The keyfile
-      #      is then `root:sops 0640` and only the user account (and root)
-      #      can read it.
-      #   2. The `z` tmpfiles rule re-applies mode + owner on every boot
-      #      **without modifying content**. Earlier we used `F`, which in
-      #      systemd 261 silently truncates the file on every invocation
-      #      (verified by direct test): each reboot wiped the keyfile and
-      #      broke decryption. `z` is "set perms if the file exists, do not
-      #      touch the data" -- which is the actual semantics we want. Note
-      #      that `z` does not take a content argument, hence no trailing
-      #      field after `- - -`.
-      #
-      # `sops.environment.SOPS_AGE_KEY_FILE = "/etc/sops-nix/key.txt"` makes
-      # the key path visible to subprocesses the activation spawns (notably
-      # the `sops` binary itself). The system's manifest-based mechanism
-      # already passes the key via `-ignore-passwd ${manifest}` to the home
-      # side; this export is mostly for shell-driven `sops` use after first
-      # boot.
+      /**
+        sops config keyed by host name; shared by both NixOS and HM trees.
+
+        # Type
+
+        ```
+        getSopsConfig :: String -> Attrs
+        ```
+
+        # Arguments
+
+        name
+        : Host name; resolves to ./hosts/${name}/secrets.yaml.
+
+        # Example
+
+        ```
+        getSopsConfig "atlas"
+        => {
+             defaultSopsFile = ./hosts/atlas/secrets.yaml;
+             defaultSopsFormat = "yaml";
+             age.keyFile = "/etc/sops-nix/key.txt";
+             environment.SOPS_AGE_KEY_FILE = "/etc/sops-nix/key.txt";
+           }
+        ```
+      */
       getSopsConfig =
         name:
         let
@@ -145,47 +138,33 @@
           age.keyFile = keyFile;
           environment.SOPS_AGE_KEY_FILE = keyFile;
         };
-      sopsSharedSystem =
-        name: host:
-        lib.optional host.sops {
-          imports = [ inputs.sops-nix.nixosModules.sops ];
-          sops = getSopsConfig name;
-          systemd.tmpfiles.rules = [
-            "z /etc/sops-nix/key.txt 0640 root sops - - -"
-          ];
-          users.groups.sops = { };
-          users.users.${host.user}.extraGroups = [ "sops" ];
-        };
 
-      sopsSharedHome =
-        name: host:
-        lib.optional host.sops {
-          imports = [ inputs.sops-nix.homeManagerModules.sops ];
-          sops = getSopsConfig name;
-          # Export the key file path to the user's interactive shell so shell-
-          # driven `sops` reads (e.g. `sops -d hosts/<host>/secrets.yaml`)
-          # find the key without `-age-key-file` overrides. `sops.environment`
-          # above only writes into the systemd user service's environment,
-          # not login shells; `home.sessionVariables` covers the shell.
-          home.sessionVariables.SOPS_AGE_KEY_FILE = "/etc/sops-nix/key.txt";
-        };
+      /**
+        NixOS system for a host; microvm guests get NixOS-HM integration so
+        a single `nixos-rebuild switch` activates both trees at boot.
 
-      nixosSharedModules =
-        name: host:
-        [
-          nixpkgsModule
-          ./options
-        ]
-        ++ sopsSharedSystem name host;
+        # Type
 
-      homeSharedModules =
-        name: host:
-        [
-          nixpkgsModule
-          ./options
-        ]
-        ++ sopsSharedHome name host;
+        ```
+        nixosFor :: String -> Attrs -> NixOS
+        ```
 
+        # Arguments
+
+        name
+        : Host name; passed to sops and resolves hosts/<name>/nixos.nix.
+
+        host
+        : Host descriptor; reads `dir`, `user`, `sops`, optional `microvm`
+          and optional `microvmHost`.
+
+        # Example
+
+        ```
+        nixosFor "atlas" hosts.atlas
+        => <nixos-system-atlas derivation>
+        ```
+      */
       nixosFor =
         name: host:
         let
@@ -209,26 +188,91 @@
           specialArgs = inputs // {
             inherit (inputs) self;
           };
-          modules =
-            nixosSharedModules name host
-            ++ microvmGuestModule
-            ++ microvmHostModule
-            ++ vmRefs
-            ++ [ (host.dir + "/nixos.nix") ];
+          modules = [
+            nixpkgsModule
+            ./options
+          ]
+          ++ (lib.optional host.sops (
+            { config, ... }:
+            {
+              imports = [ inputs.sops-nix.nixosModules.sops ];
+              sops = getSopsConfig name;
+              systemd.tmpfiles.rules = [
+                "z /etc/sops-nix/key.txt 0640 root sops - - -"
+              ];
+              users.groups.sops = { };
+              users.users.${config.my.username}.extraGroups = [ "sops" ];
+            }
+          ))
+          ++ microvmGuestModule
+          ++ microvmHostModule
+          ++ vmRefs
+          ++ (lib.optional (host.microvm or false) (
+            { config, ... }:
+            {
+              imports = [ inputs.home-manager.nixosModules.home-manager ];
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = inputs;
+                users.${config.my.username} = {
+                  imports = [
+                    ./options
+                  ]
+                  ++ (lib.optional host.sops {
+                    imports = [ inputs.sops-nix.homeManagerModules.sops ];
+                    sops = getSopsConfig name;
+                    home.sessionVariables.SOPS_AGE_KEY_FILE = "/etc/sops-nix/key.txt";
+                  })
+                  ++ [ (host.dir + "/home.nix") ];
+                };
+              };
+            }
+          ))
+          ++ [ (host.dir + "/nixos.nix") ];
         };
 
+      /**
+        Standalone home-manager configuration for a host; built outside
+        NixOS for hosts that activate HM imperatively (`home-manager
+        switch`).
+
+        # Type
+
+        ```
+        homeFor :: String -> Attrs -> HomeConfiguration
+        ```
+
+        # Arguments
+
+        name
+        : Host name; passed to sops.
+
+        host
+        : Host descriptor; `host.dir` resolves hosts/<name>/home.nix.
+
+        # Example
+
+        ```
+        homeFor "atlas" hosts.atlas
+        => <home-manager-atlas derivation>
+        ```
+      */
       homeFor =
         name: host:
         home-manager.lib.homeManagerConfiguration {
-          # `pkgs` is a required argument, but home-manager only reads `config`
-          # and `overlays` off it and then re-imports nixpkgs from
-          # `nixpkgs.pkgsPath` with whatever `nixpkgs.*` the modules set. A bare
-          # package set is therefore not a shortcut around the module system, it
-          # is the way to leave `nixpkgs.overlays` and `nixpkgs.config` working
-          # inside this tree.
           pkgs = nixpkgs.legacyPackages.${system};
           extraSpecialArgs = inputs;
-          modules = homeSharedModules name host ++ [ (host.dir + "/home.nix") ];
+          modules = [
+            nixpkgsModule
+            ./options
+          ]
+          ++ (lib.optional host.sops {
+            imports = [ inputs.sops-nix.homeManagerModules.sops ];
+            sops = getSopsConfig name;
+            home.sessionVariables.SOPS_AGE_KEY_FILE = "/etc/sops-nix/key.txt";
+          })
+          ++ [ (host.dir + "/home.nix") ];
         };
     in
     {
