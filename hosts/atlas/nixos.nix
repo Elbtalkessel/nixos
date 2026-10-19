@@ -10,7 +10,7 @@
     ./config.nix
 
     ../../modules/system/core/locale
-    ../../modules/system/core/nix-settings
+    ../../modules/system/core/nix-settings/settings.nix
     ../../modules/system/core/networking/certificates.nix
   ];
 
