@@ -1,7 +1,4 @@
-_: {
-  # Set your time zone.
-  time.timeZone = "Europe/Warsaw";
-
+{
   # Select internationalisation properties.
   i18n = rec {
     defaultLocale = "en_IE.UTF-8";

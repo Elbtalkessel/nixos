@@ -92,11 +92,6 @@
           sops = true;
           microvm = true;
         };
-
-        virt = {
-          user = "virt";
-          sops = false;
-        };
       };
 
       /**

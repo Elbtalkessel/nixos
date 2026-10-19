@@ -9,9 +9,9 @@
   imports = [
     ./config.nix
 
-    ../../modules/system/core/locale
-    ../../modules/system/core/nix-settings/settings.nix
-    ../../modules/system/core/networking/certificates.nix
+    ../../modules/system/core
+
+    ./system/boot
   ];
 
   networking.hostName = "atlas";

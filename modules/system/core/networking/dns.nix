@@ -1,4 +1,4 @@
-_: {
+{
   # To add local hosts, edit `/var/lib/dnsmasq/dnsmasq.conf` and
   # restart dnsmasq service. IP changes, no point to add it here.
   # This also means you need to add this file manually and set correct
@@ -25,9 +25,5 @@ _: {
         "149.112.112.112"
       ];
     };
-  };
-  networking.hosts = {
-    # Make easy anti cheat work
-    "0.0.0.0" = [ "modules-cdn.eac-prod.on.epicgames.com" ];
   };
 }

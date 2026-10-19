@@ -50,11 +50,6 @@
       ];
     };
 
-    # fuzzy finder, able to walk directories or read from stdin
-    fzf = {
-      enable = true;
-    };
-
     # a fast, modern replacement for grep
     ripgrep = {
       enable = true;

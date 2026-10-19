@@ -2,31 +2,9 @@
 {
   imports = [
     ./config.nix
-
-    ../../modules/home/core/environment
-    ../../modules/home/core/diagnostics
-    ../../modules/home/core/identity
-    ../../modules/home/core/mime-apps
-    ../../modules/home/core/removable-media
-    ../../modules/home/core/shell
-    ../../modules/home/core/theme
-    ../../modules/home/core/tools
-    ../../modules/home/core/xdg
-
-    ../../modules/home/desktop/launchers
-    ../../modules/home/desktop/notifications
-    ../../modules/home/desktop/panel
-    ../../modules/home/desktop/session
-    ../../modules/home/desktop/wallpaper
-
-    ../../modules/home/apps/browser
-    ../../modules/home/apps/files
-    ../../modules/home/apps/ide
-    ../../modules/home/apps/image-viewer
-    ../../modules/home/apps/llm
-    ../../modules/home/apps/mail
-    ../../modules/home/apps/media
-    ../../modules/home/apps/terminals
+    ./home/apps
+    ./home/core
+    ./home/desktop
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
