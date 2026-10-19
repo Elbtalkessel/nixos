@@ -19,9 +19,13 @@ in
       };
       "tailscale/one-of-key" = { };
       "vaultwarden.env" = { };
-      "opencode/env" = { };
       "protonmail.bridge.username" = { };
       "protonmail.bridge.password" = { };
+      "opencode/env" = { };
+      "ai-gateway/api-key" = { };
+      # Consumed by the gitea MCP server via opencode's native {file:...}
+      # substitution at load time (see agent.nix).
+      "gitea/mcp-token" = { };
     }
 
     (lib.mkIf isSystem {
