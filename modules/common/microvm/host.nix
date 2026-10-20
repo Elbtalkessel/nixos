@@ -36,8 +36,10 @@ in
 
   # Ensure the host-side directory that will be shared into each microvm
   # as /etc/sops-nix exists before the copy service and the microvm start.
+  # 0755: the guest user is not in the host's `wheel` group, so a0750
+  # directory would block traversal (the key file itself stays 0640).
   systemd.tmpfiles.rules = map (
-    guest: "d /var/lib/microvm/${guest}/sops-nix 0750 root wheel - -"
+    guest: "d /var/lib/microvm/${guest}/sops-nix 0755 root wheel - -"
   ) guests;
 
   # Copy the per-guest age key from the admin machine's sops directory into

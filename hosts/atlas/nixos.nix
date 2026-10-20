@@ -173,6 +173,11 @@
       # sops module adds the `sops` group (age key access for HM secrets).
       extraGroups = [ ];
       useDefaultShell = true;
+      # Headless service VM: logind must manage the user manager (and create
+      # /run/user/1000) at boot. sops-nix mounts its secrets tmpfs there;
+      # without a login session the runtime dir never appears and every
+      # secret-dependent unit fails.
+      linger = true;
     };
   };
 }
