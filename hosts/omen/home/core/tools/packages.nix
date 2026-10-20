@@ -32,7 +32,7 @@
     telegram-desktop # comms.
     mattermost-desktop # comms.
     neovim # terminal editor.
-    proton-vpn # vpn client.
+    #proton-vpn # vpn client.
     plexamp
 
     # VM
@@ -76,7 +76,7 @@
     usbdrivetools
   ];
 
-  xdg.autostart.entries = [
-    "${pkgs.proton-vpn}/share/applications/proton.vpn.app.gtk.desktop"
-  ];
+  #xdg.autostart.entries = [
+  #  "${pkgs.proton-vpn}/share/applications/proton.vpn.app.gtk.desktop"
+  #];
 }
