@@ -26,4 +26,14 @@
       ];
     };
   };
+
+  systemd.tmpfiles.rules = [
+    "d /var/lib/dnsmasq 0750 root root -"
+    "f /var/lib/dnsmasq/dnsmasq.conf 0644 root root -"
+  ];
+
+  systemd.services.dnsmasq = {
+    after = [ "systemd-tmpfiles-setup.service" ];
+    wants = [ "systemd-tmpfiles-setup.service" ];
+  };
 }
