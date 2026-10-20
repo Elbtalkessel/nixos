@@ -28,6 +28,7 @@
     mem = 2049;
 
     interfaces = [
+      # To disable networking change the type to `tap` and remove `bridge`.
       {
         # Attach to the host's libvirt default bridge. The bridge runs a
         # dnsmasq DHCP server and NATs traffic through the host's uplink
