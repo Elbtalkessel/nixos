@@ -4,13 +4,13 @@
       enable = true;
     };
 
-    # A POSIX complaint shell for testing things.
     zsh = {
       enable = true;
       enableCompletion = true;
+      syntaxHighlighting.enable = true;
     };
 
-    # fd is a simple, fast and user-friendly alternative to find
+    # fd is a simple, fast and user-friendly alternative to find.
     fd = {
       enable = true;
       hidden = true;
@@ -22,7 +22,7 @@
       ];
     };
 
-    # a fast, modern replacement for grep
+    # a fast, modern replacement for grep.
     ripgrep = {
       enable = true;
     };
