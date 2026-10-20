@@ -89,7 +89,7 @@ same environment.
 
 - Prefer `fd` over `find` and `rg` over `grep`; both skip `.gitignore`d
   paths by default.
-- Also available: `git`, `tmux`, `devenv`, `nix`, `node`, `gh` (GitHub only),
+- Also available: `git`, `tmux`, `devenv`, `nix`, `node`, `gh`, (GitHub only), `podman`
   and language servers (gopls, pyright, nil, nixd, bash/lua/yaml servers).
 
 ## Secrets
