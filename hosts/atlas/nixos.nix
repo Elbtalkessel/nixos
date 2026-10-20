@@ -29,8 +29,13 @@
 
     interfaces = [
       {
-        type = "tap";
+        # Attach to the host's libvirt default bridge. The bridge runs a
+        # dnsmasq DHCP server and NATs traffic through the host's uplink
+        # (WiFi), giving the VM outbound access to the internet and the local
+        # network without requiring WiFi MAC bridging.
+        type = "bridge";
         id = "atlas-tap";
+        bridge = "virbr0";
         mac = "02:00:00:00:00:01";
       }
     ];
