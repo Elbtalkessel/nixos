@@ -85,8 +85,23 @@
         mountPoint = "/home/atlas/Projects";
         size = 20480;
       }
+      # Persistent SSH host keys. Without this the tmpfs root would make
+      # sshd-keygen mint fresh keys on every boot, breaking host key
+      # verification across restarts. NixOS only generates a key when its
+      # file is missing, so the first boot seeds the volume and later boots
+      # reuse it until the key is deleted.
+      {
+        image = "ssh-host-keys.img";
+        mountPoint = "/var/lib/ssh";
+        size = 16;
+      }
     ];
   };
+
+  # Mount the key volume in stage-2, before activation and sshd-keygen run,
+  # so the "generate if missing" check sees the persistent filesystem
+  # instead of the tmpfs mountpoint.
+  fileSystems."/var/lib/ssh".neededForBoot = true;
 
   # A freshly formatted volume is root:root; hand it to the user so
   # projects can be written without root. The `d` rule re-applies on
@@ -95,10 +110,23 @@
     "d /home/atlas/Projects 0750 atlas users - -"
   ];
 
-  # The documented install flow configures the machine over SSH.
+  # The documented install flow configures machine access over SSH.
+  # Defaults for host key types, relocated onto the persistent volume --
+  # /etc/ssh is tmpfs here.
   services.openssh = {
     enable = true;
     settings.PermitRootLogin = "no";
+    hostKeys = [
+      {
+        path = "/var/lib/ssh/ssh_host_rsa_key";
+        type = "rsa";
+        bits = 4096;
+      }
+      {
+        path = "/var/lib/ssh/ssh_host_ed25519_key";
+        type = "ed25519";
+      }
+    ];
   };
 
   programs.zsh.enable = true;
