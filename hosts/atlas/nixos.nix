@@ -77,8 +77,23 @@
         mountPoint = config.microvm.writableStoreOverlay;
         size = 2048;
       }
+      # Persistent work data. The guest root filesystem is a tmpfs, so
+      # everything outside /nix and this volume is ephemeral; this disk
+      # image on the host survives guest restarts.
+      {
+        image = "atlas-projects.img";
+        mountPoint = "/home/atlas/Projects";
+        size = 20480;
+      }
     ];
   };
+
+  # A freshly formatted volume is root:root; hand it to the user so
+  # projects can be written without root. The `d` rule re-applies on
+  # every boot and is harmless when ownership already matches.
+  systemd.tmpfiles.rules = [
+    "d /home/atlas/Projects 0750 atlas users - -"
+  ];
 
   # The documented install flow configures the machine over SSH.
   services.openssh = {
