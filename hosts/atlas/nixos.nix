@@ -24,8 +24,8 @@
   # MicroVM configuration
   microvm = {
     hypervisor = "qemu";
-    vcpu = 2;
-    mem = 2049;
+    vcpu = 4;
+    mem = 8192;
 
     interfaces = [
       # To disable networking change the type to `tap` and remove `bridge`.
