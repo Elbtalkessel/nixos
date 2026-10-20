@@ -4,6 +4,7 @@
   llm-agents,
   config,
   lib,
+  codebase-memory-mcp,
   ...
 }:
 let
@@ -78,6 +79,10 @@ let
     plan-reviewer = MOMUS;
   };
 
+  # TODO: Ideally each agent should carry desired modality (and rely
+  # on the proxy gateway to use correct model supporting it).
+  # Deriving from the modality a tool should be assigned,
+  # for now only playwright for anyone who have "image" (multimodal-looker and visual-engineering.)
   modelEntry = name: {
     inherit name;
     modalities = {
@@ -232,19 +237,52 @@ in
         models = lib.genAttrs allModelNames modelEntry;
       };
 
-      mcp.gitea = {
-        type = "local";
-        command = [
-          "gitea-mcp"
-          "-t"
-          "stdio"
-        ];
-        environment = {
-          GITEA_HOST = "https://gitea.x.home.arpa";
-          GITEA_ACCESS_TOKEN = "{file:${giteaTokenFile}}";
-          GITEA_INSECURE = "false";
+      mcp = {
+        gitea = {
+          type = "local";
+          command = [
+            "gitea-mcp"
+            "-t"
+            "stdio"
+          ];
+          environment = {
+            GITEA_HOST = "https://gitea.x.home.arpa";
+            GITEA_ACCESS_TOKEN = "{file:${giteaTokenFile}}";
+            GITEA_INSECURE = "false";
+          };
+          enabled = true;
         };
-        enabled = true;
+
+        codebase-memory = {
+          type = "local";
+          command = [
+            "${codebase-memory-mcp.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/codebase-memory-mcp"
+          ];
+          enabled = true;
+        };
+
+        # TODO: remote paywright instance, running it on nixos
+        #   is painful.
+        #playwright = {
+        #  type = "local";
+        #  command = [
+        #    "npx"
+        #    "-y"
+        #    "@playwright/mcp@latest"
+        #  ];
+        #  enabled = true;
+        #};
+      };
+
+      agent = {
+        #"${MULTIMODAL_LOOKER}".tools."playwright" = true;
+        #"${VISUAL_ENGINEERING}".tools."playwright" = true;
+        "${EXPLORE}".tools."codebase-memory" = true;
+        "${LIBRARIAN}".tools."codebase-memory" = true;
+        # TODO: unsure about these two below, need to measure speed
+        # with and without the tool.
+        "${SISYPHUS}".tools."codebase-memory" = true;
+        "${HEPHAESTUS}".tools."codebase-memory" = true;
       };
     };
   };

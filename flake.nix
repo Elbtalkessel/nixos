@@ -55,6 +55,7 @@
       url = "github:microvm-nix/microvm.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    codebase-memory-mcp.url = "github:DeusData/codebase-memory-mcp";
   };
 
   outputs =
