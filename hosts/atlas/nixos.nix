@@ -111,11 +111,17 @@
   ];
 
   # The documented install flow configures machine access over SSH.
+  # Admin access lands on root; `atlas` is an unprivileged runtime user
+  # with no SSH login and no sudo. Drop in as root, then `su - atlas`.
   # Defaults for host key types, relocated onto the persistent volume --
   # /etc/ssh is tmpfs here.
   services.openssh = {
     enable = true;
-    settings.PermitRootLogin = "no";
+    settings = {
+      PermitRootLogin = "prohibit-password";
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
+    };
     hostKeys = [
       {
         path = "/var/lib/ssh/ssh_host_rsa_key";
@@ -130,18 +136,43 @@
   };
 
   programs.zsh.enable = true;
-  users.defaultUserShell = pkgs.zsh;
 
-  users.users.${config.my.username} = {
-    isNormalUser = true;
-    description = "atlas opencode host";
-    hashedPasswordFile = config.sops.secrets."users/${config.my.username}/password".path;
-    extraGroups = [
-      "wheel"
-    ];
-    useDefaultShell = true;
-    openssh.authorizedKeys.keys = [
+  # Git access key for the atlas user: generated on first boot, persisted on
+  # the same volume as the host keys, and never regenerated unless deleted.
+  # Register the .pub on the gitea account that should own the pushes.
+  systemd.services.atlas-git-key = {
+    description = "Generate atlas git SSH key if missing";
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      key=/var/lib/ssh/atlas_git_ed25519
+      if [ ! -s "$key" ]; then
+        ${pkgs.openssh}/bin/ssh-keygen -t ed25519 -N "" -C "atlas@gitea" -f "$key"
+      fi
+      chown atlas:users "$key" "$key.pub"
+      chmod 600 "$key"
+      chmod 644 "$key.pub"
+    '';
+  };
+
+  users = {
+    users.root.openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC7ulI5D34Y49wPgraM2iHLJHYzKBlJaB1akgibNJR1y risus@omen"
     ];
+
+    defaultUserShell = pkgs.zsh;
+
+    users.${config.my.username} = {
+      isNormalUser = true;
+      description = "atlas opencode host";
+      hashedPasswordFile = config.sops.secrets."users/${config.my.username}/password".path;
+      # No wheel: system changes only via a host-side rebuild. The flake's
+      # sops module adds the `sops` group (age key access for HM secrets).
+      extraGroups = [ ];
+      useDefaultShell = true;
+    };
   };
 }
