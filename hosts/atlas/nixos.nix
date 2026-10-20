@@ -59,16 +59,20 @@
     # network connectivity.  `microvm -s atlas` rides this for SSH.  CIDs
     # 0/1/2 are reserved by the spec; 3 is the conventional starting point.
     vsock.cid = 4;
-  };
 
-  # MicroVM guests share /nix/store read-only and run without nix-daemon.
-  # Home Manager activation still needs to manage per-user profiles and
-  # temporary GC roots, so create the required directories here.
-  systemd.tmpfiles.rules = [
-    "d /nix/var/nix/temproots 1777 root root - -"
-    "d /nix/var/nix/gcroots/per-user/atlas 0755 atlas users - -"
-    "d /nix/var/nix/profiles/per-user/atlas 0755 atlas users - -"
-  ];
+    # Writable overlay for /nix/store. Required for nix-daemon to run inside
+    # the guest, which in turn is required by Home Manager activation. The
+    # overlay only stores upperdir changes (profiles, GC roots); store paths
+    # still come from the host's read-only /nix/store share.
+    writableStoreOverlay = "/nix/.rw-store";
+    volumes = [
+      {
+        image = "nix-store-overlay.img";
+        mountPoint = config.microvm.writableStoreOverlay;
+        size = 2048;
+      }
+    ];
+  };
 
   # The documented install flow configures the machine over SSH.
   services.openssh = {
