@@ -61,6 +61,15 @@
     vsock.cid = 4;
   };
 
+  # MicroVM guests share /nix/store read-only and run without nix-daemon.
+  # Home Manager activation still needs to manage per-user profiles and
+  # temporary GC roots, so create the required directories here.
+  systemd.tmpfiles.rules = [
+    "d /nix/var/nix/temproots 1777 root root - -"
+    "d /nix/var/nix/gcroots/per-user/atlas 0755 atlas users - -"
+    "d /nix/var/nix/profiles/per-user/atlas 0755 atlas users - -"
+  ];
+
   # The documented install flow configures the machine over SSH.
   services.openssh = {
     enable = true;
