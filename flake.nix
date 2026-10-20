@@ -62,8 +62,6 @@
     {
       nixpkgs,
       home-manager,
-      self,
-      microvm,
       ...
     }@inputs:
     let
@@ -79,8 +77,7 @@
       # Per-host descriptor: `user` is the `homeConfigurations.<key>` and
       # the `users.users.<name>` account, `sops` enables secrets, `microvm`
       # makes this host a microvm guest, `microvmHost` makes it a microvm
-      # host running the named guests. `dir` is the flake itself: hosts live
-      # at ./hosts/<attrset-key>/.
+      # host running the named guests.
       hosts = {
         omen = {
           user = "risus";
@@ -134,8 +131,10 @@
         };
 
       /**
-        NixOS system for a host; microvm guests get NixOS-HM integration so
-        a single `nixos-rebuild switch` activates both trees at boot.
+        NixOS system for a host. MicroVM guests additionally get the
+        home-manager NixOS module (via modules/common/microvm/guest.nix) so
+        a single `microvm -u` rebuild activates both trees at boot; microvm
+        hosts get the guest runner and key provisioning (host.nix).
 
         # Type
 
@@ -146,11 +145,11 @@
         # Arguments
 
         name
-        : Host name; passed to sops and resolves hosts/<name>/nixos.nix.
+        : Host name; resolves hosts/<name>/nixos.nix.
 
         host
-        : Host descriptor; reads `dir`, `user`, `sops`, optional `microvm`
-          and optional `microvmHost`.
+        : Host descriptor; reads `user`, `sops`, optional `microvm` and
+          optional `microvmHost`.
 
         # Example
 
@@ -161,73 +160,22 @@
       */
       nixosFor =
         name: host:
-        let
-          microvmGuestModule = lib.optional (host.microvm or false) microvm.nixosModules.microvm;
-          microvmHostModule = lib.optional (host ? microvmHost) microvm.nixosModules.host;
-          vmRefs =
-            if host ? microvmHost then
-              [
-                (
-                  { pkgs, ... }:
-                  let
-                    copyGuestSopsKey =
-                      guest:
-                      pkgs.writeShellScript "microvm-${guest}-sops-key" ''
-                        src="/home/risus/.config/sops/age/${guest}.age.key"
-                        dst="/var/lib/microvm/${guest}/sops-nix/key.txt"
-                        if [[ ! -e "$src" ]]; then
-                          echo "ERROR: sops age key for microvm ${guest} not found at $src" >&2
-                          exit 1
-                        fi
-                        install -D -m 0640 -o root -g wheel "$src" "$dst"
-                      '';
-                  in
-                  {
-                    microvm.vms = lib.genAttrs host.microvmHost (_: {
-                      flake = self;
-                      updateFlake = "git+https://gitea.x.home.arpa/nix/nixos.git";
-                    });
-
-                    # Ensure the host-side directory that will be shared into
-                    # each microvm as /etc/sops-nix exists before the copy
-                    # service and the microvm start.
-                    systemd.tmpfiles.rules = map (
-                      guest: "d /var/lib/microvm/${guest}/sops-nix 0750 root wheel - -"
-                    ) host.microvmHost;
-
-                    # Copy the per-guest age key from the admin machine's
-                    # sops directory into the virtiofs share. The key never
-                    # enters the Nix store; it is read from the host filesystem
-                    # at microvm start time.
-                    systemd.services = lib.listToAttrs (
-                      map (
-                        guest:
-                        lib.nameValuePair "microvm-${guest}-sops-key" {
-                          description = "Copy sops age key for microvm ${guest}";
-                          before = [ "microvm@${guest}.service" ];
-                          requiredBy = [ "microvm@${guest}.service" ];
-                          serviceConfig = {
-                            Type = "oneshot";
-                            RemainAfterExit = true;
-                            ExecStart = copyGuestSopsKey guest;
-                          };
-                        }
-                      ) host.microvmHost
-                    );
-                  }
-                )
-              ]
-            else
-              [ ];
-        in
         nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = inputs // {
             inherit (inputs) self;
+            # Consumed by modules/common/microvm/{default,guest,host}.nix.
+            hostName = name;
+            hostDescriptor = host;
+            # Passed through to home-manager's users so host home.nix can
+            # reference flake inputs.
+            homeSpecialArgs = inputs;
+            sopsConfig = getSopsConfig name;
           };
           modules = [
             nixpkgsModule
             ./options
+            ./modules/common/microvm
             { my.username = host.user; }
           ]
           ++ (lib.optional host.sops (
@@ -240,32 +188,6 @@
               ];
               users.groups.sops = { };
               users.users.${config.my.username}.extraGroups = [ "sops" ];
-            }
-          ))
-          ++ microvmGuestModule
-          ++ microvmHostModule
-          ++ vmRefs
-          ++ (lib.optional (host.microvm or false) (
-            { config, ... }:
-            {
-              imports = [ inputs.home-manager.nixosModules.home-manager ];
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                extraSpecialArgs = inputs;
-                users.${config.my.username} = {
-                  imports = [
-                    ./options
-                    { my.username = host.user; }
-                  ]
-                  ++ (lib.optional host.sops {
-                    imports = [ inputs.sops-nix.homeManagerModules.sops ];
-                    sops = getSopsConfig name;
-                    home.sessionVariables.SOPS_AGE_KEY_FILE = "/etc/sops-nix/key.txt";
-                  })
-                  ++ [ ./hosts/${name}/home.nix ];
-                };
-              };
             }
           ))
           ++ [ ./hosts/${name}/nixos.nix ];
