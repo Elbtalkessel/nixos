@@ -8,5 +8,6 @@ _: {
     ./fonts.nix
     ./system.nix
     ./apps.nix
+    ./service.nix
   ];
 }

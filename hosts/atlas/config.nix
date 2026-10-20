@@ -38,4 +38,12 @@ in
 
   # `my.editor` -- assigned here so both trees seed `home.sessionVariables.EDITOR`.
   my.editor = "nvim";
+
+  # opencode web UI bind. Both trees read it: Home Manager builds
+  # `programs.opencode.web.extraArgs` from it, the system tree opens the
+  # firewall only when the service binds on every interface.
+  my.service.opencode = {
+    ip = "0.0.0.0";
+    port = 4096;
+  };
 }

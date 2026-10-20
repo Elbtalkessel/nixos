@@ -16,6 +16,12 @@
 
   networking.hostName = "atlas";
 
+  # Open the opencode web UI port only when the service binds on every
+  # interface; a narrower bind needs no hole in the firewall.
+  networking.firewall = lib.mkIf (config.my.service.opencode.ip == "0.0.0.0") {
+    allowedTCPPorts = [ config.my.service.opencode.port ];
+  };
+
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
   # A new host, so start at the release the system is actually built from.
