@@ -81,7 +81,7 @@
       {
         image = "nix-store-overlay.img";
         mountPoint = config.microvm.writableStoreOverlay;
-        size = 2048;
+        size = 20 * 1024;
       }
       # Persistent work data. The guest root filesystem is a tmpfs, so
       # everything outside /nix and this volume is ephemeral; this disk
@@ -89,7 +89,7 @@
       {
         image = "atlas-projects.img";
         mountPoint = "/home/atlas/Projects";
-        size = 20480;
+        size = 20 * 1024;
       }
       # Persistent SSH host keys. Without this the tmpfs root would make
       # sshd-keygen mint fresh keys on every boot, breaking host key

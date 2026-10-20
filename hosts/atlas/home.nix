@@ -5,6 +5,7 @@
     ../../modules/home/programs/opencode.nix
     ./home/programs
     ./home/packages
+    ./home/services
   ];
 
   home = {
