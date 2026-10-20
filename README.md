@@ -105,6 +105,32 @@ home-manager switch --flake /path/to/nixos#<user>
 
 `flake.nix`'s `sopsShared` keeps the keyfile at `0640 root:sops` after every boot (no content touch), adds the user to the `sops` group, and exports `SOPS_AGE_KEY_FILE=/etc/sops-nix/key.txt` to the interactive shell and to the user systemd instance.
 
+### MicroVM guests
+
+MicroVMs do not use the bare-metal install flow. Instead, the host keeps each
+guest's age private key outside the Nix store and shares it into the guest at
+boot time:
+
+```bash
+# On the admin box (the microvm host), keep per-guest keys here.
+# <name> is the guest hostname.
+install -D -m 0600 -o $USER -g users /tmp/<name>.age.key \
+  ~/.config/sops/age/<name>.age.key
+```
+
+`flake.nix` creates a systemd service per microvm guest that runs before
+`microvm@<name>.service`, copies `~/.config/sops/age/<name>.age.key` into
+`/var/lib/microvm/<name>/sops-nix/key.txt`, and the guest mounts that directory
+as `/etc/sops-nix` via virtiofs. The private key never enters the Nix store;
+only the script that performs the copy is in the store.
+
+To update and restart a guest from the host:
+
+```bash
+sudo nixos-rebuild switch --flake /path/to/nixos#<host>
+sudo systemctl restart microvm@<name>.service
+```
+
 ## Secrets
 
 ```bash

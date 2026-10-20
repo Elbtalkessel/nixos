@@ -42,6 +42,17 @@
         tag = "ro-store";
         proto = "virtiofs";
       }
+      # The age key for sops-nix is kept on the host outside the Nix store
+      # and shared into the guest at /etc/sops-nix/key.txt. The file is
+      # readable by the `wheel` group; atlas is a member, so the sops-nix
+      # user service can use it. The existing tmpfiles rule inside the guest
+      # tightens ownership to `root:sops` once the share is mounted.
+      {
+        source = "/var/lib/microvm/atlas/sops-nix";
+        mountPoint = "/etc/sops-nix";
+        tag = "atlas-sops-key";
+        proto = "virtiofs";
+      }
     ];
 
     # VSOCK gives the host a direct channel into the guest without needing

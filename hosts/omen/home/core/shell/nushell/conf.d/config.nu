@@ -31,11 +31,11 @@ let chtsh_completer = {|spans|
   }
 }
 
-let completers = {|spans|
-    match $spans.0 {
+let completers = {|place|
+    match $place.command.0 {
         cht.sh => $chtsh_completer
         _ => $carapace_completer
-    } | do $in $spans
+    } | do $in $place.command
 }
 
 $env.CARAPACE_LENIENT = 1

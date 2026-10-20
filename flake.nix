@@ -166,12 +166,55 @@
           vmRefs =
             if host ? microvmHost then
               [
-                {
-                  microvm.vms = lib.genAttrs host.microvmHost (_: {
-                    flake = self;
-                    updateFlake = "git+https://gitea.x.home.arpa/nix/nixos.git";
-                  });
-                }
+                (
+                  { pkgs, ... }:
+                  let
+                    copyGuestSopsKey =
+                      guest:
+                      pkgs.writeShellScript "microvm-${guest}-sops-key" ''
+                        src="/home/risus/.config/sops/age/${guest}.age.key"
+                        dst="/var/lib/microvm/${guest}/sops-nix/key.txt"
+                        if [[ ! -e "$src" ]]; then
+                          echo "ERROR: sops age key for microvm ${guest} not found at $src" >&2
+                          exit 1
+                        fi
+                        install -D -m 0640 -o root -g wheel "$src" "$dst"
+                      '';
+                  in
+                  {
+                    microvm.vms = lib.genAttrs host.microvmHost (_: {
+                      flake = self;
+                      updateFlake = "git+https://gitea.x.home.arpa/nix/nixos.git";
+                    });
+
+                    # Ensure the host-side directory that will be shared into
+                    # each microvm as /etc/sops-nix exists before the copy
+                    # service and the microvm start.
+                    systemd.tmpfiles.rules = map (
+                      guest: "d /var/lib/microvm/${guest}/sops-nix 0750 root wheel - -"
+                    ) host.microvmHost;
+
+                    # Copy the per-guest age key from the admin machine's
+                    # sops directory into the virtiofs share. The key never
+                    # enters the Nix store; it is read from the host filesystem
+                    # at microvm start time.
+                    systemd.services = lib.listToAttrs (
+                      map (
+                        guest:
+                        lib.nameValuePair "microvm-${guest}-sops-key" {
+                          description = "Copy sops age key for microvm ${guest}";
+                          before = [ "microvm@${guest}.service" ];
+                          requiredBy = [ "microvm@${guest}.service" ];
+                          serviceConfig = {
+                            Type = "oneshot";
+                            RemainAfterExit = true;
+                            ExecStart = copyGuestSopsKey guest;
+                          };
+                        }
+                      ) host.microvmHost
+                    );
+                  }
+                )
               ]
             else
               [ ];
