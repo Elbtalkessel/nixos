@@ -2,6 +2,7 @@
 {
   imports = [
     ./config.nix
+    ../../modules/home/programs/opencode.nix
     ./home/programs
     ./home/packages
   ];

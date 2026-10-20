@@ -91,23 +91,23 @@ let
   # (prompt_append, reasoning, max_prompt_tokens); the constants above stay
   # pure data.
   opencodeAgentOverrides = {
-    ${SISYPHUS} = {
-      prompt_append = "Always use the caveman skill and make other agents to use it.";
-    };
+    #${SISYPHUS} = {
+    #  prompt_append = "Always use the caveman skill and make other agents to use it.";
+    #};
   };
 
   opencodeCategoryOverrides = {
-    ${QUICK} = {
-      reasoning = "low";
-      max_prompt_tokens = 8192;
-    };
+    #${QUICK} = {
+    #  reasoning = "low";
+    #  max_prompt_tokens = 8192;
+    #};
   };
 
   nativeCategoryOverrides = {
-    ${UNSPECIFIED_LOW} = {
-      reasoning = "low";
-      max_prompt_tokens = 8192;
-    };
+    #${UNSPECIFIED_LOW} = {
+    #  reasoning = "low";
+    #  max_prompt_tokens = 8192;
+    #};
   };
 
   opencodeAgentEntry = name: { model = omoModel name; } // (opencodeAgentOverrides.${name} or { });
@@ -163,8 +163,8 @@ let
       };
       team_mode = {
         enabled = true;
-        tmux_visualization = false;
-        max_parallel_members = 3;
+        tmux_visualization = true;
+        max_parallel_members = 4;
         max_members = 8;
         max_messages_per_run = 10000;
         max_wall_clock_minutes = 120;
