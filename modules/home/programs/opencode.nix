@@ -261,22 +261,18 @@ in
           enabled = true;
         };
 
-        # TODO: remote paywright instance, running it on nixos
-        #   is painful.
-        #playwright = {
-        #  type = "local";
-        #  command = [
-        #    "npx"
-        #    "-y"
-        #    "@playwright/mcp@latest"
-        #  ];
-        #  enabled = true;
-        #};
+        playwright = {
+          type = "remote";
+          url = "https://playwright-mcp.x.home.arpa";
+          # Leaving for reference, but all *.x.home.arpa aren't public accesible anyway.
+          # headers.Authorization = "Bearer {file:${playwrightMcpToken}}";
+          enabled = true;
+        };
       };
 
       agent = {
-        #"${MULTIMODAL_LOOKER}".tools."playwright" = true;
-        #"${VISUAL_ENGINEERING}".tools."playwright" = true;
+        "${MULTIMODAL_LOOKER}".tools."playwright" = true;
+        "${VISUAL_ENGINEERING}".tools."playwright" = true;
         "${EXPLORE}".tools."codebase-memory" = true;
         "${LIBRARIAN}".tools."codebase-memory" = true;
         # TODO: unsure about these two below, need to measure speed
