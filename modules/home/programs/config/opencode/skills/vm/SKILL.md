@@ -7,19 +7,14 @@ description: Work inside the atlas virtual machine — cloning from and pushing 
 
 ## Machine facts
 
-- You run as unprivileged user `atlas` on a NixOS microvm (hostname `atlas`),
-  4 vCPU, 8 GiB RAM.
+- You run as unprivileged user `atlas` on a NixOS microvm (hostname `atlas`.)
 - There is no sudo and no root. You cannot install system packages or change
   system configuration; the VM operator rebuilds the VM from the nixos repo
   for that.
-- Networking is NAT through the host: the internet and `*.x.home.arpa`
-  (including gitea) are reachable.
+  Project dependencies declared in a `flake.nix` or `devenv.nix` at a project level.
 
 ## Persistence — the one rule
 
-- `$HOME` is tmpfs. Everything outside `~/Projects` is erased on every VM
-  restart: dotfiles you create, scratch files, opencode session state,
-  anything under `/tmp`.
 - All work — clones, environments, artifacts you care about — lives under
   `~/Projects`. Refer to files by absolute path (`/home/atlas/Projects/...`)
   across tool calls.
@@ -31,11 +26,6 @@ description: Work inside the atlas virtual machine — cloning from and pushing 
 - Clone URL form: `git@gitea.x.home.arpa:<owner>/<repo>.git`. SSH is
   preconfigured (`~/.ssh/config` pins the key for this host); pull and push
   work with no setup for repositories the VM key may write.
-- Commits are authored as `atlas <rtfsc+atlas@pm.me>` and are unsigned.
-  Do not enable signing.
-- A gitea MCP server is available for read-only API queries (repositories,
-  issues, file listings). Use it instead of `gh`, which is installed but
-  only speaks GitHub.
 - `permission denied (publickey)` on push means the VM key is not registered
   on gitea or lacks rights. Report it to the operator; you cannot fix it.
 
@@ -91,6 +81,9 @@ same environment.
   paths by default.
 - Also available: `git`, `tmux`, `devenv`, `nix`, `node`, `gh`, (GitHub only), `podman`
   and language servers (gopls, pyright, nil, nixd, bash/lua/yaml servers).
+- All other programs and services are declared in ~/Projects/nixos/hosts/atlas/home (cloned
+  from git@gitea.x.home.arpa:nix/nixos.git)
+- Report to the operator for any missing tools.
 
 ## Secrets
 
@@ -100,8 +93,7 @@ same environment.
 
 ## Disk
 
-- `~/Projects` has a 20 GiB volume (`df -h ~/Projects`).
-- New store paths from environment builds land in a 2 GiB writable overlay
+- New store paths from environment builds land in a writable overlay
   (`df -h /nix`). If a build fails with a full-disk error, report it to the
   operator; do not delete store paths by hand.
 
