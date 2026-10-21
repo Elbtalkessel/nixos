@@ -20,6 +20,7 @@
           php
           nil
           nixd
+          go
         ]
       ))
     ];
