@@ -12,15 +12,17 @@
     ../../modules/system/core
 
     ./system/boot
+    ./system/web
   ];
 
   networking.hostName = "atlas";
 
   # Open the opencode web UI port only when the service binds on every
-  # interface; a narrower bind needs no hole in the firewall.
-  networking.firewall = lib.mkIf (config.my.service.opencode.ip == "0.0.0.0") {
-    allowedTCPPorts = [ config.my.service.opencode.port ];
-  };
+  # interface; a narrower bind needs no hole in the firewall. Open TCP 80
+  # only when Caddy is enabled to front that UI.
+  networking.firewall.allowedTCPPorts =
+    lib.optional (config.my.service.opencode.ip == "0.0.0.0") config.my.service.opencode.port
+    ++ lib.optional config.services.caddy.enable 80;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
@@ -141,8 +143,6 @@
         }
       ];
     };
-    # Accessable at atlas.local
-    avahi.enable = true;
   };
 
   programs.zsh.enable = true;

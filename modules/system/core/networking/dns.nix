@@ -1,8 +1,8 @@
 {
-  # To add local hosts, edit `/var/lib/dnsmasq/dnsmasq.conf` and
-  # restart dnsmasq service. IP changes, no point to add it here.
-  # This also means you need to add this file manually and set correct
-  # ownership of dnsmasq:dnsmasq.
+  # Local DNS overrides. The atlas MicroVM has a pinned DHCP lease (see
+  # hosts/omen/system/core/networking/atlas-vm.nix), so its name is wired
+  # declaratively via services.dnsmasq.settings.address. Ad-hoc records
+  # can still be dropped into /var/lib/dnsmasq/dnsmasq.conf.
   services.dnsmasq = {
     enable = true;
     alwaysKeepRunning = true;

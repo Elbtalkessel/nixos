@@ -1,6 +1,7 @@
 {
   imports = [
     ./dns.nix
+    ./atlas-vm.nix
     ./networkmanager.nix
     ./tailscale.nix
     ./localsend.nix
