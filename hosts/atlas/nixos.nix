@@ -78,11 +78,27 @@
     # the guest, which in turn is required by Home Manager activation. The
     # overlay only stores upperdir changes (profiles, GC roots); store paths
     # still come from the host's read-only /nix/store share.
+    #
+    # Never run `nix-collect-garbage` inside the guest. The guest's Nix
+    # database lives on the ephemeral tmpfs root while this overlay is
+    # persistent, so GC can delete a path that also exists in the host's
+    # read-only layer; overlayfs records that as a whiteout, and the whiteout
+    # then *hides* the host's copy on every later boot. A store path added by
+    # a later rebuild then silently fails to appear, which surfaces far away
+    # as `systemctl` reporting a unit as `bad` / "not found". Repair with
+    # `nix-store --verify --check-contents --repair`, or delete the image on
+    # the host to drop every accumulated whiteout at once.
     writableStoreOverlay = "/nix/.rw-store";
     volumes = [
       {
         image = "nix-store-overlay.img";
         mountPoint = config.microvm.writableStoreOverlay;
+        # `size` is MiB and only applies when the image is first created.
+        # 15 GiB matches the image that is actually in use; the original
+        # 2 GiB filled up. Keeping it accurate means recreating the image
+        # (the cleanest way to drop overlay whiteouts) does not silently
+        # produce a store that overflows on the first Home Manager
+        # activation.
         size = 15 * 1024;
       }
       # Persistent work data. The guest root filesystem is a tmpfs, so
