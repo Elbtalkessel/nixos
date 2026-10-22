@@ -143,6 +143,8 @@
         }
       ];
     };
+    # Accessable at atlas.local
+    avahi.enable = true;
   };
 
   programs.zsh.enable = true;
