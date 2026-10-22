@@ -88,7 +88,7 @@ Back on the target console, provision the keyfile and install:
 ```bash
 sudo mkdir -p /mnt/etc/sops-nix
 sudo install -m 0640 -o root -g users /tmp/<name>.age.key /mnt/etc/sops-nix/key.txt
-git clone https://codeberg.org/outlast/nixos
+git clone https://gitea.x.home.arpa/nix/nixos.git
 cd nixos
 host="<name>"
 sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko ./hosts/${host}/disko.nix
@@ -103,7 +103,7 @@ sudo nixos-rebuild switch --flake /path/to/nixos#<host>
 home-manager switch --flake /path/to/nixos#<user>
 ```
 
-`flake.nix`'s `sopsShared` keeps the keyfile at `0640 root:sops` after every boot (no content touch), adds the user to the `sops` group, and exports `SOPS_AGE_KEY_FILE=/etc/sops-nix/key.txt` to the interactive shell and to the user systemd instance.
+`flake.nix`'s sops wiring (`getSopsConfig` plus the per-host module in `nixosFor`) keeps the keyfile at `0640 root:sops` after every boot (no content touch), adds the user to the `sops` group, and exports `SOPS_AGE_KEY_FILE=/etc/sops-nix/key.txt` to the interactive shell and to the user systemd instance.
 
 ### MicroVM guests
 
@@ -124,12 +124,23 @@ install -D -m 0600 -o $USER -g users /tmp/<name>.age.key \
 as `/etc/sops-nix` via virtiofs. The private key never enters the Nix store;
 only the script that performs the copy is in the store.
 
-To update and restart a guest from the host:
+A guest that sets `updateFlake` — every guest in this repo does — is installed
+**once**. `install-microvm-<name>.service` is guarded by
+`ConditionPathExists = "!/var/lib/microvms/<name>"`, so a host rebuild does not
+replace the guest's runner. Update and restart it with the imperative command on
+the host:
 
 ```bash
-sudo nixos-rebuild switch --flake /path/to/nixos#<host>
-sudo systemctl restart microvm@<name>.service
+# Rebuild the guest from the flakeref stored in /var/lib/microvms/<name>/flake
+# (that is `updateFlake`, i.e. the remote default branch), then restart it.
+microvm -u -R <name>
 ```
+
+`nixos-rebuild switch --flake /path/to/nixos#<host>` still rebuilds the host and
+can restart the guest, but it restarts the **same** runner: it does not pick up
+new guest configuration. Rebuilding also does not bump package versions — run
+`nix flake update` first if that is the intent. To deploy an unmerged branch,
+point `/var/lib/microvms/<name>/flake` at that branch before updating.
 
 ## Secrets
 

@@ -4,8 +4,8 @@
 # Home Manager) import this module, so the values are set once and available
 # to either side.
 #
-# Same goes for sops: each host owns its own secrets file (path set in
-# flake.nix's `sopsShared`) and the per-host age key at `/etc/sops-nix/key.txt`.
+# Same goes for sops: each host owns its own secrets file (path set by
+# flake.nix's `getSopsConfig`) and the per-host age key at `/etc/sops-nix/key.txt`.
 {
   config,
   lib,

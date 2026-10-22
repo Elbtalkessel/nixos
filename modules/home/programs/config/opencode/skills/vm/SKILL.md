@@ -13,13 +13,38 @@ description: Work inside the atlas virtual machine — cloning from and pushing 
   for that.
   Project dependencies declared in a `flake.nix` or `devenv.nix` at a project level.
 
-## Persistence — the one rule
+## Project knowledge
 
-- All work — clones, environments, artifacts you care about — lives under
-  `~/Projects`. Refer to files by absolute path (`/home/atlas/Projects/...`)
-  across tool calls.
-- `/var/lib/ssh` is persistent but reserved for machine identity keys.
-  Do not read or modify it beyond using git through the preconfigured SSH.
+`~/Projects/nixos` documents itself in a Gitea wiki: read the page you need
+instead of guessing. This skill is the short version of `MicroVM`.
+
+| Page | Covers |
+| --- | --- |
+| `Workflow` | issue → worktree/branch → gates → PR → review → merge |
+| `MicroVM` | what this VM can and cannot do — source of truth for this file |
+| `AgentIdentity` | who you push as on gitea, and how to verify it |
+| `Conventions` | nixfmt/statix/deadnix, layout, commit style |
+| `Architecture` | flake → hosts → modules → options |
+| `Decisions` | settled decisions — check before proposing an approach |
+
+```
+gitea_wiki_read(method="get", owner="nix", repo="nixos", pageName="MicroVM")
+```
+
+Or clone the whole wiki: `git clone git@gitea.x.home.arpa:nix/nixos.wiki.git /tmp/nixos-wiki`.
+
+## Persistence
+
+- `/home/atlas` — the whole home directory — is a persistent 20 GiB volume and
+  survives a VM restart. `/var/lib/ssh` is persistent too, reserved for machine
+  identity keys; do not read or modify it beyond using git through the
+  preconfigured SSH.
+- The guest **root filesystem is a tmpfs**. `/`, `/etc`, `/var`, `/run`,
+  `/nix/var` and `/tmp` are rebuilt on every boot. Anything outside
+  `/home/atlas`, `/var/lib/ssh` and `/etc/sops-nix` is lost on restart.
+- Keep work under `~/Projects` anyway — that is where the operator looks, and
+  it is where parallel worktrees live (`~/Projects/worktrees/<repo>/<branch>`).
+  Refer to files by absolute path (`/home/atlas/Projects/...`) across tool calls.
 
 ## Git and gitea
 
@@ -91,11 +116,24 @@ same environment.
   print, log, or embed them in code, commits, or tool output.
 - Never write tokens or keys into a repository.
 
-## Disk
+## Disk and the Nix store
 
-- New store paths from environment builds land in a writable overlay
-  (`df -h /nix`). If a build fails with a full-disk error, report it to the
-  operator; do not delete store paths by hand.
+- `/nix/store` is an **overlay**: the host's store shared read-only, plus a
+  writable 15 GiB upper layer (`df -h /nix/store`). New store paths from
+  environment builds land in that upper layer.
+- **Never run `nix-collect-garbage` or `nix store gc`.** A full disk is a
+  rebuild problem, not a GC problem. The guest's Nix database lives on the
+  ephemeral root while the overlay is persistent, so GC deletes paths the host
+  still provides and leaves overlayfs whiteouts that hide them on every later
+  boot — producing units that report `bad` / "not found" for no visible reason.
+  Report a full disk to the operator instead.
+- **Never build the NixOS system here.** `nixos-rebuild switch` needs root you
+  do not have, and a full system closure does not fit in the 15 GiB overlay.
+  The operator builds and deploys on `omen`.
+- Cheap checks are fine: `nix eval .#nixosConfigurations.<host>.config.<opt>`,
+  a single small derivation, `shellcheck` on an extracted unit script.
+  Serialize Nix commands — two at once contend on the eval-cache SQLite
+  database and look like a hang.
 
 ## Asking the operator
 
