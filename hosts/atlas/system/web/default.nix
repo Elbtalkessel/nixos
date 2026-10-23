@@ -19,13 +19,8 @@ in
     globalConfig = "auto_https off";
 
     virtualHosts."${DOMAIN}" = {
-      # The explicit `http://` scheme is load-bearing, not decoration.
-      # Caddy derives the listener port from the site address scheme: a bare
-      # hostname is an HTTPS site and binds :443, which would leave the
-      # firewall's :80 hole unused. The `listen` directive that used to
-      # override this was removed in Caddy 2.11, so the scheme is the only
-      # way to select the port. With it, Caddy serves plain HTTP on :80 and
-      # skips ACME for this site.
+      # The `http://` scheme selects the listener port: a bare hostname is
+      # an HTTPS site and binds :443, leaving the :80 firewall hole unused.
       hostName = "http://${DOMAIN}";
 
       # `hostName` now carries the scheme, so the module's default access-log

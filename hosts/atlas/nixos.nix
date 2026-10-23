@@ -93,12 +93,9 @@
       {
         image = "nix-store-overlay.img";
         mountPoint = config.microvm.writableStoreOverlay;
-        # `size` is MiB and only applies when the image is first created.
-        # 15 GiB matches the image that is actually in use; the original
-        # 2 GiB filled up. Keeping it accurate means recreating the image
-        # (the cleanest way to drop overlay whiteouts) does not silently
-        # produce a store that overflows on the first Home Manager
-        # activation.
+        # MiB, read only when the image is first created. To resize: delete
+        # the image on the host and restart the guest -- the volume comes
+        # back empty at the new size.
         size = 15 * 1024;
       }
       # Persistent work data. The guest root filesystem is a tmpfs, so
