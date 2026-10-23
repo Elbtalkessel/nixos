@@ -16,19 +16,26 @@ description: Work inside the atlas virtual machine — cloning from and pushing 
 ## Project knowledge
 
 `~/Projects/nixos` documents itself in a Gitea wiki: read the page you need
-instead of guessing. This skill is the short version of `MicroVM`.
+instead of guessing. This skill is the short version of `MicroVM`. The
+instance-wide rules — who you push as, dependencies — live in the `kb/gitea`
+wiki, not in this one.
 
 | Page | Covers |
 | --- | --- |
 | `Workflow` | issue → worktree/branch → gates → PR → review → merge |
 | `MicroVM` | what this VM can and cannot do — source of truth for this file |
-| `AgentIdentity` | who you push as on gitea, and how to verify it |
 | `Conventions` | nixfmt/statix/deadnix, layout, commit style |
 | `Architecture` | flake → hosts → modules → options |
 | `Decisions` | settled decisions — check before proposing an approach |
 
+| `kb/gitea` page | Covers |
+| --- | --- |
+| `AgentIdentity` | who you push as on gitea, and how to verify it |
+| `Dependencies` | recording blocked-by relations on issues and PRs |
+
 ```
 gitea_wiki_read(method="get", owner="nix", repo="nixos", pageName="MicroVM")
+gitea_wiki_read(method="get", owner="kb", repo="gitea", pageName="AgentIdentity")
 ```
 
 Or clone the whole wiki: `git clone git@gitea.x.home.arpa:nix/nixos.wiki.git /tmp/nixos-wiki`.
@@ -51,6 +58,11 @@ Or clone the whole wiki: `git clone git@gitea.x.home.arpa:nix/nixos.wiki.git /tm
 - Clone URL form: `git@gitea.x.home.arpa:<owner>/<repo>.git`. SSH is
   preconfigured (`~/.ssh/config` pins the key for this host); pull and push
   work with no setup for repositories the VM key may write.
+- Commits must be authored `nastya <pieceof@duck.com>`. The VM's global git
+  config says `atlas <rtfsc+atlas@pm.me>`, which is not that account. Pass
+  `-c user.name=nastya -c user.email=pieceof@duck.com`, or set it once per
+  clone, and confirm with `git log -1 --format='%an <%ae>'`. Details:
+  `kb/gitea` `AgentIdentity`.
 - `permission denied (publickey)` on push means the VM key is not registered
   on gitea or lacks rights. Report it to the operator; you cannot fix it.
 
