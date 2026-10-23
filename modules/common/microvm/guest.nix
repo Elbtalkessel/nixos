@@ -4,9 +4,6 @@
 # `nixos-rebuild switch` or `microvm -u` -- activates both at boot. Home
 # Manager is therefore wired as a NixOS module here rather than as the
 # standalone `homeFor` build.
-#
-# `nix-collect-garbage` is shadowed with a refusing wrapper: see the
-# `environment.systemPackages` note below.
 {
   config,
   lib,
@@ -27,18 +24,8 @@
     home-manager.nixosModules.home-manager
   ];
 
-  # A guest's store is an overlay: the host's store is the read-only lower
-  # layer and this guest's writes go to a persistent upper layer, while the
-  # Nix database lives on the ephemeral tmpfs root and is rebuilt on every
-  # boot. GC therefore judges liveness from an almost empty database, and
-  # deleting a path the host still provides leaves an overlayfs whiteout that
-  # keeps hiding the host's copy on every later boot -- a store path that
-  # silently never comes back, surfacing much later as a systemd unit reported
-  # as `bad` / "not found". Shadowing the command makes the mistake fail
-  # loudly instead. `hiPrio` (priority -10) wins the `bin/nix-collect-garbage`
-  # collision in `system-path`, which is built with `ignoreCollisions = true`
-  # and resolves by ascending `meta.priority`; the `nix` package has the
-  # default, 5.
+  # Shadow `nix-collect-garbage` with a refusing wrapper (`hiPrio`, priority -10)
+  # to win the `system-path` collision (ignoreCollisions, ascending priority).
   environment.systemPackages = [
     (lib.meta.hiPrio (
       pkgs.writeShellScriptBin "nix-collect-garbage" ''
