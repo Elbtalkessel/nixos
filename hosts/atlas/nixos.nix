@@ -12,15 +12,17 @@
     ../../modules/system/core
 
     ./system/boot
+    ./system/web
   ];
 
   networking.hostName = "atlas";
 
   # Open the opencode web UI port only when the service binds on every
-  # interface; a narrower bind needs no hole in the firewall.
-  networking.firewall = lib.mkIf (config.my.service.opencode.ip == "0.0.0.0") {
-    allowedTCPPorts = [ config.my.service.opencode.port ];
-  };
+  # interface; a narrower bind needs no hole in the firewall. Open TCP 80
+  # only when Caddy is enabled to front that UI.
+  networking.firewall.allowedTCPPorts =
+    lib.optional (config.my.service.opencode.ip == "0.0.0.0") config.my.service.opencode.port
+    ++ lib.optional config.services.caddy.enable 80;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
@@ -76,11 +78,24 @@
     # the guest, which in turn is required by Home Manager activation. The
     # overlay only stores upperdir changes (profiles, GC roots); store paths
     # still come from the host's read-only /nix/store share.
+    #
+    # Never run `nix-collect-garbage` inside the guest. The guest's Nix
+    # database lives on the ephemeral tmpfs root while this overlay is
+    # persistent, so GC can delete a path that also exists in the host's
+    # read-only layer; overlayfs records that as a whiteout, and the whiteout
+    # then *hides* the host's copy on every later boot. A store path added by
+    # a later rebuild then silently fails to appear, which surfaces far away
+    # as `systemctl` reporting a unit as `bad` / "not found". Repair with
+    # `nix-store --verify --check-contents --repair`, or delete the image on
+    # the host to drop every accumulated whiteout at once.
     writableStoreOverlay = "/nix/.rw-store";
     volumes = [
       {
         image = "nix-store-overlay.img";
         mountPoint = config.microvm.writableStoreOverlay;
+        # MiB, read only when the image is first created. To resize: delete
+        # the image on the host and restart the guest -- the volume comes
+        # back empty at the new size.
         size = 15 * 1024;
       }
       # Persistent work data. The guest root filesystem is a tmpfs, so
