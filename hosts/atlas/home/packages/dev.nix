@@ -9,8 +9,9 @@
     deadnix
     shellcheck
     jq
-    # mikefarah's Go yq; `yq` in nixpkgs is the Python jq wrapper.
     yq-go
+    # Needs `tea login add` with a user-owned token; the MCP token grants no
+    # more than the MCP server already has.
     tea
     nix-tree
     nix-diff
