@@ -5,42 +5,15 @@
   ...
 }:
 let
-  # ctpv for ghostty, which doesn't support sixel; otherwise lf itself.
-  is-ctpv = (config.my.terminal.exe or null) == "ghostty";
-
-  preview-script =
-    if is-ctpv then
-      "${pkgs.ctpv}/bin/ctpv"
-    else
-      (pkgs.writeShellScript "previewerr.sh"
-        # bash
-        ''
-          ${pkgs.lib.getExe pkgs.lf-tools} "''$1" "''$2" "''$3" "''$4" "''$5"
-        ''
-      );
-
-  mimeo = pkgs.lib.getExe pkgs.mimeo;
-  ouch = pkgs.lib.getExe pkgs.ouch;
-  tmsu = pkgs.lib.getExe pkgs.tmsu;
+  mimeo = lib.getExe pkgs.mimeo;
+  ouch = lib.getExe pkgs.ouch;
+  tmsu = lib.getExe pkgs.tmsu;
+  nprev = lib.getExe pkgs.nprev;
 in
 {
   xdg.configFile = {
     "lf/icons".source = ./icons;
   };
-  home.packages =
-    with pkgs;
-    lib.mkIf is-ctpv [
-      exiftool
-      atool
-      ffmpegthumbnailer
-      colordiff
-      elinks
-      chafa
-      jq
-      glow
-      imagemagick
-      bat
-    ];
   programs.lf = rec {
     enable = true;
 
@@ -62,19 +35,13 @@ in
       # Show hidden files by default.
       hidden = false;
       # Enable image preview.
-      sixel = true;
-      # TODO: Implement clearer as part of lf-tools.
-      cleaner = "${pkgs.ctpv}/bin/ctpvclear";
     };
 
     previewer = {
-      source = "${preview-script}";
+      source = pkgs.writeShellScript "previewer.sh" ''
+        ${nprev} "''$1" "''$2" "''$3" "''$4" "''$5"
+      '';
     };
-    extraConfig = ''
-      &${pkgs.ctpv}/bin/ctpv -s $id
-      cmd on-quit %${pkgs.ctpv}/bin/ctpv -e $id
-      set cleaner ${pkgs.ctpv}/bin/ctpvclear
-    '';
 
     # % - run shell command inside UI.
     # & - run command asynchronously.
@@ -288,7 +255,7 @@ in
         ''
           ''${{
             set -f
-            if test $(${preview-script} mime $f major) == "x-archive"; then
+            if test $(${nprev} mime $f major) == "x-archive"; then
               ${ouch} d $f
             fi
           }}
