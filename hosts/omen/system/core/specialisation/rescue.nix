@@ -1,4 +1,4 @@
-_: {
+{
   specialisation = {
     # Minimal configuration for system rescue, to be expanded...
     rescue.configuration = {

@@ -1,7 +1,6 @@
 { pkgs, ... }:
 {
   nixpkgs.config.allowUnfreePackages = [
-    # "limo"
     "ouch"
     "plexamp"
     "vagrant"
@@ -14,8 +13,6 @@
     xdg-user-dirs # desktop directories support.
 
     # General / Support
-    grim # screenshot.
-    slurp # returns selected on screen region, for taking screenshots.
     hyprpicker # get HEX color under pointer.
     brightnessctl # monitor brightness control.
     (ouch.overrideAttrs {
@@ -32,8 +29,6 @@
     telegram-desktop # comms.
     mattermost-desktop # comms.
     neovim # terminal editor.
-    #proton-vpn # vpn client.
-    plexamp
 
     # VM
     vagrant
@@ -48,7 +43,6 @@
     ncdu # disk usage visualizer.
     btop # system usage visualizer.
     chafa # image preview in terminal.
-    tldr # quick documentation on a utility.
     jless # tui json/yaml viewer.
     yt-dlp
     difftastic # better diff tool
@@ -57,26 +51,12 @@
     wf-recorder
 
     # Development
-    mockoon # API mocking.
-    bruno # API documentation.
-    cloudflared # Tunneling local servers.
     lazydocker # docker tui.
     lazygit # git tui.
     # REPLs / Languages
     python313Packages.ipython # python.
 
-    # Games
-    # can't build.
-    #(limo.overrideAttrs (_: {
-    #  withUnrar = true;
-    #}))
-
     # Custom
-    gimd
     usbdrivetools
   ];
-
-  #xdg.autostart.entries = [
-  #  "${pkgs.proton-vpn}/share/applications/proton.vpn.app.gtk.desktop"
-  #];
 }

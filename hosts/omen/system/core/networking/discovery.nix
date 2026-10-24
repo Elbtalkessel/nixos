@@ -1,4 +1,4 @@
-_: {
+{
   services = {
     # Required for samba and network printing.
     avahi = {

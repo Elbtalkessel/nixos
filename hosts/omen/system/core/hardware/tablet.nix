@@ -1,4 +1,4 @@
-_: {
+{
   # Wacom graphical tablet support.
   # https://wiki.nixos.org/wiki/OpenTabletDriver
   hardware = {

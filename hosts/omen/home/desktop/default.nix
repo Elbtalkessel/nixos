@@ -2,7 +2,7 @@
   imports = [
     ./launchers
     ./notifications
-    ./panel
+    ./shell
     ./session
     ./wallpaper
   ];
