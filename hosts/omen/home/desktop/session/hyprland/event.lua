@@ -1,10 +1,3 @@
--- Events
--- https://wiki.hypr.land/Configuring/Advanced-and-Cool/Expanding-functionality/#events
-hl.on("hyprland.start", function()
-	hl.exec_cmd("solaar --window=hide --battery-icons=symbolic")
-	hl.exec_cmd("noctalia -d")
-	hl.exec_cmd("systemctl --user start hyprland-session.service")
-end)
 -- Move everything to a newly added monitor.
 -- Vibecoded, to complex for such simple task.
 local opts = {
@@ -69,6 +62,17 @@ local function migrate(dest)
     end
 end
 
+-- Events
+-- https://wiki.hypr.land/Configuring/Advanced-and-Cool/Expanding-functionality/#events
+hl.on("hyprland.start", function()
+    hl.exec_cmd("solaar --window=hide --battery-icons=symbolic")
+    hl.exec_cmd("noctalia -d")
+    hl.exec_cmd("systemctl --user start hyprland-session.service")
+    local monitors = hl.get_monitors()
+    if monitors ~= nil and #monitors > 1 then
+        migrate(monitors[2])
+    end
+end)
 hl.on("monitor.added", function(monitor)
     migrate(monitor)
     hl.dsp.focus({ workspace = "1" })
