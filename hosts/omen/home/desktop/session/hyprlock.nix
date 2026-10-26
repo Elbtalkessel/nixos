@@ -55,20 +55,6 @@
         }
       ];
 
-      # Profie-Photo
-      image = {
-        path = config.my.avatar;
-        border_size = 2;
-        border_color = "rgba(0, 0, 0, .65)";
-        size = 130;
-        rounding = -1;
-        rotate = 0;
-        reload_time = -1;
-        position = "0, 40";
-        halign = "center";
-        valign = "center";
-      };
-
       input-field = [
         {
           size = "300, 60";

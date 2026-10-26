@@ -29,10 +29,6 @@ in
       package = pkgs.nushell;
     };
     editor = "nvim";
-    # Avatar path defers to the merged username: the module system defers
-    # evaluation, so the order of these assignments does not matter.
-    avatar = "/home/${config.my.username}/.cache/avatar";
-
     tailscale = true;
     steam.session = true;
     virt.docker.gpu.enable = true;
