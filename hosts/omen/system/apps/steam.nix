@@ -14,28 +14,16 @@
 
   programs = rec {
     steam = {
-      enable = lib.mkDefault true;
+      enable = lib.mkDefault config.my.apps.steam.enable;
       # Open ports in the firewall for Steam Remote Play
       remotePlay.openFirewall = false;
       # Open ports in the firewall for Source Dedicated Server
       dedicatedServer.openFirewall = false;
       # Open ports in the firewall for Steam Local Network Game Transfers
       localNetworkGameTransfers.openFirewall = false;
-      gamescopeSession = {
-        enable = config.my.apps.steam.session;
-        args = [
-          "--rt"
-          "--steam"
-        ];
-      };
       protontricks.enable = true;
     };
-    gamescope = {
-      inherit (steam.gamescopeSession) enable;
-      # https://github.com/NixOS/nixpkgs/issues/351516
-      capSysNice = false;
-    };
-    gamemode.enable = true;
+    gamemode.enable = steam.enable;
   };
 
   # This contain a bunch of udev rules for various usb/bluetooth controllers,
@@ -49,7 +37,7 @@
 
   # Among rules above there is a rule for a steam controller to wakeup computer from sleep.
   # Kernel tests all devices and logs that power/wakeup not supported, this rule make log "cleaner".
-  services.udev.extraRules = ''
+  services.udev.extraRules = lib.mkIf config.programs.steam.enable ''
     # Only enable wakeup when power/wakeup attribute exists
     ACTION=="add", SUBSYSTEM=="usb[0-9]*", TEST=="power/wakeup", ATTR{power/wakeup}="enabled"
   '';

@@ -52,7 +52,6 @@ in
         # host / port / sslType carry sensible defaults at the declaration site,
         # so they are not repeated here.
       };
-      steam.session = true;
     };
   };
 }

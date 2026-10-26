@@ -85,9 +85,9 @@
       description = "Steam related options.";
       type = lib.types.submodule {
         options = {
-          session = lib.mkOption {
+          enable = lib.mkOption {
             type = lib.types.bool;
-            description = "Gamescope Session";
+            description = "Deploy steam on this host.";
             default = false;
           };
         };
