@@ -1,4 +1,4 @@
-{ lib, ... }: {
+{ lib, pkgs, ... }: {
   options.my.core = {
     # Problem: for nushell the package name is nushell, but executable is nu.
     shell = lib.mkOption {
@@ -7,10 +7,12 @@
           name = lib.mkOption {
             type = lib.types.str;
             description = "The default shell for the user.";
+            default = "zsh";
           };
           package = lib.mkOption {
             type = lib.types.package;
             description = "Shell package.";
+            default = pkgs.zsh;
           };
         };
       };
@@ -26,14 +28,17 @@
                 default = lib.mkOption {
                   type = lib.types.str;
                   description = "Default font.";
+                  default = "OverpassM Nerd Font";
                 };
                 mono = lib.mkOption {
                   type = lib.types.str;
                   description = "Default monospace font.";
+                  default = "OverpassM Nerd Font Mono";
                 };
                 propo = lib.mkOption {
                   type = lib.types.str;
                   description = "Default prop font.";
+                  default = "OverpassM Nerd Propo";
                 };
               };
             };
@@ -42,6 +47,10 @@
           packages = lib.mkOption {
             type = lib.types.listOf lib.types.package;
             description = "The same as fonts.packages.";
+            default = with pkgs; [
+              nerd-fonts.overpass
+              noto-fonts-color-emoji
+            ];
           };
         };
       };
@@ -55,6 +64,7 @@
     tailscale = lib.mkOption {
       type = lib.types.bool;
       description = "Enable tailscale vpn. Requires tailscale/one-of-key secret.";
+      default = false;
     };
     filesystem = lib.mkOption {
       type = lib.types.submodule {

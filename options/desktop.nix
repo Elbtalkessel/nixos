@@ -9,10 +9,12 @@
     opacity = lib.mkOption {
       type = lib.types.float;
       description = "Opacity value between 1 (no opacity) and 0.0 (opaque) applied where it can (terminal, launcher).";
+      default = 0.85;
     };
     gaps = lib.mkOption {
       type = lib.types.float;
       description = "Gaps between tailed windows.";
+      default = 4.0;
     };
     shell = lib.mkOption {
       type = lib.types.submodule {
@@ -22,6 +24,7 @@
               "noctalia"
             ];
             description = "Desktop shell provider.";
+            default = "noctalia";
           };
         };
       };
@@ -32,6 +35,7 @@
           performance = lib.mkOption {
             type = lib.types.bool;
             description = "Enable performance mode.";
+            default = false;
           };
           uwsm = lib.mkOption {
             type = lib.types.submodule {
@@ -39,6 +43,7 @@
                 enable = lib.mkOption {
                   type = lib.types.bool;
                   description = "Enable UWSM support.";
+                  default = true;
                 };
               };
             };

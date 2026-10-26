@@ -1,9 +1,10 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 {
   options.my.apps = {
     editor = lib.mkOption {
       type = lib.types.str;
       description = "The default editor for the user.";
+      default = "nvim";
     };
 
     terminal = lib.mkOption {
@@ -12,18 +13,22 @@
           pkg = lib.mkOption {
             type = lib.types.package;
             description = "The default terminal emulator for the user.";
+            default = pkgs.foot;
           };
           desktop = lib.mkOption {
             type = lib.types.str;
             description = "Name of .desktop file";
+            default = "foot.desktop";
           };
           exe = lib.mkOption {
             type = lib.types.str;
             description = "Name of executable";
+            default = "foot";
           };
           font-size = lib.mkOption {
             type = lib.types.int;
             description = "Terminal font size";
+            default = 14;
           };
         };
       };

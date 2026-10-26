@@ -29,17 +29,6 @@ in
         name = "nu";
         package = pkgs.nushell;
       };
-      font = {
-        family = {
-          mono = "OverpassM Nerd Font Mono";
-          default = "OverpassM Nerd Font";
-          propo = "OverpassM Nerd Propo";
-        };
-        packages = with pkgs; [
-          nerd-fonts.overpass
-          noto-fonts-color-emoji
-        ];
-      };
       tailscale = true;
       filesystem = {
         network = {
@@ -56,28 +45,12 @@ in
       virt.docker.gpu.enable = true;
       hardware.dgpu.enable = true;
     };
-    desktop = {
-      opacity = 0.85;
-      gaps = 4.0;
-      manager = {
-        uwsm.enable = true;
-        performance = false;
-      };
-      shell.provider = "noctalia";
-    };
     apps = {
       mail = {
         address = "rtfsc@pm.me";
         password = "proton/bridge password";
         # host / port / sslType carry sensible defaults at the declaration site,
         # so they are not repeated here.
-      };
-      editor = "nvim";
-      terminal = {
-        pkg = pkgs.foot;
-        desktop = "foot.desktop";
-        exe = "foot";
-        font-size = 14;
       };
       steam.session = true;
     };
