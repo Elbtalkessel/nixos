@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# The repo's gates, from one entry point, so a local pass means what CI means.
+# statix and deadnix take exactly one path each.
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+
+# Everything, including files not yet staged; dot-directories (.devenv, .git)
+# hold generated Nix that is not ours to format.
+find . -mindepth 1 -name '.*' -prune -o -type f -name '*.nix' -print0 |
+  xargs -0 -r nixfmt --check
+
+changed=$(git diff --name-only --diff-filter=d origin/main... -- '*.nix')
+if [ -n "$changed" ]; then
+  printf '%s\n' "$changed" | xargs -r -n1 statix check
+  printf '%s\n' "$changed" | xargs -r -n1 deadnix --fail
+fi
+
+nix flake check --no-build
