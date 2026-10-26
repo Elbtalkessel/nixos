@@ -7,9 +7,8 @@
 let
   palette = config.my.theme.color.dark;
   run = cmd: if config.my.wm.uwsm.enable then "uwsm-app -- ${cmd}" else cmd;
-  ltoggle =
-    if config.programs.vicinae.enable then "vicinae toggle" else "noctalia msg panel-toggle launcher";
-  wtoggle = if config.programs.noctalia.enable then "noctalia msg window-switcher" else "";
+  ltoggle = "noctalia msg panel-toggle launcher";
+  wtoggle = "noctalia msg window-switcher";
 in
 {
   wayland.windowManager.hyprland = {
