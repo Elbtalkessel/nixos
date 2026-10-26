@@ -1,7 +1,7 @@
 { lib, ... }:
 {
   options.my = {
-    editor = lib.mkOption {
+    apps.editor = lib.mkOption {
       type = lib.types.str;
       description = "The default editor for the user.";
     };

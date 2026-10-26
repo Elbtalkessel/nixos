@@ -12,7 +12,7 @@
     inherit (config.my.core.identity) username;
     homeDirectory = "/home/${config.my.core.identity.username}";
 
-    sessionVariables.EDITOR = config.my.editor;
+    sessionVariables.EDITOR = config.my.apps.editor;
 
     # Matches the release this host was created on.
     stateVersion = "26.11";

@@ -39,7 +39,7 @@ in
       ];
 
       # Configuration variables
-      EDITOR = config.my.editor;
+      EDITOR = config.my.apps.editor;
       TERMINAL = config.my.terminal.exe;
       VAGRANT_DEFAULT_PROVIDER = "libvirt";
       VIRSH_DEFAULT_CONNECT_URI = "qemu:///system";

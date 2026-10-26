@@ -36,8 +36,8 @@ in
     })
   ];
 
-  # `my.editor` -- assigned here so both trees seed `home.sessionVariables.EDITOR`.
-  my.editor = "nvim";
+  # `my.apps.editor` -- assigned here so both trees seed `home.sessionVariables.EDITOR`.
+  my.apps.editor = "nvim";
 
   # opencode web UI bind. Both trees read it: Home Manager builds
   # `programs.opencode.web.extraArgs` from it, the system tree opens the

@@ -48,8 +48,8 @@ in
         # host / port / sslType carry sensible defaults at the declaration site,
         # so they are not repeated here.
       };
+      editor = "nvim";
     };
-    editor = "nvim";
     tailscale = true;
     steam.session = true;
     virt.docker.gpu.enable = true;
