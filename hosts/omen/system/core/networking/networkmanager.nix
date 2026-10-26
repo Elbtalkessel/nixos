@@ -22,7 +22,7 @@ in
       # this runs networkmanager's dnsmasq instance.
       enable = true;
       ensureProfiles = {
-        environmentFiles = [ config.sops.secrets."wireless.env".path ];
+        environmentFiles = [ config.sops.secrets."wireless/env".path ];
         profiles = {
           home = wifi {
             ssid = "$HOME_WIFI_SSID";

@@ -2,9 +2,6 @@
 {
   imports = [
     ./config.nix
-
-    ../../modules/home/programs/opencode.nix
-
     ./home/apps
     ./home/core
     ./home/desktop

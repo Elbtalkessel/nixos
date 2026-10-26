@@ -10,29 +10,14 @@ in
 {
   sops.secrets = lib.mkMerge [
     {
-      "wireless.env" = { };
-      "wireguard/wg0" = { };
-      "moon/${config.my.username}" = { };
-      "moon/webdav" = {
-        mode = "0600";
-        path = "/etc/davfs2/secrets";
-      };
+      "wireless/env" = { };
       "tailscale/one-of-key" = { };
-      "vaultwarden.env" = { };
-      "protonmail.bridge.username" = { };
-      "protonmail.bridge.password" = { };
-      "opencode/env" = { };
-      "ai-gateway/api-key" = { };
-      # Consumed by the gitea MCP server via opencode's native {file:...}
-      # substitution at load time (see agent.nix).
-      "gitea/mcp-token" = { };
+      "protonmail/bridge/username" = { };
+      "protonmail/bridge/password" = { };
     }
 
     (lib.mkIf isSystem {
       "users/${config.my.username}/password" = {
-        neededForUsers = true;
-      };
-      "users/steamos/password" = {
         neededForUsers = true;
       };
     })
