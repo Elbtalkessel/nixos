@@ -79,7 +79,6 @@ local function notify_error(text)
 		text = text,
 		timeout = 5000,
 		icon = M.ICON.QUESTION,
-		color = M.COLOR.BG_ERROR_CONTAINER,
 	})
 end
 
@@ -88,7 +87,6 @@ local function notify_success(text)
 		text = text,
 		timeout = 5000,
 		icon = M.ICON.SUCCESS,
-		color = M.COLOR.BG_PRIMARY_CONTAINER,
 	})
 end
 

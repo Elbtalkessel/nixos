@@ -5,7 +5,6 @@
   ...
 }:
 let
-  palette = config.my.theme.color.dark;
   run = cmd: if config.my.desktop.wm.uwsm.enable then "uwsm-app -- ${cmd}" else cmd;
   ltoggle = "noctalia msg panel-toggle launcher";
   wtoggle = "noctalia msg window-switcher";
@@ -63,30 +62,6 @@ in
             QUESTION = 4,
             -- checkmark sign
             SUCCESS = 5,
-          }
-
-          -- Palette to use for coloring notifications anything that can be colored.
-          M.COLOR = {
-            FG_PRIMARY = "${palette.fg-primary}",
-            BG_PRIMARY = "${palette.bg-primary}",
-            FG_PRIMARY_CONTAINER = "${palette.fg-primary-container}",
-            BG_PRIMARY_CONTAINER = "${palette.bg-primary-container}",
-            FG_SECONDARY = "${palette.fg-secondary}",
-            BG_SECONDARY = "${palette.bg-secondary}",
-            FG_SECONDARY_CONTAINER = "${palette.fg-secondary-container}",
-            BG_SECONDARY_CONTAINER = "${palette.bg-secondary-container}",
-            FG_TERTIARY = "${palette.fg-tertiary}",
-            BG_TERTIARY = "${palette.bg-tertiary}",
-            FG_TERTIARY_CONTAINER = "${palette.fg-tertiary-container}",
-            BG_TERTIARY_CONTAINER = "${palette.bg-tertiary-container}",
-            FG_ERROR = "${palette.fg-error}",
-            BG_ERROR = "${palette.bg-error}",
-            FG_ERROR_CONTAINER = "${palette.fg-error-container}",
-            BG_ERROR_CONTAINER = "${palette.bg-error-container}",
-            FG = "${palette.fg}",
-            BG = "${palette.bg}",
-            FG_SURFACE = "${palette.fg-surface}",
-            BG_SURFACE = "${palette.bg-surface}",
           }
         '';
       "hyprland.01-bind" = {
