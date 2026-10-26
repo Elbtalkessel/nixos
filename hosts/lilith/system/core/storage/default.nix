@@ -1,0 +1,6 @@
+{
+  imports = [
+    ./server
+    ./client.nix
+  ];
+}

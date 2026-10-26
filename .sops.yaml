@@ -1,10 +1,11 @@
-# To update secrets, run:
-#   nix-shell -p sops --run "sops secrets/secrets.yaml"
-# from this folder
+# 1. Add key
+#   nix shell "nixpkgs#age" -c age-keygen -y ~/.config/sops/age/$host.age.key
+# 2. Create / Add / Update
+#   nix shell "nixpkgs#sops" -c sops hosts/$host/secrets.yaml
 keys:
-  # nix shell "nixpkgs#age" -c age-keygen -y ~/.config/sops/age/keys.txt
   - &primary age153gu22gclpxv504jahq5gjc0cgmt7lw5wafcgjtqplycxjz66gysqtjl6j
   - &atlas age18z9aqdl9x2zt22frm6v5g580rmzmud6ktvr7vtqggsxnzukyvyyssjy98c
+  - &lilith age1dplsh8hyqlyl05tp55u8ssh492efr5m2nx5udg0sj9t9f3r0h9rq6dppr0
 creation_rules:
   - path_regex: hosts/omen/secrets.yaml$
     key_groups:
@@ -13,5 +14,10 @@ creation_rules:
   - path_regex: hosts/atlas/secrets.yaml$
     key_groups:
       - age:
-          - *atlas
           - *primary
+          - *atlas
+  - path_regex: hosts/lilith/secrets.yaml$
+    key_groups:
+      - age:
+          - *primary
+          - *lilith

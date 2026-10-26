@@ -1,0 +1,22 @@
+{
+  imports = [
+    ./audio
+    ./bluetooth
+    ./boot
+    ./dbus
+    ./fonts
+    ./hardware
+    ./locale
+    ./networking
+    ./nix-settings
+    ./packages
+    ./power
+    ./security
+    ./specialisation
+    ./storage
+    ./system-services
+    ./users
+    ./virtualisation
+    ./web
+  ];
+}
