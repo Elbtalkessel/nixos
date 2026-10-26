@@ -75,5 +75,18 @@
         };
       };
     };
+
+    steam = lib.mkOption {
+      description = "Steam related options.";
+      type = lib.types.submodule {
+        options = {
+          session = lib.mkOption {
+            type = lib.types.bool;
+            description = "Gamescope Session";
+            default = false;
+          };
+        };
+      };
+    };
   };
 }

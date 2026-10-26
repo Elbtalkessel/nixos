@@ -144,19 +144,6 @@
       };
     };
 
-    steam = lib.mkOption {
-      description = "Steam related options.";
-      type = lib.types.submodule {
-        options = {
-          session = lib.mkOption {
-            type = lib.types.bool;
-            description = "WIP: Create separate session for log-in into steamos-like interface.";
-            default = false;
-          };
-        };
-      };
-    };
-
     hardware = lib.mkOption {
       description = "Hardware toggles.";
       type = lib.types.submodule {

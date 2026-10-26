@@ -55,9 +55,9 @@ in
         exe = "foot";
         font-size = 14;
       };
+      steam.session = true;
     };
     tailscale = true;
-    steam.session = true;
     virt.docker.gpu.enable = true;
     hardware.dgpu.enable = true;
 

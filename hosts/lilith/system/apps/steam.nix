@@ -22,7 +22,7 @@
       # Open ports in the firewall for Steam Local Network Game Transfers
       localNetworkGameTransfers.openFirewall = false;
       gamescopeSession = {
-        enable = config.my.steam.session;
+        enable = config.my.apps.steam.session;
         args = [
           "--rt"
           "--steam"
