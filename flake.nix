@@ -248,7 +248,7 @@
       nixosConfigurations = lib.mapAttrs (name: host: nixosFor name host) hosts;
 
       homeConfigurations = lib.mapAttrs' (
-        name: host: lib.nameValuePair "${host.user}-${name}" (homeFor name host)
+        name: host: lib.nameValuePair "${host.user}@${name}" (homeFor name host)
       ) hosts;
     };
 }
