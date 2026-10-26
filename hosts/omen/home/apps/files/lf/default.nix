@@ -1,6 +1,5 @@
 {
   pkgs,
-  config,
   lib,
   ...
 }:
@@ -149,15 +148,8 @@ in
 
       # a* commands
       # -----------
-
-      aswallpaper = # bash
-        ''
-          &{{
-            ${config.my.wallpaper.cmd.set} $f
-          }}
-        '';
-
       # Toggles the preview pane expanded state by changing ratios.
+
       texpand = # bash
         ''
           &{{
@@ -301,7 +293,6 @@ in
       # Action
       a = "";
       ax = "texpand";
-      aw = "aswallpaper";
       ae = "edit";
       aae = "extract";
       aac = "compress";

@@ -65,16 +65,6 @@ in
 
     opacity = 0.85;
 
-    wallpaper = {
-      path = "/home/${config.my.username}/.config/background";
-      source = "/home/${config.my.username}/Pictures/Wallpaper";
-      random = {
-        enable = false;
-        timer = "3m";
-      };
-      cmd.set = "set-wallpaper";
-    };
-
     terminal = {
       pkg = pkgs.foot;
       desktop = "foot.desktop";

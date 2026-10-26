@@ -4,6 +4,5 @@
     ./notifications
     ./shell
     ./session
-    ./wallpaper
   ];
 }

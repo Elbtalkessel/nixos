@@ -6,45 +6,6 @@
 { lib, ... }:
 {
   options.my = {
-    wallpaper = lib.mkOption {
-      type = lib.types.submodule {
-        options = {
-          path = lib.mkOption {
-            type = lib.types.str;
-            description = "Default path to read wallpaper from.";
-          };
-          source = lib.mkOption {
-            type = lib.types.str;
-            description = "A path to set wallpaper from. In case of directory, a random wallpaper will be selected.";
-          };
-          random = lib.mkOption {
-            type = lib.types.submodule {
-              options = {
-                enable = lib.mkOption {
-                  type = lib.types.bool;
-                  description = "Enable random wallpaper rotation.";
-                };
-                timer = lib.mkOption {
-                  type = lib.types.str;
-                  description = "Time between changing wallpaper using systemd notation (For example 5s.)";
-                };
-              };
-            };
-          };
-          cmd = lib.mkOption {
-            type = lib.types.submodule {
-              options = {
-                set = lib.mkOption {
-                  type = lib.types.str;
-                  description = "Name of a wallpaper setter command.";
-                };
-              };
-            };
-          };
-        };
-      };
-    };
-
     opacity = lib.mkOption {
       type = lib.types.float;
       description = "Opacity value between 1 (no opacity) and 0.0 (opaque) applied where it can (terminal, launcher).";
