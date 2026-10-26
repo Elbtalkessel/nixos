@@ -3,7 +3,6 @@
     ./audio
     ./bluetooth
     ./boot
-    ./dbus
     ./fonts
     ./hardware
     ./locale
@@ -12,11 +11,9 @@
     ./packages
     ./power
     ./security
-    ./specialisation
     ./storage
     ./system-services
     ./users
     ./virtualisation
-    ./web
   ];
 }

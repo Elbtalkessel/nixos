@@ -1,13 +1,10 @@
 { nixos-hardware, ... }:
 {
   imports = [
-    nixos-hardware.nixosModules.common-pc-laptop
-    nixos-hardware.nixosModules.common-pc-laptop-ssd
+    nixos-hardware.nixosModules.common-pc
+    nixos-hardware.nixosModules.common-pc-ssd
     ./cpu.nix
-    ./dgpu.nix
-    ./igpu.nix
+    ./gpu.nix
     ./peripherals.nix
-    ./printing.nix
-    ./tablet.nix
   ];
 }

@@ -11,6 +11,7 @@ in
   sops.secrets = lib.mkMerge [
     {
       "wireless/env" = { };
+      "tailscale/one-of-key" = { };
     }
 
     (lib.mkIf isSystem {
@@ -27,6 +28,9 @@ in
       package = pkgs.zsh;
     };
     tailscale = true;
+    wm = {
+      uwsm.enable = true;
+    };
     font = {
       family = {
         mono = "OverpassM Nerd Font Mono";
