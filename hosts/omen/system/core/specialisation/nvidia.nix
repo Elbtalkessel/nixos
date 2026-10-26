@@ -16,7 +16,7 @@
     "nvidia-x11"
   ];
 
-  specialisation.nvidia.configuration = (lib.mkIf config.my.hardware.dgpu.enable) {
+  specialisation.nvidia.configuration = (lib.mkIf config.my.core.hardware.dgpu.enable) {
     virtualisation = {
       docker = {
         rootless = {
@@ -24,7 +24,7 @@
             settings = {
               features = {
                 # https://wiki.nixos.org/wiki/Docker#NVIDIA_Docker_Containers
-                cdi = config.my.virt.docker.gpu.enable;
+                cdi = config.my.core.virt.docker.gpu.enable;
               };
             };
           };
@@ -32,7 +32,7 @@
       };
     };
 
-    environment.systemPackages = lib.mkIf config.my.virt.docker.gpu.enable [
+    environment.systemPackages = lib.mkIf config.my.core.virt.docker.gpu.enable [
       pkgs.libnvidia-container
     ];
 
@@ -40,7 +40,7 @@
 
     services.xserver.videoDrivers = [ "nvidia" ];
     hardware = {
-      nvidia-container-toolkit.enable = config.my.virt.docker.gpu.enable;
+      nvidia-container-toolkit.enable = config.my.core.virt.docker.gpu.enable;
       nvidia = {
         open = true;
         # Dynamic Boost balances power between the CPU and the GPU for improved performance on supported laptops using the nvidia-powerd daemon

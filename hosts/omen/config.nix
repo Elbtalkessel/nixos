@@ -53,6 +53,17 @@ in
           ];
         };
       };
+      virt.docker.gpu.enable = true;
+      hardware.dgpu.enable = true;
+    };
+    desktop = {
+      opacity = 0.85;
+      gaps = 4.0;
+      manager = {
+        uwsm.enable = true;
+        performance = false;
+      };
+      shell.provider = "noctalia";
     };
     apps = {
       mail = {
@@ -69,18 +80,6 @@ in
         font-size = 14;
       };
       steam.session = true;
-    };
-    virt.docker.gpu.enable = true;
-    hardware.dgpu.enable = true;
-
-    desktop = {
-      opacity = 0.85;
-      gaps = 4.0;
-      manager = {
-        uwsm.enable = true;
-        performance = false;
-      };
-      shell.provider = "noctalia";
     };
   };
 }
