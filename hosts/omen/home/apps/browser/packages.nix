@@ -1,4 +1,4 @@
-_: {
+{
   # I can't install them automatically, you'll need manually load these userscripts
   # from the tampermonkey dashboard.
   xdg.configFile = {
