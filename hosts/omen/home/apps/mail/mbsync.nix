@@ -5,7 +5,7 @@
   ...
 }:
 let
-  MAILDIR = "${config.xdg.dataHome}/mail/${config.my.mail.address}";
+  MAILDIR = "${config.xdg.dataHome}/mail/${config.my.apps.mail.address}";
   INBOX = "${MAILDIR}/INBOX";
 in
 {
@@ -13,11 +13,11 @@ in
     enable = true;
     extraConfig = ''
       IMAPAccount default
-      Host ${config.my.mail.host}
-      Port ${config.my.mail.port}
-      User "${config.my.mail.address}"
-      PassCmd "${lib.getExe pkgs.libsecret} lookup ${config.my.mail.password}"
-      TLSType ${config.my.mail.sslType}
+      Host ${config.my.apps.mail.host}
+      Port ${config.my.apps.mail.port}
+      User "${config.my.apps.mail.address}"
+      PassCmd "${lib.getExe pkgs.libsecret} lookup ${config.my.apps.mail.password}"
+      TLSType ${config.my.apps.mail.sslType}
 
       IMAPStore default-remote
       Account default

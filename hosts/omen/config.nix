@@ -41,6 +41,14 @@ in
         ];
       };
     };
+    apps = {
+      mail = {
+        address = "rtfsc@pm.me";
+        password = "proton/bridge password";
+        # host / port / sslType carry sensible defaults at the declaration site,
+        # so they are not repeated here.
+      };
+    };
     editor = "nvim";
     tailscale = true;
     steam.session = true;
@@ -74,13 +82,6 @@ in
       desktop = "foot.desktop";
       exe = "foot";
       font-size = 14;
-    };
-
-    mail = {
-      address = "rtfsc@pm.me";
-      password = "proton/bridge password";
-      # host / port / sslType carry sensible defaults at the declaration site,
-      # so they are not repeated here.
     };
   };
 }
