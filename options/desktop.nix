@@ -14,6 +14,18 @@
       type = lib.types.float;
       description = "Gaps between tailed windows.";
     };
+    shell = lib.mkOption {
+      type = lib.types.submodule {
+        options = {
+          provider = lib.mkOption {
+            type = lib.types.enum [
+              "noctalia"
+            ];
+            description = "Desktop shell provider.";
+          };
+        };
+      };
+    };
     manager = lib.mkOption {
       type = lib.types.submodule {
         options = {
@@ -27,18 +39,6 @@
                 enable = lib.mkOption {
                   type = lib.types.bool;
                   description = "Enable UWSM support.";
-                };
-              };
-            };
-          };
-          bar = lib.mkOption {
-            type = lib.types.submodule {
-              options = {
-                provider = lib.mkOption {
-                  type = lib.types.enum [
-                    "noctalia"
-                  ];
-                  description = "Bar provider";
                 };
               };
             };

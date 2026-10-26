@@ -6,7 +6,7 @@
   ...
 }:
 let
-  enable = config.my.desktop.manager.bar.provider == "noctalia";
+  enable = config.my.desktop.shell.provider == "noctalia";
 in
 {
   imports = [

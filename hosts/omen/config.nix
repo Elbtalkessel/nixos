@@ -65,8 +65,8 @@ in
       manager = {
         uwsm.enable = true;
         performance = false;
-        bar.provider = "noctalia";
       };
+      shell.provider = "noctalia";
     };
 
     terminal = {
