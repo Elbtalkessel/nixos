@@ -1,0 +1,5 @@
+{
+  imports = [
+    ./xdg-config.nix
+  ];
+}

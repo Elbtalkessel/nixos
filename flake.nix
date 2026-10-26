@@ -85,6 +85,11 @@
           microvmHost = [ "atlas" ];
         };
 
+        lilith = {
+          user = "risus";
+          sops = true;
+        };
+
         atlas = {
           user = "atlas";
           sops = true;
@@ -210,8 +215,9 @@
         : Host name; passed to sops.
 
         host
-        : Host descriptor; `host.user` is the `homeConfigurations.<key>`
-          and `users.users.<name>` account.
+        : Host descriptor; `host.user` is the `users.users.<name>` account.
+          The resulting `homeConfigurations` key is `${host.user}-${name}`
+          so each host has a unique entry even when users are shared.
 
         # Example
 
@@ -242,7 +248,7 @@
       nixosConfigurations = lib.mapAttrs (name: host: nixosFor name host) hosts;
 
       homeConfigurations = lib.mapAttrs' (
-        name: host: lib.nameValuePair host.user (homeFor name host)
+        name: host: lib.nameValuePair "${host.user}-${name}" (homeFor name host)
       ) hosts;
     };
 }

@@ -1,0 +1,90 @@
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
+let
+  accent = "pink";
+  variant = "mocha";
+in
+{
+  # Enable GTK theme configuration
+  gtk = rec {
+    enable = true;
+    theme =
+      let
+        # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ca/catppuccin-gtk/package.nix#L16
+        catover = {
+          accents = [ accent ];
+          size = "compact";
+          tweaks = [
+            "rimless"
+            "float"
+          ];
+          inherit variant;
+        };
+        _accent = lib.strings.join "," catover.accents;
+        _tweaks = lib.strings.join "," catover.tweaks;
+        name = "catppuccin-${catover.variant}-${_accent}-${catover.size}+${_tweaks}";
+      in
+      {
+        inherit name;
+        package = pkgs.catppuccin-gtk.override catover;
+      };
+    gtk4.theme = theme;
+    gtk3.theme = theme;
+    # Papirus dark includes icons missing in Adwaita,
+    # https://github.com/NixOS/nixpkgs/issues/365287
+    iconTheme = {
+      package = pkgs.papirus-icon-theme;
+      name = "Papirus-Dark";
+    };
+    font = {
+      name = config.my.font.family.default;
+      size = 17;
+    };
+  };
+
+  # https://mynixos.com/home-manager/options/qt
+  qt = rec {
+    enable = true;
+    platformTheme.name = "gtk3";
+    style.name = "adwaita-dark";
+    # Looks bad, while adwaita doesn't match catppuccin, it looks ok.
+    kvantum = lib.mkIf (style.name == "kvantum") {
+      enable = true;
+      themes = with pkgs; [
+        (catppuccin-kvantum.override { inherit accent variant; })
+      ];
+      settings = {
+        General.theme = "catppuccin-${variant}-${accent}";
+      };
+    };
+  };
+
+  home.sessionVariables = {
+    QT_AUTO_SCREEN_SCALE_FACTOR = "0";
+    QT_SCALE_FACTOR = "1";
+    QT_ENABLE_HIGHDPI_SCALING = "1";
+  };
+
+  # Configure GNOME settings for dark mode
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
+    };
+  };
+
+  # https://discourse.nixos.org/t/virt-manager-cannot-create-vm/38894/2
+  # virt-manager doesn't work without it
+  home.pointerCursor = {
+    enable = true;
+    gtk.enable = true;
+    x11.enable = true;
+    package = pkgs.vanilla-dmz;
+    name = "Vanilla-DMZ";
+    # same size on wayland and xwayland
+    size = 24;
+  };
+}
