@@ -6,7 +6,7 @@
     settings = {
       font = {
         normal = {
-          family = config.my.font.family.mono;
+          family = config.my.core.font.family.mono;
           style = "Regular";
         };
         size = config.my.terminal.font-size;

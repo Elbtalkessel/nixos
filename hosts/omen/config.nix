@@ -24,9 +24,22 @@ in
   ];
 
   my = {
-    core.shell = {
-      name = "nu";
-      package = pkgs.nushell;
+    core = {
+      shell = {
+        name = "nu";
+        package = pkgs.nushell;
+      };
+      font = {
+        family = {
+          mono = "OverpassM Nerd Font Mono";
+          default = "OverpassM Nerd Font";
+          propo = "OverpassM Nerd Propo";
+        };
+        packages = with pkgs; [
+          nerd-fonts.overpass
+          noto-fonts-color-emoji
+        ];
+      };
     };
     editor = "nvim";
     tailscale = true;
@@ -46,19 +59,6 @@ in
         ];
       };
     };
-
-    font = {
-      family = {
-        mono = "OverpassM Nerd Font Mono";
-        default = "OverpassM Nerd Font";
-        propo = "OverpassM Nerd Propo";
-      };
-      packages = with pkgs; [
-        nerd-fonts.overpass
-        noto-fonts-color-emoji
-      ];
-    };
-
     desktop = {
       opacity = 0.85;
       gaps = 4.0;

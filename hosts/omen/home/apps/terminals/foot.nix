@@ -10,7 +10,7 @@
     package = config.my.terminal.pkg;
     settings = {
       main = {
-        font = "${config.my.font.family.mono}:size=${lib.toString config.my.terminal.font-size}";
+        font = "${config.my.core.font.family.mono}:size=${lib.toString config.my.terminal.font-size}";
         line-height = 25;
       }
       // (

@@ -2,7 +2,7 @@
 {
   fonts = {
     enableDefaultPackages = true;
-    packages = config.my.font.packages ++ [
+    packages = config.my.core.font.packages ++ [
       pkgs.nerd-fonts.noto
       pkgs.noto-fonts-color-emoji
     ];
@@ -18,15 +18,15 @@
       antialias = true;
       defaultFonts = {
         monospace = [
-          config.my.font.family.mono
+          config.my.core.font.family.mono
           "NotoSansM Nerd Mono"
         ];
         sansSerif = [
-          config.my.font.family.default
+          config.my.core.font.family.default
           "NotoSansM Nerd Font"
         ];
         serif = [
-          config.my.font.family.default
+          config.my.core.font.family.default
           "NotoSansM Nerd Propo"
         ];
         emoji = [ "Noto Color Emoji" ];

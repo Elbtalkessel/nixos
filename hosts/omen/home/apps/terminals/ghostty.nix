@@ -4,7 +4,7 @@
     enable = config.my.terminal.pkg == pkgs.ghostty;
     settings = {
       font-size = config.my.terminal.font-size;
-      font-family = "${config.my.font.family.mono}";
+      font-family = "${config.my.core.font.family.mono}";
       cursor-style = "bar";
       cursor-style-blink = true;
       background = "0D0D0D";
