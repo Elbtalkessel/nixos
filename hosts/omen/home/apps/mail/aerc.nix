@@ -19,7 +19,7 @@ in
         source = "notmuch://${MAILDIR}";
         maildir-store = MAILDIR;
         default = "INBOX";
-        from = "${config.my.username} <${config.my.mail.address}>";
+        from = "${config.my.core.identity.username} <${config.my.mail.address}>";
         cache-headers = true;
         copy-to = "Sent";
         default-trash = "Trash";

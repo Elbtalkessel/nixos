@@ -17,7 +17,7 @@ in
     }
 
     (lib.mkIf isSystem {
-      "users/${config.my.username}/password" = {
+      "users/${config.my.core.identity.username}/password" = {
         neededForUsers = true;
       };
     })

@@ -4,7 +4,7 @@
     autoLogin = {
       # TODO: enable it, but should unlock keyright by itself, if possible.
       enable = false;
-      user = config.my.username;
+      user = config.my.core.identity.username;
     };
     ly = {
       enable = true;

@@ -37,5 +37,5 @@
   # `kvm` lets the user account talk to /dev/kvm and reach the
   # `microvm:kvm`-owned state directory under /var/lib/microvms, so
   # `microvm -s atlas` and friends work without sudo.
-  users.users.${config.my.username}.extraGroups = [ "kvm" ];
+  users.users.${config.my.core.identity.username}.extraGroups = [ "kvm" ];
 }

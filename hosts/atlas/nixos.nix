@@ -190,10 +190,10 @@
 
     defaultUserShell = pkgs.zsh;
 
-    users.${config.my.username} = {
+    users.${config.my.core.identity.username} = {
       isNormalUser = true;
       description = "atlas opencode host";
-      hashedPasswordFile = config.sops.secrets."users/${config.my.username}/password".path;
+      hashedPasswordFile = config.sops.secrets."users/${config.my.core.identity.username}/password".path;
       # No wheel: system changes only via a host-side rebuild. The flake's
       # sops module adds the `sops` group (age key access for HM secrets).
       extraGroups = [ ];

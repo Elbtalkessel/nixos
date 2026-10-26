@@ -21,7 +21,7 @@ in
     };
     ipp-usb.enable = true;
   };
-  users.users.${config.my.username}.extraGroups = lib.mkIf printing [
+  users.users.${config.my.core.identity.username}.extraGroups = lib.mkIf printing [
     "scanner"
     "lp"
   ];

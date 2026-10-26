@@ -65,10 +65,10 @@
     useUserPackages = true;
     extraSpecialArgs = homeSpecialArgs;
 
-    users.${config.my.username} = {
+    users.${config.my.core.identity.username} = {
       imports = [
         (self + "/options")
-        { my.username = hostDescriptor.user; }
+        { my.core.identity.username = hostDescriptor.user; }
       ]
       ++ (lib.optional hostDescriptor.sops {
         imports = [ sops-nix.homeManagerModules.sops ];

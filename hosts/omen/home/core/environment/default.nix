@@ -5,7 +5,7 @@
   ...
 }:
 let
-  HOME = "/home/${config.my.username}";
+  HOME = "/home/${config.my.core.identity.username}";
 in
 {
   home = {

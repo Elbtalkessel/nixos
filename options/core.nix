@@ -46,5 +46,11 @@
         };
       };
     };
+    identity = {
+      username = lib.mkOption {
+        type = lib.types.str;
+        description = "Default user's username.";
+      };
+    };
   };
 }

@@ -30,7 +30,7 @@ in
     # `neededForUsers`, so the password-declaration lives behind a tree gate.
     (lib.mkIf isSystem {
       # https://github.com/Mic92/sops-nix?tab=readme-ov-file#setting-a-users-password
-      "users/${config.my.username}/password" = {
+      "users/${config.my.core.identity.username}/password" = {
         neededForUsers = true;
       };
     })

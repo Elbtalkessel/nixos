@@ -1,7 +1,6 @@
 {
   imports = [
     ./my.nix
-    ./identity.nix
     ./mail.nix
     ./desktop.nix
     ./system.nix

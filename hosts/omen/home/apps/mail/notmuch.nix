@@ -7,7 +7,7 @@ in
     enable = true;
     settings = {
       user = {
-        name = config.my.username;
+        name = config.my.core.identity.username;
         primary_email = config.my.mail.address;
       };
       new = {
