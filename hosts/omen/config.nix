@@ -40,6 +40,7 @@ in
           noto-fonts-color-emoji
         ];
       };
+      tailscale = true;
     };
     apps = {
       mail = {
@@ -57,7 +58,6 @@ in
       };
       steam.session = true;
     };
-    tailscale = true;
     virt.docker.gpu.enable = true;
     hardware.dgpu.enable = true;
 
@@ -82,6 +82,5 @@ in
       };
       shell.provider = "noctalia";
     };
-
   };
 }

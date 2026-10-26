@@ -9,7 +9,7 @@
   # Interface trust and open ports are configured in ./security.nix
 
   services.tailscale = {
-    enable = config.my.tailscale;
+    enable = config.my.core.tailscale;
   };
 
   # 3. Optimization: Prevent systemd from waiting for network online
@@ -23,13 +23,13 @@
 
     # 2. Force tailscaled to use nftables (Critical for clean nftables-only systems)
     # This avoids the "iptables-compat" translation layer issues.
-    services.tailscaled = lib.mkIf config.my.tailscale {
+    services.tailscaled = lib.mkIf config.my.core.tailscale {
       serviceConfig.Environment = [
         "TS_DEBUG_FIREWALL_MODE=nftables"
       ];
     };
 
-    services.tailscale-autoconnect = lib.mkIf config.my.tailscale {
+    services.tailscale-autoconnect = lib.mkIf config.my.core.tailscale {
       description = "Automatic connection to Tailscale";
       # make sure tailscale is running before trying to connect to tailscale
       after = [

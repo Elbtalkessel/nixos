@@ -17,7 +17,7 @@
           "virbr3"
           "virbr4"
         ])
-        ++ (lib.lists.optionals config.my.tailscale [
+        ++ (lib.lists.optionals config.my.core.tailscale [
           # Always allow traffic from your Tailscale network
           config.services.tailscale.interfaceName
         ]);
@@ -29,7 +29,7 @@
         # opencode
         4096
       ];
-      allowedUDPPorts = lib.lists.optionals config.my.tailscale [
+      allowedUDPPorts = lib.lists.optionals config.my.core.tailscale [
         config.services.tailscale.port
       ];
     };

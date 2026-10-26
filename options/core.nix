@@ -52,5 +52,9 @@
         description = "Default user's username.";
       };
     };
+    tailscale = lib.mkOption {
+      type = lib.types.bool;
+      description = "Enable tailscale vpn. Requires tailscale/one-of-key secret.";
+    };
   };
 }

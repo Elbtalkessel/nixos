@@ -6,11 +6,6 @@
 { lib, ... }:
 {
   options.my = {
-    tailscale = lib.mkOption {
-      type = lib.types.bool;
-      description = "Enable tailscale vpn. Requires tailscale/one-of-key secret.";
-    };
-
     filesystem = lib.mkOption {
       type = lib.types.submodule {
         options = {
