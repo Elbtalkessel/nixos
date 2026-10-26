@@ -5,7 +5,7 @@
 # these slices combine into the single `my.*` namespace.
 { lib, ... }:
 {
-  options.my = {
+  options.my.desktop = {
     opacity = lib.mkOption {
       type = lib.types.float;
       description = "Opacity value between 1 (no opacity) and 0.0 (opaque) applied where it can (terminal, launcher).";

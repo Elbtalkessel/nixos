@@ -14,7 +14,7 @@
         line-height = 25;
       }
       // (
-        if config.my.wm.bar.provider == "noctalia" then
+        if config.my.desktop.wm.bar.provider == "noctalia" then
           {
             include = "~/.config/foot/themes/noctalia";
           }
@@ -28,7 +28,7 @@
         blink-rate = 800;
       };
       colors-dark = {
-        alpha = config.my.opacity;
+        alpha = config.my.desktop.opacity;
         background = "0D0D0D";
         blur = true;
       };

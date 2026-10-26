@@ -6,7 +6,7 @@
   ...
 }:
 let
-  enable = config.my.wm.bar.provider == "noctalia";
+  enable = config.my.desktop.wm.bar.provider == "noctalia";
 in
 {
   imports = [

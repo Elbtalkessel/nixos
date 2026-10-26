@@ -59,19 +59,20 @@ in
       ];
     };
 
-    opacity = 0.85;
+    desktop = {
+      opacity = 0.85;
+      wm = {
+        uwsm.enable = true;
+        performance = false;
+        bar.provider = "noctalia";
+      };
+    };
 
     terminal = {
       pkg = pkgs.foot;
       desktop = "foot.desktop";
       exe = "foot";
       font-size = 14;
-    };
-
-    wm = {
-      uwsm.enable = true;
-      performance = false;
-      bar.provider = "noctalia";
     };
 
     mail = {

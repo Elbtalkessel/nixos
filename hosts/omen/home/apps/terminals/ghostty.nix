@@ -8,7 +8,7 @@
       cursor-style = "bar";
       cursor-style-blink = true;
       background = "0D0D0D";
-      background-opacity = config.my.opacity;
+      background-opacity = config.my.desktop.opacity;
       # Adds small delay, but opens new window at home.
       gtk-single-instance = false;
       quit-after-last-window-closed = false;
