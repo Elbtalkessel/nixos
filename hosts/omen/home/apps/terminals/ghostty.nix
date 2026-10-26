@@ -1,9 +1,9 @@
 { pkgs, config, ... }:
 {
   programs.ghostty = {
-    enable = config.my.terminal.pkg == pkgs.ghostty;
+    enable = config.my.apps.terminal.pkg == pkgs.ghostty;
     settings = {
-      font-size = config.my.terminal.font-size;
+      font-size = config.my.apps.terminal.font-size;
       font-family = "${config.my.core.font.family.mono}";
       cursor-style = "bar";
       cursor-style-blink = true;

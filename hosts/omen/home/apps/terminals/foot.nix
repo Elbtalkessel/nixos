@@ -6,11 +6,11 @@
 }:
 {
   programs.foot = {
-    enable = config.my.terminal.pkg == pkgs.foot;
-    package = config.my.terminal.pkg;
+    enable = config.my.apps.terminal.pkg == pkgs.foot;
+    package = config.my.apps.terminal.pkg;
     settings = {
       main = {
-        font = "${config.my.core.font.family.mono}:size=${lib.toString config.my.terminal.font-size}";
+        font = "${config.my.core.font.family.mono}:size=${lib.toString config.my.apps.terminal.font-size}";
         line-height = 25;
       }
       // (

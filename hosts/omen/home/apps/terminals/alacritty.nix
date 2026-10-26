@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 {
   programs.alacritty = {
-    enable = config.my.terminal.pkg == pkgs.alacritty;
+    enable = config.my.apps.terminal.pkg == pkgs.alacritty;
 
     settings = {
       font = {
@@ -9,7 +9,7 @@
           family = config.my.core.font.family.mono;
           style = "Regular";
         };
-        size = config.my.terminal.font-size;
+        size = config.my.apps.terminal.font-size;
         offset = {
           x = 0;
           y = 10;

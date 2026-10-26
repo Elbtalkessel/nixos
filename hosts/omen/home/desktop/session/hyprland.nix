@@ -39,14 +39,14 @@ in
             -- +1 helps.
             GAP_SIZE = ${toString (config.my.desktop.gaps + 1.0)},
             EYE_CANDY = ${if config.my.desktop.manager.performance then "false" else "true"},
-            SWALLOW = "${config.my.terminal.exe}",
+            SWALLOW = "${config.my.apps.terminal.exe}",
           }
 
           -- Programs launched using keybinds, UWSM aware.
           M.PROG = {
             COLOR_PICKER = "${run (lib.getExe pkgs.hyprpicker)}",
             LAUNCHER_TOGGLE = "${ltoggle}",
-            TERMINAL = "${run (lib.getExe config.my.terminal.pkg)}",
+            TERMINAL = "${run (lib.getExe config.my.apps.terminal.pkg)}",
             WINDOW_SWITCHER = "${wtoggle}",
           }
 

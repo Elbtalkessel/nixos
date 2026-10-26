@@ -8,7 +8,7 @@
     enable = true;
     settings = {
       main = {
-        font = "${config.my.core.font.family.mono}:size=${lib.toString config.my.terminal.font-size}";
+        font = "${config.my.core.font.family.mono}:size=${lib.toString config.my.apps.terminal.font-size}";
         line-height = 25;
       }
       // (

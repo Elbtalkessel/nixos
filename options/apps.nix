@@ -1,7 +1,7 @@
 { lib, ... }:
 {
-  options.my = {
-    apps.editor = lib.mkOption {
+  options.my.apps = {
+    editor = lib.mkOption {
       type = lib.types.str;
       description = "The default editor for the user.";
     };
@@ -29,7 +29,7 @@
       };
     };
 
-    apps.mail = lib.mkOption {
+    mail = lib.mkOption {
       description = "Mail settings.";
       type = lib.types.submodule {
         options = {

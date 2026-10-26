@@ -49,6 +49,12 @@ in
         # so they are not repeated here.
       };
       editor = "nvim";
+      terminal = {
+        pkg = pkgs.foot;
+        desktop = "foot.desktop";
+        exe = "foot";
+        font-size = 14;
+      };
     };
     tailscale = true;
     steam.session = true;
@@ -77,11 +83,5 @@ in
       shell.provider = "noctalia";
     };
 
-    terminal = {
-      pkg = pkgs.foot;
-      desktop = "foot.desktop";
-      exe = "foot";
-      font-size = 14;
-    };
   };
 }

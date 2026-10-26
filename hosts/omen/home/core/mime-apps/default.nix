@@ -16,7 +16,7 @@ in
           "x-scheme-handler/about"
           "x-scheme-handler/unknown"
         ])
-        (group config.my.terminal.desktop [ "x-scheme-handler/terminal" ])
+        (group config.my.apps.terminal.desktop [ "x-scheme-handler/terminal" ])
         (group "jetbrains-toolbox.desktop" [ "x-scheme-handler/jetbrains" ])
         (group "org.telegram.desktop.desktop" [
           "x-scheme-handler/tg"
