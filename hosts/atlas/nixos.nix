@@ -21,7 +21,7 @@
   # interface; a narrower bind needs no hole in the firewall. Open TCP 80
   # only when Caddy is enabled to front that UI.
   networking.firewall.allowedTCPPorts =
-    lib.optional (config.my.service.opencode.ip == "0.0.0.0") config.my.service.opencode.port
+    lib.optional (config.my.apps.opencode.ip == "0.0.0.0") config.my.apps.opencode.port
     ++ lib.optional config.services.caddy.enable 80;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

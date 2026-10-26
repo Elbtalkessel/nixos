@@ -58,5 +58,22 @@
         };
       };
     };
+
+    opencode = lib.mkOption {
+      type = lib.types.submodule {
+        options = {
+          ip = lib.mkOption {
+            type = lib.types.str;
+            default = "";
+            description = "IP address the opencode web UI binds to. Set to empty to disable web interface.";
+          };
+          port = lib.mkOption {
+            type = lib.types.port;
+            default = 4096;
+            description = "TCP port the opencode web UI listens on.";
+          };
+        };
+      };
+    };
   };
 }
