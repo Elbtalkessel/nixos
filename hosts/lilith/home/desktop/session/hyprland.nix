@@ -6,7 +6,7 @@
 }:
 let
   palette = config.my.theme.color.dark;
-  run = cmd: if config.my.desktop.wm.uwsm.enable then "uwsm-app -- ${cmd}" else cmd;
+  run = cmd: if config.my.desktop.manager.uwsm.enable then "uwsm-app -- ${cmd}" else cmd;
   ltoggle =
     if config.programs.vicinae.enable then "vicinae toggle" else "noctalia msg panel-toggle launcher";
   wtoggle = if config.programs.noctalia.enable then "noctalia msg window-switcher" else "";
@@ -20,7 +20,7 @@ in
     portalPackage = null;
     systemd = {
       # https://wiki.hypr.land/Useful-Utilities/Systemd-start/#installation
-      enable = !config.my.desktop.wm.uwsm.enable;
+      enable = !config.my.desktop.manager.uwsm.enable;
       # https://wiki.hyprland.org/Nix/Hyprland-on-Home-Manager/#programs-dont-work-in-systemd-services-but-do-on-the-terminal
       variables = [ "--all" ];
     };
@@ -40,7 +40,7 @@ in
             -- it is slightly bigger than waybar has with the same number,
             -- +1 helps.
             GAP_SIZE = ${toString (config.my.desktop.gaps + 1.0)},
-            EYE_CANDY = ${if config.my.desktop.wm.performance then "false" else "true"},
+            EYE_CANDY = ${if config.my.desktop.manager.performance then "false" else "true"},
             SWALLOW = "${config.my.terminal.exe}",
           }
 

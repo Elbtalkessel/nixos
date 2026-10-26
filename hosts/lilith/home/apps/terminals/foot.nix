@@ -12,7 +12,7 @@
         line-height = 25;
       }
       // (
-        if config.my.desktop.wm.bar.provider == "noctalia" then
+        if config.my.desktop.manager.bar.provider == "noctalia" then
           {
             include = "~/.config/foot/themes/noctalia";
           }

@@ -14,7 +14,7 @@
       type = lib.types.float;
       description = "Gaps between tailed windows.";
     };
-    wm = lib.mkOption {
+    manager = lib.mkOption {
       type = lib.types.submodule {
         options = {
           performance = lib.mkOption {

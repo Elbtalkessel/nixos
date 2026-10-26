@@ -62,7 +62,7 @@ in
     desktop = {
       opacity = 0.85;
       gaps = 4.0;
-      wm = {
+      manager = {
         uwsm.enable = true;
         performance = false;
         bar.provider = "noctalia";
