@@ -56,14 +56,13 @@ git clone git@gitea.x.home.arpa:nix/nixos.wiki.git /tmp/nixos-wiki
    `shellcheck` on any script embedded in a systemd unit. Details: `Conventions`.
 4. **Never add `.md` files to this repo** for planning or documentation. Put
    knowledge in the wikis (`kb/gitea` `Decisions` G003).
-5. **Never merge your own PR** without an explicit go-ahead from the maintainer
-   (`risus`).
+5. **The reviewer merges. Hard stop.** The agent does not merge.
 6. **Never paper over an evaluation error** with `lib.mkForce` / `lib.mkOverride`
    or by deleting the failing check. Fix the cause.
 7. **If an issue or PR has a dependency, record it as a Gitea dependency** —
    `blocked_by` / `blocking` on the issue itself, not in prose. Same-repo only;
    cross-repo dependencies go in the body with a link. Details: `kb/gitea`
    `Dependencies`.
-8. **Commit as `nastya <pieceof@duck.com>`.** The VM default identity is not on
-   that account, so pass it explicitly and check
-   `git log -1 --format='%an <%ae>'`. Details: `kb/gitea` `AgentIdentity`.
+8. **Commit as the host-configured git identity.** On `atlas` that is
+   `nastya <pieceof@duck.com>`. Until `nix/nixos#21` lands, pass it explicitly
+   and check `git log -1 --format='%an <%ae>'`.

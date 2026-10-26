@@ -58,11 +58,10 @@ Or clone the whole wiki: `git clone git@gitea.x.home.arpa:nix/nixos.wiki.git /tm
 - Clone URL form: `git@gitea.x.home.arpa:<owner>/<repo>.git`. SSH is
   preconfigured (`~/.ssh/config` pins the key for this host); pull and push
   work with no setup for repositories the VM key may write.
-- Commits must be authored `nastya <pieceof@duck.com>`. The VM's global git
-  config says `atlas <rtfsc+atlas@pm.me>`, which is not that account. Pass
-  `-c user.name=nastya -c user.email=pieceof@duck.com`, or set it once per
-  clone, and confirm with `git log -1 --format='%an <%ae>'`. Details:
-  `kb/gitea` `AgentIdentity`.
+- Commit authorship is configured by the host (`nix/nixos#21`). On `atlas` the
+  host configuration must produce `nastya <pieceof@duck.com>`. Until that issue
+  lands, pass `-c user.name=nastya -c user.email=pieceof@duck.com`, or set it
+  once per clone, and confirm with `git log -1 --format='%an <%ae>'`.
 - `permission denied (publickey)` on push means the VM key is not registered
   on gitea or lacks rights. Report it to the operator; you cannot fix it.
 
