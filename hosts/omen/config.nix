@@ -85,7 +85,6 @@ in
     # theme -- read by panel and session modules in the home tree.
     theme = {
       size.edge-gap = 4.0;
-      icon.path = "${pkgs.papirus-icon-theme}/share/icons/Papirus-Dark/22x22";
     };
   };
 }

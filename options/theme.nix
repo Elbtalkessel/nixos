@@ -18,16 +18,6 @@
               };
             };
           };
-          icon = lib.mkOption {
-            type = lib.types.submodule {
-              options = {
-                path = lib.mkOption {
-                  type = lib.types.str;
-                  description = "Icon theme path.";
-                };
-              };
-            };
-          };
         };
       };
     };
