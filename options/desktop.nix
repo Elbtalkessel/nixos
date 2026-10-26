@@ -33,10 +33,6 @@
               options = {
                 provider = lib.mkOption {
                   type = lib.types.enum [
-                    "ashell"
-                    "waybar"
-                    "quickshell"
-                    "wayle"
                     "noctalia"
                   ];
                   description = "Bar provider";
