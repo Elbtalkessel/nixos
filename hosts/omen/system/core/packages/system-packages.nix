@@ -136,11 +136,11 @@
   };
 
   environment.shells = [
-    config.my.shell.package
+    config.my.core.shell.package
   ];
 
   # https://wiki.nixos.org/wiki/Nushell
-  programs.bash = lib.mkIf (config.my.shell.name == "nu") {
+  programs.bash = lib.mkIf (config.my.core.shell.name == "nu") {
     interactiveShellInit = ''
       if ! [ "$TERM" = "dumb" ] && [ -z "$BASH_EXECUTION_STRING" ]; then
         exec nu

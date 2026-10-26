@@ -16,7 +16,7 @@
   };
 
   environment.shells = [
-    config.my.shell.package
+    config.my.core.shell.package
   ];
 
   # List packages installed in system profile. To search, run:

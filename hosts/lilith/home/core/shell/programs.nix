@@ -16,7 +16,7 @@
 
     # A POSIX complaint shell for testing things.
     zsh = {
-      enable = config.my.shell.name == "zsh";
+      enable = config.my.core.shell.name == "zsh";
       dotDir = "${config.home.homeDirectory}/zsh";
       enableCompletion = true;
       shellAliases = config.home.shellAliases // {

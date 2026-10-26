@@ -8,5 +8,6 @@
     ./system.nix
     ./apps.nix
     ./service.nix
+    ./core.nix
   ];
 }

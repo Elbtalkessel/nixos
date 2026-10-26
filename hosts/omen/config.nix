@@ -24,7 +24,7 @@ in
   ];
 
   my = {
-    shell = {
+    core.shell = {
       name = "nu";
       package = pkgs.nushell;
     };
