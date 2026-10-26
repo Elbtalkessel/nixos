@@ -61,6 +61,7 @@ in
 
     desktop = {
       opacity = 0.85;
+      gaps = 4.0;
       wm = {
         uwsm.enable = true;
         performance = false;
@@ -80,11 +81,6 @@ in
       password = "proton/bridge password";
       # host / port / sslType carry sensible defaults at the declaration site,
       # so they are not repeated here.
-    };
-
-    # theme -- read by panel and session modules in the home tree.
-    theme = {
-      size.edge-gap = 4.0;
     };
   };
 }

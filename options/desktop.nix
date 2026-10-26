@@ -10,7 +10,10 @@
       type = lib.types.float;
       description = "Opacity value between 1 (no opacity) and 0.0 (opaque) applied where it can (terminal, launcher).";
     };
-
+    gaps = lib.mkOption {
+      type = lib.types.float;
+      description = "Gaps between tailed windows.";
+    };
     wm = lib.mkOption {
       type = lib.types.submodule {
         options = {

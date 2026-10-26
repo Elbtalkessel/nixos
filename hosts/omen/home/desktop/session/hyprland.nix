@@ -37,7 +37,7 @@ in
             BORDER_SIZE = 2,
             -- it is slightly bigger than waybar has with the same number,
             -- +1 helps.
-            GAP_SIZE = ${toString (config.my.theme.size.edge-gap + 1.0)},
+            GAP_SIZE = ${toString (config.my.desktop.gaps + 1.0)},
             EYE_CANDY = ${if config.my.desktop.wm.performance then "false" else "true"},
             SWALLOW = "${config.my.terminal.exe}",
           }
