@@ -10,9 +10,6 @@
     shellcheck
     jq
     yq-go
-    # Needs `tea login add` with a user-owned token; the MCP token grants no
-    # more than the MCP server already has.
-    tea
     nix-tree
     nix-diff
     nix-output-monitor
