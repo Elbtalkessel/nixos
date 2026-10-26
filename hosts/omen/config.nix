@@ -41,6 +41,18 @@ in
         ];
       };
       tailscale = true;
+      filesystem = {
+        network = {
+          enable = true;
+          device = "192.168.1.90";
+          mount = "/mnt/share";
+          fsType = "nfs";
+          shares = [
+            "/volume1/xyz"
+            "/volume1/Video"
+          ];
+        };
+      };
     };
     apps = {
       mail = {
@@ -61,18 +73,6 @@ in
     virt.docker.gpu.enable = true;
     hardware.dgpu.enable = true;
 
-    filesystem = {
-      network = {
-        enable = true;
-        device = "192.168.1.90";
-        mount = "/mnt/share";
-        fsType = "nfs";
-        shares = [
-          "/volume1/xyz"
-          "/volume1/Video"
-        ];
-      };
-    };
     desktop = {
       opacity = 0.85;
       gaps = 4.0;

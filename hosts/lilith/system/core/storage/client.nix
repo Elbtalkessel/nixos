@@ -5,7 +5,7 @@
   ...
 }:
 let
-  opt = config.my.filesystem.network;
+  opt = config.my.core.filesystem.network;
   shares = if opt.enable then opt.shares else [ ];
   isSmb = if opt.enable then opt.fsType == "cifs" else false;
 
