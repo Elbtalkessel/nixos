@@ -235,7 +235,6 @@
                 lib.types.enum [
                   "tap"
                   "bridge"
-                  null
                 ]
               );
               default = null;

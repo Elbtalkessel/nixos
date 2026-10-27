@@ -1,8 +1,8 @@
 # Host-side atlas microvm configuration.
-# When bridge interface is configured - pins a configured IP.
-# In case if domain and IP are configured - uses host's caddy to route traffic to.
-# In latter case requires a dns server to point to the machine, configured in the homelab repository
-# plus in router setting for static ip lease.
+# When a bridge interface is configured, this pins the DHCP reservation.
+# When a domain and IP are also configured, the host's Caddy reverse-proxies
+# traffic to the guest. DNS for the domain is handled externally; see
+# https://gitea.x.home.arpa/devops/homelab/commit/8664bd31ceeeb8b84e1beb9f01551948de97933d
 {
   pkgs,
   config,

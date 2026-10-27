@@ -4,8 +4,4 @@
     inherit (config.my.core.identity) email;
     openFirewall = true;
   };
-  networking.firewall.allowedTCPPorts = [
-    80
-    443
-  ];
 }
