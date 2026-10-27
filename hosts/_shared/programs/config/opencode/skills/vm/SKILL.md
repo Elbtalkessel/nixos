@@ -7,11 +7,8 @@ description: Work inside the atlas virtual machine — cloning from and pushing 
 
 ## Machine facts
 
-- You run as unprivileged user `atlas` on a NixOS microvm (hostname `atlas`.)
-- There is no sudo and no root. You cannot install system packages or change
-  system configuration; the VM operator rebuilds the VM from the nixos repo
-  for that.
-  Project dependencies declared in a `flake.nix` or `devenv.nix` at a project level.
+- Project dependencies declared in a `flake.nix` or `devenv.nix` at a project level.
+- System dependencies declared by machine operator. Ask to install anything.
 
 ## Project knowledge
 
@@ -42,26 +39,16 @@ Or clone the whole wiki: `git clone git@gitea.x.home.arpa:nix/nixos.wiki.git /tm
 
 ## Persistence
 
-- `/home/atlas` — the whole home directory — is a persistent 20 GiB volume and
-  survives a VM restart. `/var/lib/ssh` is persistent too, reserved for machine
-  identity keys; do not read or modify it beyond using git through the
-  preconfigured SSH.
 - The guest **root filesystem is a tmpfs**. `/`, `/etc`, `/var`, `/run`,
   `/nix/var` and `/tmp` are rebuilt on every boot. Anything outside
   `/home/atlas`, `/var/lib/ssh` and `/etc/sops-nix` is lost on restart.
-- Keep work under `~/Projects` anyway — that is where the operator looks, and
-  it is where parallel worktrees live (`~/Projects/worktrees/<repo>/<branch>`).
-  Refer to files by absolute path (`/home/atlas/Projects/...`) across tool calls.
+- Keep work under `~/Projects`.
+- Parallel worktrees live (`~/Projects/worktrees/<repo>/<branch>`).
+- Refer to files by absolute path (`/home/atlas/Projects/...`) across tool calls.
 
 ## Git and gitea
 
-- Clone URL form: `git@gitea.x.home.arpa:<owner>/<repo>.git`. SSH is
-  preconfigured (`~/.ssh/config` pins the key for this host); pull and push
-  work with no setup for repositories the VM key may write.
-- Commit authorship is configured by the host (`nix/nixos#21`). On `atlas` the
-  host configuration must produce `nastya <pieceof@duck.com>`. Until that issue
-  lands, pass `-c user.name=nastya -c user.email=pieceof@duck.com`, or set it
-  once per clone, and confirm with `git log -1 --format='%an <%ae>'`.
+- Clone URL form: `git@gitea.x.home.arpa:<owner>/<repo>.git`.
 - `permission denied (publickey)` on push means the VM key is not registered
   on gitea or lacks rights. Report it to the operator; you cannot fix it.
 
@@ -121,26 +108,12 @@ same environment.
   from git@gitea.x.home.arpa:nix/nixos.git)
 - Report to the operator for any missing tools.
 
-## Secrets
-
-- `~/.config/sops-nix/secrets/` holds service credentials. Never read,
-  print, log, or embed them in code, commits, or tool output.
-- Never write tokens or keys into a repository.
-
 ## Disk and the Nix store
 
-- `/nix/store` is an **overlay**: the host's store shared read-only, plus a
-  writable 15 GiB upper layer (`df -h /nix/store`). New store paths from
-  environment builds land in that upper layer.
 - **Never run `nix-collect-garbage` or `nix store gc`.** A full disk is a
-  rebuild problem, not a GC problem. The guest's Nix database lives on the
-  ephemeral root while the overlay is persistent, so GC deletes paths the host
-  still provides and leaves overlayfs whiteouts that hide them on every later
-  boot — producing units that report `bad` / "not found" for no visible reason.
-  Report a full disk to the operator instead.
+  rebuild problem, not a GC problem. Report a full disk to the operator instead.
 - **Never build the NixOS system here.** `nixos-rebuild switch` needs root you
-  do not have, and a full system closure does not fit in the 15 GiB overlay.
-  The operator builds and deploys on `omen`.
+  do not have. The operator builds and deploys on `omen`.
 - Cheap checks are fine: `nix eval .#nixosConfigurations.<host>.config.<opt>`,
   a single small derivation, `shellcheck` on an extracted unit script.
   Serialize Nix commands — two at once contend on the eval-cache SQLite

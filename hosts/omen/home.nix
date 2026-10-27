@@ -2,6 +2,9 @@
 {
   imports = [
     ./config.nix
+
+    ../_shared/programs/git.nix
+
     ./home/apps
     ./home/core
     ./home/desktop

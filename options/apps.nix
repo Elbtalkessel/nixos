@@ -38,10 +38,6 @@
       description = "Mail settings.";
       type = lib.types.submodule {
         options = {
-          address = lib.mkOption {
-            type = lib.types.str;
-            description = "Email address";
-          };
           password = lib.mkOption {
             type = lib.types.str;
             description = "libsecret {attribue} {value}. To store a value you'll need gnome-keyring and libsecret, example: `echo 'password!' | secret-tool store --label='Protonmail Bridge' proton/bridge password`";

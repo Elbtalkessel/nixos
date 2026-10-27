@@ -103,7 +103,7 @@
       # image on the host survives guest restarts.
       {
         image = "atlas-home.img";
-        mountPoint = "/home/atlas";
+        mountPoint = "/home/${config.my.core.identity.username}";
         size = 20 * 1024;
       }
       # Persistent SSH host keys. Without this the tmpfs root would make

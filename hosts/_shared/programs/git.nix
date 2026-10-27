@@ -1,4 +1,4 @@
-{
+{ config, ... }: {
   programs.git = {
     enable = true;
     signing.format = "openpgp";
@@ -14,19 +14,11 @@
         ccdate = "!git add -A && git commit -m \"$(date)\"";
         graph = "log --decorate --graph --parents";
       };
-
       user = {
-        name = "Elbtalkessel";
-        email = "rtfsc@pm.me";
+        name = config.my.core.identity.username;
+        email = config.my.core.identity.email;
       };
-
-      init = {
-        defaultBranch = "master";
-      };
-
-      push = {
-        autoSetupRemote = true;
-      };
+      push.autoSetupRemote = true;
     };
   };
 }

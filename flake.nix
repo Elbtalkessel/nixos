@@ -91,7 +91,7 @@
         };
 
         atlas = {
-          user = "atlas";
+          user = "kimberlee";
           sops = true;
           microvm = true;
         };
