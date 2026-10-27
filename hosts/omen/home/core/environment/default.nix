@@ -4,78 +4,48 @@
   lib,
   ...
 }:
-let
-  HOME = "/home/${config.my.core.identity.username}";
-in
 {
   home = {
-    sessionPath = [ "$XDG_BIN_HOME" ];
-    sessionVariables = rec {
-      # It seems nix sets these vars automatically, remove?
-      # https://wiki.archlinux.org/title/XDG_Base_Directory
-      XDG_DATA_HOME = "${HOME}/.local/share";
-      XDG_CONFIG_HOME = "${HOME}/.config";
-      XDG_CACHE_HOME = "${HOME}/.cache";
-      XDG_STATE_HOME = "${HOME}/.local/state";
-
-      # https://wiki.archlinux.org/title/XDG_user_directories
-      XDG_DOWNLOAD_DIR = "${HOME}/Downloads";
-      # TODO(conf): how can I replace hard-coded 1000?
-      XDG_RUNTIME_DIR = "/run/user/1000";
-      XDG_DESKTOP_DIR = "${HOME}/Desktop";
-      XDG_DOCUMENTS_DIR = "${HOME}/Documents";
-      XDG_MUSIC_DIR = "${HOME}/Music";
-      XDG_PICTURES_DIR = "${HOME}/Pictures";
-      XDG_PUBLICSHARE_DIR = "${HOME}/Public";
-      XDG_TEMPLATES_DIR = "${HOME}/Templates";
-      XDG_VIDEOS_DIR = "${HOME}/Videos";
-      # TODO: shouldn't it work automagically?
-      XDG_DATA_DIRS = lib.strings.join ":" [
-        "/run/current-system/sw/share"
-        "${HOME}/.local/share/flatpak/exports/share"
-        "${HOME}/.local/state/nix/profiles/home-manager/home-path/share"
-        "${HOME}/.local/share"
-        "${HOME}/.nix-profile/share"
-      ];
-
+    sessionVariables = {
       # Configuration variables
       EDITOR = config.my.apps.editor;
       TERMINAL = config.my.apps.terminal.exe;
+
+      # Defaults
       VAGRANT_DEFAULT_PROVIDER = "libvirt";
       VIRSH_DEFAULT_CONNECT_URI = "qemu:///system";
       DOCKER_BUILDKIT = "1";
-      PASSWORD_STORE_DIR = "${HOME}/.local/share/pwdstr";
-      OLLAMA_HOST = "http://127.0.0.1:11434";
 
       # ~ cleaning
-      _JAVA_OPTIONS = "-Djava.util.prefs.userRoot=${XDG_CONFIG_HOME}/java";
-      CARGO_HOME = "${XDG_DATA_HOME}/cargo";
-      CUDA_CACHE_PATH = "${XDG_CACHE_HOME}/nv";
-      RUSTUP_HOME = "${XDG_DATA_HOME}/rustup";
+      PASSWORD_STORE_DIR = "${config.xdg.dataHome}/pwdstr";
+      _JAVA_OPTIONS = "-Djava.util.prefs.userRoot=${config.xdg.configHome}/java";
+      CARGO_HOME = "${config.xdg.dataHome}/cargo";
+      CUDA_CACHE_PATH = "${config.xdg.cacheHome}/nv";
+      RUSTUP_HOME = "${config.xdg.dataHome}/rustup";
       MIX_XDG = "true";
-      KUBECONFIG = "${XDG_CONFIG_HOME}/kube";
-      KUBECACHEDIR = "${XDG_CACHE_HOME}/kube";
-      NPM_CONFIG_USERCONFIG = "${XDG_CONFIG_HOME}/npm/npmrc";
-      DOCKER_CONFIG = "${XDG_CONFIG_HOME}/docker";
-      ANSIBLE_HOME = "${XDG_CONFIG_HOME}/ansible";
-      ANSIBLE_CONFIG = "${XDG_CONFIG_HOME}/ansible.cfg";
-      ANSIBLE_GALAXY_CACHE_DIR = "${XDG_CACHE_HOME}/ansible/galaxy_cache";
-      VAGRANT_HOME = "${XDG_DATA_HOME}/vagrant";
-      VAGRANT_ALIAS_FILE = "${XDG_DATA_HOME}/vagrant/aliases";
-      NODE_REPL_HISTORY = "${XDG_DATA_HOME}/node_repl_history";
+      KUBECONFIG = "${config.xdg.configHome}/kube";
+      KUBECACHEDIR = "${config.xdg.cacheHome}/kube";
+      NPM_CONFIG_USERCONFIG = "${config.xdg.configHome}/npm/npmrc";
+      DOCKER_CONFIG = "${config.xdg.configHome}/docker";
+      ANSIBLE_HOME = "${config.xdg.configHome}/ansible";
+      ANSIBLE_CONFIG = "${config.xdg.configHome}/ansible.cfg";
+      ANSIBLE_GALAXY_CACHE_DIR = "${config.xdg.cacheHome}/ansible/galaxy_cache";
+      VAGRANT_HOME = "${config.xdg.dataHome}/vagrant";
+      VAGRANT_ALIAS_FILE = "${config.xdg.dataHome}/vagrant/aliases";
+      NODE_REPL_HISTORY = "${config.xdg.dataHome}/node_repl_history";
       # TODO(conf): ensure state home and .config/pg directories exist.
-      PSQLRC = "${XDG_CONFIG_HOME}/pg/psqlrc";
-      PSQL_HISTORY = "${XDG_STATE_HOME}/psql_history";
-      PGPASSFILE = "${XDG_CONFIG_HOME}/pg/pgpass";
-      PGSERVICEFILE = "${XDG_CONFIG_HOME}/pg/pg_service.conf";
-      PYTHON_HISTORY = "${XDG_STATE_HOME}/python_history";
+      PSQLRC = "${config.xdg.configHome}/pg/psqlrc";
+      PSQL_HISTORY = "${config.xdg.stateHome}/psql_history";
+      PGPASSFILE = "${config.xdg.configHome}/pg/pgpass";
+      PGSERVICEFILE = "${config.xdg.configHome}/pg/pg_service.conf";
+      PYTHON_HISTORY = "${config.xdg.stateHome}/python_history";
       # ensure these directories exist.
-      PYTHONPYCACHEPREFIX = "${XDG_CACHE_HOME}/python";
-      PYTHONUSERBASE = "${XDG_DATA_HOME}/python";
+      PYTHONPYCACHEPREFIX = "${config.xdg.cacheHome}/python";
+      PYTHONUSERBASE = "${config.xdg.dataHome}/python";
       # ensure directory exists.
-      HISTFILE = "${XDG_STATE_HOME}/bash/history";
-      GOPATH = "${XDG_DATA_HOME}/go";
-      GOMODCACHE = "${XDG_CACHE_HOME}/go/mod";
+      HISTFILE = "${config.xdg.stateHome}/bash/history";
+      GOPATH = "${config.xdg.dataHome}/go";
+      GOMODCACHE = "${config.xdg.cacheHome}/go/mod";
 
       # Colored man pages
       MANPAGER = "sh -c 'col -bx | ${lib.getExe pkgs.bat} -l man -p'";
