@@ -1,13 +1,8 @@
-_: {
+{
   imports = [
     ./my.nix
-    ./identity.nix
-    ./mail.nix
-    ./theme.nix
+    ./core.nix
     ./desktop.nix
-    ./fonts.nix
-    ./system.nix
     ./apps.nix
-    ./service.nix
   ];
 }

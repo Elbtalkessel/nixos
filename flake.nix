@@ -181,7 +181,7 @@
             nixpkgsModule
             ./options
             ./modules/common/microvm
-            { my.username = host.user; }
+            { my.core.identity.username = host.user; }
           ]
           ++ (lib.optional host.sops (
             { config, ... }:
@@ -192,7 +192,7 @@
                 "z /etc/sops-nix/key.txt 0640 root sops - - -"
               ];
               users.groups.sops = { };
-              users.users.${config.my.username}.extraGroups = [ "sops" ];
+              users.users.${config.my.core.identity.username}.extraGroups = [ "sops" ];
             }
           ))
           ++ [ ./hosts/${name}/nixos.nix ];
@@ -234,7 +234,7 @@
           modules = [
             nixpkgsModule
             ./options
-            { my.username = host.user; }
+            { my.core.identity.username = host.user; }
           ]
           ++ (lib.optional host.sops {
             imports = [ inputs.sops-nix.homeManagerModules.sops ];
@@ -248,7 +248,7 @@
       nixosConfigurations = lib.mapAttrs (name: host: nixosFor name host) hosts;
 
       homeConfigurations = lib.mapAttrs' (
-        name: host: lib.nameValuePair "${host.user}-${name}" (homeFor name host)
+        name: host: lib.nameValuePair "${host.user}@${name}" (homeFor name host)
       ) hosts;
     };
 }

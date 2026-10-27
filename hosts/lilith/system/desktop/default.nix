@@ -1,4 +1,4 @@
-_: {
+{
   imports = [
     ./dm.nix
     ./hyprland.nix

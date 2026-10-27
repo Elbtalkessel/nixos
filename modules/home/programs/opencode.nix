@@ -211,13 +211,13 @@ in
     # (separate from `ai-gateway/api-key`, which goes through opencode's
     # own `{file:...}` substitution below).
     web = {
-      enable = config.my.service.opencode.ip != "";
+      enable = config.my.apps.opencode.ip != "";
       environmentFile = toString config.sops.secrets."opencode/env".path;
       extraArgs = [
         "--hostname"
-        config.my.service.opencode.ip
+        config.my.apps.opencode.ip
         "--port"
-        (toString config.my.service.opencode.port)
+        (toString config.my.apps.opencode.port)
         "--mdns"
       ];
     };

@@ -4,22 +4,6 @@ hl.config({
 	-- https://wiki.hypr.land/Configuring/Basics/Variables/#general
 	general = {
 		border_size = M.CONF.BORDER_SIZE,
-		col = {
-			active_border = {
-				colors = {
-					--M.COLOR.BG_PRIMARY,
-					M.COLOR.BG_PRIMARY_CONTAINER,
-				},
-				--angle = 270,
-			},
-			inactive_border = {
-				colors = {
-					--M.COLOR.BG_SECONDARY .. "30",
-					M.COLOR.BG_SECONDARY_CONTAINER .. "30",
-				},
-				--angle = 270,
-			},
-		},
 		extend_border_grab_area = true,
 		gaps_in = M.CONF.GAP_SIZE / 2,
 		gaps_out = 0,

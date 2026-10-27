@@ -2,9 +2,6 @@
 {
   imports = [
     ./config.nix
-
-    ../../modules/home/programs/opencode.nix
-
     ./home/apps
     ./home/core
     ./home/desktop
@@ -13,8 +10,8 @@
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home = {
-    inherit (config.my) username;
-    homeDirectory = "/home/${config.my.username}";
+    inherit (config.my.core.identity) username;
+    homeDirectory = "/home/${config.my.core.identity.username}";
 
     # This value determines the Home Manager release that your configuration is
     # compatible with. This helps avoid breakage when a new Home Manager release

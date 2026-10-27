@@ -1,4 +1,4 @@
-_: {
+{
   imports = [
     ./mbsync.nix
     ./notmuch.nix

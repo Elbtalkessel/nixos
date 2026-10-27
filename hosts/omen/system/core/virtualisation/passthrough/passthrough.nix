@@ -4,7 +4,7 @@
   ...
 }:
 let
-  enable = config.my.hardware.dgpu.enable && config.my.hardware.dgpu.passthrough;
+  enable = config.my.core.hardware.dgpu.enable && config.my.core.hardware.dgpu.passthrough;
 in
 {
   # https://looking-glass.io/docs/B7/ivshmem_kvmfr/#loading

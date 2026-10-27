@@ -21,7 +21,7 @@
   # interface; a narrower bind needs no hole in the firewall. Open TCP 80
   # only when Caddy is enabled to front that UI.
   networking.firewall.allowedTCPPorts =
-    lib.optional (config.my.service.opencode.ip == "0.0.0.0") config.my.service.opencode.port
+    lib.optional (config.my.apps.opencode.ip == "0.0.0.0") config.my.apps.opencode.port
     ++ lib.optional config.services.caddy.enable 80;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
@@ -190,10 +190,10 @@
 
     defaultUserShell = pkgs.zsh;
 
-    users.${config.my.username} = {
+    users.${config.my.core.identity.username} = {
       isNormalUser = true;
       description = "atlas opencode host";
-      hashedPasswordFile = config.sops.secrets."users/${config.my.username}/password".path;
+      hashedPasswordFile = config.sops.secrets."users/${config.my.core.identity.username}/password".path;
       # No wheel: system changes only via a host-side rebuild. The flake's
       # sops module adds the `sops` group (age key access for HM secrets).
       extraGroups = [ ];

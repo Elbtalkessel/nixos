@@ -1,6 +1,6 @@
 { pkgs, config, ... }:
 let
-  MAILDIR = "${config.xdg.dataHome}/mail/${config.my.mail.address}";
+  MAILDIR = "${config.xdg.dataHome}/mail/${config.my.apps.mail.address}";
 in
 {
   home.packages = with pkgs; [

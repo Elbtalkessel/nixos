@@ -6,15 +6,15 @@
 }:
 {
   programs.foot = {
-    enable = config.my.terminal.pkg == pkgs.foot;
-    package = config.my.terminal.pkg;
+    enable = config.my.apps.terminal.pkg == pkgs.foot;
+    package = config.my.apps.terminal.pkg;
     settings = {
       main = {
-        font = "${config.my.font.family.mono}:size=${lib.toString config.my.terminal.font-size}";
+        font = "${config.my.core.font.family.mono}:size=${lib.toString config.my.apps.terminal.font-size}";
         line-height = 25;
       }
       // (
-        if config.my.wm.bar.provider == "noctalia" then
+        if config.my.desktop.shell.provider == "noctalia" then
           {
             include = "~/.config/foot/themes/noctalia";
           }
@@ -28,7 +28,7 @@
         blink-rate = 800;
       };
       colors-dark = {
-        alpha = config.my.opacity;
+        alpha = config.my.desktop.opacity;
         background = "0D0D0D";
         blur = true;
       };

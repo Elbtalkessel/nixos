@@ -6,7 +6,7 @@
 }:
 let
   palette = config.my.theme.color.dark;
-  run = cmd: if config.my.wm.uwsm.enable then "uwsm-app -- ${cmd}" else cmd;
+  run = cmd: if config.my.desktop.manager.uwsm.enable then "uwsm-app -- ${cmd}" else cmd;
   ltoggle =
     if config.programs.vicinae.enable then "vicinae toggle" else "noctalia msg panel-toggle launcher";
   wtoggle = if config.programs.noctalia.enable then "noctalia msg window-switcher" else "";
@@ -20,7 +20,7 @@ in
     portalPackage = null;
     systemd = {
       # https://wiki.hypr.land/Useful-Utilities/Systemd-start/#installation
-      enable = !config.my.wm.uwsm.enable;
+      enable = !config.my.desktop.manager.uwsm.enable;
       # https://wiki.hyprland.org/Nix/Hyprland-on-Home-Manager/#programs-dont-work-in-systemd-services-but-do-on-the-terminal
       variables = [ "--all" ];
     };
@@ -39,16 +39,16 @@ in
             BORDER_SIZE = 2,
             -- it is slightly bigger than waybar has with the same number,
             -- +1 helps.
-            GAP_SIZE = ${toString (config.my.theme.size.edge-gap + 1.0)},
-            EYE_CANDY = ${if config.my.wm.performance then "false" else "true"},
-            SWALLOW = "${config.my.terminal.exe}",
+            GAP_SIZE = ${toString (config.my.desktop.gaps + 1.0)},
+            EYE_CANDY = ${if config.my.desktop.manager.performance then "false" else "true"},
+            SWALLOW = "${config.my.apps.terminal.exe}",
           }
 
           -- Programs launched using keybinds, UWSM aware.
           M.PROG = {
             COLOR_PICKER = "${run (lib.getExe pkgs.hyprpicker)}",
             LAUNCHER_TOGGLE = "${ltoggle}",
-            TERMINAL = "${run (lib.getExe config.my.terminal.pkg)}",
+            TERMINAL = "${run (lib.getExe config.my.apps.terminal.pkg)}",
             WINDOW_SWITCHER = "${wtoggle}",
           }
 

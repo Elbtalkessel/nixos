@@ -1,6 +1,6 @@
 { config, ... }: {
   users = {
-    defaultUserShell = config.my.shell.package;
+    defaultUserShell = config.my.core.shell.package;
     mutableUsers = false;
   };
 }

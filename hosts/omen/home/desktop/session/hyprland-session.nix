@@ -8,7 +8,7 @@
 }:
 {
   # https://wiki.hypr.land/Nix/Hyprland-on-Home-Manager/#nixos-uwsm
-  xdg.configFile."uwsm/env" = lib.mkIf config.my.wm.uwsm.enable {
+  xdg.configFile."uwsm/env" = lib.mkIf config.my.desktop.manager.uwsm.enable {
     source = "${config.home.sessionVariablesPackage}/etc/profile.d/hm-session-vars.sh";
   };
 

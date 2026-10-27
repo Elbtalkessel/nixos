@@ -17,8 +17,8 @@
     spiceUSBRedirection.enable = true;
   };
 
-  users.groups.libvirtd.members = [ config.my.username ];
-  users.groups.kvm.members = [ config.my.username ];
+  users.groups.libvirtd.members = [ config.my.core.identity.username ];
+  users.groups.kvm.members = [ config.my.core.identity.username ];
 
   programs.virt-manager.enable = true;
   environment.systemPackages = with pkgs; [ phodav ];

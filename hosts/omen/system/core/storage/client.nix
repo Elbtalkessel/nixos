@@ -5,11 +5,11 @@
   ...
 }:
 let
-  opt = config.my.filesystem.network;
+  opt = config.my.core.filesystem.network;
   shares = if opt.enable then opt.shares else [ ];
   isSmb = if opt.enable then opt.fsType == "cifs" else false;
 
-  creds = if isSmb then config.sops.secrets."moon/${config.my.username}".path else "";
+  creds = if isSmb then config.sops.secrets."moon/${config.my.core.identity.username}".path else "";
   options = [
     "nofail"
     "x-systemd.automount"

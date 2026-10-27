@@ -15,5 +15,5 @@
     };
   };
 
-  users.users.${config.my.username}.extraGroups = [ "docker" ];
+  users.users.${config.my.core.identity.username}.extraGroups = [ "docker" ];
 }

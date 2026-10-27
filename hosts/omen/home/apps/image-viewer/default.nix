@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 {
   programs.imv = {
     enable = true;
@@ -10,7 +10,6 @@
       # Only workaround is to run it in background &
       binds = {
         y = ''exec wl-copy "$imv_current_file"'';
-        u = ''exec ${config.my.wallpaper.cmd.set} "$imv_current_file" &'';
         D = ''exec (rm "$imv_current_file"; imv-msg $imv_pid next) &'';
       };
     };

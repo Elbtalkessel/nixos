@@ -5,57 +5,37 @@
 # these slices combine into the single `my.*` namespace.
 { lib, ... }:
 {
-  options.my = {
-    wallpaper = lib.mkOption {
+  options.my.desktop = {
+    opacity = lib.mkOption {
+      type = lib.types.float;
+      description = "Opacity value between 1 (no opacity) and 0.0 (opaque) applied where it can (terminal, launcher).";
+      default = 0.85;
+    };
+    gaps = lib.mkOption {
+      type = lib.types.float;
+      description = "Gaps between tailed windows.";
+      default = 4.0;
+    };
+    shell = lib.mkOption {
       type = lib.types.submodule {
         options = {
-          path = lib.mkOption {
-            type = lib.types.str;
-            description = "Default path to read wallpaper from.";
-          };
-          source = lib.mkOption {
-            type = lib.types.str;
-            description = "A path to set wallpaper from. In case of directory, a random wallpaper will be selected.";
-          };
-          random = lib.mkOption {
-            type = lib.types.submodule {
-              options = {
-                enable = lib.mkOption {
-                  type = lib.types.bool;
-                  description = "Enable random wallpaper rotation.";
-                };
-                timer = lib.mkOption {
-                  type = lib.types.str;
-                  description = "Time between changing wallpaper using systemd notation (For example 5s.)";
-                };
-              };
-            };
-          };
-          cmd = lib.mkOption {
-            type = lib.types.submodule {
-              options = {
-                set = lib.mkOption {
-                  type = lib.types.str;
-                  description = "Name of a wallpaper setter command.";
-                };
-              };
-            };
+          provider = lib.mkOption {
+            type = lib.types.enum [
+              "noctalia"
+            ];
+            description = "Desktop shell provider.";
+            default = "noctalia";
           };
         };
       };
     };
-
-    opacity = lib.mkOption {
-      type = lib.types.float;
-      description = "Opacity value between 1 (no opacity) and 0.0 (opaque) applied where it can (terminal, launcher).";
-    };
-
-    wm = lib.mkOption {
+    manager = lib.mkOption {
       type = lib.types.submodule {
         options = {
           performance = lib.mkOption {
             type = lib.types.bool;
             description = "Enable performance mode.";
+            default = false;
           };
           uwsm = lib.mkOption {
             type = lib.types.submodule {
@@ -63,22 +43,7 @@
                 enable = lib.mkOption {
                   type = lib.types.bool;
                   description = "Enable UWSM support.";
-                };
-              };
-            };
-          };
-          bar = lib.mkOption {
-            type = lib.types.submodule {
-              options = {
-                provider = lib.mkOption {
-                  type = lib.types.enum [
-                    "ashell"
-                    "waybar"
-                    "quickshell"
-                    "wayle"
-                    "noctalia"
-                  ];
-                  description = "Bar provider";
+                  default = true;
                 };
               };
             };

@@ -1,14 +1,14 @@
 { config, pkgs, ... }:
 let
-  MAILDIR = "${config.xdg.dataHome}/mail/${config.my.mail.address}";
+  MAILDIR = "${config.xdg.dataHome}/mail/${config.my.apps.mail.address}";
 in
 {
   programs.notmuch = {
     enable = true;
     settings = {
       user = {
-        name = config.my.username;
-        primary_email = config.my.mail.address;
+        name = config.my.core.identity.username;
+        primary_email = config.my.apps.mail.address;
       };
       new = {
         tags = [

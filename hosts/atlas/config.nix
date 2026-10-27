@@ -30,20 +30,10 @@ in
     # `neededForUsers`, so the password-declaration lives behind a tree gate.
     (lib.mkIf isSystem {
       # https://github.com/Mic92/sops-nix?tab=readme-ov-file#setting-a-users-password
-      "users/${config.my.username}/password" = {
+      "users/${config.my.core.identity.username}/password" = {
         neededForUsers = true;
       };
     })
   ];
-
-  # `my.editor` -- assigned here so both trees seed `home.sessionVariables.EDITOR`.
-  my.editor = "nvim";
-
-  # opencode web UI bind. Both trees read it: Home Manager builds
-  # `programs.opencode.web.extraArgs` from it, the system tree opens the
-  # firewall only when the service binds on every interface.
-  my.service.opencode = {
-    ip = "0.0.0.0";
-    port = 4096;
-  };
+  my.apps.opencode.ip = "0.0.0.0";
 }

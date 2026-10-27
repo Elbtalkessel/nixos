@@ -1,4 +1,3 @@
-{ config, ... }:
 {
   services.flatpak.packages = [
     "io.github.astralvixen.geforce-infinity"
@@ -14,7 +13,6 @@
         "Game"
         "Network"
       ];
-      icon = "${config.my.theme.icon.path}/apps/geforcenow.svg";
     };
   };
 }

@@ -35,7 +35,7 @@ in
         # which the opencode web UI relies on for its own host checks; the
         # upstream is the opencode web server from the home tree, which is
         # also reachable on loopback.
-        reverse_proxy 127.0.0.1:${toString config.my.service.opencode.port}
+        reverse_proxy 127.0.0.1:${toString config.my.apps.opencode.port}
       '';
     };
   };

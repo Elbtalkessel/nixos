@@ -1,6 +1,6 @@
 { config, ... }:
 let
-  enable = (config.my.filesystem.exports |> builtins.length) > 0;
+  enable = (config.my.core.filesystem.exports |> builtins.length) > 0;
 in
 {
   # TODO: untested.
@@ -19,7 +19,7 @@ in
         };
       }
       // (
-        config.my.filesystem.exports
+        config.my.core.filesystem.exports
         |> builtins.filter (a: a.protocol == "cifs")
         |> builtins.foldl' (
           acc: elem:

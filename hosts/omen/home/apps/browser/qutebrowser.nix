@@ -1,4 +1,3 @@
-_:
 let
   BLUE = "#282c34";
   GRAY = "#7a8395";
@@ -26,7 +25,7 @@ let
 in
 {
   programs.qutebrowser = {
-    enable = false;
+    enable = true;
     settings = {
       colors = {
         completion = {

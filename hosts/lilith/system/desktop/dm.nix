@@ -3,7 +3,7 @@
     enable = true;
     autoLogin = {
       enable = true;
-      user = config.my.username;
+      user = config.my.core.identity.username;
     };
     ly = {
       enable = true;

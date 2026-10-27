@@ -7,7 +7,7 @@
 let
   # Incorrectly configured: maildir and maildir are two different things,
   # maildir should point to parent of the store and store is an email account.
-  MAILDIR = "${config.xdg.dataHome}/mail/${config.my.mail.address}";
+  MAILDIR = "${config.xdg.dataHome}/mail/${config.my.apps.mail.address}";
   html2txt = "${lib.getExe pkgs.lynx} -dump -stdin -force_html -assume_local_charset=UTF-8 -display_charset=UTF-8";
   copyCmd = lib.getExe' pkgs.wl-clipboard "wl-copy";
 in
@@ -19,7 +19,7 @@ in
         source = "notmuch://${MAILDIR}";
         maildir-store = MAILDIR;
         default = "INBOX";
-        from = "${config.my.username} <${config.my.mail.address}>";
+        from = "${config.my.core.identity.username} <${config.my.apps.mail.address}>";
         cache-headers = true;
         copy-to = "Sent";
         default-trash = "Trash";

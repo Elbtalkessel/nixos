@@ -1,16 +1,71 @@
-# Machine-level toggles and resources: VPN, storage, virtualisation, Steam and
-# hardware.
-#
-# Sibling of identity, mail, theme, desktop and fonts -- see ./my.nix for how
-# these slices combine into the single `my.*` namespace.
-{ lib, ... }:
-{
-  options.my = {
+{ lib, pkgs, ... }: {
+  options.my.core = {
+    # Problem: for nushell the package name is nushell, but executable is nu.
+    shell = lib.mkOption {
+      type = lib.types.submodule {
+        options = {
+          name = lib.mkOption {
+            type = lib.types.str;
+            description = "The default shell for the user.";
+            default = "zsh";
+          };
+          package = lib.mkOption {
+            type = lib.types.package;
+            description = "Shell package.";
+            default = pkgs.zsh;
+          };
+        };
+      };
+    };
+    font = lib.mkOption {
+      description = "Font related configuration shared between system and home.";
+      type = lib.types.submodule {
+        options = {
+          family = lib.mkOption {
+            description = "Default font familly for UI, terminal, etc. Note: should have related package installed in my.core.font.packages.";
+            type = lib.types.submodule {
+              options = {
+                default = lib.mkOption {
+                  type = lib.types.str;
+                  description = "Default font.";
+                  default = "OverpassM Nerd Font";
+                };
+                mono = lib.mkOption {
+                  type = lib.types.str;
+                  description = "Default monospace font.";
+                  default = "OverpassM Nerd Font Mono";
+                };
+                propo = lib.mkOption {
+                  type = lib.types.str;
+                  description = "Default prop font.";
+                  default = "OverpassM Nerd Propo";
+                };
+              };
+            };
+          };
+          # Just to have these two in a single place.
+          packages = lib.mkOption {
+            type = lib.types.listOf lib.types.package;
+            description = "The same as fonts.packages.";
+            default = with pkgs; [
+              nerd-fonts.overpass
+              noto-fonts-color-emoji
+            ];
+          };
+        };
+      };
+    };
+    identity = {
+      username = lib.mkOption {
+        type = lib.types.str;
+        description = "Default user's username.";
+      };
+    };
     tailscale = lib.mkOption {
       type = lib.types.bool;
       description = "Enable tailscale vpn. Requires tailscale/one-of-key secret.";
+      default = false;
     };
-
     filesystem = lib.mkOption {
       type = lib.types.submodule {
         options = {
@@ -119,7 +174,6 @@
         };
       };
     };
-
     virt = lib.mkOption {
       type = lib.types.submodule {
         options = {
@@ -143,20 +197,6 @@
         };
       };
     };
-
-    steam = lib.mkOption {
-      description = "Steam related options.";
-      type = lib.types.submodule {
-        options = {
-          session = lib.mkOption {
-            type = lib.types.bool;
-            description = "WIP: Create separate session for log-in into steamos-like interface.";
-            default = false;
-          };
-        };
-      };
-    };
-
     hardware = lib.mkOption {
       description = "Hardware toggles.";
       type = lib.types.submodule {

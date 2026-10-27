@@ -32,7 +32,7 @@
       signing.format = "openpgp";
       settings = {
         user = {
-          name = config.my.username;
+          name = config.my.core.identity.username;
           email = "rtfsc+atlas@pm.me";
         };
 

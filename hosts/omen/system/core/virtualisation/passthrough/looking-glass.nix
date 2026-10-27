@@ -14,7 +14,7 @@
 
   # https://looking-glass.io/docs/B7-rc1/ivshmem_kvmfr/#permissions
   services.udev.extraRules = ''
-    SUBSYSTEM=="kvmfr", OWNER="${config.my.username}", GROUP="kvm", MODE="0660"
+    SUBSYSTEM=="kvmfr", OWNER="${config.my.core.identity.username}", GROUP="kvm", MODE="0660"
   '';
 
   # https://looking-glass.io/docs/B7-rc1/ivshmem_kvmfr/#cgroups

@@ -41,7 +41,7 @@ in
       name = "Papirus-Dark";
     };
     font = {
-      name = config.my.font.family.default;
+      name = config.my.core.font.family.default;
       size = 17;
     };
   };
