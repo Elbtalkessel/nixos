@@ -15,6 +15,10 @@ let
   isSystem = !(config ? home && config.home ? homeDirectory);
 in
 {
+  imports = [
+    ../_shared/config.nix
+  ];
+
   sops.secrets = lib.mkMerge [
     # Tree-agnostic declarations -- valid on both NixOS-system and Home
     # Manager trees.

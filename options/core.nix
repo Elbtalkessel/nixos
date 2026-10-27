@@ -225,5 +225,42 @@
         };
       };
     };
+    microvm = lib.mkOption {
+      description = "MicroVM configuration. <host-name> = { }";
+      type = lib.types.attrsOf (
+        lib.types.submodule {
+          options = {
+            itype = lib.mkOption {
+              type = lib.types.nullOr (
+                lib.types.enum [
+                  "tap"
+                  "bridge"
+                ]
+              );
+              default = null;
+              description = ''
+                Network interface type.
+                Null disables guest Ethernet networking.
+              '';
+            };
+            ip = lib.mkOption {
+              type = lib.types.nullOr lib.types.str;
+              default = null;
+              description = "Pinned IP address on the libvirt network.";
+            };
+            mac = lib.mkOption {
+              type = lib.types.nullOr lib.types.str;
+              default = null;
+              description = "MAC address. Requires itype = bridge";
+            };
+            domain = lib.mkOption {
+              type = lib.types.nullOr lib.types.str;
+              default = null;
+              description = "DNS hostname served by the host's Caddy proxy.";
+            };
+          };
+        }
+      );
+    };
   };
 }

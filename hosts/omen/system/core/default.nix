@@ -18,5 +18,6 @@
     ./users
     ./virtualisation
     ./web
+    ./microvm
   ];
 }
