@@ -103,7 +103,7 @@
       # image on the host survives guest restarts.
       {
         image = "atlas-home.img";
-        mountPoint = "/home/atlas";
+        mountPoint = "/home/kimberlee";
         size = 20 * 1024;
       }
       # Persistent SSH host keys. Without this the tmpfs root would make
@@ -128,7 +128,7 @@
   # projects can be written without root. The `d` rule re-applies on
   # every boot and is harmless when ownership already matches.
   systemd.tmpfiles.rules = [
-    "d /home/atlas/Projects 0750 atlas users - -"
+    "d /home/kimberlee/Projects 0750 kimberlee users - -"
   ];
 
   services = {
