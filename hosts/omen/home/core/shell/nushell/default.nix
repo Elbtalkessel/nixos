@@ -4,6 +4,7 @@
     nushell = {
       enable = true;
       shellAliases = config.home.shellAliases;
+      loadSessionVariables = true;
       extraConfig =
         [
           # nu
@@ -11,9 +12,6 @@
             source ${./conf.d/config.nu}
             source ${./conf.d/comp/sshp.nu}
             use ${./conf.d/functions.nu} *
-            if ($env.__HM_SESS_VARS_SOURCED? != "1") {
-              open ${config.home.sessionVariablesPackage}/etc/profile.d/hm-session-vars.sh | capture-foreign-env | load-env
-            }
           ''
         ]
         ++
