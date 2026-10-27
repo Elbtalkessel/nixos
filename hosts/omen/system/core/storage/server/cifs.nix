@@ -39,11 +39,5 @@ in
         ) { }
       );
     };
-
-    # The samba-wsdd service and avahi is used to advertise the shares to Windows hosts.
-    samba-wsdd = {
-      inherit enable;
-      openFirewall = true;
-    };
   };
 }
