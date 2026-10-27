@@ -6,7 +6,6 @@
     ../../modules/system/core
 
     ./system/boot
-    ./system/web
     ./system/microvm
     ./system/users
     ./system/services

@@ -1,6 +1,11 @@
-{
+{ config, ... }: {
   services.caddy = {
     enable = true;
-    email = "pieceof@duck.com";
+    inherit (config.my.core.identity) email;
+    openFirewall = true;
   };
+  networking.firewall.allowedTCPPorts = [
+    80
+    443
+  ];
 }

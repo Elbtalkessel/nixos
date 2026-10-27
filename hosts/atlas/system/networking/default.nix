@@ -1,7 +1,7 @@
-{ hostName, ... }:
+{ hostName, config, ... }:
 {
   networking = {
     inherit hostName;
-    firewall.allowedTCPPorts = [ 80 ];
+    firewall.allowedTCPPorts = [ config.my.apps.opencode.port ];
   };
 }

@@ -1,7 +1,13 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   sshMount = "/var/lib/ssh";
   homeMount = "/home/${config.my.core.identity.username}";
+  inherit (config.my.core.microvm) atlas;
 in
 {
   microvm = {
@@ -9,18 +15,15 @@ in
     vcpu = 4;
     mem = 8192;
 
-    interfaces = [
-      # To disable networking change the type to `tap` and remove `bridge`.
-      {
-        # Attach to the host's libvirt default bridge. The bridge runs a
-        # dnsmasq DHCP server and NATs traffic through the host's uplink
-        # (WiFi), giving the VM outbound access to the internet and the local
-        # network without requiring WiFi MAC bridging.
-        type = "bridge";
-        id = "atlas-tap";
-        bridge = "virbr0";
-        mac = "02:00:00:00:00:01";
-      }
+    interfaces = lib.mkIf (atlas.itype != null) [
+      (
+        {
+          type = atlas.itype;
+          id = "atlas-tap";
+          inherit (atlas) mac;
+        }
+        // lib.optionalAttrs (atlas.itype == "bridge") { bridge = "virbr0"; }
+      )
     ];
 
     shares = [

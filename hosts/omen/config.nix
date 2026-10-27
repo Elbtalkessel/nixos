@@ -8,6 +8,10 @@ let
   isSystem = !(config ? home && config.home ? homeDirectory);
 in
 {
+  imports = [
+    ../_shared/config.nix
+  ];
+
   sops.secrets = lib.mkMerge [
     {
       "wireless/env" = { };
