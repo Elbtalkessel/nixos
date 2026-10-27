@@ -60,6 +60,10 @@
         type = lib.types.str;
         description = "Default user's username.";
       };
+      email = lib.mkOption {
+        type = lib.types.str;
+        description = "Email address";
+      };
     };
     tailscale = lib.mkOption {
       type = lib.types.bool;

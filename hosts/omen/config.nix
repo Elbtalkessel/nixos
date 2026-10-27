@@ -44,14 +44,10 @@ in
       };
       virt.docker.gpu.enable = true;
       hardware.dgpu.enable = true;
+      identity.email = "rtfsc@pm.me";
     };
     apps = {
-      mail = {
-        address = "rtfsc@pm.me";
-        password = "proton/bridge password";
-        # host / port / sslType carry sensible defaults at the declaration site,
-        # so they are not repeated here.
-      };
+      mail.password = "proton/bridge password";
     };
   };
 }

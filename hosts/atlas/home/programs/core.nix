@@ -1,4 +1,4 @@
-{ config, ... }: {
+{
   programs = {
     devenv = {
       enable = true;
@@ -25,25 +25,6 @@
     # a fast, modern replacement for grep.
     ripgrep = {
       enable = true;
-    };
-
-    git = {
-      enable = true;
-      signing.format = "openpgp";
-      settings = {
-        user = {
-          name = config.my.core.identity.username;
-          email = "rtfsc+atlas@pm.me";
-        };
-
-        init = {
-          defaultBranch = "master";
-        };
-
-        push = {
-          autoSetupRemote = true;
-        };
-      };
     };
   };
 

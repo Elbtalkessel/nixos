@@ -5,7 +5,7 @@
   ...
 }:
 let
-  MAILDIR = "${config.xdg.dataHome}/mail/${config.my.apps.mail.address}";
+  MAILDIR = "${config.xdg.dataHome}/mail/${config.my.core.identity.email}";
   INBOX = "${MAILDIR}/INBOX";
 in
 {
@@ -15,7 +15,7 @@ in
       IMAPAccount default
       Host ${config.my.apps.mail.host}
       Port ${config.my.apps.mail.port}
-      User "${config.my.apps.mail.address}"
+      User "${config.my.core.identity.email}"
       PassCmd "${lib.getExe pkgs.libsecret} lookup ${config.my.apps.mail.password}"
       TLSType ${config.my.apps.mail.sslType}
 
