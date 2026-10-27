@@ -41,10 +41,10 @@ Or clone the whole wiki: `git clone git@gitea.x.home.arpa:nix/nixos.wiki.git /tm
 
 - The guest **root filesystem is a tmpfs**. `/`, `/etc`, `/var`, `/run`,
   `/nix/var` and `/tmp` are rebuilt on every boot. Anything outside
-  `/home/atlas`, `/var/lib/ssh` and `/etc/sops-nix` is lost on restart.
+  `/home/kimberlee`, `/var/lib/ssh` and `/etc/sops-nix` is lost on restart.
 - Keep work under `~/Projects`.
 - Parallel worktrees live (`~/Projects/worktrees/<repo>/<branch>`).
-- Refer to files by absolute path (`/home/atlas/Projects/...`) across tool calls.
+- Refer to files by absolute path (`/home/kimberlee/Projects/...`) across tool calls.
 
 ## Git and gitea
 
