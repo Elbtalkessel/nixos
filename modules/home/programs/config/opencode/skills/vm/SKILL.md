@@ -42,16 +42,16 @@ Or clone the whole wiki: `git clone git@gitea.x.home.arpa:nix/nixos.wiki.git /tm
 
 ## Persistence
 
-- `/home/atlas` — the whole home directory — is a persistent 20 GiB volume and
+- `/home/kimberlee` — the whole home directory — is a persistent 20 GiB volume and
   survives a VM restart. `/var/lib/ssh` is persistent too, reserved for machine
   identity keys; do not read or modify it beyond using git through the
   preconfigured SSH.
 - The guest **root filesystem is a tmpfs**. `/`, `/etc`, `/var`, `/run`,
   `/nix/var` and `/tmp` are rebuilt on every boot. Anything outside
-  `/home/atlas`, `/var/lib/ssh` and `/etc/sops-nix` is lost on restart.
+  `/home/kimberlee`, `/var/lib/ssh` and `/etc/sops-nix` is lost on restart.
 - Keep work under `~/Projects` anyway — that is where the operator looks, and
   it is where parallel worktrees live (`~/Projects/worktrees/<repo>/<branch>`).
-  Refer to files by absolute path (`/home/atlas/Projects/...`) across tool calls.
+  Refer to files by absolute path (`/home/kimberlee/Projects/...`) across tool calls.
 
 ## Git and gitea
 
