@@ -89,5 +89,19 @@
         };
       };
     };
+
+    comfyui = lib.mkOption {
+      description = "ComfyUI options.";
+      type = lib.types.submodule {
+        options = {
+          enable = lib.mkEnableOption "comfyui";
+          domain = lib.mkOption {
+            type = lib.types.nullOr lib.types.str;
+            default = null;
+            description = "Assign a domain name.";
+          };
+        };
+      };
+    };
   };
 }

@@ -52,6 +52,10 @@ in
     };
     apps = {
       mail.password = "proton/bridge password";
+      comfyui = {
+        enable = true;
+        domain = "comfyui.s3.home.arpa";
+      };
     };
   };
 }
