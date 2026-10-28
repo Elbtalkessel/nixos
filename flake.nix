@@ -56,6 +56,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     codebase-memory-mcp.url = "github:DeusData/codebase-memory-mcp";
+    comfyui-nix = {
+      url = "github:utensils/comfyui-nix";
+    };
   };
 
   outputs =
