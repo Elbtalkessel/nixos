@@ -16,6 +16,15 @@
   # (Optional but recommended for faster boot with VPNs)
   boot.initrd.systemd.network.wait-online.enable = false;
 
+  networking.firewall = {
+    trustedInterfaces = lib.lists.optionals config.my.core.tailscale [
+      config.services.tailscale.interfaceName
+    ];
+    allowedUDPPorts = lib.lists.optionals config.my.core.tailscale [
+      config.services.tailscale.port
+    ];
+  };
+
   systemd = {
     # 3. Optimization: Prevent systemd from waiting for network online
     # (Optional but recommended for faster boot with VPNs)
