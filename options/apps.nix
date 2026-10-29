@@ -103,5 +103,29 @@
         };
       };
     };
+
+    nsrv = lib.mkOption {
+      description = "Nsrv options.";
+      type = lib.types.submodule {
+        options = {
+          enable = lib.mkEnableOption "nsrv";
+          domain = lib.mkOption {
+            type = lib.types.nullOr lib.types.str;
+            default = null;
+            description = "Assign a domain name.";
+          };
+          port = lib.mkOption {
+            type = lib.types.int;
+            default = 9998;
+            description = "Nsrv port number";
+          };
+          ip = lib.mkOption {
+            type = lib.types.str;
+            default = "127.0.0.1";
+            description = "Nsrv host";
+          };
+        };
+      };
+    };
   };
 }

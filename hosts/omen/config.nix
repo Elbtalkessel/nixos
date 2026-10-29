@@ -56,6 +56,10 @@ in
         enable = true;
         domain = "comfyui.s3.home.arpa";
       };
+      nsrv = {
+        enable = true;
+        domain = "nsrv.s3.home.arpa";
+      };
     };
   };
 }
