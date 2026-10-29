@@ -1,7 +1,11 @@
 { config, ... }: {
   programs.git = {
     enable = true;
-    signing.format = "openpgp";
+    signing = {
+      format = "openpgp";
+      key = "A2CE863D73FCDD65";
+      signByDefault = true;
+    };
     settings = {
       alias = {
         m = "merge --no-ff";
