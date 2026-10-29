@@ -15,6 +15,7 @@ in
           "x-scheme-handler/https"
           "x-scheme-handler/about"
           "x-scheme-handler/unknown"
+          "text/html"
         ])
         (group config.my.apps.terminal.desktop [ "x-scheme-handler/terminal" ])
         (group "jetbrains-toolbox.desktop" [ "x-scheme-handler/jetbrains" ])
@@ -26,7 +27,6 @@ in
           "text/plain"
           "text/css"
           "text/csv"
-          "text/html"
           "text/calendar"
           "text/javascript"
           "text/xml"
