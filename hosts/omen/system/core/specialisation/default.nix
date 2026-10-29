@@ -1,5 +1,5 @@
 {
   imports = [
-    ./nvidia.nix
+    ./rescue.nix
   ];
 }
