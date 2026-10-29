@@ -9,24 +9,28 @@ let
   printing = true;
 in
 {
-  services = {
+  services = lib.mkIf printing {
     printing = {
-      enable = printing;
+      enable = true;
       drivers = with pkgs; [
-        # samsung printer support
-        splix
         cups-filters
         cups-browsed
       ];
     };
     ipp-usb.enable = true;
+    # Printer discovery won't work without it.
+    avahi = {
+      enable = true;
+      nssmdns4 = true;
+      openFirewall = true;
+    };
   };
   users.users.${config.my.core.identity.username}.extraGroups = lib.mkIf printing [
     "scanner"
     "lp"
   ];
-  hardware.sane = {
-    enable = printing;
+  hardware.sane = lib.mkIf printing {
+    enable = true;
     # Probably a driver also required,
     # https://wiki.nixos.org/wiki/Scanners
   };
