@@ -281,10 +281,6 @@ in
         "${HEPHAESTUS}".tools."codebase-memory" = true;
       };
     };
-
-    skills = {
-      vm = ./config/opencode/skills/vm;
-    };
   };
 
   programs.nix-skills = {
