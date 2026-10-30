@@ -52,14 +52,6 @@ in
     };
     apps = {
       mail.password = "proton/bridge password";
-      comfyui = {
-        enable = true;
-        domain = "comfyui.s3.home.arpa";
-      };
-      nsrv = {
-        enable = true;
-        domain = "nsrv.s3.home.arpa";
-      };
       git = {
         signingKey = "A2CE863D73FCDD65";
       };

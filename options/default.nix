@@ -4,5 +4,6 @@
     ./core.nix
     ./desktop.nix
     ./apps.nix
+    ./srv.nix
   ];
 }

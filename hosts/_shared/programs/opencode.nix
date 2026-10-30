@@ -203,7 +203,7 @@ in
   ];
 
   programs.opencode = {
-    enable = true;
+    enable = config.my.srv.opencode.enable;
     package = llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode;
 
     # HM owns `~/.config/opencode/opencode.json` from `settings`; the web
@@ -211,13 +211,13 @@ in
     # (separate from `ai-gateway/api-key`, which goes through opencode's
     # own `{file:...}` substitution below).
     web = {
-      enable = config.my.apps.opencode.ip != "";
+      enable = config.my.srv.opencode.ip != null;
       environmentFile = toString config.sops.secrets."opencode/env".path;
       extraArgs = [
         "--hostname"
-        config.my.apps.opencode.ip
+        config.my.srv.opencode.ip
         "--port"
-        (toString config.my.apps.opencode.port)
+        (toString config.my.srv.opencode.port)
         "--mdns"
       ];
     };

@@ -39,6 +39,5 @@ in
       };
     })
   ];
-  my.apps.opencode.ip = "0.0.0.0";
   my.core.identity.email = "inkimberlee@gmail.com";
 }
