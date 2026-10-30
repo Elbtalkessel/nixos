@@ -187,15 +187,15 @@
             { my.core.identity.username = host.user; }
           ]
           ++ (lib.optional host.sops (
-            { config, ... }:
+            { ... }:
             {
               imports = [ inputs.sops-nix.nixosModules.sops ];
               sops = getSopsConfig name;
+              # root:users (gid 100) is stable across machines. Safe while each
+              # host has only one machine user.
               systemd.tmpfiles.rules = [
-                "z /etc/sops-nix/key.txt 0640 root sops - - -"
+                "z /etc/sops-nix/key.txt 0640 root users - - -"
               ];
-              users.groups.sops = { };
-              users.users.${config.my.core.identity.username}.extraGroups = [ "sops" ];
             }
           ))
           ++ [ ./hosts/${name}/nixos.nix ];

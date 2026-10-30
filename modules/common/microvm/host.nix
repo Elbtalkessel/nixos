@@ -23,7 +23,7 @@ let
         echo "ERROR: sops age key for microvm ${guest} not found at $src" >&2
         exit 1
       fi
-      install -D -m 0640 -o root -g sops "$src" "$dst"
+      install -D -m 0640 -o root -g users "$src" "$dst"
     '';
 in
 {
@@ -34,12 +34,10 @@ in
     updateFlake = "git+https://gitea.x.home.arpa/nix/nixos.git";
   });
 
-  # Ensure the host-side directory that will be shared into each microvm
-  # as /etc/sops-nix exists before the copy service and the microvm start.
-  # 0755: the guest user is not in the host's `sops` group, so a 0750
-  # directory would block traversal (the key file itself stays 0640).
+  # The share directory must exist before the copy service and the microvm
+  # start. 0755 so the guest can traverse it (the key stays 0640 root:users).
   systemd.tmpfiles.rules = map (
-    guest: "d /var/lib/microvm/${guest}/sops-nix 0755 root sops - -"
+    guest: "d /var/lib/microvm/${guest}/sops-nix 0755 root users - -"
   ) guests;
 
   # Copy the per-guest age key from the admin machine's sops directory into
