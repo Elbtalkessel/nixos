@@ -11,8 +11,7 @@
       isNormalUser = true;
       description = "atlas opencode host";
       hashedPasswordFile = config.sops.secrets."users/${config.my.core.identity.username}/password".path;
-      # No wheel: system changes only via a host-side rebuild. The flake's
-      # sops module adds the `sops` group (age key access for HM secrets).
+      # No wheel: system changes only via a host-side rebuild.
       extraGroups = [ ];
       useDefaultShell = true;
       # Headless service VM: logind must manage the user manager (and create

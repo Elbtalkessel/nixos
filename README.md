@@ -103,7 +103,7 @@ sudo nixos-rebuild switch --flake /path/to/nixos#<host>
 home-manager switch --flake /path/to/nixos#<user>@<host>
 ```
 
-`flake.nix`'s sops wiring (`getSopsConfig` plus the per-host module in `nixosFor`) keeps the keyfile at `0640 root:sops` after every boot (no content touch), adds the user to the `sops` group, and exports `SOPS_AGE_KEY_FILE=/etc/sops-nix/key.txt` to the interactive shell and to the user systemd instance.
+`flake.nix`'s sops wiring (`getSopsConfig` plus the per-host module in `nixosFor`) keeps the keyfile at `0640 root:users` after every boot (no content touch) and exports `SOPS_AGE_KEY_FILE=/etc/sops-nix/key.txt` to the interactive shell and to the user systemd instance.
 
 ### MicroVM guests
 
