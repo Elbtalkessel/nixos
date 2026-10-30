@@ -203,7 +203,7 @@ in
   ];
 
   programs.opencode = {
-    enable = true;
+    enable = config.my.srv.opencode.enable;
     package = llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode;
 
     # HM owns `~/.config/opencode/opencode.json` from `settings`; the web

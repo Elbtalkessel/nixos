@@ -11,12 +11,12 @@ in
 {
   networking = {
     inherit hostName;
-    # Open ports for enabled and not proxied apps.
+    # Open ports for enabled apps bound to the atlas bridge IP.
     firewall.allowedTCPPorts =
-      (lib.optionals (opencode.enable && opencode.ip == atlas.ip) [
+      (lib.optionals (opencode.enable && opencode.ip == atlas.ip && opencode.port != null) [
         opencode.port
       ])
-      ++ (lib.optionals (localsrv.enable && localsrv.ip == atlas.ip) [
+      ++ (lib.optionals (localsrv.enable && localsrv.ip == atlas.ip && localsrv.port != null) [
         localsrv.port
       ]);
   };
