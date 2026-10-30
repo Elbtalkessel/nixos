@@ -60,23 +60,6 @@
       };
     };
 
-    opencode = lib.mkOption {
-      type = lib.types.submodule {
-        options = {
-          ip = lib.mkOption {
-            type = lib.types.str;
-            default = "";
-            description = "IP address the opencode web UI binds to. Set to empty to disable web interface.";
-          };
-          port = lib.mkOption {
-            type = lib.types.port;
-            default = 4096;
-            description = "TCP port the opencode web UI listens on.";
-          };
-        };
-      };
-    };
-
     steam = lib.mkOption {
       description = "Steam related options.";
       type = lib.types.submodule {
@@ -85,44 +68,6 @@
             type = lib.types.bool;
             description = "Deploy steam on this host.";
             default = false;
-          };
-        };
-      };
-    };
-
-    comfyui = lib.mkOption {
-      description = "ComfyUI options.";
-      type = lib.types.submodule {
-        options = {
-          enable = lib.mkEnableOption "comfyui";
-          domain = lib.mkOption {
-            type = lib.types.nullOr lib.types.str;
-            default = null;
-            description = "Assign a domain name.";
-          };
-        };
-      };
-    };
-
-    nsrv = lib.mkOption {
-      description = "Nsrv options.";
-      type = lib.types.submodule {
-        options = {
-          enable = lib.mkEnableOption "nsrv";
-          domain = lib.mkOption {
-            type = lib.types.nullOr lib.types.str;
-            default = null;
-            description = "Assign a domain name.";
-          };
-          port = lib.mkOption {
-            type = lib.types.int;
-            default = 9998;
-            description = "Nsrv port number";
-          };
-          ip = lib.mkOption {
-            type = lib.types.str;
-            default = "127.0.0.1";
-            description = "Nsrv host";
           };
         };
       };

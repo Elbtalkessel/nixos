@@ -45,22 +45,4 @@ in
       "$virsh" net-update default add ip-dhcp-host "<host mac='${atlas.mac}' name='atlas' ip='${atlas.ip}'/>" --live --config --parent-index 0
     '';
   };
-
-  services.caddy.virtualHosts =
-    lib.mkIf (atlas.itype == "bridge" && atlas.domain != null && atlas.ip != null)
-      {
-        "${atlas.domain}" = {
-          # The `http://` scheme selects the listener port: a bare hostname is
-          # an HTTPS site and binds :443, leaving the :80 firewall hole unused.
-          hostName = "http://${atlas.domain}";
-          # `hostName` now carries the scheme, so the module's default access-log
-          # name would come out as "access-http:__oc.s3.home.arpa.log". Pin it
-          # back to the plain host name.
-          logFormat = "output file /var/log/caddy/access-${atlas.domain}.log";
-          extraConfig = ''
-            encode zstd gzip
-            reverse_proxy ${atlas.ip}:${toString config.my.apps.opencode.port}
-          '';
-        };
-      };
 }
