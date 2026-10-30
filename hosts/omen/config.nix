@@ -60,6 +60,9 @@ in
         enable = true;
         domain = "nsrv.s3.home.arpa";
       };
+      git = {
+        signingKey = "A2CE863D73FCDD65";
+      };
     };
   };
 }
