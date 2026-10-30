@@ -127,5 +127,18 @@
         };
       };
     };
+
+    git = lib.mkOption {
+      description = "Global git options.";
+      type = lib.types.submodule {
+        options = {
+          signingKey = lib.mkOption {
+            type = lib.types.nullOr lib.types.str;
+            default = null;
+            description = "gnupg key";
+          };
+        };
+      };
+    };
   };
 }

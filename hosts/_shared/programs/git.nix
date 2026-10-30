@@ -1,9 +1,9 @@
-{ config, ... }: {
+{ config, lib, ... }: {
   programs.git = {
     enable = true;
-    signing = {
+    signing = lib.mkIf (config.my.apps.git.signingKey != null) {
       format = "openpgp";
-      key = "A2CE863D73FCDD65";
+      key = config.my.apps.git.signingKey;
       signByDefault = true;
     };
     settings = {
