@@ -91,35 +91,70 @@ let
     };
   };
 
-  # Per-agent and per-category overrides applied on top of the default
-  # `{ model = omoModel name; }`. Kept here because these are omo-side knobs
-  # (prompt_append, reasoning, max_prompt_tokens); the constants above stay
-  # pure data.
-  opencodeAgentOverrides = {
-    #${SISYPHUS} = {
-    #  prompt_append = "Always use the caveman skill and make other agents to use it.";
-    #};
-  };
+  # Vendored from caveman's src/rules/caveman-activate.md (Apache-2.0 / MIT).
+  # This is the "say less" voice: prompt-only rules that make the model emit
+  # fewer output tokens. It is not the caveman proxy and never rewrites the
+  # user's prompt. The /caveman slash commands the upstream skill ships are not
+  # wired here (no skill is installed) -- this is the always-on form, and
+  # "stop caveman" / "normal mode" opts a session out.
+  cavemanVoice = ''
+    Respond terse like smart caveman. All technical substance stay. Only fluff die.
 
-  opencodeCategoryOverrides = {
-    #${QUICK} = {
-    #  reasoning = "low";
-    #  max_prompt_tokens = 8192;
-    #};
-  };
+    Rules:
+    - Answer first: Answer, then reason, then next step.
+    - Kill ceremony: No greeting, hedging, pleasantries, recap, or closer.
+    - Short word: "fix" not "implement a solution for".
+    - Articles optional: drop a/an/the when the sentence still reads in one pass.
+    - One idea per sentence: 20 words max, active voice, one term per thing.
+    - Payload verbatim: code blocks, commands, paths, numbers, error strings unchanged.
+    - Never drop not/never/no/only.
+    - Tool runs: no text between routine calls.
+    - User's language: compress the style, not the language.
+    - Never perform caveman: no "caveman mode on", no "me think", no "Caveman:" prefix.
 
-  nativeCategoryOverrides = {
-    #${UNSPECIFIED_LOW} = {
-    #  reasoning = "low";
-    #  max_prompt_tokens = 8192;
-    #};
-  };
+    Auto-Clarity: plain prose for security warnings, irreversible actions, step
+    order a fragment could scramble, user confusion, and questions you ask the user.
 
-  opencodeAgentEntry = name: { model = omoModel name; } // (opencodeAgentOverrides.${name} or { });
+    Boundaries: code, comments, commits, PRs, docs written normal; existing
+    comments kept unless asked. "stop caveman" or "normal mode" ends the voice.
+  '';
+
+  # Per-agent and per-category overrides applied on top of the default entry,
+  # which already carries the caveman voice. Kept here because these are
+  # omo-side knobs (prompt_append, reasoning, max_prompt_tokens); the constants
+  # above stay pure data. A per-agent prompt_append replaces cavemanVoice
+  # rather than appending to it.
+  opencodeAgentOverrides = { };
+
+  opencodeCategoryOverrides = { };
+
+  nativeCategoryOverrides = { };
+
+  opencodeAgentEntry =
+    name:
+    {
+      model = omoModel name;
+      prompt_append = cavemanVoice;
+    }
+    // (opencodeAgentOverrides.${name} or { });
   opencodeCategoryEntry =
-    name: { model = omoModel name; } // (opencodeCategoryOverrides.${name} or { });
-  nativeCategoryEntry = name: { model = omoModel name; } // (nativeCategoryOverrides.${name} or { });
-  nativeAgentEntry = name: { model = omoModel nativeAgentToConstant.${name}; };
+    name:
+    {
+      model = omoModel name;
+      prompt_append = cavemanVoice;
+    }
+    // (opencodeCategoryOverrides.${name} or { });
+  nativeCategoryEntry =
+    name:
+    {
+      model = omoModel name;
+      prompt_append = cavemanVoice;
+    }
+    // (nativeCategoryOverrides.${name} or { });
+  nativeAgentEntry = name: {
+    model = omoModel nativeAgentToConstant.${name};
+    prompt_append = cavemanVoice;
+  };
 
   # sops-decrypted secret paths. opencode substitutes {file:<path>} strings
   # at load time (https://opencode.ai/docs/config/#variables), so the value
