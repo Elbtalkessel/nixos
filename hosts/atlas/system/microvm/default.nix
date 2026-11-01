@@ -71,7 +71,7 @@ in
         # MiB, read only when the image is first created. To resize: delete
         # the image on the host and restart the guest -- the volume comes
         # back empty at the new size.
-        size = 15 * 1024;
+        size = 64 * 1024;
       }
       # Persistent work data. The guest root filesystem is a tmpfs, so
       # everything outside /nix and this volume is ephemeral; this disk

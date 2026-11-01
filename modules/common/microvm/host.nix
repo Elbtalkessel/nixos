@@ -40,22 +40,43 @@ in
     guest: "d /var/lib/microvm/${guest}/sops-nix 0755 root users - -"
   ) guests;
 
-  # Copy the per-guest age key from the admin machine's sops directory into
-  # the virtiofs share. The key never enters the Nix store; it is read from
-  # the host filesystem at microvm start time.
+  # TODO: Need a shared option for defining volume names,
+  # currently hardcoded here and hosts/atlas/system/microvm/default.nix
+  # Ideally pull the microvm tree from my.core.microvm to top level and redefine its structure to
+  # microvm = { networking = {# current content}; volumes = {# store overlay + home}; shares = {# shared}; resources = {# cpu + ram allocation}}
+  # Removing a volume also needs to go to settings, so it can be disabled per volume.
   systemd.services = lib.listToAttrs (
-    map (
-      guest:
-      lib.nameValuePair "microvm-${guest}-sops-key" {
-        description = "Copy sops age key for microvm ${guest}";
-        before = [ "microvm@${guest}.service" ];
-        requiredBy = [ "microvm@${guest}.service" ];
-        serviceConfig = {
-          Type = "oneshot";
-          RemainAfterExit = true;
-          ExecStart = copyGuestSopsKey guest;
-        };
-      }
-    ) guests
+    lib.flatten (
+      map (guest: [
+        # Copy the per-guest age key from the admin machine's sops directory into
+        # the virtiofs share. The key never enters the Nix store; it is read from
+        # the host filesystem at microvm start time.
+        (lib.nameValuePair "microvm-${guest}-sops-key" {
+          description = "Copy sops age key for microvm ${guest}";
+          before = [ "microvm@${guest}.service" ];
+          requiredBy = [ "microvm@${guest}.service" ];
+          serviceConfig = {
+            Type = "oneshot";
+            RemainAfterExit = true;
+            ExecStart = copyGuestSopsKey guest;
+          };
+        })
+        # Remove store overlay image before booting, cold starting a project tools
+        # will take longer but keeps image small.
+        (lib.nameValuePair "microvm-${guest}-remove-store-overlay" {
+          description = "Delete writable store overlay before booting.";
+          before = [ "microvm@${guest}.service" ];
+          requiredBy = [ "microvm@${guest}.service" ];
+          script = # bash
+            ''
+              rm -f /var/lib/microvms/${guest}/nix-store-overlay.img
+            '';
+          serviceConfig = {
+            Type = "oneshot";
+            RemainAfterExit = true;
+          };
+        })
+      ]) guests
+    )
   );
 }
