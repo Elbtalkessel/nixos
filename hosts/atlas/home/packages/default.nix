@@ -2,6 +2,7 @@
 {
   imports = [
     ./dev.nix
+    ./scripts.nix
   ];
 
   home.packages = with pkgs; [
