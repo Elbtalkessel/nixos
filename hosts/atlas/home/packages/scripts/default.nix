@@ -1,5 +1,14 @@
 { pkgs, ... }: {
   home.packages = [
-    (pkgs.writeShellScriptBin "gidged" (builtins.readFile ./gidged.bash))
+    (pkgs.writeShellApplication {
+      name = "gidged";
+      runtimeInputs = with pkgs; [
+        coreutils
+        git
+        gnused
+        inetutils
+      ];
+      text = builtins.readFile ./gidged.bash;
+    })
   ];
 }

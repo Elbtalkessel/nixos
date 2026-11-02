@@ -10,7 +10,7 @@ set -o pipefail # exit on pipe failure
 PROJECTS_ROOT=${XDG_PROJECTS_DIR:-$HOME/Projects}
 WORKTREE_ROOT=${WORKTREE_ROOT:-${PROJECTS_ROOT}/worktrees}
 INSTANCE_WIKI=${INSTANCE_WIKI:-kb/gitea}
-GIT_MAIN=${GIT_MAIN:?GIT_MAIN is not set!}
+GIT_MAIN=${GIT_MAIN:-$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null || echo origin/main)}
 WORKDIR=${WORKDIR:-/tmp/gidget}
 
 
@@ -24,10 +24,6 @@ gitRemote() {
 # Repository identifier: <org-name>/<repo-name>.
 repoID() {
     [[ $(gitRemote) =~ [:/]([^/]+/[^/]+?)\.git?$ ]] && echo "${BASH_REMATCH[1]}"
-}
-
-repoURL() {
-    [[ $(gitRemote) =~ ^(?:git@|https?://)([^/:]+) ]] && echo "${BASH_REMATCH[1]}"
 }
 
 # Where worktree directory reside.
@@ -75,7 +71,7 @@ helpCmd() {
         "${1}Help"
         shift
     else
-        echo 'Gidget: git wrappers for agentinc workflow'
+        echo "$(basename "$0"): git wrappers for the agent workflow"
         echo
         echo 'Topics:'
         topic 'help [topic]' 'show help menu'
@@ -98,6 +94,18 @@ wikiHelp() {
     echo "Run: $(basename "$0") wiki"
 }
 
+# Concatenate the .md files in a directory, each headed by its page name.
+dumpPages() {
+    local dir file
+    dir=$1
+    for file in "$dir"/*.md; do
+        [ -e "$file" ] || continue
+        printf '\n# %s\n\n' "$(basename "$file" .md)"
+        cat "$file"
+        printf '\n'
+    done
+}
+
 wikiCmd() {
     local p1 r1 r2 p2 dst
     dst=$(wikiPath)
@@ -110,7 +118,11 @@ wikiCmd() {
 
     mkdir -p "$(dirname "$dst")"
     rm "$dst" || true
-    cat "$p2"/*.md "$p1"/*.md  > "$dst"
+    {
+        printf '# Wiki dump\n'
+        dumpPages "$p2"
+        dumpPages "$p1"
+    } > "$dst"
     printf "wiki: %s\n" "$dst"
 }
 
@@ -140,9 +152,11 @@ worktreeCmd() {
     path="$(worktreeDirectory "$1")"
     git worktree add "$path" -b "${1}" "$GIT_MAIN" 1>/dev/null
     pushd "$path" 1>/dev/null
-        devenv shell -- printf '' 2>/dev/null
+        if [ -f devenv.nix ]; then
+            devenv shell -- printf '' 2>/dev/null
+        fi
     popd 1>/dev/null
-    printf 'worktree: %s' "$path"
+    printf 'worktree: %s\n' "$path"
 }
 
 
@@ -157,7 +171,7 @@ scrapCmd() {
         helpCmd "scrap" 2;
     fi
     git worktree remove "$(worktreeDirectory "$1")"
-    git branch -d "$1"
+    git branch -D "$1"
 }
 
 
