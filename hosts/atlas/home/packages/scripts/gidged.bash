@@ -7,7 +7,7 @@ set -u # exit on not assigned variables
 set -o pipefail # exit on pipe failure
 
 
-PROJECTS_ROOT=${XDG_PROJECTS_DIR:-~/Projects}
+PROJECTS_ROOT=${XDG_PROJECTS_DIR:-$HOME/Projects}
 WORKTREE_ROOT=${WORKTREE_ROOT:-${PROJECTS_ROOT}/worktrees}
 INSTANCE_WIKI=${INSTANCE_WIKI:-kb/gitea}
 GIT_MAIN=${GIT_MAIN:?GIT_MAIN is not set!}
@@ -38,10 +38,11 @@ worktreeDirectory() {
 
 # Path to a wiki file.
 wikiPath() {
-    echo "/tmp/gidget/wiki/$(repoID)/AGENTS.md"
+    echo "${WORKDIR}/wiki/$(repoID)/AGENTS.md"
 }
 
 gitClone() {
+    local gitroot
     gitroot="$WORKDIR/sources/$2"
     mkdir -p "$gitroot"
     pushd "$gitroot" >/dev/null
@@ -84,7 +85,7 @@ helpCmd() {
         topic 'scrap' 'remove worktree'
         echo
         echo 'Settings (environment variables):'
-        topic 'PROJECT_ROOT' 'projects root directory' "$PROJECTS_ROOT"
+        topic 'PROJECTS_ROOT' 'projects root directory' "$PROJECTS_ROOT"
         topic 'WORKTREE_ROOT' 'worktrees root directory' "$WORKTREE_ROOT"
         topic 'GIT_MAIN' 'the main branch to checkout' "$GIT_MAIN"
   fi
