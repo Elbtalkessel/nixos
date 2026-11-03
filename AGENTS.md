@@ -1,16 +1,18 @@
 # AGENTS.md
 
-Bootstrap for coding agents working on **nixos**, the flake that declares every
-host in this lab (`omen`, `atlas`).
+Bootstrap for coding agents working on **nixos**.
 
-Knowledge is split by scope into two Gitea wikis. Read the relevant pages before
-planning or changing anything; the repository carries only `README.md`
-(operator-facing) and this file.
+Knowledge is split by scope into two Gitea wikis. The repo carries only
+`README.md` (operator-facing) and this file.
 
-- **Instance-wide** — `gitea.x.home.arpa/kb/gitea/wiki`: who you act as on Gitea,
-  the task lifecycle and review rules, dependencies. True in every repo here.
-- **This project** — `gitea.x.home.arpa/nix/nixos/wiki`: gates, layout, host
-  facts, this repo's own decisions.
+- **Instance-wide** — `gitea.x.home.arpa/kb/gitea/wiki`: workflow, review rules,
+  commit style, dependencies, environment. True in every repo here.
+- **This project** — `gitea.x.home.arpa/nix/nixos/wiki`: this repo's own
+  facts and decisions.
+
+Run `gidged identity` before working — it prints the reference clone, worktree
+and wiki paths, and your git identity. Dump both wikis with `gidged wiki`; do
+all work in a worktree (`gidged worktree <branch>`).
 
 ## Read first — project
 
@@ -29,11 +31,4 @@ Fetch one page:
 ```
 gitea_wiki_read(method="get", owner="nix", repo="nixos", pageName="Home")
 gitea_wiki_read(method="get", owner="kb", repo="gitea", pageName="Home")
-```
-
-Or clone the lots:
-
-```
-git clone git@gitea.x.home.arpa:nix/nixos.wiki.git /tmp/nixos-wiki
-git clone git@gitea.x.home.arpa:kb/gitea.wiki.git /tmp/gitea-wiki
 ```
