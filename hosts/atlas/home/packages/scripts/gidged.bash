@@ -10,30 +10,16 @@ set -o pipefail # exit on pipe failure
 PROJECTS_ROOT=${XDG_PROJECTS_DIR:-$HOME/Projects}
 WORKTREE_ROOT=${WORKTREE_ROOT:-${PROJECTS_ROOT}/worktrees}
 INSTANCE_WIKI=${INSTANCE_WIKI:-kb/gitea}
-GIT_MAIN=${GIT_MAIN:-$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null || echo origin/main)}
+REMOTE_NAME=${REMOTE_NAME:-origin}
+REMOTE_URL=$(git remote get-url "$REMOTE_NAME")
+REMOTE_WIKI=${REMOTE_URL//.git/.wiki.git}
+REMOTE_BRANCH=${GIT_MAIN:-$(git symbolic-ref --short "refs/remotes/${REMOTE_NAME}/HEAD" 2>/dev/null || echo origin/main)}
 WORKDIR=${WORKDIR:-/tmp/gidget}
-
-
-gitRemote() {
-    local name
-    name=${GIT_MAIN%%/*}
-    git remote get-url "$name"
-}
-
-# The remote must be an ssh URL (git@host:org/repo.git); https is rejected.
-requireSshRemote() {
-    local url
-    url=$(gitRemote)
-    [[ $url == git@* ]] || {
-        echo "$(basename "$0"): remote must be ssh (git@host:org/repo.git), got: $url" >&2
-        exit 1
-    }
-}
 
 
 # Repository identifier: <org-name>/<repo-name>.
 repoID() {
-    [[ $(gitRemote) =~ :([^/]+/[^/]+?)\.git?$ ]] && echo "${BASH_REMATCH[1]}"
+    [[ $REMOTE_URL =~ :([^/]+/[^/]+?)\.git?$ ]] && echo "${BASH_REMATCH[1]}"
 }
 
 # Where worktree directory reside.
@@ -44,10 +30,13 @@ worktreeDirectory() {
 
 # Path to a wiki file.
 wikiPath() {
-    echo "${WORKDIR}/wiki/$(repoID)/AGENTS.md"
+    echo "${WORKDIR}/wiki/$(repoID)/ALL.md"
 }
 
+# Clone a URL into a directory or update existing.
+# Returns directory path.
 gitClone() {
+    [ -z "$1" ] || [ -z "$2" ] && { echo "usage: gitClone <url> <directory>" >&2; exit 1; }
     local gitroot
     gitroot="$WORKDIR/sources/$2"
     mkdir -p "$gitroot"
@@ -61,7 +50,7 @@ gitClone() {
     echo "$gitroot"
 }
 
-# Prints a topic entry.
+# Prints a formatted topic entry.
 topic() {
     local COL=15
     if (( ${#} > 2 )); then
@@ -93,7 +82,7 @@ helpCmd() {
         echo 'Settings (environment variables):'
         topic 'PROJECTS_ROOT' 'projects root directory' "$PROJECTS_ROOT"
         topic 'WORKTREE_ROOT' 'worktrees root directory' "$WORKTREE_ROOT"
-        topic 'GIT_MAIN' 'the main branch to checkout' "$GIT_MAIN"
+        topic 'GIT_MAIN' 'the main branch to checkout' "$REMOTE_BRANCH"
   fi
   exit $(( ${1:-0} % 256 ))
 }
@@ -122,17 +111,16 @@ dumpPages() {
 }
 
 wikiCmd() {
-    local p1 r1 r2 p2 dst
+    local p1 r2 p2 dst
     dst=$(wikiPath)
 
-    r1=$(gitRemote | sed 's,.git$,.wiki.git,')
-    p1=$(gitClone "$r1" "$(repoID)")
+    p1=$(gitClone "$REMOTE_WIKI" "$(repoID)")
 
-    r2=$(gitRemote | sed "s,$(repoID).git,${INSTANCE_WIKI}.wiki.git,")
+    r2=${REMOTE_URL//$(repoID).git/${INSTANCE_WIKI}.wiki.git}
     p2=$(gitClone "$r2" "$INSTANCE_WIKI")
 
     mkdir -p "$(dirname "$dst")"
-    rm "$dst" || true
+    rm "$dst" >/dev/null 2>&1 || true
     {
         printf '# Wiki dump\n'
         dumpPages "$p2" "${INSTANCE_WIKI}.wiki"
@@ -150,7 +138,12 @@ identityCmd() {
     topic 'Username' "$(git config --get user.name)"
     topic 'Email' "$(git config --get user.email)"
     topic 'Hostname' "$(hostname)"
-    topic 'Remote' "$(gitRemote)"
+    topic 'Remote' "$REMOTE_URL"
+    topic 'Wiki' "$(wikiPath)"
+    topic 'Project' "$PROJECTS_ROOT/$(repoID)"
+    topic 'Worktrees' "$WORKTREE_ROOT/$(repoID)"
+    topic 'Wiki URL' "$REMOTE_WIKI"
+    topic 'Wiki URL ' "${REMOTE_URL//$(repoID).git/${INSTANCE_WIKI}.wiki.git}"
 }
 
 
@@ -165,7 +158,7 @@ worktreeCmd() {
     fi
     local path
     path="$(worktreeDirectory "$1")"
-    git worktree add "$path" -b "${1}" "$GIT_MAIN" 1>/dev/null
+    git worktree add "$path" -b "${1}" "$REMOTE_BRANCH" 1>/dev/null
     pushd "$path" 1>/dev/null
         if [ -f devenv.nix ]; then
             devenv shell -- printf '' 2>/dev/null
@@ -196,7 +189,10 @@ main() {
         echo "must not run inside $WORKTREE_ROOT" >&2
         exit 1
     fi
-    requireSshRemote
+    if [[ $REMOTE_URL != git@* ]]; then
+        echo "$(basename "$0"): remote must be ssh (git@host:org/repo.git), got: $REMOTE_URL" >&2
+        exit 1
+    fi
     if (( ${#} == 0 )); then
         helpCmd 0;
     fi
