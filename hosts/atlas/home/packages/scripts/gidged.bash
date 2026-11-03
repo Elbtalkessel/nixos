@@ -20,10 +20,20 @@ gitRemote() {
     git remote get-url "$name"
 }
 
+# The remote must be an ssh URL (git@host:org/repo.git); https is rejected.
+requireSshRemote() {
+    local url
+    url=$(gitRemote)
+    [[ $url == git@* ]] || {
+        echo "$(basename "$0"): remote must be ssh (git@host:org/repo.git), got: $url" >&2
+        exit 1
+    }
+}
+
 
 # Repository identifier: <org-name>/<repo-name>.
 repoID() {
-    [[ $(gitRemote) =~ [:/]([^/]+/[^/]+?)\.git?$ ]] && echo "${BASH_REMATCH[1]}"
+    [[ $(gitRemote) =~ :([^/]+/[^/]+?)\.git?$ ]] && echo "${BASH_REMATCH[1]}"
 }
 
 # Where worktree directory reside.
@@ -94,13 +104,18 @@ wikiHelp() {
     echo "Run: $(basename "$0") wiki"
 }
 
-# Concatenate the .md files in a directory, each headed by its page name.
+# Concatenate the .md files in a directory, each headed by its page name and
+# a line naming the source wiki, its short revision and its short date.
 dumpPages() {
-    local dir file
+    local dir source file rev date
     dir=$1
+    source=$2
+    rev=$(git -C "$dir" rev-parse --short HEAD 2>/dev/null || true)
+    date=$(git -C "$dir" log -1 --format=%cs 2>/dev/null || true)
     for file in "$dir"/*.md; do
         [ -e "$file" ] || continue
-        printf '\n# %s\n\n' "$(basename "$file" .md)"
+        printf '\n# %s\n' "$(basename "$file" .md)"
+        printf 'source: %s %s %s\n\n' "$source" "$rev" "$date"
         cat "$file"
         printf '\n'
     done
@@ -120,8 +135,8 @@ wikiCmd() {
     rm "$dst" || true
     {
         printf '# Wiki dump\n'
-        dumpPages "$p2"
-        dumpPages "$p1"
+        dumpPages "$p2" "${INSTANCE_WIKI}.wiki"
+        dumpPages "$p1" "$(repoID).wiki"
     } > "$dst"
     printf "wiki: %s\n" "$dst"
 }
@@ -181,6 +196,7 @@ main() {
         echo "must not run inside $WORKTREE_ROOT" >&2
         exit 1
     fi
+    requireSshRemote
     if (( ${#} == 0 )); then
         helpCmd 0;
     fi
