@@ -97,7 +97,7 @@ let
   # user's prompt. The /caveman slash commands the upstream skill ships are not
   # wired here (no skill is installed) -- this is the always-on form, and
   # "stop caveman" / "normal mode" opts a session out.
-  cavemanVoice = ''
+  conditioning = ''
     Respond terse like smart caveman. All technical substance stay. Only fluff die.
 
     Rules:
@@ -124,7 +124,24 @@ let
   # omo-side knobs (prompt_append, reasoning, max_prompt_tokens); the constants
   # above stay pure data. A per-agent prompt_append replaces cavemanVoice
   # rather than appending to it.
-  opencodeAgentOverrides = { };
+  opencodeAgentOverrides = {
+    "${SISYPHUS}" = {
+      prompt_append = conditioning + ''
+        ---
+        Use gidged cli utility for repository, worktree setup and wiki sync.
+        Quick reference:
+          - `gidged -h` help page.
+          - `gidged -u git@gitea.x.home.arpa:<owner>/<repo>.git -s` setup a repository, outputs its path.
+          - `gidged -u <owner>/<repo> -w git@gitea.x.home.arpa:kb/gitea.git` pull wiki pages for `-u` repository + global wiki, outputs path to a markdown file.
+          - `gidged -u <owner>/<repo> worktree -c <name>` create a worktree using <name> as branch name, outputs a path to the worktree.
+          - `gidged -u <owner>/<repo> worktree -r <name>` remove <name> worktree.
+          - `gidged -u <owner>/<repo> -i` prints agent, machine facts, local + remote path to repositories.
+        Before starting any work ensure reference repository is ready and synced (-s flag).
+        Make sure wiki pages (including global wiki) downloaded, read its content.
+        Work only in a worktrees (worktree subcommand.)
+      '';
+    };
+  };
 
   opencodeCategoryOverrides = { };
 
@@ -134,26 +151,26 @@ let
     name:
     {
       model = omoModel name;
-      prompt_append = cavemanVoice;
+      prompt_append = conditioning;
     }
     // (opencodeAgentOverrides.${name} or { });
   opencodeCategoryEntry =
     name:
     {
       model = omoModel name;
-      prompt_append = cavemanVoice;
+      prompt_append = conditioning;
     }
     // (opencodeCategoryOverrides.${name} or { });
   nativeCategoryEntry =
     name:
     {
       model = omoModel name;
-      prompt_append = cavemanVoice;
+      prompt_append = conditioning;
     }
     // (nativeCategoryOverrides.${name} or { });
   nativeAgentEntry = name: {
     model = omoModel nativeAgentToConstant.${name};
-    prompt_append = cavemanVoice;
+    prompt_append = conditioning;
   };
 
   # sops-decrypted secret paths. opencode substitutes {file:<path>} strings
@@ -360,6 +377,9 @@ in
 
       # tools MCP
       pkgs.gitea-mcp-server
+
+      # cli tools
+      pkgs.gidged
     ];
   };
 }
