@@ -58,5 +58,6 @@
 
     # Custom
     usbdrivetools
+    gidged
   ];
 }
