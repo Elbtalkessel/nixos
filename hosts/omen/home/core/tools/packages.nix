@@ -58,6 +58,6 @@
 
     # Custom
     usbdrivetools
-    gidged
+    gather
   ];
 }
