@@ -313,6 +313,14 @@ in
           enabled = true;
         };
 
+        gather = {
+          type = "local";
+          command = [
+            "${pkgs.gather}/bin/gather-mcp"
+          ];
+          enabled = true;
+        };
+
         playwright = {
           type = "remote";
           url = "https://playwright-mcp.x.home.arpa";
