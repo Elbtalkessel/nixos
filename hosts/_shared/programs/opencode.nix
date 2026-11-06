@@ -322,10 +322,15 @@ in
         };
 
         playwright = {
-          type = "remote";
-          url = "https://playwright-mcp.x.home.arpa";
-          # Leaving for reference, but all *.x.home.arpa aren't public accesible anyway.
-          # headers.Authorization = "Bearer {file:${playwrightMcpToken}}";
+          # Local, not remote: nixpkgs' playwright-mcp wraps the binary with
+          # PLAYWRIGHT_BROWSERS_PATH pointing at nix-built browsers, so it runs
+          # on NixOS without downloading Playwright's prebuilt binaries. A local
+          # browser also reaches the agent host's loopback and writes screenshots
+          # to a path the agent can read.
+          type = "local";
+          command = [
+            "${pkgs.playwright-mcp}/bin/playwright-mcp"
+          ];
           enabled = true;
         };
       };
