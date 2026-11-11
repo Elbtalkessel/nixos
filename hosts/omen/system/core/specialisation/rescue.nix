@@ -44,5 +44,6 @@
 
     # Don't run the workaround service in rescue mode.
     systemd.services.nvidia-runtime-pm-off.enable = lib.mkForce false;
+    programs.steam.enable = false;
   };
 }

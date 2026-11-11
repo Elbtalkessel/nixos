@@ -16,11 +16,11 @@
     steam = {
       enable = lib.mkDefault config.my.apps.steam.enable;
       # Open ports in the firewall for Steam Remote Play
-      remotePlay.openFirewall = false;
+      remotePlay.openFirewall = true;
       # Open ports in the firewall for Source Dedicated Server
       dedicatedServer.openFirewall = false;
       # Open ports in the firewall for Steam Local Network Game Transfers
-      localNetworkGameTransfers.openFirewall = false;
+      localNetworkGameTransfers.openFirewall = true;
       protontricks.enable = true;
     };
     gamemode.enable = steam.enable;

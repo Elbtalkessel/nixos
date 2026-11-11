@@ -52,9 +52,8 @@ in
     };
     apps = {
       mail.password = "proton/bridge password";
-      git = {
-        signingKey = "A2CE863D73FCDD65";
-      };
+      git.signingKey = "A2CE863D73FCDD65";
+      steam.enable = true;
     };
   };
 }
