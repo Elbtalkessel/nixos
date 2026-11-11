@@ -62,5 +62,9 @@
         pkgs.fzf
       ];
     })
+    (nuenv.writeShellApplication {
+      name = "steam-pfx-run";
+      text = builtins.readFile ./steam-pfx-run.nu;
+    })
   ];
 }
