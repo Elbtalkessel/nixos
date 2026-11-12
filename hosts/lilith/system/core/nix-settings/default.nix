@@ -1,7 +1,0 @@
-{
-  nix = {
-    optimise = {
-      automatic = true;
-    };
-  };
-}
