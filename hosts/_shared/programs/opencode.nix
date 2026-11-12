@@ -119,6 +119,35 @@ let
     comments kept unless asked. "stop caveman" or "normal mode" ends the voice.
   '';
 
+  # Gather bootstrap: the minimal MCP-tool surface an agent needs before its
+  # first gather call. Kept as a named variable so the override below just
+  # concatenates. Does not duplicate the full wiki rules -- see kb/gitea wiki.
+  gatherPrompt = ''
+    ---
+    Use the gather MCP tools for repository, worktree and wiki setup.
+
+      gather_info(url)                     identity, machine facts, local+remote repo paths
+      gather_list_repos()                  managed repos + current branch
+      gather_setup(url)                    clone/update the reference clone; outputs its path
+      gather_sync_wiki(url)                merge project + instance wikis into ALL.md; read it before work
+      gather_worktree_create(url, branch)  create a worktree from origin/<default>; outputs its path
+      gather_worktree_remove(url, branch)  remove a worktree
+
+    Bootstrap before any work: gather_setup, then gather_sync_wiki (read ALL.md),
+    then gather_worktree_create.
+
+    Hard rule: commit and push only from a worktree, never the reference clone.
+
+    Wiki edits go through the .wiki git clone (git clone ...wiki.git + edit + push),
+    not MCP.
+  '';
+
+  # Non-negotiable conduct rule, kept out of the store via sops-nix.
+  behaviourRule = ''
+    Behaviour hard rule is here ${toString config.sops.secrets."prompt/behaviour".path},
+    read before work.
+  '';
+
   # Per-agent and per-category overrides applied on top of the default entry,
   # which already carries the caveman voice. Kept here because these are
   # omo-side knobs (prompt_append, reasoning, max_prompt_tokens); the constants
@@ -126,10 +155,7 @@ let
   # rather than appending to it.
   opencodeAgentOverrides = {
     "${SISYPHUS}" = {
-      prompt_append = conditioning + ''
-        Behaviour hard rule is here ${toString config.sops.secrets."prompt/behaviour".path},
-        read before work.
-      '';
+      prompt_append = conditioning + gatherPrompt + behaviourRule;
     };
   };
 
