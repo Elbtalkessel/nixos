@@ -324,7 +324,9 @@ in
         codebase-memory = {
           type = "local";
           command = [
-            "${codebase-memory-mcp.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/codebase-memory-mcp"
+            "${
+              codebase-memory-mcp.packages.${pkgs.stdenv.hostPlatform.system}.codebase-memory-mcp-ui
+            }/bin/codebase-memory-mcp"
           ];
           enabled = true;
         };

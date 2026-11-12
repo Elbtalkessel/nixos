@@ -24,9 +24,18 @@
 # auto_index (index a fresh repo on the first agent connection) is runtime
 # config in ~/.cache/codebase-memory-mcp/_config.db, not nix. Enable it once:
 #   codebase-memory-mcp config set auto_index true
+#
+# ui_enabled (serve the graph UI on 127.0.0.1:9749) is the same one-time
+# runtime config, carried by the -ui build below. Enable it once:
+#   codebase-memory-mcp config set ui_enabled true
+#
+# The `default` and `codebase-memory-mcp-ui` builds have different
+# fingerprints, so this unit and the opencode MCP server must switch to the
+# same build in one rebuild or the daemon's admission barrier rejects the
+# mismatched peer.
 { pkgs, codebase-memory-mcp, ... }:
 let
-  cbm = codebase-memory-mcp.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  cbm = codebase-memory-mcp.packages.${pkgs.stdenv.hostPlatform.system}.codebase-memory-mcp-ui;
 in
 {
   systemd.user.services.codebase-memory-mcp = {
