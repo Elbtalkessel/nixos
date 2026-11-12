@@ -45,7 +45,6 @@ hl.config({
 		enable_swallow = true,
 		focus_on_activate = true,
 		key_press_enables_dpms = false,
-		layers_hog_keyboard_focus = true,
 		mouse_move_enables_dpms = false,
 		mouse_move_focuses_monitor = true,
 		swallow_exception_regex = "(?i)playwright.*",
@@ -74,7 +73,6 @@ hl.config({
 		preserve_split = true,
 		smart_resizing = true,
 		smart_split = false,
-		special_scale_factor = 0.95,
 		split_width_multiplier = 1.5,
 		use_active_for_splits = true,
 	},
@@ -83,7 +81,6 @@ hl.config({
 		mfact = 0.550000,
 		new_on_top = false,
 		orientation = "left",
-		special_scale_factor = 0.95,
 	},
 	scrolling = {
 		fullscreen_on_one_column = true,

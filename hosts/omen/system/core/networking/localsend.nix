@@ -1,6 +1,6 @@
 {
   programs.localsend = {
-    enable = true;
+    enable = false;
     openFirewall = true;
   };
 }
