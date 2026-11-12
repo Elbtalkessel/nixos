@@ -88,11 +88,6 @@
           microvmHost = [ "atlas" ];
         };
 
-        lilith = {
-          user = "risus";
-          sops = true;
-        };
-
         atlas = {
           user = "kimberlee";
           sops = true;
