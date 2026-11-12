@@ -142,12 +142,6 @@ let
     not MCP.
   '';
 
-  # Non-negotiable conduct rule, kept out of the store via sops-nix.
-  behaviourRule = ''
-    Behaviour hard rule is here ${toString config.sops.secrets."prompt/behaviour".path},
-    read before work.
-  '';
-
   # Per-agent and per-category overrides applied on top of the default entry,
   # which already carries the caveman voice. Kept here because these are
   # omo-side knobs (prompt_append, reasoning, max_prompt_tokens); the constants
@@ -155,7 +149,7 @@ let
   # rather than appending to it.
   opencodeAgentOverrides = {
     "${SISYPHUS}" = {
-      prompt_append = conditioning + gatherPrompt + behaviourRule;
+      prompt_append = conditioning + gatherPrompt;
     };
   };
 
