@@ -61,7 +61,6 @@ hl.config({
 		enable_swallow = true,
 		focus_on_activate = true,
 		key_press_enables_dpms = false,
-		layers_hog_keyboard_focus = true,
 		mouse_move_enables_dpms = false,
 		mouse_move_focuses_monitor = true,
 		swallow_exception_regex = "(?i)playwright.*",
@@ -107,5 +106,8 @@ hl.config({
 	-- https://wiki.hypr.land/Configuring/Basics/Variables/#animations
 	animations = {
 		enabled = M.CONF.EYE_CANDY,
+	},
+	layers = {
+		layers_hog_keyboard_focus = true,
 	},
 })

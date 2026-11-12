@@ -4,11 +4,13 @@ for i = 1, 10 do
 		workspace = i,
 		persistent = true,
 		default_name = "—",
+		layout_opts = {
+			special_scale_factor = 0.95,
+		},
 	})
 end
 
 hl.workspace_rule({
 	workspace = "special:magic",
-	on_created_empty = "foot",
 	layout = "master",
 })
