@@ -127,18 +127,8 @@ let
   opencodeAgentOverrides = {
     "${SISYPHUS}" = {
       prompt_append = conditioning + ''
-        ---
-        Use gather cli utility for repository, worktree setup and wiki sync.
-        Quick reference:
-          - `gather -h` help page.
-          - `gather -u git@gitea.x.home.arpa:<owner>/<repo>.git -s` setup a repository, outputs its path.
-          - `gather -u gitea.x.home.arpa/<owner>/<repo> -w git@gitea.x.home.arpa:kb/gitea.git` pull wiki pages for `-u` repository + global wiki, outputs path to a markdown file.
-          - `gather -u gitea.x.home.arpa/<owner>/<repo> worktree -c <name>` create a worktree using <name> as branch name, outputs a path to the worktree.
-          - `gather -u gitea.x.home.arpa/<owner>/<repo> worktree -r <name>` remove <name> worktree.
-          - `gather -u gitea.x.home.arpa/<owner>/<repo> -i` prints agent, machine facts, local + remote path to repositories.
-        Before starting any work ensure reference repository is ready and synced (-s flag).
-        Make sure wiki pages (including global wiki) downloaded, read its content.
-        Work only in a worktrees (worktree subcommand.)
+        Behaviour hard rule is here ${toString config.sops.secrets."prompt/behaviour".path},
+        read before work.
       '';
     };
   };

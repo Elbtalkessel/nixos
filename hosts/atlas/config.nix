@@ -28,6 +28,7 @@ in
       # Consumed by the gitea MCP server via opencode's native {file:...}
       # substitution at load time (see agent.nix).
       "gitea/mcp-token" = { };
+      "prompt/behaviour" = { };
     }
 
     # System tree only -- the home-manager sops secret type rejects
