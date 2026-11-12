@@ -322,11 +322,11 @@
         "nuenv": "nuenv"
       },
       "locked": {
-        "lastModified": 1793905813,
-        "narHash": "sha256-ZQEp0TzW5C5p5yI6DOlkn5YHQSNqaCVL+ZmN0bGGq94=",
+        "lastModified": 1794480287,
+        "narHash": "sha256-5UE6Vv1fCByHTiFdF+dkt6X0bT4986+pgELIZaafMvI=",
         "ref": "master",
-        "rev": "1f70fa17f58eba39bf7519c6bdfa291d2ccfbbcb",
-        "revCount": 107,
+        "rev": "d147ac7f7959be5e8d61799fdd4e26b2b69784f5",
+        "revCount": 108,
         "type": "git",
         "url": "https://gitea.x.home.arpa/nix/nixpkgs.git"
       },
