@@ -1,5 +1,6 @@
 {
   pkgs,
+  gather,
   nix-skills,
   llm-agents,
   config,
@@ -326,7 +327,7 @@ in
         gather = {
           type = "local";
           command = [
-            "${pkgs.gather}/bin/gather-mcp"
+            "${gather.packages.${pkgs.stdenv.hostPlatform.system}.gather-mcp}/bin/gather-mcp"
           ];
           environment = {
             GATHER_INSTANCE_WIKI = "git@gitea.x.home.arpa:kb/gitea.git";
@@ -405,7 +406,7 @@ in
       pkgs.gitea-mcp-server
 
       # cli tools
-      pkgs.gather
+      gather.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
   };
 }

@@ -1,4 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, gather, ... }:
+let
+  gatherCli = gather.packages.${pkgs.stdenv.hostPlatform.system}.default;
+in
 {
   nixpkgs.config.allowUnfreePackages = [
     "ouch"
@@ -58,6 +61,6 @@
 
     # Custom
     usbdrivetools
-    gather
+    gatherCli
   ];
 }
