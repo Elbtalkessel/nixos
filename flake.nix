@@ -32,6 +32,10 @@
       url = "git+https://gitea.x.home.arpa/nix/nixpkgs.git?ref=master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    gather = {
+      url = "git+https://gitea.x.home.arpa/python/gather.git?ref=main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # https://determinate.systems/blog/nuenv/
     nuenv = {
       url = "https://flakehub.com/f/xav-ie/nuenv/*.tar.gz";

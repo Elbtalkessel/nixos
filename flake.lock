@@ -153,6 +153,27 @@
         "type": "github"
       }
     },
+    "gather": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794741787,
+        "narHash": "sha256-tz6xBfeMeIugM+HPcWrE7beLPdeJDh3JRZvuQQ8RzIo=",
+        "ref": "main",
+        "rev": "bd1a46e99bddb5cc4f505c92ac940d9d3dc74b99",
+        "revCount": 14,
+        "type": "git",
+        "url": "https://gitea.x.home.arpa/python/gather.git"
+      },
+      "original": {
+        "ref": "main",
+        "type": "git",
+        "url": "https://gitea.x.home.arpa/python/gather.git"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -508,6 +529,7 @@
         "codebase-memory-mcp": "codebase-memory-mcp",
         "comfyui-nix": "comfyui-nix",
         "disko": "disko",
+        "gather": "gather",
         "home-manager": "home-manager",
         "llm-agents": "llm-agents",
         "microvm": "microvm",
