@@ -328,6 +328,9 @@ in
           command = [
             "${pkgs.gather}/bin/gather-mcp"
           ];
+          environment = {
+            GATHER_INSTANCE_WIKI = "git@gitea.x.home.arpa:kb/gitea.git";
+          };
           enabled = true;
         };
 
