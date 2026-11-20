@@ -1,6 +1,5 @@
 {
   pkgs,
-  config,
   lib,
   ...
 }:
@@ -39,10 +38,6 @@ in
     iconTheme = {
       package = pkgs.papirus-icon-theme;
       name = "Papirus-Dark";
-    };
-    font = {
-      name = config.my.core.font.family.default;
-      size = 17;
     };
   };
 
