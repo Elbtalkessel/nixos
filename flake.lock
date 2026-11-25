@@ -162,16 +162,16 @@
       "locked": {
         "lastModified": 1794745941,
         "narHash": "sha256-ZsZuXzx957AdEzuJuJVgftEIDHboVwbaI9v4D9niPkY=",
-        "ref": "main",
+        "owner": "Elbtalkessel",
+        "repo": "gather",
         "rev": "b142d20c04b534935b2716ee0aa2e4805eaba7a9",
-        "revCount": 15,
-        "type": "git",
-        "url": "https://gitea.x.home.arpa/python/gather.git"
+        "type": "github"
       },
       "original": {
+        "owner": "Elbtalkessel",
         "ref": "main",
-        "type": "git",
-        "url": "https://gitea.x.home.arpa/python/gather.git"
+        "repo": "gather",
+        "type": "github"
       }
     },
     "home-manager": {
@@ -345,16 +345,16 @@
       "locked": {
         "lastModified": 1794744891,
         "narHash": "sha256-JA76AFNR2k3C/UBZVcH4ciREJBkvoS59V1LRp/I1lU8=",
-        "ref": "master",
+        "owner": "Elbtalkessel",
+        "repo": "nixpkgs",
         "rev": "0d6e7ef93de982f348a425f4a4d19d0d72beba5f",
-        "revCount": 110,
-        "type": "git",
-        "url": "https://gitea.x.home.arpa/nix/nixpkgs.git"
+        "type": "github"
       },
       "original": {
+        "owner": "Elbtalkessel",
         "ref": "master",
-        "type": "git",
-        "url": "https://gitea.x.home.arpa/nix/nixpkgs.git"
+        "repo": "nixpkgs",
+        "type": "github"
       }
     },
     "nixpkgs-lib": {
@@ -431,16 +431,16 @@
       "locked": {
         "lastModified": 1792834395,
         "narHash": "sha256-zhi9jlxjfk6syMZxKP9ACC365/IsYXaxyMF6yUcgXYg=",
-        "ref": "main",
+        "owner": "Elbtalkessel",
+        "repo": "nixvim",
         "rev": "82317270f26142ed1c41be380563339ed6fd6224",
-        "revCount": 50,
-        "type": "git",
-        "url": "https://gitea.x.home.arpa/nix/nixvim.git"
+        "type": "github"
       },
       "original": {
+        "owner": "Elbtalkessel",
         "ref": "main",
-        "type": "git",
-        "url": "https://gitea.x.home.arpa/nix/nixvim.git"
+        "repo": "nixvim",
+        "type": "github"
       }
     },
     "nixvim_2": {

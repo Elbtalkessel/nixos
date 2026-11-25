@@ -16,8 +16,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixvim = {
-      # Remove the branch name to switch to unstable
-      url = "git+https://gitea.x.home.arpa/nix/nixvim.git?ref=main";
+      url = "github:Elbtalkessel/nixvim/main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     disko = {
@@ -29,11 +28,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs-custom = {
-      url = "git+https://gitea.x.home.arpa/nix/nixpkgs.git?ref=master";
+      url = "github:Elbtalkessel/nixpkgs/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     gather = {
-      url = "git+https://gitea.x.home.arpa/python/gather.git?ref=main";
+      url = "github:Elbtalkessel/gather/main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # https://determinate.systems/blog/nuenv/

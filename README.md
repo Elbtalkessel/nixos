@@ -88,7 +88,7 @@ Back on the target console, provision the keyfile and install:
 ```bash
 sudo mkdir -p /mnt/etc/sops-nix
 sudo install -m 0640 -o root -g users /tmp/<name>.age.key /mnt/etc/sops-nix/key.txt
-git clone https://gitea.x.home.arpa/nix/nixos.git
+git clone https://github.com/Elbtalkessel/nixos.git
 cd nixos
 host="<name>"
 sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko ./hosts/${host}/disko.nix
@@ -173,7 +173,7 @@ ssh root@<ip>
 
 ```bash
 sudo -i
-git clone https://gitea.x.home.arpa/nix/nixos.git
+git clone https://github.com/Elbtalkessel/nixos.git
 cd nixos
 
 nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko ./hosts/couch/disko.nix
@@ -190,9 +190,11 @@ greetd auto-logs the `kodi` user into Kodi (GBM standalone). Confirm from the
 admin box:
 
 ```bash
-ssh risus@couch.local
-sudo nixos-rebuild switch --flake 'github:nix/nixos#couch'
-home-manager switch --flake 'github:nix/nixos#risus@couch'
+# couch gets a DHCP lease; find its address in the router's lease table. Give
+# it a DHCP reservation (or static IP) for a stable address, then:
+ssh risus@<couch-ip>
+sudo nixos-rebuild switch --flake 'github:Elbtalkessel/nixos#couch'
+home-manager switch --flake 'github:Elbtalkessel/nixos#risus@couch'
 ```
 
 `sudo` is passwordless for `risus` (key-only account).
