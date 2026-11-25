@@ -1,6 +1,6 @@
 {
   disko.devices.disk.main = {
-    # Single NVMe (WDC PC SN520 256G), confirmed via Windows `Get-Disk`.
+    # Single NVMe (WDC PC SN520 256G).
     device = "/dev/nvme0n1";
     type = "disk";
     content = {

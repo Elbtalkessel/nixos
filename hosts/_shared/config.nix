@@ -1,9 +1,12 @@
 {
-  my.core.microvm = {
-    atlas = {
-      ip = "192.168.122.10";
-      mac = "02:00:00:00:00:01";
-      itype = "bridge";
+  my.core = {
+    pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC7ulI5D34Y49wPgraM2iHLJHYzKBlJaB1akgibNJR1y risus@omen";
+    microvm = {
+      atlas = {
+        ip = "192.168.122.10";
+        mac = "02:00:00:00:00:01";
+        itype = "bridge";
+      };
     };
   };
   # Part host, part vm configuration.

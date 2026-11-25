@@ -65,6 +65,10 @@
         description = "Email address";
       };
     };
+    pubkey = lib.mkOption {
+      type = lib.types.str;
+      description = "Operator SSH public key, shared across hosts.";
+    };
     tailscale = lib.mkOption {
       type = lib.types.bool;
       description = "Enable tailscale vpn. Requires tailscale/one-of-key secret.";

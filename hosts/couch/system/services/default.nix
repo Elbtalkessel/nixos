@@ -11,7 +11,7 @@
       };
     };
 
-    # coach.local discovery.
+    # couch.local discovery.
     avahi.enable = true;
 
     # HDMI audio. Kodi (GBM) talks to it through the PulseAudio shim; Moonlight

@@ -98,7 +98,7 @@
           microvm = true;
         };
 
-        coach = {
+        couch = {
           user = "risus";
           sops = false;
         };
@@ -250,9 +250,39 @@
           })
           ++ [ ./hosts/${name}/home.nix ];
         };
+
+      # Generic headless installer ISO: boots with key-only SSH over DHCP so a
+      # machine can be installed from another box on the LAN — no monitor next
+      # to the ethernet port. Build and flash:
+      #   nix build .#nixosConfigurations.nixbase.config.system.build.isoImage
+      nixbaseInstaller = nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [
+          (nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix")
+          ./options
+          ./hosts/_shared/config.nix
+          (
+            { config, ... }:
+            {
+              networking.hostName = "nixbase";
+              users.users.root.openssh.authorizedKeys.keys = [ config.my.core.pubkey ];
+              services.openssh = {
+                enable = true;
+                settings = {
+                  PermitRootLogin = "prohibit-password";
+                  PasswordAuthentication = false;
+                  KbdInteractiveAuthentication = false;
+                };
+              };
+            }
+          )
+        ];
+      };
     in
     {
-      nixosConfigurations = lib.mapAttrs (name: host: nixosFor name host) hosts;
+      nixosConfigurations = (lib.mapAttrs (name: host: nixosFor name host) hosts) // {
+        nixbase = nixbaseInstaller;
+      };
 
       homeConfigurations = lib.mapAttrs' (
         name: host: lib.nameValuePair "${host.user}@${name}" (homeFor name host)
