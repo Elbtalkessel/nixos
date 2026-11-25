@@ -31,6 +31,13 @@ in
   services.greetd = {
     enable = true;
     settings = {
+      # greetd requires a default_session.command even when initial_session is
+      # set (autologin) — it validates the config before honouring
+      # initial_session. This is the fallback login; initial_session takes over
+      # so it is never reached.
+      default_session = {
+        command = "${pkgs.greetd}/bin/agreety --cmd login";
+      };
       initial_session = {
         command = "${pkgs.kodi-gbm}/bin/kodi-standalone";
         user = "kodi";
