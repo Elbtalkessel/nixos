@@ -45,17 +45,18 @@ in
     };
   };
 
-  # Seed the web-server settings once (only if guisettings.xml is missing) and
-  # before greetd starts Kodi, so the first boot is already remote-manageable.
-  # Kodi keeps these values when it rewrites the file on exit.
+  # Seed the web-server settings before greetd starts Kodi, so the box is
+  # remote-manageable. Re-seeds whenever the web server isn't already enabled —
+  # this also covers a pre-existing guisettings.xml written before this seed
+  # existed. Kodi keeps the value when it rewrites the file on exit.
   systemd.services.kodi-webseed = {
-    description = "Seed Kodi web server settings if missing";
+    description = "Seed Kodi web server settings if disabled";
     wantedBy = [ "multi-user.target" ];
     before = [ "greetd.service" ];
     serviceConfig.Type = "oneshot";
     script = ''
       cfg=/home/kodi/.kodi/userdata/guisettings.xml
-      if [ ! -e "$cfg" ]; then
+      if ! grep -qs '<setting id="services.webserver"[^>]*>true' "$cfg"; then
         install -d -o kodi -g users -m 0750 "$(dirname "$cfg")"
         install -m 0640 -o kodi -g users "${kodiWebSettings}" "$cfg"
       fi
