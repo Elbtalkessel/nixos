@@ -97,6 +97,11 @@
           sops = true;
           microvm = true;
         };
+
+        coach = {
+          user = "risus";
+          sops = false;
+        };
       };
 
       /**

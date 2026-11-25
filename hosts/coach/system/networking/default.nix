@@ -1,0 +1,14 @@
+{
+  hostName,
+  ...
+}:
+{
+  networking = {
+    inherit hostName;
+
+    # Ethernet now, a Wi-Fi dongle later — both land here. The machine has no
+    # card of its own yet, so there is nothing Wi-Fi-specific to configure
+    # until the dongle is installed.
+    networkmanager.enable = true;
+  };
+}

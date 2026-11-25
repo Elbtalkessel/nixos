@@ -142,6 +142,89 @@ new guest configuration. Rebuilding also does not bump package versions — run
 `nix flake update` first if that is the intent. To deploy an unmerged branch,
 point `/var/lib/microvms/<name>/flake` at that branch before updating.
 
+## First deploy: coach
+
+`coach` is the living-room appliance: a Lenovo m720q (i3-9100T / UHD 630 / 8 GB /
+256 GB NVMe) that boots straight into Kodi and is controlled over SSH or an
+air-mouse. It has `sops = false` — no `secrets.yaml`, no age key — so the
+generic "Deploying a host" flow's key-minting steps do **not** apply. The box
+ships with Windows; the first deploy replaces it.
+
+### 0. Gather hardware facts from Windows (before wiping)
+
+Run these in PowerShell on the Windows install. They confirm the assumptions the
+config already encodes, and they are the only way to double-check the disk path
+`disko.nix` targets (`/dev/nvme0n1`):
+
+```powershell
+# Disk: confirm a single NVMe. If BusType is SATA, fix disko.nix's device path.
+Get-Disk | Format-Table Number, FriendlyName, BusType, @{n='SizeGB';e={[math]::Round($_.Size/1GB,1)}}, PartitionStyle -AutoSize
+
+# Firmware: must say UEFI. systemd-boot needs UEFI, not legacy BIOS.
+Confirm-SecureBootUEFI
+
+# Network: note the Ethernet adapter; a Wi-Fi dongle lands later.
+Get-NetAdapter | Format-Table Name, InterfaceDescription, Status, MacAddress -AutoSize
+
+# Bluetooth? Decides whether BT Xbox controllers (xpadneo) apply. No output = no BT.
+Get-PnpDevice -Class Bluetooth -ErrorAction SilentlyContinue | Select-Object Status, FriendlyName
+
+# Sanity: confirm i3-9100T + 8 GB, which the power profile assumes.
+Get-CimInstance Win32_Processor | Select-Object Name, NumberOfCores, NumberOfLogicalProcessors
+Get-CimInstance Win32_PhysicalMemory | Select-Object Manufacturer, Capacity, Speed
+```
+
+### 1. Boot the NixOS live ISO
+
+Flash the current NixOS ISO to USB, boot the m720q from it (UEFI), and plug in
+Ethernet. Everything below runs on the target console.
+
+### 2. Partition and install
+
+```bash
+sudo -i                                              # root in the live session
+ip a                                                 # note the IP if you want SSH
+git clone https://gitea.x.home.arpa/nix/nixos.git
+cd nixos
+
+# Wipe and lay down the disk per hosts/coach/disko.nix.
+nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko ./hosts/coach/disko.nix
+
+# Install. `--no-root-password` because root is key-only (PermitRootLogin
+# prohibit-password); the operator SSH key is already in root's authorized_keys.
+nixos-install --flake .#coach --no-root-password
+reboot
+```
+
+### 3. First boot
+
+greetd auto-logs the `kodi` user into Kodi (GBM standalone). Kodi should come up
+on the TV within a minute. Confirm it from the admin box:
+
+```bash
+ssh risus@coach.local                              # avahi; or the IP from step 2
+sudo nixos-rebuild switch --flake 'github:nix/nixos#coach'
+home-manager switch --flake 'github:nix/nixos#risus@coach'
+```
+
+`sudo` is passwordless for `risus` (key-only account, no password to type).
+
+### 4. Post-deploy, inside Kodi
+
+The system carries Kodi + Moonlight + RetroArch; everything else is installed
+interactively from Kodi:
+
+1. **Plex** — install the "PlexKodiConnect" community addon, point it at the Plex
+   host, sign in. It mirrors the Plex library into Kodi and direct-plays locally.
+2. **YouTube** — the official Kodi addon, or a piped/newpipe-style alternative.
+3. **Emulators** — launch RetroArch from a Kodi launcher entry; ROMs come from
+   `romm.x.home.arpa`.
+4. **Streaming** — launch Moonlight from Kodi, pair it with Sunshine/GeForce on
+   the gaming PC.
+5. **G10S air-mouse** — arrows/OK/back/home/volume work out of the box (plain HID
+   scancodes); the red power key is IR-learn-only, so suspend comes from the
+   logind `HandlePowerKey` rule instead.
+
 ## Secrets
 
 ```bash

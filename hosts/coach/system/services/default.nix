@@ -1,0 +1,26 @@
+{
+  services = {
+    # The operator controls the box over SSH; nothing else opens a port.
+    openssh = {
+      enable = true;
+      openFirewall = true;
+      settings = {
+        PermitRootLogin = "prohibit-password";
+        PasswordAuthentication = false;
+        KbdInteractiveAuthentication = false;
+      };
+    };
+
+    # coach.local discovery.
+    avahi.enable = true;
+
+    # HDMI audio. Kodi (GBM) talks to it through the PulseAudio shim; Moonlight
+    # and RetroArch (separate sessions) use it too. Switch to ALSA-direct only
+    # if an AVR needs bitstream passthrough.
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      pulse.enable = true;
+    };
+  };
+}
