@@ -12,16 +12,18 @@ let
   # Kodi runs headless on GBM, so there is no display server to VNC into. This
   # is the settings file for Kodi's built-in web server (Chorus2), which is how
   # the box is managed from a browser before a monitor is ever attached.
-  # `esallinterfaces` is what allows connections from other machines, not just
-  # localhost.
+  #
+  # `default="false"` matters: it marks a value as user-set. `default="true"`
+  # tells Kodi "this is the default", so Kodi discards the written value and
+  # uses the real default (webserver off) — the web UI silently never starts.
+  # `webserverauthentication=false` lets it serve without credentials; the web
+  # server binds every interface once enabled, so no per-interface setting is
+  # needed.
   kodiWebSettings = pkgs.writeText "guisettings.xml" ''
     <settings version="2">
-      <setting id="services.webserver" default="true">true</setting>
+      <setting id="services.webserver" default="false">true</setting>
       <setting id="services.webserverport" default="true">8080</setting>
-      <setting id="services.webserverusername" default="true"></setting>
-      <setting id="services.webserverpassword" default="true"></setting>
-      <setting id="services.esallinterfaces" default="true">true</setting>
-      <setting id="services.zeroconf" default="true">true</setting>
+      <setting id="services.webserverauthentication" default="false">false</setting>
     </settings>
   '';
 in
@@ -55,9 +57,16 @@ in
     before = [ "greetd.service" ];
     serviceConfig.Type = "oneshot";
     script = ''
-      cfg=/home/kodi/.kodi/userdata/guisettings.xml
+      dir=/home/kodi/.kodi
+      cfg="$dir/userdata/guisettings.xml"
+
+      # `install -d` only chowns the leaf it creates, so a parent `.kodi` can
+      # end up root-owned and stop kodi from writing its log or creating temp/.
+      # Re-assert ownership every boot (idempotent).
+      install -d -m 0750 "$dir/userdata"
+      chown -R kodi:users "$dir"
+
       if ! grep -qs '<setting id="services.webserver"[^>]*>true' "$cfg"; then
-        install -d -o kodi -g users -m 0750 "$(dirname "$cfg")"
         install -m 0640 -o kodi -g users "${kodiWebSettings}" "$cfg"
       fi
     '';
