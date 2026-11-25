@@ -2,15 +2,13 @@
 {
   users.users = {
     root = {
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC7ulI5D34Y49wPgraM2iHLJHYzKBlJaB1akgibNJR1y risus@omen"
-      ];
+      openssh.authorizedKeys.keys = [ config.my.core.pubkey ];
     };
 
     # Operator: SSH admin, key-only, passwordless sudo (no password to type).
     ${config.my.core.identity.username} = {
       isNormalUser = true;
-      description = "coach media box operator";
+      description = "couch media box operator";
       extraGroups = [
         "wheel"
         "networkmanager"
@@ -18,9 +16,7 @@
         "audio"
         "input"
       ];
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC7ulI5D34Y49wPgraM2iHLJHYzKBlJaB1akgibNJR1y risus@omen"
-      ];
+      openssh.authorizedKeys.keys = [ config.my.core.pubkey ];
     };
 
     # Kodi runs its own unprivileged session (greetd autologin). No shell, no

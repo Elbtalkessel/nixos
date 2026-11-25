@@ -1,9 +1,7 @@
 { config, ... }: {
 
   users = {
-    users.root.openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC7ulI5D34Y49wPgraM2iHLJHYzKBlJaB1akgibNJR1y risus@omen"
-    ];
+    users.root.openssh.authorizedKeys.keys = [ config.my.core.pubkey ];
 
     defaultUserShell = config.my.core.shell.package;
 
