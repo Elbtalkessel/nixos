@@ -13,6 +13,15 @@
   my = {
     core = {
       identity.email = "rtfsc@pm.me";
+      filesystem.network = {
+        enable = true;
+        device = "192.168.1.90";
+        mount = "/mnt";
+        shares = [
+          "/volume1/Game"
+          "/volume1/Download"
+        ];
+      };
     };
   };
 }

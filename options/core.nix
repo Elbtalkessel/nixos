@@ -89,7 +89,7 @@
                 device = lib.mkOption {
                   type = lib.types.str;
                   description = "The hostname or IP address of a server.";
-                  example = "192.168.1.1 or http(s)://192.168.1.1[:<port>] for davfs";
+                  example = "192.168.1.1";
                 };
                 shares = lib.mkOption {
                   type = lib.types.listOf lib.types.str;
@@ -103,14 +103,6 @@
                   type = lib.types.str;
                   description = "The mount point for the shares.";
                   example = "/mnt";
-                };
-                fsType = lib.mkOption {
-                  type = lib.types.enum [
-                    "cifs"
-                    "nfs"
-                    "davfs"
-                  ];
-                  description = "The type of the share. davfs is untested.";
                 };
               };
             };
@@ -148,36 +140,6 @@
                 };
               };
             };
-          };
-          exports = lib.mkOption {
-            default = [ ];
-            description = "Local filesystem exports to network";
-            type = lib.types.listOf (
-              lib.types.submodule {
-                options = {
-                  protocol = lib.mkOption {
-                    type = lib.types.enum [ "cifs" ];
-                    description = "Sharing protocol";
-                  };
-                  allow = lib.mkOption {
-                    type = lib.types.str;
-                    description = "IPs allowed to use the share.";
-                  };
-                  deny = lib.mkOption {
-                    type = lib.types.str;
-                    description = "IPs denied to use the share.";
-                  };
-                  path = lib.mkOption {
-                    type = lib.types.str;
-                    description = "Local path to share.";
-                  };
-                  auth = lib.mkOption {
-                    type = lib.types.str;
-                    description = "Require or not authentication";
-                  };
-                };
-              }
-            );
           };
         };
       };

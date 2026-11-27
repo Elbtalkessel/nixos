@@ -39,7 +39,6 @@ in
           enable = true;
           device = "192.168.1.90";
           mount = "/mnt/share";
-          fsType = "nfs";
           shares = [
             "/volume1/xyz"
             "/volume1/Video"
