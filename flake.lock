@@ -39,11 +39,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1795109177,
-        "narHash": "sha256-zNZQmEnSHUP0lB4cy/AlZ+Xvt6aT4CjN5tPnkaLHX7o=",
+        "lastModified": 1795756514,
+        "narHash": "sha256-cGM4n18Hp18cQEP6B6NPHggo81O1YWWe3rvefjM+/jI=",
         "owner": "DeusData",
         "repo": "codebase-memory-mcp",
-        "rev": "1111d9a9e1380a0429ef2250f63223706af6289a",
+        "rev": "5959081aa520b92ece30cc4684f1162596a9d5d3",
         "type": "github"
       },
       "original": {
@@ -162,16 +162,16 @@
       "locked": {
         "lastModified": 1794745941,
         "narHash": "sha256-ZsZuXzx957AdEzuJuJVgftEIDHboVwbaI9v4D9niPkY=",
-        "ref": "main",
+        "owner": "Elbtalkessel",
+        "repo": "gather",
         "rev": "b142d20c04b534935b2716ee0aa2e4805eaba7a9",
-        "revCount": 15,
-        "type": "git",
-        "url": "https://gitea.x.home.arpa/python/gather.git"
+        "type": "github"
       },
       "original": {
+        "owner": "Elbtalkessel",
         "ref": "main",
-        "type": "git",
-        "url": "https://gitea.x.home.arpa/python/gather.git"
+        "repo": "gather",
+        "type": "github"
       }
     },
     "home-manager": {
@@ -181,11 +181,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795366757,
-        "narHash": "sha256-Tp4Kh4R7ID1f2mMCDlb2PiFQ/DZZsnXB2u2juWN+TT4=",
+        "lastModified": 1795748630,
+        "narHash": "sha256-J1iQ1QMnkFwZFXnlPt2t3Qx7TsGjw08/0L3QMqNt+Wg=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "3b8140d21fa0a70b1b38c2ed29853dfe686234a6",
+        "rev": "54f903fdaaf5d5720ed36706fe75332af69eb793",
         "type": "github"
       },
       "original": {
@@ -228,11 +228,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1795416666,
-        "narHash": "sha256-b1GmfrMPoZ2ANkR0we9Q9KQN6n1e+vNyDqt1p4CNEAY=",
+        "lastModified": 1795764997,
+        "narHash": "sha256-dkX4GGtumxtSOcdwTsS6Dy5LyPv9Nx6Ya6yRx1i3y1o=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "5330ee115c06d2b43f49e902130125eab579b22f",
+        "rev": "ccf868b7a2a8de6713c0a572885657739a448cf0",
         "type": "github"
       },
       "original": {
@@ -306,11 +306,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795018746,
-        "narHash": "sha256-glQAHvZGgBVjzGIWgIZYSf3X10gvtO2LPR4rtyP/Soc=",
+        "lastModified": 1795690694,
+        "narHash": "sha256-9QjYnidlKg7EtcPkr07D3epP7I1WuVBfA5nk47+I5dc=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "33475966110df258f52d05ec4d4cd6394637cbb9",
+        "rev": "ec39df522f291a1da3bee80d3ff67d99c57a17b0",
         "type": "github"
       },
       "original": {
@@ -345,16 +345,16 @@
       "locked": {
         "lastModified": 1794744891,
         "narHash": "sha256-JA76AFNR2k3C/UBZVcH4ciREJBkvoS59V1LRp/I1lU8=",
-        "ref": "master",
+        "owner": "Elbtalkessel",
+        "repo": "nixpkgs",
         "rev": "0d6e7ef93de982f348a425f4a4d19d0d72beba5f",
-        "revCount": 110,
-        "type": "git",
-        "url": "https://gitea.x.home.arpa/nix/nixpkgs.git"
+        "type": "github"
       },
       "original": {
+        "owner": "Elbtalkessel",
         "ref": "master",
-        "type": "git",
-        "url": "https://gitea.x.home.arpa/nix/nixpkgs.git"
+        "repo": "nixpkgs",
+        "type": "github"
       }
     },
     "nixpkgs-lib": {
@@ -431,16 +431,16 @@
       "locked": {
         "lastModified": 1792834395,
         "narHash": "sha256-zhi9jlxjfk6syMZxKP9ACC365/IsYXaxyMF6yUcgXYg=",
-        "ref": "main",
+        "owner": "Elbtalkessel",
+        "repo": "nixvim",
         "rev": "82317270f26142ed1c41be380563339ed6fd6224",
-        "revCount": 50,
-        "type": "git",
-        "url": "https://gitea.x.home.arpa/nix/nixvim.git"
+        "type": "github"
       },
       "original": {
+        "owner": "Elbtalkessel",
         "ref": "main",
-        "type": "git",
-        "url": "https://gitea.x.home.arpa/nix/nixvim.git"
+        "repo": "nixvim",
+        "type": "github"
       }
     },
     "nixvim_2": {
@@ -470,11 +470,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795380300,
-        "narHash": "sha256-g6WR2tlbq29YFDSwLmrdubzqoJqvLn3/JaO6IyS8ieg=",
+        "lastModified": 1795735096,
+        "narHash": "sha256-ib2e733yMWJdVN58/jF+K0fGAZHMTJhcGyGfvu0/4fQ=",
         "owner": "noctalia-dev",
         "repo": "noctalia",
-        "rev": "30daf36c1e7729ac29fa787b48bc2af136689635",
+        "rev": "54958562e9f8a83aaa07eba7c0ff353ba45b1167",
         "type": "github"
       },
       "original": {
@@ -567,11 +567,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794866654,
-        "narHash": "sha256-Y28AMB8lyKjASdJ0BVsR2AqR1cUsVuo8RVVpzHoECho=",
+        "lastModified": 1795471345,
+        "narHash": "sha256-2p8/wnENYHU2Z79Ir/rpq+V1sMI9mSD6xGAlvlbVBUY=",
         "owner": "Mic92",
         "repo": "sops-nix",
-        "rev": "7c637afdccdf9bcf35c4a2d67b58a77c1fd843a4",
+        "rev": "d5abe5e53200ad48254e8e6bd95e6cef94e66577",
         "type": "github"
       },
       "original": {
@@ -666,11 +666,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795173499,
-        "narHash": "sha256-J8IYl3oEdctyvBgWr+/L01MY5Xm0TU4WXwZDccN5jjk=",
+        "lastModified": 1795615686,
+        "narHash": "sha256-/C0FK2Fwq0aWE/GADYyYbAIdQeGfYBbWMin3tfks1NA=",
         "owner": "numtide",
         "repo": "treefmt-nix",
-        "rev": "a0a97e31a897a3537eea5c49df4f8adaa83b3b37",
+        "rev": "b7b56d3c8833016c650ca542b1230e6130299741",
         "type": "github"
       },
       "original": {

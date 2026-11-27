@@ -12,7 +12,8 @@
     ./disko.nix
     ./config.nix
 
-    ../../modules/system/core
+    ../_shared/system/core
+    ../_shared/pkgs/firmware/aic8800.nix
 
     ./system/boot
     ./system/hardware
@@ -26,6 +27,7 @@
   ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  hardware.aic8800dc.enable = true;
 
   # A new host, so start at the release the system is actually built from.
   system.stateVersion = "26.11";

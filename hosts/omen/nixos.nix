@@ -16,7 +16,7 @@
     ./filesystem.nix
     ./config.nix
 
-    ../../modules/system/core
+    ../_shared/system/core
 
     ./system/apps
     ./system/core

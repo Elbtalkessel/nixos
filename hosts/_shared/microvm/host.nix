@@ -31,7 +31,7 @@ in
 
   microvm.vms = lib.genAttrs guests (_: {
     flake = self;
-    updateFlake = "git+https://gitea.x.home.arpa/nix/nixos.git";
+    updateFlake = "git+https://github.com/Elbtalkessel/nixos.git";
   });
 
   systemd = {

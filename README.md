@@ -23,7 +23,7 @@ options/                         # my.* declarations, read by both trees
 
 Most of the real config lives under `hosts/<host>/`. Reach for `modules/` only when two or more hosts genuinely share something — locale plumbing, nix settings, certificates, and a shared `nixpkgs` overlay today.
 
-## Adding a host
+## Adding a host with sops
 
 Five edits and one runtime step.
 
@@ -68,7 +68,7 @@ nix shell github:NixOS/nixpkgs/nixos-unstable#sops -c sops updatekeys hosts/<nam
 
 The private half never enters the repo. The host copy is provisioned at install time via the deploy flow below.
 
-## Deploying a host
+## Deploying a host with sops
 
 Boot the target machine from the NixOS live ISO. SSH comes after the first boot, so everything below runs on the target console.
 
@@ -88,7 +88,7 @@ Back on the target console, provision the keyfile and install:
 ```bash
 sudo mkdir -p /mnt/etc/sops-nix
 sudo install -m 0640 -o root -g users /tmp/<name>.age.key /mnt/etc/sops-nix/key.txt
-git clone https://gitea.x.home.arpa/nix/nixos.git
+git clone https://github.com/Elbtalkessel/nixos.git
 cd nixos
 host="<name>"
 sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko ./hosts/${host}/disko.nix
@@ -105,7 +105,7 @@ home-manager switch --flake /path/to/nixos#<user>@<host>
 
 `flake.nix`'s sops wiring (`getSopsConfig` plus the per-host module in `nixosFor`) keeps the keyfile at `0640 root:users` after every boot (no content touch) and exports `SOPS_AGE_KEY_FILE=/etc/sops-nix/key.txt` to the interactive shell and to the user systemd instance.
 
-### MicroVM guests
+## MicroVM guests
 
 MicroVMs do not use the bare-metal install flow. Instead, the host keeps each
 guest's age private key outside the Nix store and shares it into the guest at
@@ -142,17 +142,11 @@ new guest configuration. Rebuilding also does not bump package versions — run
 `nix flake update` first if that is the intent. To deploy an unmerged branch,
 point `/var/lib/microvms/<name>/flake` at that branch before updating.
 
-## First deploy: couch
+## Installer ISO
 
-`couch` is the living-room appliance (a Lenovo m720q): it boots straight into
-Kodi and is controlled over SSH. It has `sops = false` — no `secrets.yaml`, no
-age key — so the generic "Deploying a host" flow's key-minting steps do **not**
-apply.
+Flake provides an image with ssh pub key builtin.
 
-### Installer ISO
-
-Build a headless installer on a machine with Nix and internet, then flash it to
-a USB stick:
+Building and writing to a pendrive.
 
 ```bash
 nix build .#nixosConfigurations.nixbase.config.system.build.isoImage
@@ -169,45 +163,33 @@ connect:
 ssh root@<ip>
 ```
 
-### Partition and install
+## Deploying a host
 
 ```bash
+host="couch"
+
 sudo -i
-git clone https://gitea.x.home.arpa/nix/nixos.git
+git clone https://github.com/Elbtalkessel/nixos.git
 cd nixos
 
-nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko ./hosts/couch/disko.nix
-nixos-install --flake .#couch --no-root-password
+nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode disko ./hosts/$host/disko.nix
+nixos-install --flake .#$host --no-root-password
 reboot
 ```
 
 `--no-root-password` because root is key-only; the operator key is already in
 root's `authorized_keys`.
 
-### First boot
-
-greetd auto-logs the `kodi` user into Kodi (GBM standalone). Confirm from the
-admin box:
+## After deploy
 
 ```bash
-ssh risus@couch.local
-sudo nixos-rebuild switch --flake 'github:nix/nixos#couch'
-home-manager switch --flake 'github:nix/nixos#risus@couch'
+host="couch"
+ssh risus@$host
+sudo nixos-rebuild switch --flake "github:Elbtalkessel/nixos#$host"
+home-manager switch --flake "github:Elbtalkessel/nixos#risus@$host"
 ```
 
 `sudo` is passwordless for `risus` (key-only account).
-
-### Post-deploy, inside Kodi
-
-The system carries Kodi + Moonlight + RetroArch; everything else is installed
-interactively from Kodi:
-
-1. **Plex** — install the "PlexKodiConnect" addon, point it at the Plex host.
-2. **YouTube** — the official Kodi addon, or a piped/newpipe-style alternative.
-3. **Emulators** — launch RetroArch from a Kodi launcher entry; ROMs come from
-   `romm.x.home.arpa`.
-4. **Streaming** — launch Moonlight from Kodi, pair it with Sunshine/GeForce on
-   the gaming PC.
 
 ## Secrets
 

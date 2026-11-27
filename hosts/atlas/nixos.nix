@@ -3,7 +3,7 @@
   imports = [
     ./config.nix
 
-    ../../modules/system/core
+    ../_shared/system/core
 
     ./system/boot
     ./system/microvm

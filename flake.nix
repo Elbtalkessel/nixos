@@ -17,7 +17,7 @@
     };
     nixvim = {
       # Remove the branch name to switch to unstable
-      url = "git+https://gitea.x.home.arpa/nix/nixvim.git?ref=main";
+      url = "github:Elbtalkessel/nixvim/main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     disko = {
@@ -29,20 +29,22 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs-custom = {
-      url = "git+https://gitea.x.home.arpa/nix/nixpkgs.git?ref=master";
+      url = "github:Elbtalkessel/nixpkgs/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     gather = {
-      url = "git+https://gitea.x.home.arpa/python/gather.git?ref=main";
+      url = "github:Elbtalkessel/gather/main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # https://determinate.systems/blog/nuenv/
     nuenv = {
+      # https://determinate.systems/blog/nuenv/
       url = "https://flakehub.com/f/xav-ie/nuenv/*.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # Takes no nixpkgs input, so there is nothing here to follow.
-    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
+    nix-flatpak = {
+      url = "github:gmodena/nix-flatpak/?ref=latest";
+      # Takes no nixpkgs input, so there is nothing here to follow.
+    };
     noctalia = {
       url = "github:noctalia-dev/noctalia";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -59,7 +61,9 @@
       url = "github:microvm-nix/microvm.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    codebase-memory-mcp.url = "github:DeusData/codebase-memory-mcp";
+    codebase-memory-mcp = {
+      url = "github:DeusData/codebase-memory-mcp";
+    };
     comfyui-nix = {
       url = "github:utensils/comfyui-nix";
     };
@@ -79,7 +83,7 @@
 
       # Module applied to both trees so `nixpkgs.overlays` and
       # `nixpkgs.config` survive a pre-built `pkgs` argument.
-      nixpkgsModule = ./modules/common/nixpkgs.nix;
+      nixpkgsModule = ./hosts/_shared/nixpkgs.nix;
 
       # Per-host descriptor: `user` is the `homeConfigurations.<key>` and
       # the `users.users.<name>` account, `sops` enables secrets, `microvm`
@@ -144,7 +148,7 @@
 
       /**
         NixOS system for a host. MicroVM guests additionally get the
-        home-manager NixOS module (via modules/common/microvm/guest.nix) so
+        home-manager NixOS module (via _shared/microvm/guest.nix) so
         a single `microvm -u` rebuild activates both trees at boot; microvm
         hosts get the guest runner and key provisioning (host.nix).
 
@@ -176,7 +180,7 @@
           inherit system;
           specialArgs = inputs // {
             inherit (inputs) self;
-            # Consumed by modules/common/microvm/{default,guest,host}.nix.
+            # Consumed by _shared/microvm/{default,guest,host}.nix.
             hostName = name;
             hostDescriptor = host;
             # Passed through to home-manager's users so host home.nix can
@@ -187,7 +191,7 @@
           modules = [
             nixpkgsModule
             ./options
-            ./modules/common/microvm
+            ./hosts/_shared/microvm
             { my.core.identity.username = host.user; }
           ]
           ++ (lib.optional host.sops (
