@@ -21,9 +21,9 @@
 
     # Kodi runs its own unprivileged session (greetd autologin). No shell, no
     # SSH, no sudo — a compromised Kodi addon cannot escalate.
-    kodi = {
+    htpc = {
       isNormalUser = true;
-      description = "Kodi appliance session";
+      description = "HTPC appliance session";
       extraGroups = [
         "video"
         "audio"

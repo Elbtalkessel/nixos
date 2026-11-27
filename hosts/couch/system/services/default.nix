@@ -21,6 +21,21 @@
       enable = true;
       alsa.enable = true;
       pulse.enable = true;
+      wireplumber.enable = true;
+    };
+
+    evremap = {
+      enable = true;
+      settings = {
+        device_name = "HAOBO Technology USB Composite Device Keyboard";
+        device_phys = "usb-0000:00:14.0-2/input2";
+        remap = [
+          {
+            input = [ "KEY_SELECT" ];
+            output = [ "KEY_ENTER" ];
+          }
+        ];
+      };
     };
   };
 }

@@ -1,0 +1,86 @@
+# Appliance posture: Kodi IS the session.
+#
+# Kodi runs standalone on the DRM/KMS (GBM) backend — no X11, no Wayland
+# compositor. This is the LibreELEC/OSMC model and Kodi's own recommendation
+# for a single-app box: GBM is the only backend with both dynamic refresh-rate
+# switching and HDR, and it costs no power running a compositor. Wayland is
+# Kodi's least-capable backend (no refresh switching, no HDR on 21.3), so it
+# loses here; X11 only matters for Steam, which we do not run (Moonlight is the
+# streaming client).
+#
+# Left as a reference, not used.
+{ pkgs, ... }:
+let
+  # Kodi runs headless on GBM, so there is no display server to VNC into. This
+  # is the settings file for Kodi's built-in web server (Chorus2), which is how
+  # the box is managed from a browser before a monitor is ever attached.
+  #
+  # `default="false"` matters: it marks a value as user-set. `default="true"`
+  # tells Kodi "this is the default", so Kodi discards the written value and
+  # uses the real default (webserver off) — the web UI silently never starts.
+  # `webserverauthentication=false` lets it serve without credentials; the web
+  # server binds every interface once enabled, so no per-interface setting is
+  # needed.
+  kodiWebSettings = pkgs.writeText "guisettings.xml" ''
+    <settings version="2">
+      <setting id="services.webserver" default="false">true</setting>
+      <setting id="services.webserverport" default="true">8080</setting>
+      <setting id="services.webserverauthentication" default="false">false</setting>
+    </settings>
+  '';
+  kodi =
+    with pkgs;
+    (kodi-gbm.withPackages (p: [
+      p.plex-for-kodi
+      p.youtube
+      p.pvr-iptvsimple
+      p.inputstream-adaptive
+    ]));
+in
+{
+  environment.systemPackages = [ kodi ];
+
+  services.greetd = {
+    enable = true;
+    settings = {
+      # greetd requires a default_session.command even when initial_session is
+      # set (autologin) — it validates the config before honouring
+      # initial_session. This is the fallback login; initial_session takes over
+      # so it is never reached.
+      default_session = {
+        command = "${pkgs.greetd}/bin/agreety --cmd login";
+      };
+      initial_session = {
+        command = "${kodi}/bin/kodi-standalone";
+        user = "htpc";
+      };
+    };
+  };
+
+  # Seed the web-server settings before greetd starts Kodi, so the box is
+  # remote-manageable. Re-seeds whenever the web server isn't already enabled —
+  # this also covers a pre-existing guisettings.xml written before this seed
+  # existed. Kodi keeps the value when it rewrites the file on exit.
+  systemd.services = {
+    kodi-webseed = {
+      description = "Seed Kodi web server settings if disabled";
+      wantedBy = [ "multi-user.target" ];
+      before = [ "greetd.service" ];
+      serviceConfig.Type = "oneshot";
+      script = ''
+        dir=/home/htpc/.kodi
+        cfg="$dir/userdata/guisettings.xml"
+
+        # `install -d` only chowns the leaf it creates, so a parent `.kodi` can
+        # end up root-owned and stop kodi from writing its log or creating temp/.
+        # Re-assert ownership every boot (idempotent).
+        install -d -m 0750 "$dir/userdata"
+        chown -R htpc:users "$dir"
+
+        if ! grep -qs '<setting id="services.webserver"[^>]*>true' "$cfg"; then
+          install -m 0640 -o htpc -g users "${kodiWebSettings}" "$cfg"
+        fi
+      '';
+    };
+  };
+}

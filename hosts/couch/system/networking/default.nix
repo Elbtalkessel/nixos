@@ -12,6 +12,9 @@
     networkmanager.enable = true;
 
     # Kodi's web server (Chorus2) — the headless management UI on :8080.
-    firewall.allowedTCPPorts = [ 8080 ];
+    firewall.allowedTCPPorts = [
+      8080
+      3389
+    ];
   };
 }

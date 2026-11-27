@@ -265,6 +265,9 @@
           (nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix")
           ./options
           ./hosts/_shared/config.nix
+          { config.my.core.identity.username = "nixos"; }
+
+          ./hosts/_shared/system/core
           (
             { config, ... }:
             {

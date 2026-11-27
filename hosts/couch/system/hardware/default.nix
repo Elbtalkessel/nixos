@@ -23,5 +23,9 @@
       powerOnBoot = true;
     };
     xpadneo.enable = true;
+
+    firmware = [ pkgs.sof-firmware ];
+    # should include sof, but whatever.
+    enableRedistributableFirmware = true;
   };
 }
